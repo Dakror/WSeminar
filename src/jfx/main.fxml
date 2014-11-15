@@ -35,7 +35,7 @@
           <AnchorPane />
           <AnchorPane>
                <children>
-                  <Group />
+                  <Group id="graph" />
                </children>
             </AnchorPane>
         </items>
