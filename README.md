@@ -1,4 +1,4 @@
 WSeminar
 ========
 
-My maths seminar scientific paper and program
+My maths seminar scientific paper and program.
