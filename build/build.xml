@@ -111,6 +111,17 @@
 			</manifest>
 		</fx:jar>
 		
+		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
+		<fx:signjar 
+			keystore="C:\Users\Dakror\dakrorKeystore.jks" 
+			alias="dakror" 
+			keypass="dakrorKeystore" 
+			storepass="dakrorKeystore" 
+			destDir="${basedir}/dist">
+			<fileset dir='dist'>
+				<include name='**/*.jar' />
+			</fileset>
+		</fx:signjar>
 	
 		<mkdir dir="deploy" />
 		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
@@ -120,12 +131,13 @@
 			includeDT="false"
 			offlineAllowed="true"
 			outdir="${basedir}/deploy"
-			outfile="WSeminar" nativeBundles="all"
+			outfile="WSeminar" nativeBundles="none"
 			updatemode="background" >
 	
 			<fx:info title="WSeminar" vendor="Dakror"/>
 			<fx:application refId="fxApplication"/>
 			<fx:resources refid="appRes"/>
+			<fx:permissions elevated="true"/>
 		</fx:deploy>
 		
 		<fx:csstobin outdir="build/classes">
