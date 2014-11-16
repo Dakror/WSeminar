@@ -5,7 +5,6 @@
 			<filelist>
 				<file name="${java.home}\..\lib\ant-javafx.jar"/>
 				<file name="${java.home}\lib\jfxrt.jar"/>
-				<file name="${basedir}\..\"/>
 			</filelist>
 		</path>
 	
@@ -20,11 +19,6 @@
 		
 		<mkdir dir="externalLibs" />
 		
-		<copy todir="externalLibs">
-			<fileset dir="E:\Programmieren\Eclipse\Java\WSeminar\build\package\windows">
-				<filename name="WSeminar.ico"/>	
-			</fileset>
-		</copy>
 		
 		<mkdir dir="project" />
 		<copy todir="project">
@@ -44,7 +38,6 @@
 		<!-- Copy project-libs references -->
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
-				<include name="WSeminar.ico"/>
 			</fileset>
 		</copy>
 	
@@ -122,7 +115,6 @@
 		<mkdir dir="deploy" />
 		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
 		<fx:deploy
-			verbose="true" 
 			embedJNLP="false"
 			extension="false"
 			includeDT="false"
