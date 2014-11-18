@@ -1,4 +1,4 @@
-package de.dakror.wseminar;
+package de.dakror.wseminar.graph;
 
 /**
  * @author Dakror

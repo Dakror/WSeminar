@@ -16,8 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import de.dakror.wseminar.GraphType;
 import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.GraphType;
 
 /**
  * @author Dakror
