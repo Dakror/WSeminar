@@ -11,19 +11,19 @@ AppCopyright=Copyright (C) 2014
 ;AppPublisherURL=http://java.com/
 ;AppSupportURL=http://java.com/
 ;AppUpdatesURL=http://java.com/
-DefaultDirName={pf}\Dakror\WSeminar
+DefaultDirName={pf32}\Dakror\WSeminar
 DisableStartupPrompt=Yes
-DisableDirPage=Yes
+DisableDirPage=No
 DisableProgramGroupPage=Yes
 DisableReadyPage=Yes
-DisableFinishedPage=Yes
-DisableWelcomePage=Yes
+DisableFinishedPage=No
+DisableWelcomePage=No
 DefaultGroupName=Dakror
 ;Optional License
 LicenseFile=
 ;WinXP or above
 MinVersion=0,5.1 
-OutputBaseFilename=WSeminar-1.0
+OutputBaseFilename=WSeminar
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=lowest
