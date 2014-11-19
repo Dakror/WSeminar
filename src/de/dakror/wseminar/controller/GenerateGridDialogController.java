@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.GraphType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,8 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import de.dakror.wseminar.WSeminar;
-import de.dakror.wseminar.graph.GraphType;
 
 /**
  * @author Dakror
