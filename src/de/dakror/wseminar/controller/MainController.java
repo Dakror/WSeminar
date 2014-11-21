@@ -3,15 +3,14 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.dakror.wseminar.WSeminar;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import de.dakror.wseminar.WSeminar;
 
 /**
  * @author Dakror
@@ -52,6 +51,9 @@ public class MainController {
 	private Pane graph;
 	
 	@FXML
+	private Label newGraph;
+	
+	@FXML
 	void initialize() {
 		assert node != null : "fx:id=\"node\" was not injected: check your FXML file 'main.fxml'.";
 		assert node_new != null : "fx:id=\"node_new\" was not injected: check your FXML file 'main.fxml'.";
@@ -62,21 +64,14 @@ public class MainController {
 		assert node_start != null : "fx:id=\"node_start\" was not injected: check your FXML file 'main.fxml'.";
 		assert menu_about != null : "fx:id=\"menu_about\" was not injected: check your FXML file 'main.fxml'.";
 		assert graph != null : "fx:id=\"graph\" was not injected: check your FXML file 'main.fxml'.";
+		assert newGraph != null : "fx:id=\"newGraph\" was not injected: check your FXML file 'main.fxml'.";
 		
 		// component logic
 		
-		menu_about.setOnAction(new EventHandler<ActionEvent>() {
+		newGraph.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(ActionEvent event) {
-				Stage stage = new Stage();
-				stage.setResizable(false);
-				stage.getIcons().addAll(WSeminar.getImage("mind_map-24.png"), WSeminar.getImage("mind_map-32.png"));
-				
-				stage.setScene(WSeminar.createScene("generate_grid_dialog"));
-				stage.setTitle("Neues Netz generieren");
-				stage.initModality(Modality.WINDOW_MODAL);
-				stage.initOwner(graph.getScene().getWindow());
-				stage.show();
+			public void handle(MouseEvent event) {
+				WSeminar.createDialog("generate_grid_dialog", "Neues Netz generieren", graph.getScene().getWindow());
 			}
 		});
 	}

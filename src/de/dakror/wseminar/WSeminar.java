@@ -8,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * @author Dakror
@@ -28,16 +30,30 @@ public class WSeminar extends Application {
 	
 	public static Scene createScene(String resource) {
 		try {
-			FXMLLoader l = new FXMLLoader(WSeminar.class.getResource("/assets/jfx/" + resource + ".fxml"));
+			FXMLLoader l = new FXMLLoader(WSeminar.class.getResource("/assets/fxml/" + resource + ".fxml"));
 			Pane pane = (Pane) l.load();
 			Scene scene = new Scene(pane);
-			scene.getStylesheets().add("assets/jfx/Theme.css");
+			scene.getStylesheets().addAll("assets/css/Theme.css", "assets/css/style.css");
 			
 			return scene;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static Stage createDialog(String sceneResource, String title, Window owner) {
+		Stage stage = new Stage();
+		stage.setResizable(false);
+		stage.getIcons().addAll(WSeminar.getImage("mind_map-24.png"), WSeminar.getImage("mind_map-32.png"));
+		
+		stage.setScene(WSeminar.createScene(sceneResource));
+		stage.setTitle(title);
+		stage.initModality(Modality.WINDOW_MODAL);
+		stage.initOwner(owner);
+		stage.show();
+		
+		return stage;
 	}
 	
 	public static Image getImage(String resource) {

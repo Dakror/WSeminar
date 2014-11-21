@@ -1,0 +1,13 @@
+.link-label {
+	-fx-text-fill: #9f9f9f;
+	-fx-font-size: 18px;
+	-fx-cursor: hand;
+	-fx-underline: false;
+}
+
+.link-label:hover {
+	-fx-text-fill: #6072ff;
+	-fx-font-size: 18px;
+	-fx-cursor: hand;
+	-fx-underline: true;
+}

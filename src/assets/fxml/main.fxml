@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
@@ -118,7 +119,17 @@
                               </Circle>
                            </children>
                         </Pane>
-                        <Pane fx:id="graph" />
+                        <Pane fx:id="graph">
+                           <children>
+                              <Label fx:id="newGraph" layoutX="14.0" layoutY="14.0" styleClass="link-label" text="Erstellen Sie ein neues Netz" textAlignment="CENTER" textFill="#9f9f9f">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                           </children></Pane>
                      </children>
                   </StackPane>
                </children>
