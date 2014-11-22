@@ -6,6 +6,7 @@ package de.dakror.wseminar.graph;
 public enum GraphType {
 	ABSTRACT_GRAPH("Abstrakter Graph"),
 	GRID("Raster-Netz"),
+	LABYRINTH("Raster-Labyrinth"),
 	
 	;
 	
