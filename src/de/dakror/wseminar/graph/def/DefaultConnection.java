@@ -1,4 +1,4 @@
-package de.dakror.wseminar.graph.impl.abstr;
+package de.dakror.wseminar.graph.def;
 
 import de.dakror.wseminar.graph.Connection;
 import de.dakror.wseminar.graph.Node;
@@ -6,12 +6,12 @@ import de.dakror.wseminar.graph.Node;
 /**
  * @author Dakror
  */
-public class AbstractConnection<T> implements Connection<T> {
+public class DefaultConnection<T> implements Connection<T> {
 	float cost;
 	
 	Node<T> from, to;
 	
-	public AbstractConnection(float cost, Node<T> from, Node<T> to) {
+	public DefaultConnection(float cost, Node<T> from, Node<T> to) {
 		this.cost = cost;
 		this.from = from;
 		this.to = to;

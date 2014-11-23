@@ -1,4 +1,4 @@
-package de.dakror.wseminar.graph.impl.abstr;
+package de.dakror.wseminar.graph.def;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +13,15 @@ import de.dakror.wseminar.graph.Node;
  * 
  * @author Dakror
  */
-public class AbstractGraph<T extends Node<T>> implements Graph<T> {
+public class DefaultGraph<T extends Node<T>> implements Graph<T> {
 	
 	ArrayList<Node<T>> nodes = new ArrayList<>();
 	ArrayList<T> storages = new ArrayList<>();
 	
-	public AbstractGraph() {}
+	public DefaultGraph() {}
 	
 	@SafeVarargs
-	public AbstractGraph(Node<T>... nodes) {
+	public DefaultGraph(Node<T>... nodes) {
 		for (Node<T> n : nodes)
 			addNode(n);
 	}

@@ -12,11 +12,6 @@ public interface Node<T> {
 	
 	public T getStorage();
 	
-	/**
-	 * @return the uniform weight of all connections with this node
-	 */
-	public float getWeight();
-	
 	public void addConnection(Connection<T> connection);
 	
 	/**
