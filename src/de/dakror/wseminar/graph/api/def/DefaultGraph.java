@@ -1,19 +1,19 @@
-package de.dakror.wseminar.graph.def;
+package de.dakror.wseminar.graph.api.def;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dakror.wseminar.graph.Connection;
-import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.GraphType;
-import de.dakror.wseminar.graph.Node;
+import de.dakror.wseminar.graph.api.Connection;
+import de.dakror.wseminar.graph.api.Graph;
+import de.dakror.wseminar.graph.api.GraphType;
+import de.dakror.wseminar.graph.api.Node;
 
 /**
  * Implementation of {@link GraphType#ABSTRACT_GRAPH}
  * 
  * @author Dakror
  */
-public class DefaultGraph<T extends Node<T>> implements Graph<T> {
+public class DefaultGraph<T> implements Graph<T> {
 	
 	ArrayList<Node<T>> nodes = new ArrayList<>();
 	ArrayList<T> storages = new ArrayList<>();

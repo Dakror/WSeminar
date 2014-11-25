@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane hgap="14.0" maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="187.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.GenerateGridDialogController">
+<GridPane hgap="14.0" maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="187.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.GenerateGraphDialogController">
   <children>
     <ImageView fx:id="logo" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
     </ImageView>
@@ -43,7 +43,7 @@
                      </tooltip>
                   </Slider>
                   <Label text="Seed" GridPane.rowIndex="2" />
-                  <TextField promptText="-" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="graph_seed" promptText="-" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <tooltip>
                         <Tooltip text="Der Seed dient zur Prozeduralen Generierung.&#10;Der gleiche Seed erzeugt immer das gleiche Netz." />
                      </tooltip>

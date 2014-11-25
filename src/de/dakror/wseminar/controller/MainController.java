@@ -71,7 +71,7 @@ public class MainController {
 		newGraph.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				WSeminar.createDialog("generate_grid_dialog", "Neues Netz generieren", graph.getScene().getWindow());
+				WSeminar.createDialog("generate_graph_dialog", "Neues Netz generieren", WSeminar.window);
 			}
 		});
 	}

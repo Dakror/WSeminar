@@ -1,31 +1,48 @@
 package de.dakror.wseminar;
 
 import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import de.dakror.wseminar.graph.api.Graph;
+import de.dakror.wseminar.math.Vector2;
 
 /**
  * @author Dakror
  */
 public class WSeminar extends Application {
+	public static WSeminar instance;
+	public static Window window;
+	
+	
 	static HashMap<String, Image> imgCache = new HashMap<>();
+	
+	Graph<Vector2> graph;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		instance = this;
+		window = primaryStage;
+		
 		primaryStage.setScene(createScene("main"));
 		primaryStage.setTitle("WSeminar Extrema: Wegfindung - Maximilian Stark");
 		
 		primaryStage.getIcons().addAll(getImage("mind_map-24.png"), getImage("mind_map-32.png"));
 		
 		primaryStage.show();
+	}
+	
+	public void setGraph(Graph<Vector2> graph) {
+		this.graph = graph;
 	}
 	
 	public static Scene createScene(String resource) {
@@ -49,7 +66,7 @@ public class WSeminar extends Application {
 		
 		stage.setScene(WSeminar.createScene(sceneResource));
 		stage.setTitle(title);
-		stage.initModality(Modality.WINDOW_MODAL);
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.initOwner(owner);
 		stage.show();
 		
@@ -67,6 +84,17 @@ public class WSeminar extends Application {
 	}
 	
 	public static void main(String[] args) {
+		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				e.printStackTrace();
+				
+				Stage stage = createDialog("alert", "Fehler!", window);
+				((Label) stage.getScene().lookup("#message")).setText(e.getClass().getSimpleName());
+				((Label) stage.getScene().lookup("#details")).setText(e.getLocalizedMessage());
+			}
+		});
+		
 		launch(args);
 	}
 }

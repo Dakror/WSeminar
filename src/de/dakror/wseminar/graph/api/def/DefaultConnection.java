@@ -1,7 +1,7 @@
-package de.dakror.wseminar.graph.def;
+package de.dakror.wseminar.graph.api.def;
 
-import de.dakror.wseminar.graph.Connection;
-import de.dakror.wseminar.graph.Node;
+import de.dakror.wseminar.graph.api.Connection;
+import de.dakror.wseminar.graph.api.Node;
 
 /**
  * @author Dakror

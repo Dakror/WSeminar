@@ -1,11 +1,11 @@
-package de.dakror.wseminar.graph;
+package de.dakror.wseminar.graph.api;
 
 import java.util.List;
 
 /**
  * @author Dakror
  */
-public interface Graph<T extends Node<T>> {
+public interface Graph<T> {
 	public List<Node<T>> getNodes();
 	
 	public boolean areConnected(Node<T> n1, Node<T> n2);

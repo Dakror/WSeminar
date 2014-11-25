@@ -1,4 +1,4 @@
-package de.dakror.wseminar.graph;
+package de.dakror.wseminar.graph.api;
 
 import java.util.List;
 
