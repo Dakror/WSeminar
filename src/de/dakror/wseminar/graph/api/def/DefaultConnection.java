@@ -31,4 +31,9 @@ public class DefaultConnection<T> implements Connection<T> {
 	public Node<T> getTo() {
 		return to;
 	}
+	
+	@Override
+	public String toString() {
+		return "C[" + from.getStorage() + " -> " + to.getStorage() + ", " + cost + "]";
+	}
 }

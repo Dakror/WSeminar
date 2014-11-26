@@ -17,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import de.dakror.wseminar.WSeminar;
-import de.dakror.wseminar.graph.Factory;
 import de.dakror.wseminar.graph.GraphGenerator;
 import de.dakror.wseminar.graph.api.GraphType;
 import de.dakror.wseminar.math.Vector2;
@@ -114,17 +113,7 @@ public class GenerateGraphDialogController {
 					seed = graph_seed.getText().hashCode();
 				}
 				
-				WSeminar.instance.setGraph(new GraphGenerator<Vector2>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed, new Factory<Vector2>() {
-					@Override
-					public Vector2 create(int x, int y) {
-						return new Vector2(x, y);
-					}
-					
-					@Override
-					public void set(Vector2 t, int x, int y) {
-						t.set(t.x, t.y);
-					}
-				}));
+				WSeminar.instance.setGraph(new GraphGenerator<Vector2>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed, (x, y) -> new Vector2(x, y)));
 				
 				close.handle(null);
 			}

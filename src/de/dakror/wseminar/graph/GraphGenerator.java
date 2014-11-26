@@ -2,7 +2,9 @@ package de.dakror.wseminar.graph;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.function.BiFunction;
 
+import de.dakror.wseminar.graph.api.Connection;
 import de.dakror.wseminar.graph.api.Graph;
 import de.dakror.wseminar.graph.api.GraphType;
 import de.dakror.wseminar.graph.api.Node;
@@ -27,10 +29,10 @@ public class GraphGenerator<T> {
 	 * @param type the desired type of graph
 	 * @param size the size of the graph (1 - 3)
 	 * @param seed the RNG seed
-	 * @param factory to create and manipulate storage data
+	 * @param factory to create storage data
 	 * @return the generated graph
 	 */
-	public Graph<T> generateGraph(GraphType type, int size, long seed, Factory<T> factory) {
+	public Graph<T> generateGraph(GraphType type, int size, long seed, BiFunction<Integer, Integer, T> factory) {
 		Graph<T> graph = null;
 		
 		Random random = new Random(seed);
@@ -50,16 +52,18 @@ public class GraphGenerator<T> {
 					do {
 						x = random.nextInt(GRID_COLUMNS);
 						y = random.nextInt(GRID_ROWS);
-						storage = factory.create(x, y);
+						storage = factory.apply(x, y);
 					} while (storages.contains(storage));
 					
-					Node<T> n = new DefaultNode<T>(storage);
-					
+					graph.addNode(new DefaultNode<T>(storage));
+				}
+				
+				System.out.println("Added " + graph.getNodes().size() + " nodes to the graph.");
+				
+				int con = 0;
+				
+				for (Node<T> n : graph.getNodes()) {
 					int connections = random.nextInt(CONNECTIONS_FACTOR);
-					
-					final T tmp = factory.create(0, 0);
-					
-					System.out.println(x + ", " + y);
 					
 					int radius = 1;
 					while (n.getConnections().size() < connections) {
@@ -67,25 +71,26 @@ public class GraphGenerator<T> {
 						
 						for (int j = -radius; j <= radius; j++) {
 							for (int k = -radius; k <= radius; k++) {
-								if ((j == 0 && k == 0) || x + j < 0 || y + k < 0) continue;
+								if ((j == 0 && k == 0) || x + j < 0 || y + k < 0 || x + j > GRID_COLUMNS || y + k > GRID_ROWS) continue;
 								
-								factory.set(tmp, x + j, y + k);
+								T tmp = factory.apply(x + j, y + k);
 								
 								Node<T> node = graph.getNode(tmp);
 								if (node != null && !graph.areConnected(n, node)) {
-									n.addConnection(new DefaultConnection<T>(random.nextInt(CONNECTION_COST_MAX - 1) + 1, n, node));
+									Connection<T> c = new DefaultConnection<T>(random.nextInt(CONNECTION_COST_MAX - 1) + 1, n, node);
+									n.addConnection(c);
+									node.addConnection(c);
+									
+									con++;
 								}
 							}
 						}
 						
 						radius++;
 					}
-					
-					// TODO: kinda not working LOL
-					
-					System.out.println("n has connections: " + n.getConnections().size());
-					graph.addNode(n);
 				}
+				
+				System.out.println("Made " + con + " connections.");
 				
 				break;
 			}

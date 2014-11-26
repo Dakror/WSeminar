@@ -56,4 +56,9 @@ public class DefaultNode<T> implements Node<T> {
 		
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		return "N[" + storage + ", " + walkable + ", " + connections + "]";
+	}
 }
