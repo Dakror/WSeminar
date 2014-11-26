@@ -38,6 +38,19 @@ public class Vector2 {
 		return this;
 	}
 	
+	public Vector2 set(float x, float y) {
+		this.x = x;
+		this.y = y;
+		
+		return this;
+	}
+	
+	public Vector2 set(Vector2 v) {
+		set(v.x, v.y);
+		
+		return this;
+	}
+	
 	public float length() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
@@ -80,5 +93,15 @@ public class Vector2 {
 		float dy = y - o.y;
 		
 		return (float) Math.sqrt(dx * dx + dy * dy);
+	}
+	
+	@Override
+	public String toString() {
+		return "[" + x + ", " + y + "]";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof Vector2 ? x == ((Vector2) obj).x && y == ((Vector2) obj).y : false;
 	}
 }

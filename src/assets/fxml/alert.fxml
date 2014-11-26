@@ -18,12 +18,12 @@
     </ImageView>
     <VBox maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" prefHeight="60.0" prefWidth="318.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
       <children>
-        <Label id="message" fx:id="message" text="message" textAlignment="LEFT" wrapText="true">
+        <Label fx:id="message" text="message" textAlignment="LEFT" wrapText="true">
           <font>
             <Font name="System Bold" size="13.0" />
           </font>
         </Label>
-        <Label id="details" fx:id="details" text="details" textAlignment="LEFT" wrapText="true">
+        <Label fx:id="details" text="details" textAlignment="LEFT" wrapText="true">
           <font>
             <Font size="12.0" />
           </font>

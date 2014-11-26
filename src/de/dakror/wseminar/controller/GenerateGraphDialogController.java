@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.Factory;
 import de.dakror.wseminar.graph.GraphGenerator;
 import de.dakror.wseminar.graph.api.GraphType;
 import de.dakror.wseminar.math.Vector2;
@@ -89,12 +90,14 @@ public class GenerateGraphDialogController {
 		graph_type.getItems().addAll(GraphType.values());
 		graph_type.setValue(GraphType.ABSTRACT_GRAPH);
 		
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+		EventHandler<ActionEvent> close = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				((Stage) cancelButton.getScene().getWindow()).close();
 			}
-		});
+		};
+		
+		cancelButton.setOnAction(close);
 		
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -102,12 +105,28 @@ public class GenerateGraphDialogController {
 				long seed = 0;
 				
 				try {
-					seed = Long.decode(graph_seed.getText());
+					if (graph_seed.getText().length() == 0) {
+						seed = (long) (Math.random() * Long.MAX_VALUE);
+					} else {
+						seed = Long.decode(graph_seed.getText());
+					}
 				} catch (Exception e) {
 					seed = graph_seed.getText().hashCode();
 				}
 				
-				WSeminar.instance.setGraph(new GraphGenerator<Vector2>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed));
+				WSeminar.instance.setGraph(new GraphGenerator<Vector2>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed, new Factory<Vector2>() {
+					@Override
+					public Vector2 create(int x, int y) {
+						return new Vector2(x, y);
+					}
+					
+					@Override
+					public void set(Vector2 t, int x, int y) {
+						t.set(t.x, t.y);
+					}
+				}));
+				
+				close.handle(null);
 			}
 		});
 	}

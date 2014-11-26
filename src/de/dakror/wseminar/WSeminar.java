@@ -20,6 +20,8 @@ import de.dakror.wseminar.math.Vector2;
  * @author Dakror
  */
 public class WSeminar extends Application {
+	
+	
 	public static WSeminar instance;
 	public static Window window;
 	
@@ -43,6 +45,7 @@ public class WSeminar extends Application {
 	
 	public void setGraph(Graph<Vector2> graph) {
 		this.graph = graph;
+		WSeminar.window.getScene().lookup("#newGraph").setVisible(graph == null);
 	}
 	
 	public static Scene createScene(String resource) {

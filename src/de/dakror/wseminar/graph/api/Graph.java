@@ -16,5 +16,8 @@ public interface Graph<T> {
 	
 	public boolean removeNode(Node<T> n);
 	
+	/**
+	 * Should be null-safe
+	 */
 	public Node<T> getNode(T l);
 }

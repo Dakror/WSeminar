@@ -60,6 +60,9 @@ public class DefaultGraph<T> implements Graph<T> {
 	
 	@Override
 	public Node<T> getNode(T l) {
-		return nodes.get(storages.indexOf(l));
+		int index = storages.indexOf(l);
+		if (index < 0) return null;
+		
+		return nodes.get(index);
 	}
 }
