@@ -21,10 +21,8 @@ import de.dakror.wseminar.math.Vector2;
  */
 public class WSeminar extends Application {
 	
-	
 	public static WSeminar instance;
 	public static Window window;
-	
 	
 	static HashMap<String, Image> imgCache = new HashMap<>();
 	

@@ -94,9 +94,7 @@ public class GraphGenerator<T> {
 				
 				break;
 			}
-			case GRID: {
-				throw new UnsupportedOperationException("Graph type not supported yet!");
-			}
+			case GRID:
 			case LABYRINTH: {
 				throw new UnsupportedOperationException("Graph type not supported yet!");
 			}
