@@ -24,7 +24,6 @@ public class GraphGenerator<T> {
 	public static int CONNECTIONS_FACTOR = 4;
 	public static int CONNECTION_COST_MAX = 30;
 	
-	
 	/**
 	 * @param type the desired type of graph
 	 * @param size the size of the graph (1 - 3)
@@ -63,8 +62,7 @@ public class GraphGenerator<T> {
 				int con = 0;
 				
 				for (Node<T> n : graph.getNodes()) {
-					int connections = random.nextInt(CONNECTIONS_FACTOR);
-					
+					int connections = random.nextInt(CONNECTIONS_FACTOR) + 1;
 					int radius = 1;
 					while (n.getConnections().size() < connections) {
 						if (radius > 10) break;
@@ -80,7 +78,6 @@ public class GraphGenerator<T> {
 									Connection<T> c = new DefaultConnection<T>(random.nextInt(CONNECTION_COST_MAX - 1) + 1, n, node);
 									n.addConnection(c);
 									node.addConnection(c);
-									
 									con++;
 								}
 							}
