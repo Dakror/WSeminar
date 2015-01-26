@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.BiFunction;
 
-import de.dakror.wseminar.graph.api.Connection;
+import de.dakror.wseminar.graph.api.Edge;
 import de.dakror.wseminar.graph.api.Graph;
 import de.dakror.wseminar.graph.api.GraphType;
 import de.dakror.wseminar.graph.api.Node;
-import de.dakror.wseminar.graph.api.def.DefaultConnection;
-import de.dakror.wseminar.graph.api.def.DefaultGraph;
-import de.dakror.wseminar.graph.api.def.DefaultNode;
+import de.dakror.wseminar.graph.api.impl.DefaultConnection;
+import de.dakror.wseminar.graph.api.impl.DefaultGraph;
+import de.dakror.wseminar.graph.api.impl.DefaultNode;
 
 /**
  * @author Dakror
  */
 public class GraphGenerator<T> {
-	public static int GRID_COLUMNS = 20;
-	public static int GRID_ROWS = 12;
-	public static int ABSTRACT_GRAPH_CELL_SIZE = 24;
+	public static int GRID_COLUMNS = 30;
+	public static int GRID_ROWS = 18;
+	public static int CELL_SIZE = 24;
 	
 	public static int NODE_AMOUNT_FACTOR = 8;
 	public static int CONNECTIONS_FACTOR = 4;
@@ -75,7 +75,7 @@ public class GraphGenerator<T> {
 								
 								Node<T> node = graph.getNode(tmp);
 								if (node != null && !graph.areConnected(n, node)) {
-									Connection<T> c = new DefaultConnection<T>(random.nextInt(CONNECTION_COST_MAX - 1) + 1, n, node);
+									Edge<T> c = new DefaultConnection<T>(random.nextInt(CONNECTION_COST_MAX - 1) + 1, n, node);
 									n.addConnection(c);
 									node.addConnection(c);
 									con++;

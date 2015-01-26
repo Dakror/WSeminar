@@ -10,10 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import de.dakror.wseminar.graph.GraphGenerator;
 import de.dakror.wseminar.graph.api.Graph;
+import de.dakror.wseminar.graph.api.Node;
 import de.dakror.wseminar.math.Vector2;
 
 /**
@@ -44,6 +48,35 @@ public class WSeminar extends Application {
 	public void setGraph(Graph<Vector2> graph) {
 		this.graph = graph;
 		WSeminar.window.getScene().lookup("#newGraph").setVisible(graph == null);
+		
+		Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
+		
+		for (Node<Vector2> node : graph.getNodes()) {
+			pane.getChildren().add(createAbstractGraphNode("#node", node));
+		}
+	}
+	
+	public static Line createEdge(Node<Vector2> from, Node<Vector2> to) {
+		Line line = new Line(//
+		from.getStorage().x * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE / 2, //
+		from.getStorage().y * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE, //
+		to.getStorage().x * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE, //
+		to.getStorage().y * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE //
+		);
+		
+		return line;
+	}
+	
+	public static Circle createAbstractGraphNode(String selector, Node<Vector2> node) {
+		Circle template = (Circle) WSeminar.window.getScene().lookup(selector);
+		
+		Circle circle = new Circle(node.getStorage().x * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE / 2, node.getStorage().y * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE / 2, template.getRadius());
+		circle.setFill(template.getFill());
+		circle.setStroke(template.getStroke());
+		circle.setStrokeType(template.getStrokeType());
+		circle.setEffect(template.getEffect());
+		
+		return circle;
 	}
 	
 	public static Scene createScene(String resource) {

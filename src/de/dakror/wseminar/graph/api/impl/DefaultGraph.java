@@ -1,9 +1,9 @@
-package de.dakror.wseminar.graph.api.def;
+package de.dakror.wseminar.graph.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dakror.wseminar.graph.api.Connection;
+import de.dakror.wseminar.graph.api.Edge;
 import de.dakror.wseminar.graph.api.Graph;
 import de.dakror.wseminar.graph.api.GraphType;
 import de.dakror.wseminar.graph.api.Node;
@@ -40,7 +40,7 @@ public class DefaultGraph<T> implements Graph<T> {
 	public List<Node<T>> getNeighbors(Node<T> n) {
 		ArrayList<Node<T>> list = new ArrayList<>();
 		
-		for (Connection<T> c : n.getConnections()) {
+		for (Edge<T> c : n.getConnections()) {
 			list.add(c.getFrom() == n ? c.getTo() : c.getFrom());
 		}
 		
