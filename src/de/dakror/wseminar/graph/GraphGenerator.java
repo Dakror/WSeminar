@@ -6,8 +6,8 @@ import java.util.function.BiFunction;
 
 import de.dakror.wseminar.graph.api.Graph;
 import de.dakror.wseminar.graph.api.GraphType;
-import de.dakror.wseminar.graph.api.def.DefaultGraph;
-import de.dakror.wseminar.graph.api.def.DefaultNode;
+import de.dakror.wseminar.graph.api.impl.DefaultGraph;
+import de.dakror.wseminar.graph.api.impl.DefaultNode;
 
 /**
  * @author Dakror
@@ -106,6 +106,7 @@ public class GraphGenerator<T> {
 				//
 				// System.out.println("Made " + con + " connections.");
 				//
+				
 				break;
 			}
 			case GRID:

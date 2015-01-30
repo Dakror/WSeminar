@@ -8,11 +8,11 @@ import java.util.List;
 public interface Node<T> {
 	public boolean isWalkable();
 	
-	public List<Connection<T>> getConnections();
+	public List<Edge<T>> getConnections();
 	
 	public T getStorage();
 	
-	public void addConnection(Connection<T> connection);
+	public void addConnection(Edge<T> connection);
 	
 	/**
 	 * @return the individual cost from <code>this</code> to <code>o</code>. if not connected return 0

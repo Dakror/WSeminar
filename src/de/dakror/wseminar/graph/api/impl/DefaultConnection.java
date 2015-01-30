@@ -1,12 +1,12 @@
-package de.dakror.wseminar.graph.api.def;
+package de.dakror.wseminar.graph.api.impl;
 
-import de.dakror.wseminar.graph.api.Connection;
+import de.dakror.wseminar.graph.api.Edge;
 import de.dakror.wseminar.graph.api.Node;
 
 /**
  * @author Dakror
  */
-public class DefaultConnection<T> implements Connection<T> {
+public class DefaultConnection<T> implements Edge<T> {
 	float cost;
 	
 	Node<T> from, to;

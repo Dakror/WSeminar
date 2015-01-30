@@ -119,17 +119,22 @@
                               </Circle>
                            </children>
                         </Pane>
-                        <Pane fx:id="graph">
-                           <children>
-                              <Label fx:id="newGraph" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Label>
-                           </children></Pane>
+                        <ScrollPane prefViewportHeight="378.0" prefViewportWidth="535.0">
+                           <content>
+                              <Pane fx:id="graph">
+                                 <children>
+                                    <Label fx:id="newGraph" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                           </content>
+                        </ScrollPane>
                      </children>
                   </StackPane>
                </children>

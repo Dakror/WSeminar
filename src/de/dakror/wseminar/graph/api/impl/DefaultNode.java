@@ -1,16 +1,16 @@
-package de.dakror.wseminar.graph.api.def;
+package de.dakror.wseminar.graph.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dakror.wseminar.graph.api.Connection;
+import de.dakror.wseminar.graph.api.Edge;
 import de.dakror.wseminar.graph.api.Node;
 
 /**
  * @author Dakror
  */
 public class DefaultNode<T> implements Node<T> {
-	ArrayList<Connection<T>> connections = new ArrayList<>();
+	ArrayList<Edge<T>> connections = new ArrayList<>();
 	
 	T storage;
 	boolean walkable;
@@ -34,7 +34,7 @@ public class DefaultNode<T> implements Node<T> {
 	}
 	
 	@Override
-	public List<Connection<T>> getConnections() {
+	public List<Edge<T>> getConnections() {
 		return connections;
 	}
 	
@@ -44,13 +44,13 @@ public class DefaultNode<T> implements Node<T> {
 	}
 	
 	@Override
-	public void addConnection(Connection<T> connection) {
+	public void addConnection(Edge<T> connection) {
 		connections.add(connection);
 	}
 	
 	@Override
 	public float getCost(Node<T> o) {
-		for (Connection<T> c : connections) {
+		for (Edge<T> c : connections) {
 			if (c.getFrom().equals(o) || c.getTo().equals(o)) return c.getCost();
 		}
 		
