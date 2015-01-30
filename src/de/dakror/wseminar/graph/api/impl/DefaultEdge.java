@@ -6,12 +6,12 @@ import de.dakror.wseminar.graph.api.Node;
 /**
  * @author Dakror
  */
-public class DefaultConnection<T> implements Edge<T> {
+public class DefaultEdge<T> implements Edge<T> {
 	float cost;
 	
 	Node<T> from, to;
 	
-	public DefaultConnection(float cost, Node<T> from, Node<T> to) {
+	public DefaultEdge(float cost, Node<T> from, Node<T> to) {
 		this.cost = cost;
 		this.from = from;
 		this.to = to;
