@@ -16,7 +16,7 @@ public class GraphGenerator<T> {
 	public static int GRID_COLUMNS = 20;
 	public static int GRID_ROWS = 12;
 	public static int PLACE_RADIUS = 2;
-	public static int ABSTRACT_GRAPH_CELL_SIZE = 24;
+	public static int CELL_SIZE = 24;
 	
 	public static int NODE_AMOUNT_FACTOR = 10;
 	public static int CONNECTIONS_FACTOR = 4;
