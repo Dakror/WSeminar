@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashMap;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +19,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import de.dakror.wseminar.graph.GraphGenerator;
+import javafx.util.Duration;
 import de.dakror.wseminar.graph.api.Graph;
 import de.dakror.wseminar.graph.api.Node;
 import de.dakror.wseminar.math.Vector2;
@@ -24,7 +28,6 @@ import de.dakror.wseminar.math.Vector2;
  * @author Dakror
  */
 public class WSeminar extends Application {
-	
 	public static WSeminar instance;
 	public static Window window;
 	
@@ -51,17 +54,35 @@ public class WSeminar extends Application {
 		
 		Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
 		
+		int duration = 400;
+		
 		for (Node<Vector2> node : graph.getNodes()) {
-			pane.getChildren().add(createAbstractGraphNode("#node", node));
+			Circle circle = createAbstractGraphNode("#node", node);
+			FadeTransition ft = new FadeTransition(Duration.millis(duration), circle);
+			ft.setFromValue(0);
+			ft.setToValue(1);
+			ft.setInterpolator(Interpolator.EASE_OUT);
+			
+			ScaleTransition st = new ScaleTransition(Duration.millis(duration), circle);
+			st.setFromX(0);
+			st.setFromY(0);
+			st.setToX(1);
+			st.setToY(1);
+			st.setInterpolator(Const.overlyEaseIn);
+			
+			ParallelTransition pt = new ParallelTransition(circle, ft, st);
+			pane.getChildren().add(circle);
+			pt.setDelay(Duration.millis(Math.random() * 1000));
+			pt.play();
 		}
 	}
 	
 	public static Line createEdge(Node<Vector2> from, Node<Vector2> to) {
 		Line line = new Line(//
-		from.getStorage().x * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE / 2, //
-		from.getStorage().y * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE, //
-		to.getStorage().x * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE, //
-		to.getStorage().y * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE //
+		from.getStorage().x * Const.cellSize + Const.cellSize / 2, //
+		from.getStorage().y * Const.cellSize + Const.cellSize, //
+		to.getStorage().x * Const.cellSize + Const.cellSize, //
+		to.getStorage().y * Const.cellSize + Const.cellSize //
 		);
 		
 		return line;
@@ -70,7 +91,7 @@ public class WSeminar extends Application {
 	public static Circle createAbstractGraphNode(String selector, Node<Vector2> node) {
 		Circle template = (Circle) WSeminar.window.getScene().lookup(selector);
 		
-		Circle circle = new Circle(node.getStorage().x * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE / 2, node.getStorage().y * GraphGenerator.CELL_SIZE + GraphGenerator.CELL_SIZE / 2, template.getRadius());
+		Circle circle = new Circle(node.getStorage().x * Const.cellSize + Const.cellSize / 2, node.getStorage().y * Const.cellSize + Const.cellSize / 2, template.getRadius());
 		circle.setFill(template.getFill());
 		circle.setStroke(template.getStroke());
 		circle.setStrokeType(template.getStrokeType());
