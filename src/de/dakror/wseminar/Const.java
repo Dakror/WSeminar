@@ -6,9 +6,11 @@ import javafx.animation.Interpolator;
  * @author Maximilian Stark | Dakror
  */
 public class Const {
+	public static int gridColumns = 30;
+	public static int gridRows = 18;
+	
 	// -- Graph Generation-- //
 	public static int cellSize = 24;
-	public static int placeRadius = 2;
 	public static int nodeAmount = 25;
 	public static int edges = 4;
 	public static int edgesMaxCost = 30;
@@ -19,4 +21,7 @@ public class Const {
 	 * Used http://cubic-bezier.com/
 	 */
 	public static Interpolator overlyEaseIn = Interpolator.SPLINE(.43, .65, .19, 1);
+	
+	// -- graph visualization -- //
+	public static int defaultCycles = 75;
 }

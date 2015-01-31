@@ -76,6 +76,11 @@ public class Vector2 {
 		return this;
 	}
 	
+	public Vector2 zero() {
+		scl(0);
+		return this;
+	}
+	
 	public Vector2 mul(float scX, float scY) {
 		x *= scX;
 		y *= scY;
