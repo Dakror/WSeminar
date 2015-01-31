@@ -22,12 +22,23 @@ public class Edge<V> {
 		return from;
 	}
 	
+	public Edge<V> setFrom(V from) {
+		this.from = from;
+		return this;
+	}
+	
 	public V getTo() {
 		return to;
 	}
 	
-	public void setDirected(boolean directed) {
+	public Edge<V> setTo(V to) {
+		this.to = to;
+		return this;
+	}
+	
+	public Edge<V> setDirected(boolean directed) {
 		this.directed = directed;
+		return this;
 	}
 	
 	public boolean isDirected() {

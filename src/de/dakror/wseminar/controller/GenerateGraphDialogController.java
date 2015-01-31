@@ -17,8 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
+import de.dakror.wseminar.graph.render.FruchtermanReingoldAlgorithm;
 
 /**
  * @author Dakror
@@ -112,7 +114,8 @@ public class GenerateGraphDialogController {
 					seed = graph_seed.getText().hashCode();
 				}
 				
-				WSeminar.instance.setGraph(new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed));
+				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
+				WSeminar.instance.setGraph(new FruchtermanReingoldAlgorithm<Integer>().render(graph));
 				
 				close.handle(null);
 			}

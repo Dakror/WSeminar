@@ -20,7 +20,8 @@ public class WeightedEdge<V> extends Edge<V> {
 		return weight;
 	}
 	
-	public void setWeight(float weight) {
+	public Edge<V> setWeight(float weight) {
 		this.weight = weight;
+		return this;
 	}
 }

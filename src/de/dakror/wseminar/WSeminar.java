@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.render.Vertex;
 
 /**
  * @author Dakror
@@ -24,7 +25,7 @@ public class WSeminar extends Application {
 	
 	static HashMap<String, Image> imgCache = new HashMap<>();
 	
-	Graph<Integer> graph;
+	Graph<Vertex<Integer>> graph;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -39,7 +40,7 @@ public class WSeminar extends Application {
 		primaryStage.show();
 	}
 	
-	public void setGraph(Graph<Integer> graph) {
+	public void setGraph(Graph<Vertex<Integer>> graph) {
 		this.graph = graph;
 		WSeminar.window.getScene().lookup("#newGraph").setVisible(graph == null);
 		
