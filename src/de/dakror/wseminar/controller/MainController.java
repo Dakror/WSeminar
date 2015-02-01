@@ -5,15 +5,19 @@ import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.layout.FRLayout;
 
 /**
  * @author Dakror
@@ -48,16 +52,19 @@ public class MainController {
 	private Circle node_start;
 	
 	@FXML
-	private MenuItem menu_about;
-	
-	@FXML
 	private Pane graph;
 	
 	@FXML
-	private Label newGraph;
+	private Label new_graph;
 	
 	@FXML
 	private Slider zoom;
+	
+	@FXML
+	private MenuItem relayout_graph;
+	
+	@FXML
+	private Menu menu_graph;
 	
 	@FXML
 	void initialize() {
@@ -68,14 +75,15 @@ public class MainController {
 		assert node_disabled != null : "fx:id=\"node_disabled\" was not injected: check your FXML file 'main.fxml'.";
 		assert node_finish != null : "fx:id=\"node_finish\" was not injected: check your FXML file 'main.fxml'.";
 		assert node_start != null : "fx:id=\"node_start\" was not injected: check your FXML file 'main.fxml'.";
-		assert menu_about != null : "fx:id=\"menu_about\" was not injected: check your FXML file 'main.fxml'.";
 		assert graph != null : "fx:id=\"graph\" was not injected: check your FXML file 'main.fxml'.";
-		assert newGraph != null : "fx:id=\"newGraph\" was not injected: check your FXML file 'main.fxml'.";
+		assert new_graph != null : "fx:id=\"new_graph\" was not injected: check your FXML file 'main.fxml'.";
 		assert zoom != null : "fx:id=\"zoom\" was not injected: check your FXML file 'main.fxml'.";
+		assert relayout_graph != null : "fx:id=\"relayout_graph\" was not injected: check your FXML file 'main.fxml'.";
+		assert menu_graph != null : "fx:id=\"menu_graph\" was not injected: check your FXML file 'main.fxml'.";
 		
 		// component logic
 		
-		newGraph.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		new_graph.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				WSeminar.createDialog("generate_graph_dialog", "Neues Netz generieren", WSeminar.window);
@@ -91,6 +99,16 @@ public class MainController {
 					pane.setScaleX(Math.max(0.1f, Math.min(2, newValue.floatValue() / 100f)));
 					pane.setScaleY(Math.max(0.1f, Math.min(2, newValue.floatValue() / 100f)));
 				}
+			}
+		});
+		
+		// relayout_graph, JFX bug!
+		menu_graph.getItems().get(0).setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (WSeminar.instance.getSourceGraph() != null)
+					WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getGraphSize()).render(WSeminar.instance.getSourceGraph(),
+																																																				Const.defaultCycles * WSeminar.instance.getGraphSize()));
 			}
 		});
 	}

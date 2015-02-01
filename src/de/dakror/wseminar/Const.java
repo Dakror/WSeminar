@@ -11,8 +11,8 @@ public class Const {
 	
 	// -- Graph Generation-- //
 	public static int cellSize = 24;
-	public static int nodeAmount = 25;
-	public static int edges = 4;
+	public static int nodeAmount = 20;
+	public static int edges = 3;
 	public static int edgesMaxCost = 30;
 	
 	// -- VFX / Animation -- //

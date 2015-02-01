@@ -20,7 +20,6 @@ import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
-import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
 import de.dakror.wseminar.graph.layout.FRLayout;
 
@@ -119,15 +118,16 @@ public class GenerateGraphDialogController {
 				}
 				
 				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
+				WSeminar.instance.setSourceGraph(graph);
+				WSeminar.instance.setGraphSize((int) graph_size.getValue());
 				// new Thread() {
 				// @Override
 				// public void run() {
 				// for (int i = 0; i < Const.defaultCycles; i += 20) {
-				Graph<Vertex<Integer>> gr = new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()));
 				// Platform.runLater(new Runnable() {
 				// @Override
 				// public void run() {
-				WSeminar.instance.transitionTo(gr);
+				WSeminar.instance.transitionTo(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue())));
 				// }
 				// });
 				// if (!WSeminar.window.isShowing()) return;

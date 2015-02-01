@@ -15,17 +15,23 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -48,6 +54,8 @@ public class WSeminar extends Application {
 	
 	static HashMap<String, Image> imgCache = new HashMap<>();
 	
+	Graph<Integer> sourceGraph;
+	int graphSize;
 	Graph<Vertex<Integer>> graph;
 	
 	int duration = 400;
@@ -65,7 +73,7 @@ public class WSeminar extends Application {
 		
 		primaryStage.show();
 		
-		Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
+		Pane pane = (Pane) window.getScene().lookup("#graph");
 		pane.getParent().addEventHandler(ScrollEvent.ANY, new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
@@ -106,6 +114,23 @@ public class WSeminar extends Application {
 		});
 	}
 	
+	public void setSourceGraph(Graph<Integer> sourceGraph) {
+		getMenuItem("#menu_graph", "relayout_graph").setDisable(sourceGraph == null);
+		this.sourceGraph = sourceGraph;
+	}
+	
+	public Graph<Integer> getSourceGraph() {
+		return sourceGraph;
+	}
+	
+	public void setGraphSize(int graphSize) {
+		this.graphSize = graphSize;
+	}
+	
+	public int getGraphSize() {
+		return graphSize;
+	}
+	
 	public Graph<Vertex<Integer>> getGraph() {
 		return graph;
 	}
@@ -123,19 +148,24 @@ public class WSeminar extends Application {
 		for (int i = 0; i < graph.getVertices().size(); i++) {
 			Vertex<Integer> v = graph.getVertices().get(i);
 			Node node = pane.lookup("#V" + v.data());
+			Node text = pane.lookup("#VT" + v.data());
 			TranslateTransition tt = new TranslateTransition(Duration.millis(GenerateGraphDialogController.speed), node);
 			Circle newCircle = createGraphVertex("#node", v);
 			
 			tt.setToX(newCircle.getTranslateX());
 			tt.setToY(newCircle.getTranslateY());
 			
-			pt.getChildren().add(tt);
+			TranslateTransition tt2 = new TranslateTransition(Duration.millis(GenerateGraphDialogController.speed), text);
+			tt2.setToX(newCircle.getTranslateX());
+			tt2.setToY(newCircle.getTranslateY());
+			
+			pt.getChildren().addAll(tt, tt2);
 		}
 		
 		for (int i = 0; i < graph.getEdges().size(); i++) {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
 			Line node = (Line) pane.lookup("#E" + i);
-			Text text = (Text) pane.lookup("#T" + i);
+			Text text = (Text) pane.lookup("#ET" + i);
 			
 			Circle newFrom = createGraphVertex("#node", e.getFrom());
 			Circle newTo = createGraphVertex("#node", e.getTo());
@@ -167,10 +197,25 @@ public class WSeminar extends Application {
 		for (Vertex<Integer> v : graph.getVertices()) {
 			Circle circle = createGraphVertex("#node", v);
 			circle.setId("V" + v.data());
-			FadeTransition ft = new FadeTransition(Duration.millis(duration), circle);
+			
+			Label l = new Label(v.data() + "");
+			l.setId("VT" + v.data());
+			l.setTextFill(Color.BLACK);
+			l.setFont(Font.font(null, FontWeight.NORMAL, 15));
+			l.setMinSize(Const.cellSize, Const.cellSize);
+			l.setAlignment(Pos.CENTER);
+			l.setTranslateX(circle.getTranslateX());
+			l.setTranslateY(circle.getTranslateY());
+			
+			FadeTransition ft = new FadeTransition(Duration.millis(duration), l);
 			ft.setFromValue(0);
 			ft.setToValue(1);
 			ft.setInterpolator(Interpolator.EASE_OUT);
+			
+			FadeTransition ft2 = new FadeTransition(Duration.millis(duration), circle);
+			ft2.setFromValue(0);
+			ft2.setToValue(1);
+			ft2.setInterpolator(Interpolator.EASE_OUT);
 			
 			ScaleTransition st = new ScaleTransition(Duration.millis(duration), circle);
 			st.setFromX(0);
@@ -179,8 +224,10 @@ public class WSeminar extends Application {
 			st.setToY(1);
 			st.setInterpolator(Const.overlyEaseIn);
 			
-			ParallelTransition pt = new ParallelTransition(circle, ft, st);
+			ParallelTransition pt = new ParallelTransition(circle, ft, ft2, st);
 			pane.getChildren().add(circle);
+			
+			pane.getChildren().add(l);
 			float delay = (float) (Math.random() * 400);
 			
 			Delay d = new Delay();
@@ -200,15 +247,15 @@ public class WSeminar extends Application {
 			Line edge = createEdge(e);
 			
 			edge.setId("E" + i);
-			if (animate) edge.setOpacity(0);
+			// if (animate) edge.setOpacity(0);
 			
 			pane.getChildren().add(0, edge);
 			
 			FadeTransition ft = null;
 			if (e instanceof WeightedEdge) {
 				Text text = new Text(((WeightedEdge<Vertex<Integer>>) e).getWeight() + "");
-				if (animate) text.setOpacity(0);
-				text.setId("T" + i);
+				// if (animate) text.setOpacity(0);
+				text.setId("ET" + i);
 				text.setTranslateX(0.5f * (edge.getStartX() + edge.getEndX()));
 				text.setTranslateY(0.5f * (edge.getStartY() + edge.getEndY()));
 				pane.getChildren().add(text);
@@ -289,6 +336,15 @@ public class WSeminar extends Application {
 		return stage;
 	}
 	
+	public static MenuItem getMenuItem(String menuSelector, String id) {
+		MenuButton menu = (MenuButton) window.getScene().lookup(menuSelector);
+		for (MenuItem mi : menu.getItems())
+			if (mi.getId().equals(id)) return mi;
+		
+		System.out.println("NOP");
+		return null;
+	}
+	
 	public static Image getImage(String resource) {
 		if (imgCache.containsKey(resource)) return imgCache.get(resource);
 		else {
@@ -313,5 +369,4 @@ public class WSeminar extends Application {
 		
 		launch(args);
 	}
-	
 }
