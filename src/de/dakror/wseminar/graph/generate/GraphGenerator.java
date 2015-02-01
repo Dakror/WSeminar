@@ -4,6 +4,7 @@ import java.util.Random;
 
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.graph.DefaultGraph;
+import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
 import de.dakror.wseminar.graph.WeightedEdge;
@@ -44,14 +45,15 @@ public class GraphGenerator<V> {
 				int edgesPlaced = 0;
 				
 				for (int i = 0; i < nodes; i++) {
-					int edges = random.nextInt(Const.edges) + 1;
+					int edges = Math.max(random.nextInt(Const.edges), 1);
 					for (int j = 0; j < edges; j++) {
 						int index = i;
 						do {
 							index = random.nextInt(nodes);
-						} while (index != i);
+						} while (index == i || graph.areConnected(graph.getVertices().get(i), graph.getVertices().get(index)));
 						
-						graph.addEdge(new WeightedEdge<V>(graph.getVertices().get(i), graph.getVertices().get(index), random.nextInt(Const.edgesMaxCost)));
+						Edge<V> edge = new WeightedEdge<V>(graph.getVertices().get(i), graph.getVertices().get(index), random.nextInt(Const.edgesMaxCost));
+						graph.addEdge(edge);
 					}
 					
 					edgesPlaced += edges;

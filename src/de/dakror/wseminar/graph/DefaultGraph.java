@@ -35,7 +35,6 @@ public class DefaultGraph<V> implements Graph<V> {
 	public void addEdge(Edge<V> edge) {
 		if (!containsVertex(edge.getFrom())) addVertex(edge.getFrom());
 		if (!containsVertex(edge.getTo())) addVertex(edge.getTo());
-		
 		edges.add(edge);
 	}
 	
@@ -69,12 +68,30 @@ public class DefaultGraph<V> implements Graph<V> {
 	
 	@Override
 	public Edge<V> getEdge(V from, V to) {
-		return edges.stream().filter(e -> e.isDirected() ? e.getFrom().equals(from) && e.getTo().equals(to) : (e.getFrom().equals(from) || e.getFrom().equals(to)) && (e.getTo().equals(from) || e.getTo().equals(to))).findFirst().orElse(null);
+		return edges.stream().filter(	e -> e.isDirected() ? e.getFrom().equals(from) && e.getTo().equals(to) : (e.getFrom().equals(from) || e.getFrom().equals(to))
+																			&& (e.getTo().equals(from) || e.getTo().equals(to))).findFirst().orElse(null);
 	}
 	
 	@Override
 	public float getWeight(V from, V to) {
 		Edge<V> edge = getEdge(from, to);
 		return edge instanceof WeightedEdge ? ((WeightedEdge<V>) edge).getWeight() : 0;
+	}
+	
+	@Override
+	public Graph<Vertex<V>> getVertexGraph(Class<?>... vertexData) {
+		Graph<Vertex<V>> graph = new DefaultGraph<>();
+		for (V v : vertices) {
+			Vertex<V> vertex = new Vertex<V>(v);
+			vertex.decorate(vertexData);
+			graph.addVertex(vertex);
+		}
+		for (Edge<V> edge : edges) {
+			Vertex<V> from = graph.getVertices().get(vertices.indexOf(edge.getFrom()));
+			Vertex<V> to = graph.getVertices().get(vertices.indexOf(edge.getTo()));
+			
+			graph.addEdge(edge instanceof WeightedEdge ? new WeightedEdge<Vertex<V>>(from, to, ((WeightedEdge<V>) edge).getWeight()) : new Edge<Vertex<V>>(from, to));
+		}
+		return graph;
 	}
 }

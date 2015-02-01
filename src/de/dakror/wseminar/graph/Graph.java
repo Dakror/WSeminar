@@ -27,4 +27,6 @@ public interface Graph<V> {
 	public Edge<V> getEdge(V from, V to);
 	
 	public float getWeight(V from, V to);
+	
+	public Graph<Vertex<V>> getVertexGraph(Class<?>... vertexData);
 }

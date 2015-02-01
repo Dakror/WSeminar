@@ -4,17 +4,38 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashMap;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
+import de.dakror.wseminar.controller.GenerateGraphDialogController;
+import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.render.Vertex;
+import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.WeightedEdge;
+import de.dakror.wseminar.graph.vertexdata.Delay;
+import de.dakror.wseminar.graph.vertexdata.Position;
 
 /**
  * @author Dakror
@@ -27,6 +48,8 @@ public class WSeminar extends Application {
 	
 	Graph<Vertex<Integer>> graph;
 	
+	int duration = 400;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		instance = this;
@@ -38,61 +61,194 @@ public class WSeminar extends Application {
 		primaryStage.getIcons().addAll(getImage("mind_map-24.png"), getImage("mind_map-32.png"));
 		
 		primaryStage.show();
+		
+		Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
+		pane.getParent().addEventHandler(ScrollEvent.ANY, new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				if (graph != null) {
+					pane.setScaleX(Math.max(0.1f, Math.min(2, pane.getScaleX() - event.getDeltaY() * 0.001f)));
+					pane.setScaleY(Math.max(0.1f, Math.min(2, pane.getScaleY() - event.getDeltaY() * 0.001f)));
+					
+					event.consume();
+				}
+			}
+		});
+		pane.getParent().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+			float lastX = -1, lastY = -1;
+			
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && graph != null) {
+					if (lastX != -1) {
+						float deltaX = (float) (event.getX() - lastX);
+						float deltaY = (float) (event.getY() - lastY);
+						pane.setTranslateX(pane.getTranslateX() + deltaX);
+						pane.setTranslateY(pane.getTranslateY() + deltaY);
+						
+						event.consume();
+					}
+					
+					lastX = (float) event.getX();
+					lastY = (float) event.getY();
+				} else {
+					lastX = -1;
+					lastY = -1;
+				}
+			}
+		});
 	}
 	
-	public void setGraph(Graph<Vertex<Integer>> graph) {
-		this.graph = graph;
-		WSeminar.window.getScene().lookup("#newGraph").setVisible(graph == null);
+	public void transitionTo(Graph<Vertex<Integer>> graph) {
+		if (this.graph == null) {
+			setGraph(graph, true);
+			return;
+		}
 		
 		Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
 		
-		int duration = 400;
+		ParallelTransition pt = new ParallelTransition();
 		
-		// for (Node<Vector2> node : graph.getNodes()) {
-		// Circle circle = createAbstractGraphNode("#node", node);
-		// FadeTransition ft = new FadeTransition(Duration.millis(duration), circle);
-		// ft.setFromValue(0);
-		// ft.setToValue(1);
-		// ft.setInterpolator(Interpolator.EASE_OUT);
-		//
-		// ScaleTransition st = new ScaleTransition(Duration.millis(duration), circle);
-		// st.setFromX(0);
-		// st.setFromY(0);
-		// st.setToX(1);
-		// st.setToY(1);
-		// st.setInterpolator(Const.overlyEaseIn);
-		//
-		// ParallelTransition pt = new ParallelTransition(circle, ft, st);
-		// pane.getChildren().add(circle);
-		// pt.setDelay(Duration.millis(Math.random() * 1000));
-		// pt.play();
-		// }
+		for (int i = 0; i < graph.getVertices().size(); i++) {
+			Vertex<Integer> v = graph.getVertices().get(i);
+			Node node = pane.lookup("#V" + v.data());
+			TranslateTransition tt = new TranslateTransition(Duration.millis(GenerateGraphDialogController.speed), node);
+			Circle newCircle = createGraphVertex("#node", v);
+			
+			tt.setToX(newCircle.getTranslateX());
+			tt.setToY(newCircle.getTranslateY());
+			
+			pt.getChildren().add(tt);
+		}
+		
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
+			Line node = (Line) pane.lookup("#E" + i);
+			Text text = (Text) pane.lookup("#T" + i);
+			
+			Circle newFrom = createGraphVertex("#node", e.getFrom());
+			Circle newTo = createGraphVertex("#node", e.getTo());
+			//@off
+			Timeline tl = new Timeline(new KeyFrame(new Duration(GenerateGraphDialogController.speed), 
+			                                        new KeyValue(node.startXProperty(), newFrom.getTranslateX() + Const.cellSize / 2),
+																							new KeyValue(node.startYProperty(), newFrom.getTranslateY() + Const.cellSize / 2), 
+																							new KeyValue(node.endXProperty(),     newTo.getTranslateX() + Const.cellSize / 2),
+																							new KeyValue(node.endYProperty(),     newTo.getTranslateY() + Const.cellSize / 2)));			
+			//@on
+			TranslateTransition tt = new TranslateTransition(new Duration(GenerateGraphDialogController.speed), text);
+			tt.setToX(0.5f * (newFrom.getTranslateX() + Const.cellSize / 2 + newTo.getTranslateX() + Const.cellSize / 2));
+			tt.setToY(0.5f * (newFrom.getTranslateY() + Const.cellSize / 2 + newTo.getTranslateY() + Const.cellSize / 2));
+			
+			pt.getChildren().addAll(tl, tt);
+		}
+		
+		pt.play();
+		this.graph = graph;
 	}
 	
-	//
-	// public static Line createEdge(Node<Vector2> from, Node<Vector2> to) {
-	//
-	// Line line = new Line(
-	// from.getStorage().x * Const.cellSize + Const.cellSize / 2,
-	// from.getStorage().y * Const.cellSize + Const.cellSize,
-	// to.getStorage().x * Const.cellSize + Const.cellSize,
-	// to.getStorage().y * Const.cellSize + Const.cellSize
-	// );
-	//
-	// return line;
-	// }
-	//
-	// public static Circle createAbstractGraphNode(String selector, Node<Vector2> node) {
-	// Circle template = (Circle) WSeminar.window.getScene().lookup(selector);
-	//
-	// Circle circle = new Circle(node.getStorage().x * Const.cellSize + Const.cellSize / 2, node.getStorage().y * Const.cellSize + Const.cellSize / 2, template.getRadius());
-	// circle.setFill(template.getFill());
-	// circle.setStroke(template.getStroke());
-	// circle.setStrokeType(template.getStrokeType());
-	// circle.setEffect(template.getEffect());
-	//
-	// return circle;
-	// }
+	public void setGraph(Graph<Vertex<Integer>> graph, boolean animate) {
+		this.graph = graph;
+		Node n = WSeminar.window.getScene().lookup("#newGraph");
+		if (n != null) n.setVisible(graph == null);
+		Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
+		pane.getChildren().clear();
+		
+		for (Vertex<Integer> v : graph.getVertices()) {
+			Circle circle = createGraphVertex("#node", v);
+			circle.setId("V" + v.data());
+			FadeTransition ft = new FadeTransition(Duration.millis(duration), circle);
+			ft.setFromValue(0);
+			ft.setToValue(1);
+			ft.setInterpolator(Interpolator.EASE_OUT);
+			
+			ScaleTransition st = new ScaleTransition(Duration.millis(duration), circle);
+			st.setFromX(0);
+			st.setFromY(0);
+			st.setToX(1);
+			st.setToY(1);
+			st.setInterpolator(Const.overlyEaseIn);
+			
+			ParallelTransition pt = new ParallelTransition(circle, ft, st);
+			pane.getChildren().add(circle);
+			float delay = (float) (Math.random() * 400);
+			
+			Delay d = new Delay();
+			d.delay = delay;
+			v.add(d);
+			
+			pt.setDelay(Duration.millis(delay));
+			if (animate) pt.play();
+		}
+		
+		addEdges(pane, graph, animate);
+	}
+	
+	void addEdges(Pane pane, Graph<Vertex<Integer>> graph, boolean animate) {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
+			Line edge = createEdge(e);
+			
+			edge.setId("E" + i);
+			if (animate) edge.setOpacity(0);
+			
+			pane.getChildren().add(0, edge);
+			
+			FadeTransition ft = null;
+			if (e instanceof WeightedEdge) {
+				Text text = new Text(((WeightedEdge<Vertex<Integer>>) e).getWeight() + "");
+				if (animate) text.setOpacity(0);
+				text.setId("T" + i);
+				text.setTranslateX(0.5f * (edge.getStartX() + edge.getEndX()));
+				text.setTranslateY(0.5f * (edge.getStartY() + edge.getEndY()));
+				pane.getChildren().add(text);
+				
+				ft = new FadeTransition(Duration.millis(duration), text);
+				ft.setFromValue(0);
+				ft.setToValue(1);
+				ft.setInterpolator(Interpolator.EASE_OUT);
+			}
+			
+			FadeTransition ft2 = new FadeTransition(Duration.millis(duration), edge);
+			ft2.setFromValue(0);
+			ft2.setToValue(1);
+			ft2.setInterpolator(Interpolator.EASE_OUT);
+			
+			
+			ScaleTransition st = new ScaleTransition(Duration.millis(duration), edge);
+			st.setFromX(0);
+			st.setFromY(0);
+			st.setToX(1);
+			st.setToY(1);
+			
+			ParallelTransition pt = new ParallelTransition(edge, ft2, st);
+			if (ft != null) pt.getChildren().add(ft);
+			
+			pt.setDelay(Duration.millis(Math.max(e.getFrom().get(Delay.class).delay, e.getTo().get(Delay.class).delay)));
+			
+			if (animate) pt.play();
+		}
+	}
+	
+	public static <V> Line createEdge(Edge<Vertex<V>> e) {
+		Line line = new Line(e.getFrom().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, e.getFrom().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2,
+													e.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, e.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
+		return line;
+	}
+	
+	public static <V> Circle createGraphVertex(String selector, Vertex<V> v) {
+		Circle template = (Circle) WSeminar.window.getScene().lookup(selector);
+		
+		Circle circle = new Circle(Const.cellSize / 2, Const.cellSize / 2, template.getRadius());
+		circle.setTranslateZ(2);
+		circle.setTranslateX(v.get(Position.class).pos.x * Const.cellSize);
+		circle.setTranslateY(v.get(Position.class).pos.y * Const.cellSize);
+		circle.setFill(template.getFill());
+		circle.setStroke(template.getStroke());
+		circle.setStrokeType(template.getStrokeType());
+		circle.setEffect(template.getEffect());
+		
+		return circle;
+	}
 	
 	public static Scene createScene(String resource) {
 		try {

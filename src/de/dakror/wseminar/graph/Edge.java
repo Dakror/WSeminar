@@ -1,5 +1,6 @@
 package de.dakror.wseminar.graph;
 
+
 /**
  * @author Maximilian Stark | Dakror
  */
@@ -43,5 +44,10 @@ public class Edge<V> {
 	
 	public boolean isDirected() {
 		return directed;
+	}
+	
+	@Override
+	public String toString() {
+		return "E[" + from + " " + (directed ? "" : "<") + "-> " + to + "]";
 	}
 }

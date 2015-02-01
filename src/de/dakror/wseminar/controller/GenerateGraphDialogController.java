@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,8 +20,9 @@ import javafx.util.StringConverter;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
+import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
-import de.dakror.wseminar.graph.render.FruchtermanReingoldAlgorithm;
+import de.dakror.wseminar.graph.layout.FRLayout;
 
 /**
  * @author Dakror
@@ -56,6 +58,8 @@ public class GenerateGraphDialogController {
 	
 	@FXML
 	private Label messageLabel;
+	
+	public static final int speed = 400;
 	
 	@FXML
 	void initialize() {
@@ -115,7 +119,27 @@ public class GenerateGraphDialogController {
 				}
 				
 				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
-				WSeminar.instance.setGraph(new FruchtermanReingoldAlgorithm<Integer>().render(graph));
+				new Thread() {
+					@Override
+					public void run() {
+						// for (int i = 0; i < Const.defaultCycles; i += 20) {
+						Graph<Vertex<Integer>> gr = new FRLayout<Integer>().render(graph);
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								WSeminar.instance.transitionTo(gr);
+							}
+						});
+						// if (!WSeminar.window.isShowing()) return;
+						//
+						// try {
+						// Thread.sleep((speed));
+						// } catch (InterruptedException e) {
+						// e.printStackTrace();
+						// }
+						// }
+					}
+				}.start();
 				
 				close.handle(null);
 			}

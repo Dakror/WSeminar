@@ -24,4 +24,9 @@ public class WeightedEdge<V> extends Edge<V> {
 		this.weight = weight;
 		return this;
 	}
+	
+	@Override
+	public String toString() {
+		return "WE[" + from + " " + (directed ? "" : "<") + " " + weight + " > " + to + "]";
+	}
 }
