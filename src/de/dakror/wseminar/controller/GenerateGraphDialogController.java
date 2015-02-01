@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
@@ -119,27 +119,27 @@ public class GenerateGraphDialogController {
 				}
 				
 				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
-				new Thread() {
-					@Override
-					public void run() {
-						// for (int i = 0; i < Const.defaultCycles; i += 20) {
-						Graph<Vertex<Integer>> gr = new FRLayout<Integer>().render(graph);
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								WSeminar.instance.transitionTo(gr);
-							}
-						});
-						// if (!WSeminar.window.isShowing()) return;
-						//
-						// try {
-						// Thread.sleep((speed));
-						// } catch (InterruptedException e) {
-						// e.printStackTrace();
-						// }
-						// }
-					}
-				}.start();
+				// new Thread() {
+				// @Override
+				// public void run() {
+				// for (int i = 0; i < Const.defaultCycles; i += 20) {
+				Graph<Vertex<Integer>> gr = new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()));
+				// Platform.runLater(new Runnable() {
+				// @Override
+				// public void run() {
+				WSeminar.instance.transitionTo(gr);
+				// }
+				// });
+				// if (!WSeminar.window.isShowing()) return;
+				//
+				// try {
+				// Thread.sleep((speed));
+				// } catch (InterruptedException e) {
+				// e.printStackTrace();
+				// }
+				// }
+				// }
+				// }.start();
 				
 				close.handle(null);
 			}

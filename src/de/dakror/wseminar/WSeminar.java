@@ -15,9 +15,11 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -54,6 +56,7 @@ public class WSeminar extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		instance = this;
 		window = primaryStage;
+		primaryStage.setMaximized(true);
 		
 		primaryStage.setScene(createScene("main"));
 		primaryStage.setTitle("WSeminar Extrema: Wegfindung - Maximilian Stark");
@@ -67,8 +70,10 @@ public class WSeminar extends Application {
 			@Override
 			public void handle(ScrollEvent event) {
 				if (graph != null) {
-					pane.setScaleX(Math.max(0.1f, Math.min(2, pane.getScaleX() - event.getDeltaY() * 0.001f)));
-					pane.setScaleY(Math.max(0.1f, Math.min(2, pane.getScaleY() - event.getDeltaY() * 0.001f)));
+					pane.setScaleX(Math.max(0.1f, Math.min(2, pane.getScaleX() + event.getDeltaY() * 0.001f)));
+					pane.setScaleY(Math.max(0.1f, Math.min(2, pane.getScaleY() + event.getDeltaY() * 0.001f)));
+					
+					((Slider) WSeminar.window.getScene().lookup("#zoom")).setValue(100 * pane.getScaleX());
 					
 					event.consume();
 				}
@@ -80,6 +85,7 @@ public class WSeminar extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && graph != null) {
+					window.getScene().setCursor(Cursor.MOVE);
 					if (lastX != -1) {
 						float deltaX = (float) (event.getX() - lastX);
 						float deltaY = (float) (event.getY() - lastY);
@@ -94,9 +100,14 @@ public class WSeminar extends Application {
 				} else {
 					lastX = -1;
 					lastY = -1;
+					window.getScene().setCursor(Cursor.DEFAULT);
 				}
 			}
 		});
+	}
+	
+	public Graph<Vertex<Integer>> getGraph() {
+		return graph;
 	}
 	
 	public void transitionTo(Graph<Vertex<Integer>> graph) {
@@ -302,4 +313,5 @@ public class WSeminar extends Application {
 		
 		launch(args);
 	}
+	
 }

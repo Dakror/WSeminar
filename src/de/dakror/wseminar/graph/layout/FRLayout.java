@@ -19,6 +19,21 @@ public class FRLayout<V> implements Layout<V> {
 	 */
 	final float EPSILON = 0.00001f;
 	
+	int width, height;
+	
+	public FRLayout() {
+		this(Const.gridColumns, Const.gridRows);
+	}
+	
+	public FRLayout(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
+	
+	public FRLayout(int size) {
+		this(Const.gridColumns * size, Const.gridRows * size);
+	}
+	
 	@Override
 	public Graph<Vertex<V>> render(Graph<V> sourceGraph) {
 		return render(sourceGraph, Const.defaultCycles);
@@ -30,13 +45,13 @@ public class FRLayout<V> implements Layout<V> {
 		Graph<Vertex<V>> graph = sourceGraph.getVertexGraph(Position.class, Disposition.class);
 		// -- random init positions -- //
 		for (Vertex<V> v : graph.getVertices())
-			v.get(Position.class).pos.set((float) Math.random() * Const.gridColumns, (float) Math.random() * Const.gridRows);
+			v.get(Position.class).pos.set((float) Math.random() * width, (float) Math.random() * height);
 		
 		calculateK(graph.getVertices().size());
 		
 		// -- alg -- //
 		
-		float temperature = 1f / 10 * Const.gridColumns;
+		float temperature = 1f / 10 * width;
 		
 		float step = temperature / maxCycles;
 		
@@ -77,8 +92,8 @@ public class FRLayout<V> implements Layout<V> {
 				float min = Math.min(length, temperature);
 				
 				p.pos.add(d.disp.x / length * min, d.disp.y / length * min);
-				p.pos.x = Math.min(Const.gridColumns, Math.max(0, p.pos.x));
-				p.pos.y = Math.min(Const.gridRows, Math.max(0, p.pos.y));
+				p.pos.x = Math.min(width, Math.max(0, p.pos.x));
+				p.pos.y = Math.min(height, Math.max(0, p.pos.y));
 			}
 			temperature -= step;
 			
@@ -91,7 +106,7 @@ public class FRLayout<V> implements Layout<V> {
 	 * k is the optimal distance between vertices
 	 */
 	void calculateK(int vertexCount) {
-		k = (float) (0.75f * Math.sqrt((Const.gridColumns * Const.gridRows) / vertexCount));
+		k = (float) (0.75f * Math.sqrt((width * height) / vertexCount));
 	}
 	
 	/**

@@ -3,10 +3,13 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -54,6 +57,9 @@ public class MainController {
 	private Label newGraph;
 	
 	@FXML
+	private Slider zoom;
+	
+	@FXML
 	void initialize() {
 		assert node != null : "fx:id=\"node\" was not injected: check your FXML file 'main.fxml'.";
 		assert node_new != null : "fx:id=\"node_new\" was not injected: check your FXML file 'main.fxml'.";
@@ -65,6 +71,7 @@ public class MainController {
 		assert menu_about != null : "fx:id=\"menu_about\" was not injected: check your FXML file 'main.fxml'.";
 		assert graph != null : "fx:id=\"graph\" was not injected: check your FXML file 'main.fxml'.";
 		assert newGraph != null : "fx:id=\"newGraph\" was not injected: check your FXML file 'main.fxml'.";
+		assert zoom != null : "fx:id=\"zoom\" was not injected: check your FXML file 'main.fxml'.";
 		
 		// component logic
 		
@@ -72,6 +79,18 @@ public class MainController {
 			@Override
 			public void handle(MouseEvent event) {
 				WSeminar.createDialog("generate_graph_dialog", "Neues Netz generieren", WSeminar.window);
+			}
+		});
+		
+		zoom.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if (WSeminar.instance.getGraph() != null) {
+					Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
+					
+					pane.setScaleX(Math.max(0.1f, Math.min(2, newValue.floatValue() / 100f)));
+					pane.setScaleY(Math.max(0.1f, Math.min(2, newValue.floatValue() / 100f)));
+				}
 			}
 		});
 	}

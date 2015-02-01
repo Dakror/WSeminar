@@ -6,8 +6,8 @@ import javafx.animation.Interpolator;
  * @author Maximilian Stark | Dakror
  */
 public class Const {
-	public static int gridColumns = 80;
-	public static int gridRows = 50;
+	public static int gridColumns = 40;
+	public static int gridRows = 25;
 	
 	// -- Graph Generation-- //
 	public static int cellSize = 24;
