@@ -23,6 +23,7 @@
                         <KeyCodeCombination alt="UP" code="L" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
+                  <MenuItem fx:id="edit_seed" mnemonicParsing="false" text="Seed..." />
               </items>
             </Menu>
          </menus>
@@ -140,13 +141,9 @@
    <bottom>
       <BorderPane prefHeight="25.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <right>
-            <HBox prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Zoom: ">
-                     <padding>
-                        <Insets top="4.0" />
-                     </padding>
-                  </Label>
+                  <Label text="Zoom: " />
                   <Slider fx:id="zoom" blockIncrement="0.0" majorTickUnit="100.0" max="200.0" minorTickCount="8" prefHeight="15.0" prefWidth="150.0" showTickMarks="true" snapToTicks="true" value="100.0">
                      <padding>
                         <Insets top="4.0" />

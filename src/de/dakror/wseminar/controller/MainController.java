@@ -64,22 +64,26 @@ public class MainController {
 	private MenuItem relayout_graph;
 	
 	@FXML
+	private MenuItem edit_seed;
+	
+	@FXML
 	private Menu menu_graph;
 	
 	@FXML
 	void initialize() {
-		assert node != null : "fx:id=\"node\" was not injected: check your FXML file 'main.fxml'.";
-		assert node_new != null : "fx:id=\"node_new\" was not injected: check your FXML file 'main.fxml'.";
+		assert edit_seed != null : "fx:id=\"edit_seed\" was not injected: check your FXML file 'main.fxml'.";
+		assert relayout_graph != null : "fx:id=\"relayout_graph\" was not injected: check your FXML file 'main.fxml'.";
 		assert templates != null : "fx:id=\"templates\" was not injected: check your FXML file 'main.fxml'.";
+		assert node_start != null : "fx:id=\"node_start\" was not injected: check your FXML file 'main.fxml'.";
+		assert zoom != null : "fx:id=\"zoom\" was not injected: check your FXML file 'main.fxml'.";
+		assert graph != null : "fx:id=\"graph\" was not injected: check your FXML file 'main.fxml'.";
+		assert new_graph != null : "fx:id=\"new_graph\" was not injected: check your FXML file 'main.fxml'.";
+		assert node != null : "fx:id=\"node\" was not injected: check your FXML file 'main.fxml'.";
+		assert menu_graph != null : "fx:id=\"menu_graph\" was not injected: check your FXML file 'main.fxml'.";
+		assert node_new != null : "fx:id=\"node_new\" was not injected: check your FXML file 'main.fxml'.";
 		assert node_track != null : "fx:id=\"node_track\" was not injected: check your FXML file 'main.fxml'.";
 		assert node_disabled != null : "fx:id=\"node_disabled\" was not injected: check your FXML file 'main.fxml'.";
 		assert node_finish != null : "fx:id=\"node_finish\" was not injected: check your FXML file 'main.fxml'.";
-		assert node_start != null : "fx:id=\"node_start\" was not injected: check your FXML file 'main.fxml'.";
-		assert graph != null : "fx:id=\"graph\" was not injected: check your FXML file 'main.fxml'.";
-		assert new_graph != null : "fx:id=\"new_graph\" was not injected: check your FXML file 'main.fxml'.";
-		assert zoom != null : "fx:id=\"zoom\" was not injected: check your FXML file 'main.fxml'.";
-		assert relayout_graph != null : "fx:id=\"relayout_graph\" was not injected: check your FXML file 'main.fxml'.";
-		assert menu_graph != null : "fx:id=\"menu_graph\" was not injected: check your FXML file 'main.fxml'.";
 		
 		// component logic
 		
@@ -108,7 +112,8 @@ public class MainController {
 			public void handle(ActionEvent event) {
 				if (WSeminar.instance.getSourceGraph() != null)
 					WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getGraphSize()).render(WSeminar.instance.getSourceGraph(),
-																																																				Const.defaultCycles * WSeminar.instance.getGraphSize()));
+																																																				Const.defaultCycles * WSeminar.instance.getGraphSize(),
+																																																				WSeminar.instance.getSeed()));
 			}
 		});
 	}

@@ -56,6 +56,7 @@ public class WSeminar extends Application {
 	
 	Graph<Integer> sourceGraph;
 	int graphSize;
+	long seed;
 	Graph<Vertex<Integer>> graph;
 	
 	int duration = 400;
@@ -112,6 +113,14 @@ public class WSeminar extends Application {
 				}
 			}
 		});
+	}
+	
+	public void setSeed(long seed) {
+		this.seed = seed;
+	}
+	
+	public long getSeed() {
+		return seed;
 	}
 	
 	public void setSourceGraph(Graph<Integer> sourceGraph) {

@@ -1,5 +1,7 @@
 package de.dakror.wseminar.graph.layout;
 
+import java.util.Random;
+
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
@@ -41,11 +43,18 @@ public class FRLayout<V> implements Layout<V> {
 	
 	@Override
 	public Graph<Vertex<V>> render(Graph<V> sourceGraph, int maxCycles) {
+		return render(sourceGraph, maxCycles, (long) (Math.random() * Long.MAX_VALUE));
+	}
+	
+	@Override
+	public Graph<Vertex<V>> render(Graph<V> sourceGraph, int maxCycles, long seed) {
+		Random r = new Random(seed);
+		
 		// -- init -- //
 		Graph<Vertex<V>> graph = sourceGraph.getVertexGraph(Position.class, Disposition.class);
 		// -- random init positions -- //
 		for (Vertex<V> v : graph.getVertices())
-			v.get(Position.class).pos.set((float) Math.random() * width, (float) Math.random() * height);
+			v.get(Position.class).pos.set(r.nextFloat() * width, r.nextFloat() * height);
 		
 		calculateK(graph.getVertices().size());
 		

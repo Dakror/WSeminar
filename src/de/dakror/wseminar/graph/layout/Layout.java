@@ -10,4 +10,6 @@ public interface Layout<V> {
 	public Graph<Vertex<V>> render(Graph<V> sourceGraph);
 	
 	public Graph<Vertex<V>> render(Graph<V> sourceGraph, int maxCycles);
+	
+	public Graph<Vertex<V>> render(Graph<V> sourceGraph, int maxCycles, long seed);
 }

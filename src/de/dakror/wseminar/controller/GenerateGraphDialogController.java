@@ -119,6 +119,7 @@ public class GenerateGraphDialogController {
 				
 				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
 				WSeminar.instance.setSourceGraph(graph);
+				WSeminar.instance.setSeed(seed);
 				WSeminar.instance.setGraphSize((int) graph_size.getValue());
 				// new Thread() {
 				// @Override
@@ -127,7 +128,7 @@ public class GenerateGraphDialogController {
 				// Platform.runLater(new Runnable() {
 				// @Override
 				// public void run() {
-				WSeminar.instance.transitionTo(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue())));
+				WSeminar.instance.transitionTo(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()), seed));
 				// }
 				// });
 				// if (!WSeminar.window.isShowing()) return;
