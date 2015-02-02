@@ -55,9 +55,9 @@ public class WSeminar extends Application {
 	static HashMap<String, Image> imgCache = new HashMap<>();
 	
 	Graph<Integer> sourceGraph;
+	Graph<Vertex<Integer>> graph;
 	int graphSize;
 	long seed;
-	Graph<Vertex<Integer>> graph;
 	
 	int duration = 400;
 	

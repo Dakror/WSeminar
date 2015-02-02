@@ -62,17 +62,6 @@ public class GenerateGraphDialogController {
 	
 	@FXML
 	void initialize() {
-		assert graph_type != null : "fx:id=\"graph_type\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		assert cancelButton != null : "fx:id=\"cancelButton\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		assert graph_size != null : "fx:id=\"graph_size\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		assert graph_seed != null : "fx:id=\"graph_seed\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		assert okButton != null : "fx:id=\"okButton\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		assert okParent != null : "fx:id=\"okParent\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		assert messageLabel != null : "fx:id=\"messageLabel\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		assert logo != null : "fx:id=\"logo\" was not injected: check your FXML file 'generate_graph_dialog.fxml'.";
-		
-		// component logic
-		
 		graph_size.setLabelFormatter(new StringConverter<Double>() {
 			
 			String[] sizes = { "Klein", "Mittel", "Groß" };
@@ -118,29 +107,14 @@ public class GenerateGraphDialogController {
 				}
 				
 				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
+				
+				
+				
 				WSeminar.instance.setSourceGraph(graph);
 				WSeminar.instance.setSeed(seed);
 				WSeminar.instance.setGraphSize((int) graph_size.getValue());
-				// new Thread() {
-				// @Override
-				// public void run() {
-				// for (int i = 0; i < Const.defaultCycles; i += 20) {
-				// Platform.runLater(new Runnable() {
-				// @Override
-				// public void run() {
-				WSeminar.instance.transitionTo(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()), seed));
-				// }
-				// });
-				// if (!WSeminar.window.isShowing()) return;
-				//
-				// try {
-				// Thread.sleep((speed));
-				// } catch (InterruptedException e) {
-				// e.printStackTrace();
-				// }
-				// }
-				// }
-				// }.start();
+				
+				WSeminar.instance.setGraph(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()), seed), true);
 				
 				close.handle(null);
 			}

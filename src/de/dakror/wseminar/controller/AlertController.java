@@ -36,11 +36,6 @@ public class AlertController {
 	
 	@FXML
 	void initialize() {
-		assert logo != null : "fx:id=\"logo\" was not injected: check your FXML file 'alert.fxml'.";
-		assert details != null : "fx:id=\"details\" was not injected: check your FXML file 'alert.fxml'.";
-		assert okButton != null : "fx:id=\"okButton\" was not injected: check your FXML file 'alert.fxml'.";
-		assert message != null : "fx:id=\"message\" was not injected: check your FXML file 'alert.fxml'.";
-		
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

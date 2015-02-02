@@ -18,12 +18,16 @@
          <menus>
             <Menu fx:id="menu_graph" mnemonicParsing="false" text="Netz">
               <items>
+                  <MenuItem fx:id="new_graph" mnemonicParsing="false" text="Neues Netz...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
                 <MenuItem fx:id="relayout_graph" disable="true" mnemonicParsing="false" text="Neues Layout">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="L" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem fx:id="edit_seed" mnemonicParsing="false" text="Seed..." />
               </items>
             </Menu>
          </menus>
@@ -118,7 +122,7 @@
                         </Pane>
                         <Pane fx:id="graph" StackPane.alignment="CENTER_RIGHT">
                            <children>
-                              <Label fx:id="new_graph" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
+                              <Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
