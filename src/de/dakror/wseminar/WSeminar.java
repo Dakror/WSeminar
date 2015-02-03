@@ -28,7 +28,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -43,7 +42,8 @@ import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.WeightedEdge;
 import de.dakror.wseminar.graph.vertexdata.Delay;
-import de.dakror.wseminar.graph.vertexdata.Position;
+import de.dakror.wseminar.ui.VisualEdge;
+import de.dakror.wseminar.ui.VisualVertex;
 
 /**
  * @author Dakror
@@ -75,7 +75,7 @@ public class WSeminar extends Application {
 		primaryStage.show();
 		
 		Pane pane = (Pane) window.getScene().lookup("#graph");
-		pane.getParent().addEventHandler(ScrollEvent.ANY, new EventHandler<ScrollEvent>() {
+		pane.getParent().setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
 				if (graph != null) {
@@ -159,7 +159,7 @@ public class WSeminar extends Application {
 			Node node = pane.lookup("#V" + v.data());
 			Node text = pane.lookup("#VT" + v.data());
 			TranslateTransition tt = new TranslateTransition(Duration.millis(GenerateGraphDialogController.speed), node);
-			Circle newCircle = createGraphVertex("#node", v);
+			VisualVertex<Integer> newCircle = new VisualVertex<Integer>("#node", v);
 			
 			tt.setToX(newCircle.getTranslateX());
 			tt.setToY(newCircle.getTranslateY());
@@ -176,8 +176,8 @@ public class WSeminar extends Application {
 			Line node = (Line) pane.lookup("#E" + i);
 			Text text = (Text) pane.lookup("#ET" + i);
 			
-			Circle newFrom = createGraphVertex("#node", e.getFrom());
-			Circle newTo = createGraphVertex("#node", e.getTo());
+			VisualVertex<Integer> newFrom = new VisualVertex<Integer>("#node", e.getFrom());
+			VisualVertex<Integer> newTo = new VisualVertex<Integer>("#node", e.getTo());
 			//@off
 			Timeline tl = new Timeline(new KeyFrame(new Duration(GenerateGraphDialogController.speed), 
 			                                        new KeyValue(node.startXProperty(), newFrom.getTranslateX() + Const.cellSize / 2),
@@ -204,7 +204,7 @@ public class WSeminar extends Application {
 		pane.getChildren().clear();
 		
 		for (Vertex<Integer> v : graph.getVertices()) {
-			Circle circle = createGraphVertex("#node", v);
+			VisualVertex<Integer> circle = new VisualVertex<Integer>("#node", v);
 			circle.setId("V" + v.data());
 			
 			Label l = new Label(v.data() + "");
@@ -250,26 +250,16 @@ public class WSeminar extends Application {
 		addEdges(pane, graph, animate);
 	}
 	
-	void addEdges(Pane pane, Graph<Vertex<Integer>> graph, boolean animate) {
+	public void addEdges(Pane pane, Graph<Vertex<Integer>> graph, boolean animate) {
 		for (int i = 0; i < graph.getEdges().size(); i++) {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
-			Line edge = createEdge(e);
-			
-			edge.setId("E" + i);
-			// if (animate) edge.setOpacity(0);
+			VisualEdge<Integer> edge = new VisualEdge<>(e, i, pane);
 			
 			pane.getChildren().add(0, edge);
 			
 			FadeTransition ft = null;
 			if (e instanceof WeightedEdge) {
-				Text text = new Text(((WeightedEdge<Vertex<Integer>>) e).getWeight() + "");
-				// if (animate) text.setOpacity(0);
-				text.setId("ET" + i);
-				text.setTranslateX(0.5f * (edge.getStartX() + edge.getEndX()));
-				text.setTranslateY(0.5f * (edge.getStartY() + edge.getEndY()));
-				pane.getChildren().add(text);
-				
-				ft = new FadeTransition(Duration.millis(duration), text);
+				ft = new FadeTransition(Duration.millis(duration), edge.getText());
 				ft.setFromValue(0);
 				ft.setToValue(1);
 				ft.setInterpolator(Interpolator.EASE_OUT);
@@ -279,7 +269,6 @@ public class WSeminar extends Application {
 			ft2.setFromValue(0);
 			ft2.setToValue(1);
 			ft2.setInterpolator(Interpolator.EASE_OUT);
-			
 			
 			ScaleTransition st = new ScaleTransition(Duration.millis(duration), edge);
 			st.setFromX(0);
@@ -296,26 +285,7 @@ public class WSeminar extends Application {
 		}
 	}
 	
-	public static <V> Line createEdge(Edge<Vertex<V>> e) {
-		Line line = new Line(e.getFrom().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, e.getFrom().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2,
-													e.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, e.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
-		return line;
-	}
-	
-	public static <V> Circle createGraphVertex(String selector, Vertex<V> v) {
-		Circle template = (Circle) WSeminar.window.getScene().lookup(selector);
-		
-		Circle circle = new Circle(Const.cellSize / 2, Const.cellSize / 2, template.getRadius());
-		circle.setTranslateZ(2);
-		circle.setTranslateX(v.get(Position.class).pos.x * Const.cellSize);
-		circle.setTranslateY(v.get(Position.class).pos.y * Const.cellSize);
-		circle.setFill(template.getFill());
-		circle.setStroke(template.getStroke());
-		circle.setStrokeType(template.getStrokeType());
-		circle.setEffect(template.getEffect());
-		
-		return circle;
-	}
+	// -- statics -- //
 	
 	public static Scene createScene(String resource) {
 		try {
