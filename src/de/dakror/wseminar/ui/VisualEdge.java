@@ -35,7 +35,7 @@ public class VisualEdge<V> extends Line {
 		setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				setColor(Color.BLACK);
+				setColor(Color.valueOf("#519cf8"));
 			}
 		});
 		setOnMouseExited(new EventHandler<MouseEvent>() {
