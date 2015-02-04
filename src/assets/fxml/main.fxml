@@ -39,104 +39,18 @@
           <AnchorPane />
           <AnchorPane>
                <children>
-                  <StackPane prefHeight="373.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Pane fx:id="graph">
                      <children>
-                        <Pane fx:id="templates" visible="false">
-                           <children>
-                              <Circle fx:id="node_track" layoutX="26.0" layoutY="124.0" radius="12.0" stroke="BLACK" strokeType="INSIDE">
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                                 <fill>
-                                    <RadialGradient centerX="0.48888888888888893" centerY="0.5" focusAngle="33.69" radius="0.75">
-                                       <stops>
-                                          <Stop color="WHITE" />
-                                          <Stop color="WHITE" offset="0.007662835249042145" />
-                                          <Stop color="#c93333" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                              </Circle>
-                              <Circle fx:id="node_new" layoutX="26.0" layoutY="156.0" radius="12.0" stroke="BLACK" strokeType="INSIDE">
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                                 <fill>
-                                    <RadialGradient centerX="0.48888888888888893" centerY="0.5" focusAngle="33.69" radius="0.75">
-                                       <stops>
-                                          <Stop color="WHITE" />
-                                          <Stop color="WHITE" offset="0.007662835249042145" />
-                                          <Stop color="#3456c7" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                              </Circle>
-                              <Circle fx:id="node" layoutX="26.0" layoutY="26.0" radius="12.0" stroke="BLACK" strokeType="INSIDE">
-                                 <fill>
-                                    <RadialGradient centerX="0.48888888888888893" centerY="0.5" focusAngle="33.69" radius="0.75">
-                                       <stops>
-                                          <Stop color="WHITE" />
-                                          <Stop color="WHITE" offset="0.007662835249042145" />
-                                          <Stop color="#696969" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                              </Circle>
-                              <Circle fx:id="node_disabled" fill="#868686" layoutX="26.0" layoutY="58.0" radius="12.0" stroke="BLACK" strokeType="INSIDE">
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                              </Circle>
-                              <Circle fx:id="node_start" layoutX="26.0" layoutY="91.0" radius="12.0" stroke="BLACK" strokeType="INSIDE">
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                                 <fill>
-                                    <RadialGradient centerX="0.48888888888888893" centerY="0.5" focusAngle="33.69" radius="0.5">
-                                       <stops>
-                                          <Stop color="WHITE" />
-                                          <Stop color="WHITE" offset="0.007662835249042145" />
-                                          <Stop color="#00b200" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                              </Circle>
-                              <Circle fx:id="node_finish" layoutX="26.0" layoutY="187.0" radius="12.0" stroke="BLACK" strokeType="INSIDE">
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                                 <fill>
-                                    <RadialGradient centerX="0.48888888888888893" centerY="0.5" focusAngle="33.69" radius="0.75">
-                                       <stops>
-                                          <Stop color="WHITE" />
-                                          <Stop color="WHITE" offset="0.007662835249042145" />
-                                          <Stop color="#ebc71e" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                              </Circle>
-                           </children>
-                        </Pane>
-                        <Pane fx:id="graph" StackPane.alignment="CENTER_RIGHT">
-                           <children>
-                              <Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Label>
-                           </children>
-                           <StackPane.margin>
-                              <Insets right="8.0" />
-                           </StackPane.margin>
-                        </Pane>
+                        <Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
                      </children>
-                  </StackPane>
+                  </Pane>
                </children>
             </AnchorPane>
         </items>

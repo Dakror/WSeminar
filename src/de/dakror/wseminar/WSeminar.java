@@ -100,8 +100,6 @@ public class WSeminar extends Application {
 						float deltaY = (float) (event.getY() - lastY);
 						pane.setTranslateX(pane.getTranslateX() + deltaX);
 						pane.setTranslateY(pane.getTranslateY() + deltaY);
-						
-						event.consume();
 					}
 					
 					lastX = (float) event.getX();
@@ -233,9 +231,11 @@ public class WSeminar extends Application {
 			st.setToY(1);
 			st.setInterpolator(Const.overlyEaseIn);
 			
-			ParallelTransition pt = new ParallelTransition(circle, ft, ft2, st);
-			pane.getChildren().add(circle);
+			l.setDisable(true);
 			
+			ParallelTransition pt = new ParallelTransition(circle, ft, ft2, st);
+			
+			pane.getChildren().add(circle);
 			pane.getChildren().add(l);
 			float delay = (float) (Math.random() * 400);
 			
