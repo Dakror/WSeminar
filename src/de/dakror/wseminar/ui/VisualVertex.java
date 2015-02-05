@@ -40,10 +40,16 @@ public class VisualVertex<V> extends Circle {
 	public void setActive(boolean active) {
 		if (active) {
 			getStyleClass().add("active");
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setColor(Color.valueOf("#519cf8")));
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> {
+				((VisualEdge<V>) n).setColor(VisualEdge.ACTIVE);
+				((VisualEdge<V>) n).setActive(true);
+			});
 		} else {
 			getStyleClass().remove("active");
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setColor(Color.DARKGRAY));
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> {
+				((VisualEdge<V>) n).setColor(Color.DARKGRAY);
+				((VisualEdge<V>) n).setActive(false);
+			});
 		}
 	}
 }
