@@ -13,6 +13,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Text;
 import de.dakror.wseminar.Const;
+import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.WeightedEdge;
@@ -23,17 +24,17 @@ import de.dakror.wseminar.math.Vector2;
  * @author Maximilian Stark | Dakror
  */
 public class VisualEdge<V> extends Line {
-	public static Color ACTIVE = Color.valueOf("#2279e5");
-	
 	Color color;
 	Text text;
 	Edge<Vertex<V>> edge;
-	boolean active = false;
+	State state;
 	
 	public VisualEdge(Edge<Vertex<V>> edge, int id, Pane pane) {
 		super(edge.getFrom().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getFrom().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
 		this.edge = edge;
 		setId("E" + id);
+		
+		state = State.DEFAULT;
 		
 		setColor(Color.DARKGRAY);
 		
@@ -46,7 +47,7 @@ public class VisualEdge<V> extends Line {
 		setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				setColor(active ? ACTIVE : Color.DARKGRAY);
+				setColor(state.getColor() != null ? state.getColor() : Color.DARKGRAY);
 			}
 		});
 		
@@ -71,7 +72,7 @@ public class VisualEdge<V> extends Line {
 		endYProperty().addListener(cl);
 	}
 	
-	public void setColor(Color color) {
+	void setColor(Color color) {
 		this.color = color;
 		Vector2 middle = new Vector2((float) (getEndX() + getStartX()), (float) (getEndY() + getStartY())).scl(0.5f);
 		Vector2 vec = new Vector2((float) (getEndX() - getStartX()), (float) (getEndY() - getStartY()));
@@ -92,15 +93,17 @@ public class VisualEdge<V> extends Line {
 		setStroke(new LinearGradient(a.x, a.y, b.x, b.y, false, CycleMethod.NO_CYCLE, new Stop(0, Color.TRANSPARENT), new Stop(0.5, color), new Stop(1, Color.TRANSPARENT)));
 	}
 	
-	public void setActive(boolean active) {
-		this.active = active;
+	public void setState(State state) {
+		this.state = state;
+		if (state.getColor() != null) setColor(state.getColor());
+		else setColor(Color.DARKGRAY);
+	}
+	
+	public State getState() {
+		return state;
 	}
 	
 	public Text getText() {
 		return text;
-	}
-	
-	public Color getColor() {
-		return color;
 	}
 }

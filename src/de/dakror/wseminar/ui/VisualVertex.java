@@ -2,9 +2,9 @@ package de.dakror.wseminar.ui;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import de.dakror.wseminar.Const;
+import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.vertexdata.Position;
@@ -40,16 +40,10 @@ public class VisualVertex<V> extends Circle {
 	public void setActive(boolean active) {
 		if (active) {
 			getStyleClass().add("active");
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> {
-				((VisualEdge<V>) n).setColor(VisualEdge.ACTIVE);
-				((VisualEdge<V>) n).setActive(true);
-			});
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setState(State.ACTIVE));
 		} else {
 			getStyleClass().remove("active");
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> {
-				((VisualEdge<V>) n).setColor(Color.DARKGRAY);
-				((VisualEdge<V>) n).setActive(false);
-			});
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setState(State.DEFAULT));
 		}
 	}
 }

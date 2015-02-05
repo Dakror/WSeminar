@@ -1,6 +1,7 @@
 package de.dakror.wseminar;
 
 import javafx.animation.Interpolator;
+import javafx.scene.paint.Color;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -24,4 +25,24 @@ public class Const {
 	
 	// -- graph visualization -- //
 	public static int defaultCycles = 300;
+	
+	// -- edge colors -- //
+	public static enum State {
+		DEFAULT,
+		ACTIVE(Color.valueOf("#2279e5")),
+		
+		;
+		
+		private Color color;
+		
+		private State() {}
+		
+		private State(Color color) {
+			this.color = color;
+		}
+		
+		public Color getColor() {
+			return color;
+		}
+	}
 }
