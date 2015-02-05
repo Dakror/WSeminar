@@ -102,10 +102,7 @@ public class MainController {
 		menu_graph.getItems().get(1).setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (WSeminar.instance.getSourceGraph() != null)
-					WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getGraphSize()).render(WSeminar.instance.getSourceGraph(),
-																																																				Const.defaultCycles * WSeminar.instance.getGraphSize(),
-																																																				WSeminar.instance.getSeed()));
+				if (WSeminar.instance.getSourceGraph() != null) WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getGraphSize()).render(WSeminar.instance.getSourceGraph(), Const.defaultCycles * WSeminar.instance.getGraphSize()));
 			}
 		});
 	}

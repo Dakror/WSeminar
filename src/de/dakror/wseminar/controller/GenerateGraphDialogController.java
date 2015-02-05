@@ -108,8 +108,6 @@ public class GenerateGraphDialogController {
 				
 				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
 				
-				
-				
 				WSeminar.instance.setSourceGraph(graph);
 				WSeminar.instance.setSeed(seed);
 				WSeminar.instance.setGraphSize((int) graph_size.getValue());
