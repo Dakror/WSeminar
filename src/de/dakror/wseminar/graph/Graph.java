@@ -24,6 +24,9 @@ public interface Graph<V> {
 	
 	public boolean areConnected(V from, V to);
 	
+	@SuppressWarnings("hiding")
+	public <V> boolean isConnected(V v, Edge<V> edge);
+	
 	public Edge<V> getEdge(V from, V to);
 	
 	public float getWeight(V from, V to);

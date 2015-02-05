@@ -25,10 +25,11 @@ import de.dakror.wseminar.math.Vector2;
 public class VisualEdge<V> extends Line {
 	Color color;
 	Text text;
+	Edge<Vertex<V>> edge;
 	
 	public VisualEdge(Edge<Vertex<V>> edge, int id, Pane pane) {
 		super(edge.getFrom().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getFrom().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
-		
+		this.edge = edge;
 		setId("E" + id);
 		
 		setColor(Color.DARKGRAY);

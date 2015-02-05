@@ -16,6 +16,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,6 +24,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -57,6 +59,8 @@ public class WSeminar extends Application {
 	int graphSize;
 	long seed;
 	
+	public VisualVertex<Integer> activeVertex;
+	
 	int duration = 400;
 	
 	@Override
@@ -86,29 +90,29 @@ public class WSeminar extends Application {
 				}
 			}
 		});
-		// pane.getParent().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-		// float lastX = -1, lastY = -1;
-		//
-		// @Override
-		// public void handle(MouseEvent event) {
-		// if (event.isPrimaryButtonDown() && graph != null) {
-		// window.getScene().setCursor(Cursor.MOVE);
-		// if (lastX != -1) {
-		// float deltaX = (float) (event.getX() - lastX);
-		// float deltaY = (float) (event.getY() - lastY);
-		// pane.setTranslateX(pane.getTranslateX() + deltaX);
-		// pane.setTranslateY(pane.getTranslateY() + deltaY);
-		// }
-		//
-		// lastX = (float) event.getX();
-		// lastY = (float) event.getY();
-		// } else {
-		// lastX = -1;
-		// lastY = -1;
-		// window.getScene().setCursor(Cursor.DEFAULT);
-		// }
-		// }
-		// });
+		pane.getParent().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+			float lastX = -1, lastY = -1;
+			
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && graph != null) {
+					window.getScene().setCursor(Cursor.MOVE);
+					if (lastX != -1) {
+						float deltaX = (float) (event.getX() - lastX);
+						float deltaY = (float) (event.getY() - lastY);
+						pane.setTranslateX(pane.getTranslateX() + deltaX);
+						pane.setTranslateY(pane.getTranslateY() + deltaY);
+					}
+					
+					lastX = (float) event.getX();
+					lastY = (float) event.getY();
+				} else {
+					lastX = -1;
+					lastY = -1;
+					window.getScene().setCursor(Cursor.DEFAULT);
+				}
+			}
+		});
 	}
 	
 	public void setSeed(long seed) {
