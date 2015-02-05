@@ -95,7 +95,7 @@ public class WSeminar extends Application {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				if (event.isPrimaryButtonDown() && graph != null) {
+				if (event.isSecondaryButtonDown() && graph != null) {
 					window.getScene().setCursor(Cursor.MOVE);
 					if (lastX != -1) {
 						float deltaX = (float) (event.getX() - lastX);
