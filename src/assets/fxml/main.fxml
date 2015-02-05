@@ -34,12 +34,33 @@
       </MenuBar>
    </top>
    <center>
-      <SplitPane dividerPositions="0.20050125313283207" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.0" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane />
-          <AnchorPane>
+          <AnchorPane minWidth="200.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
                <children>
-                  <Pane fx:id="graph" maxWidth="1" maxHeight="1">
+                  <Accordion layoutX="2.0" minWidth="200.0" prefHeight="748.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <panes>
+                      <TitledPane animated="false" text="untitled 1">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="untitled 2">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="untitled 3">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+               </children></AnchorPane>
+          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+               <children>
+                  <Pane fx:id="graph" maxHeight="1" maxWidth="1">
                      <children>
                         <Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
                            <font>

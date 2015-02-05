@@ -107,6 +107,12 @@ public class WSeminar extends Application {
 					lastX = (float) event.getX();
 					lastY = (float) event.getY();
 				} else {
+					if (event.isPrimaryButtonDown() && activeVertex != null) {
+						if (!activeVertex.contains(event.getX(), event.getY())) {
+							activeVertex.setActive(false);
+							activeVertex = null;
+						}
+					}
 					lastX = -1;
 					lastY = -1;
 					window.getScene().setCursor(Cursor.DEFAULT);
