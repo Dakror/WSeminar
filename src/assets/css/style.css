@@ -33,3 +33,11 @@
 .split-pane > .split-pane-divider {  
     -fx-padding: 0 0 0 2px;  
 } 
+
+.tree-view * , .list-view {
+    -fx-border-color: null;
+    -fx-border-width: 0;
+    -fx-background-color: derive(rgb(147, 147, 147), 98%);
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}

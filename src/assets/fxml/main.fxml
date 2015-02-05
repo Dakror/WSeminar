@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.media.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -38,25 +39,20 @@
         <items>
           <AnchorPane minWidth="200.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
                <children>
-                  <Accordion layoutX="2.0" minWidth="200.0" prefHeight="748.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <panes>
-                      <TitledPane animated="false" text="untitled 1">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                      <TitledPane animated="false" text="untitled 2">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                      <TitledPane animated="false" text="untitled 3">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                    </panes>
-                  </Accordion>
+                  <TabPane prefHeight="748.0" prefWidth="200.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                        <Tab text="Netz">
+                           <content>
+                              <ListView fx:id="graph_list" prefHeight="200.0" prefWidth="200.0" />
+                           </content>
+                        </Tab>
+                      <Tab text="Wege">
+                           <content>
+                              <TreeView fx:id="paths_tree" prefHeight="200.0" prefWidth="200.0" />
+                           </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
                </children></AnchorPane>
           <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                <children>

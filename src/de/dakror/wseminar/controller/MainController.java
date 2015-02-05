@@ -9,12 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.layout.FRLayout;
@@ -31,25 +32,13 @@ public class MainController {
 	private URL location;
 	
 	@FXML
-	private Circle node;
+	private Menu menu_graph;
 	
 	@FXML
-	private Circle node_new;
+	private MenuItem relayout_graph;
 	
 	@FXML
-	private Pane templates;
-	
-	@FXML
-	private Circle node_track;
-	
-	@FXML
-	private Circle node_disabled;
-	
-	@FXML
-	private Circle node_finish;
-	
-	@FXML
-	private Circle node_start;
+	private Slider zoom;
 	
 	@FXML
 	private Pane graph;
@@ -58,16 +47,13 @@ public class MainController {
 	private Label new_graph_label;
 	
 	@FXML
-	private Slider zoom;
-	
-	@FXML
-	private MenuItem relayout_graph;
-	
-	@FXML
 	private MenuItem new_graph;
 	
 	@FXML
-	private Menu menu_graph;
+	private ListView<?> graph_list;
+	
+	@FXML
+	private TreeView<?> paths_tree;
 	
 	@FXML
 	void initialize() {
@@ -102,7 +88,9 @@ public class MainController {
 		menu_graph.getItems().get(1).setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (WSeminar.instance.getSourceGraph() != null) WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getGraphSize()).render(WSeminar.instance.getSourceGraph(), Const.defaultCycles * WSeminar.instance.getGraphSize()));
+				if (WSeminar.instance.getSourceGraph() != null)
+					WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getGraphSize()).render(WSeminar.instance.getSourceGraph(),
+																																																				Const.defaultCycles * WSeminar.instance.getGraphSize()));
 			}
 		});
 	}
