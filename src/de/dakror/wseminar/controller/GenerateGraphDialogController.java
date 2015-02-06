@@ -9,9 +9,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -27,7 +29,6 @@ import de.dakror.wseminar.graph.layout.FRLayout;
  * @author Dakror
  */
 public class GenerateGraphDialogController {
-	
 	@FXML
 	private ResourceBundle resources;
 	
@@ -41,7 +42,7 @@ public class GenerateGraphDialogController {
 	private Button cancelButton;
 	
 	@FXML
-	private ImageView logo;
+	private TitledPane advanced;
 	
 	@FXML
 	private Slider graph_size;
@@ -50,10 +51,22 @@ public class GenerateGraphDialogController {
 	private TextField graph_seed;
 	
 	@FXML
+	private ImageView logo;
+	
+	@FXML
+	private Slider edge_count;
+	
+	@FXML
 	private Button okButton;
 	
 	@FXML
+	private Slider node_count;
+	
+	@FXML
 	private HBox okParent;
+	
+	@FXML
+	private ComboBox<String> weights;
 	
 	@FXML
 	private Label messageLabel;
@@ -77,45 +90,42 @@ public class GenerateGraphDialogController {
 			}
 		});
 		
+		// weights.valueProperty().addListener((obs, newVal, oldVal) -> {
+		// if (weights.getItems().size() == 1) weights.getItems().clear();
+		// weights.getItems().add(newVal);
+		// });
+		
 		logo.setImage(WSeminar.getImage("new_graph-50.png"));
 		
 		graph_type.getItems().addAll(GraphType.values());
 		graph_type.setValue(GraphType.ABSTRACT_GRAPH);
 		
-		EventHandler<ActionEvent> close = new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				((Stage) cancelButton.getScene().getWindow()).close();
-			}
-		};
+		EventHandler<ActionEvent> close = e -> ((Stage) cancelButton.getScene().getWindow()).close();
 		
 		cancelButton.setOnAction(close);
 		
-		okButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				long seed = 0;
-				
-				try {
-					if (graph_seed.getText().length() == 0) {
-						seed = (long) (Math.random() * Long.MAX_VALUE);
-					} else {
-						seed = Long.decode(graph_seed.getText());
-					}
-				} catch (Exception e) {
-					seed = graph_seed.getText().hashCode();
+		okButton.setOnAction(e -> {
+			long seed = 0;
+			
+			try {
+				if (graph_seed.getText().length() == 0) {
+					seed = (long) (Math.random() * Long.MAX_VALUE);
+				} else {
+					seed = Long.decode(graph_seed.getText());
 				}
-				
-				Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
-				
-				WSeminar.instance.setSourceGraph(graph);
-				WSeminar.instance.setSeed(seed);
-				WSeminar.instance.setGraphSize((int) graph_size.getValue());
-				
-				WSeminar.instance.setGraph(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()), seed), true);
-				
-				close.handle(null);
+			} catch (Exception e1) {
+				seed = graph_seed.getText().hashCode();
 			}
+			
+			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
+			
+			WSeminar.instance.setSourceGraph(graph);
+			WSeminar.instance.setSeed(seed);
+			WSeminar.instance.setGraphSize((int) graph_size.getValue());
+			
+			WSeminar.instance.setGraph(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()), seed), true);
+			
+			close.handle(null);
 		});
 	}
 }

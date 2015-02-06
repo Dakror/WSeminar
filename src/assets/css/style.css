@@ -41,3 +41,7 @@
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
+
+.titled-pane.text-like > .title {
+	-fx-background-color: null;
+}

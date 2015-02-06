@@ -1,7 +1,6 @@
 package de.dakror.wseminar;
 
 import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashMap;
 
 import javafx.animation.FadeTransition;
@@ -25,7 +24,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -77,48 +75,47 @@ public class WSeminar extends Application {
 		primaryStage.show();
 		
 		Pane pane = (Pane) window.getScene().lookup("#graph");
-		pane.getParent().setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
+		if (pane != null) {
+			pane.getParent().setOnScroll(e -> {
 				if (graph != null) {
-					pane.setScaleX(Math.max(0.1f, Math.min(2, pane.getScaleX() + event.getDeltaY() * 0.001f)));
-					pane.setScaleY(Math.max(0.1f, Math.min(2, pane.getScaleY() + event.getDeltaY() * 0.001f)));
+					pane.setScaleX(Math.max(0.1f, Math.min(2, pane.getScaleX() + e.getDeltaY() * 0.001f)));
+					pane.setScaleY(Math.max(0.1f, Math.min(2, pane.getScaleY() + e.getDeltaY() * 0.001f)));
 					
 					((Slider) WSeminar.window.getScene().lookup("#zoom")).setValue(100 * pane.getScaleX());
 					
-					event.consume();
+					e.consume();
 				}
-			}
-		});
-		pane.getParent().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-			float lastX = -1, lastY = -1;
-			
-			@Override
-			public void handle(MouseEvent event) {
-				if (event.isSecondaryButtonDown() && graph != null) {
-					window.getScene().setCursor(Cursor.MOVE);
-					if (lastX != -1) {
-						float deltaX = (float) (event.getX() - lastX);
-						float deltaY = (float) (event.getY() - lastY);
-						pane.setTranslateX(pane.getTranslateX() + deltaX);
-						pane.setTranslateY(pane.getTranslateY() + deltaY);
-					}
-					
-					lastX = (float) event.getX();
-					lastY = (float) event.getY();
-				} else {
-					if (event.isPrimaryButtonDown() && activeVertex != null) {
-						if (!activeVertex.contains(event.getX(), event.getY())) {
-							activeVertex.setActive(false);
-							activeVertex = null;
+			});
+			pane.getParent().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
+				float lastX = -1, lastY = -1;
+				
+				@Override
+				public void handle(MouseEvent event) {
+					if (event.isSecondaryButtonDown() && graph != null) {
+						window.getScene().setCursor(Cursor.MOVE);
+						if (lastX != -1) {
+							float deltaX = (float) (event.getX() - lastX);
+							float deltaY = (float) (event.getY() - lastY);
+							pane.setTranslateX(pane.getTranslateX() + deltaX);
+							pane.setTranslateY(pane.getTranslateY() + deltaY);
 						}
+						
+						lastX = (float) event.getX();
+						lastY = (float) event.getY();
+					} else {
+						if (event.isPrimaryButtonDown() && activeVertex != null) {
+							if (!activeVertex.contains(event.getX(), event.getY())) {
+								activeVertex.setActive(false);
+								activeVertex = null;
+							}
+						}
+						lastX = -1;
+						lastY = -1;
+						window.getScene().setCursor(Cursor.DEFAULT);
 					}
-					lastX = -1;
-					lastY = -1;
-					window.getScene().setCursor(Cursor.DEFAULT);
 				}
-			}
-		});
+			});
+		}
 	}
 	
 	public void setSeed(long seed) {
@@ -343,15 +340,12 @@ public class WSeminar extends Application {
 	}
 	
 	public static void main(String[] args) {
-		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-			@Override
-			public void uncaughtException(Thread t, Throwable e) {
-				e.printStackTrace();
-				
-				Stage stage = createDialog("alert", "Fehler!", window);
-				((Label) stage.getScene().lookup("#message")).setText(e.getClass().getSimpleName());
-				((Label) stage.getScene().lookup("#details")).setText(e.getLocalizedMessage());
-			}
+		Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+			e.printStackTrace();
+			
+			Stage stage = createDialog("alert", "Fehler!", window);
+			((Label) stage.getScene().lookup("#message")).setText(e.getClass().getSimpleName());
+			((Label) stage.getScene().lookup("#details")).setText(e.getLocalizedMessage());
 		});
 		
 		launch(args);

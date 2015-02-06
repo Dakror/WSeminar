@@ -3,8 +3,6 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,11 +34,6 @@ public class AlertController {
 	
 	@FXML
 	void initialize() {
-		okButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				((Stage) okButton.getScene().getWindow()).close();
-			}
-		});
+		okButton.setOnAction(e -> ((Stage) okButton.getScene().getWindow()).close());
 	}
 }

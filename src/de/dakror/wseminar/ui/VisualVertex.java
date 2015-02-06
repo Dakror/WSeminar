@@ -1,7 +1,5 @@
 package de.dakror.wseminar.ui;
 
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.Const.State;
@@ -15,6 +13,7 @@ import de.dakror.wseminar.graph.vertexdata.Position;
 public class VisualVertex<V> extends Circle {
 	Vertex<V> vertex;
 	
+	@SuppressWarnings("unchecked")
 	public VisualVertex(String selector, Vertex<V> v) {
 		vertex = v;
 		setCenterX(Const.cellSize / 2);
@@ -24,15 +23,11 @@ public class VisualVertex<V> extends Circle {
 		setTranslateY(v.get(Position.class).pos.y * Const.cellSize);
 		getStyleClass().add("visual-vertex");
 		
-		setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void handle(MouseEvent e) {
-				if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
-				
-				setActive(true);
-				WSeminar.instance.activeVertex = (VisualVertex<Integer>) VisualVertex.this;
-			}
+		setOnMouseClicked(e -> {
+			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
+			
+			setActive(true);
+			WSeminar.instance.activeVertex = (VisualVertex<Integer>) VisualVertex.this;
 		});
 	}
 	

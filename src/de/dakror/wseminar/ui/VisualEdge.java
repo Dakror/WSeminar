@@ -1,9 +1,6 @@
 package de.dakror.wseminar.ui;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -30,7 +27,8 @@ public class VisualEdge<V> extends Line {
 	State state;
 	
 	public VisualEdge(Edge<Vertex<V>> edge, int id, Pane pane) {
-		super(edge.getFrom().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getFrom().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
+		super(edge.getFrom().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getFrom().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2,
+					edge.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
 		this.edge = edge;
 		setId("E" + id);
 		
@@ -38,18 +36,8 @@ public class VisualEdge<V> extends Line {
 		
 		setColor(Color.DARKGRAY);
 		
-		setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				setColor(Color.valueOf("#a7ceff"));
-			}
-		});
-		setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				setColor(state.getColor() != null ? state.getColor() : Color.DARKGRAY);
-			}
-		});
+		setOnMouseEntered(e -> setColor(Color.valueOf("#a7ceff")));
+		setOnMouseExited(e -> setColor(state.getColor() != null ? state.getColor() : Color.DARKGRAY));
 		
 		if (edge instanceof WeightedEdge) {
 			text = new Text(((WeightedEdge<Vertex<V>>) edge).getWeight() + "");
@@ -59,12 +47,7 @@ public class VisualEdge<V> extends Line {
 			pane.getChildren().add(text);
 		}
 		
-		ChangeListener<Number> cl = new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-				setColor(color);
-			}
-		};
+		ChangeListener<Number> cl = (obs, newVal, oldVal) -> setColor(color);
 		
 		startXProperty().addListener(cl);
 		startYProperty().addListener(cl);
