@@ -21,7 +21,7 @@ public class GraphGenerator<V> {
 	 * @return the generated graph
 	 */
 	@SuppressWarnings("unchecked")
-	public Graph<V> generateGraph(GraphType type, int size, long seed) {
+	public Graph<V> generateGraph(GraphType type, int size, long seed, String[] weights) {
 		Graph<V> graph = null;
 		
 		Random random = new Random(seed);

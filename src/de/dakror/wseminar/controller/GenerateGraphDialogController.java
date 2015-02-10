@@ -9,8 +9,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -66,13 +66,16 @@ public class GenerateGraphDialogController {
 	private HBox okParent;
 	
 	@FXML
-	private ComboBox<String> weights;
+	private Button edit_weights;
 	
 	@FXML
 	private Label messageLabel;
 	
 	public static final int speed = 400;
 	
+	String[] weights = { "Standardgewicht" };
+	
+	@SuppressWarnings("unchecked")
 	@FXML
 	void initialize() {
 		graph_size.setLabelFormatter(new StringConverter<Double>() {
@@ -90,11 +93,6 @@ public class GenerateGraphDialogController {
 			}
 		});
 		
-		// weights.valueProperty().addListener((obs, newVal, oldVal) -> {
-		// if (weights.getItems().size() == 1) weights.getItems().clear();
-		// weights.getItems().add(newVal);
-		// });
-		
 		logo.setImage(WSeminar.getImage("new_graph-50.png"));
 		
 		graph_type.getItems().addAll(GraphType.values());
@@ -103,6 +101,15 @@ public class GenerateGraphDialogController {
 		EventHandler<ActionEvent> close = e -> ((Stage) cancelButton.getScene().getWindow()).close();
 		
 		cancelButton.setOnAction(close);
+		
+		edit_weights.setOnAction(e -> {
+			Stage stage = WSeminar.createDialog("edit_weights_dialog", "Kantengewichte bearbeiten", WSeminar.window);
+			((ListView<String>) stage.getScene().lookup("#list")).getItems().addAll(weights);
+			
+			// ((Button) stage.getScene().lookup("#okButton")).setOnAction(ev -> {
+			// weights = ((ListView<?>) stage.getScene().lookup("#list")).getItems().toArray(new String[] {});
+			// });
+		});
 		
 		okButton.setOnAction(e -> {
 			long seed = 0;
@@ -117,7 +124,7 @@ public class GenerateGraphDialogController {
 				seed = graph_seed.getText().hashCode();
 			}
 			
-			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed);
+			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed, weights);
 			
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setSeed(seed);

@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane hgap="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="323.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.GenerateGraphDialogController">
+<GridPane hgap="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.GenerateGraphDialogController">
   <children>
     <ImageView fx:id="logo" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
     </ImageView>
@@ -56,11 +56,11 @@
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </padding>
             </GridPane>
-            <TitledPane fx:id="advanced" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="text-like" text="Erweitert" VBox.vgrow="NEVER">
+            <TitledPane fx:id="advanced" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="text-like" text="Erweitert" VBox.vgrow="NEVER">
                <content>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="100.0" prefWidth="292.0">
                      <content>
-                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="property-sheet" VBox.vgrow="NEVER">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="98.0" prefWidth="274.0" styleClass="property-sheet" VBox.vgrow="NEVER">
               <columnConstraints>
                 <ColumnConstraints hgrow="NEVER" maxWidth="157.0" minWidth="10.0" prefWidth="137.0" />
                 <ColumnConstraints hgrow="ALWAYS" maxWidth="196.0" minWidth="10.0" prefWidth="188.0" />
@@ -81,7 +81,7 @@
                      </tooltip>
                   </Slider>
                   <Label text="Knoten" />
-                              <Slider fx:id="node_count" blockIncrement="1.0" majorTickUnit="20.0" minorTickCount="1" prefHeight="34.0" prefWidth="179.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="20.0" GridPane.columnIndex="1">
+                              <Slider fx:id="node_count" blockIncrement="1.0" majorTickUnit="20.0" prefHeight="34.0" prefWidth="179.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="20.0" GridPane.columnIndex="1">
                                  <padding>
                                     <Insets top="7.0" />
                                  </padding>
@@ -90,7 +90,7 @@
                                  </tooltip>
                               </Slider>
                               <Label text="Kantengewichte" GridPane.rowIndex="2" />
-                              <ComboBox fx:id="weights" editable="true" prefHeight="25.0" prefWidth="251.0" promptText="Gewicht hinzufügen" styleClass="choice-box" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button fx:id="edit_weights" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="bearbeiten..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <VBox.margin>
                   <Insets />
