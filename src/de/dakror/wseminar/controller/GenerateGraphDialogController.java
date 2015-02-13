@@ -104,11 +104,13 @@ public class GenerateGraphDialogController {
 		
 		edit_weights.setOnAction(e -> {
 			Stage stage = WSeminar.createDialog("edit_weights_dialog", "Kantengewichte bearbeiten", WSeminar.window);
+			stage.setAlwaysOnTop(true);
 			((ListView<String>) stage.getScene().lookup("#list")).getItems().addAll(weights);
 			
-			// ((Button) stage.getScene().lookup("#okButton")).setOnAction(ev -> {
-			// weights = ((ListView<?>) stage.getScene().lookup("#list")).getItems().toArray(new String[] {});
-			// });
+			((Button) stage.getScene().lookup("#okButton")).setOnAction(ev -> {
+				weights = ((ListView<?>) stage.getScene().lookup("#list")).getItems().toArray(new String[] {});
+				((Stage) ((Button) stage.getScene().lookup("#okButton")).getScene().getWindow()).close();
+			});
 		});
 		
 		okButton.setOnAction(e -> {
