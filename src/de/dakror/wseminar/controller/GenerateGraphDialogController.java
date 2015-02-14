@@ -23,6 +23,7 @@ import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
+import de.dakror.wseminar.graph.generate.GraphGenerator.Params;
 import de.dakror.wseminar.graph.layout.FRLayout;
 
 /**
@@ -126,7 +127,11 @@ public class GenerateGraphDialogController {
 				seed = graph_seed.getText().hashCode();
 			}
 			
-			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(graph_type.getValue(), (int) graph_size.getValue(), seed, weights);
+			Params params = new Params().put("type", graph_type.getValue()).put("size", (int) graph_size.getValue()).put("seed", seed).put("weights", weights);
+			if (node_count.getValue() != Const.nodeAmount) params.put("nodes", (int) node_count.getValue());
+			if (edge_count.getValue() != Const.edgeAmount) params.put("edges", (int) edge_count.getValue());
+			
+			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(params);
 			
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setSeed(seed);

@@ -68,7 +68,8 @@ public class DefaultGraph<V> implements Graph<V> {
 	
 	@Override
 	public Edge<V> getEdge(V from, V to) {
-		return edges.stream().filter(e -> e.isDirected() ? e.getFrom().equals(from) && e.getTo().equals(to) : (e.getFrom().equals(from) || e.getFrom().equals(to)) && (e.getTo().equals(from) || e.getTo().equals(to))).findFirst().orElse(null);
+		return edges.stream().filter(	e -> e.isDirected() ? e.getFrom().equals(from) && e.getTo().equals(to) : (e.getFrom().equals(from) || e.getFrom().equals(to))
+																			&& (e.getTo().equals(from) || e.getTo().equals(to))).findFirst().orElse(null);
 	}
 	
 	@Override
@@ -89,7 +90,8 @@ public class DefaultGraph<V> implements Graph<V> {
 			Vertex<V> from = graph.getVertices().get(vertices.indexOf(edge.getFrom()));
 			Vertex<V> to = graph.getVertices().get(vertices.indexOf(edge.getTo()));
 			
-			graph.addEdge(edge instanceof WeightedEdge ? new WeightedEdge<Vertex<V>>(from, to, ((WeightedEdge<V>) edge).getWeight()) : new Edge<Vertex<V>>(from, to));
+			graph.addEdge(edge instanceof WeightedEdge ? new WeightedEdge<Vertex<V>>(from, to, ((WeightedEdge<V>) edge).getWeight(), ((WeightedEdge<V>) edge).getType())
+					: new Edge<Vertex<V>>(from, to));
 		}
 		return graph;
 	}
