@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import de.dakror.wseminar.graph.GraphType;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
 import de.dakror.wseminar.graph.generate.GraphGenerator.Params;
 import de.dakror.wseminar.graph.layout.FRLayout;
+import de.dakror.wseminar.graph.layout.Layout;
 
 /**
  * @author Dakror
@@ -137,7 +139,31 @@ public class GenerateGraphDialogController {
 			WSeminar.instance.setSeed(seed);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
 			
-			WSeminar.instance.setGraph(new FRLayout<Integer>((int) graph_size.getValue()).render(graph, (int) (Const.defaultCycles * graph_size.getValue()), seed), true);
+			Layout<Integer> layout = new FRLayout<Integer>(graph, Const.defaultCycles, seed);
+			layout.init();
+			
+			new Thread() {
+				@Override
+				public void run() {
+					for (int i = 0; i < 50000; i += 20) {
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								layout.step();
+								layout.finish();
+								WSeminar.instance.transitionTo(layout.getGraph());
+							}
+						});
+						if (!WSeminar.window.isShowing()) return;
+						
+						try {
+							Thread.sleep(speed);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}.start();
 			
 			close.handle(null);
 		});

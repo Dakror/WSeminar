@@ -12,6 +12,8 @@ public interface Graph<V> {
 	
 	public List<Edge<V>> getEdgesTo(V to);
 	
+	public List<Edge<V>> getEdges(V v);
+	
 	public List<V> getVertices();
 	
 	public void addEdge(Edge<V> edge);

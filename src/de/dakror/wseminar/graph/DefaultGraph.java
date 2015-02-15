@@ -27,6 +27,11 @@ public class DefaultGraph<V> implements Graph<V> {
 	}
 	
 	@Override
+	public List<Edge<V>> getEdges(V v) {
+		return edges.stream().filter(edge -> edge.getTo().equals(v) || edge.getFrom().equals(v)).collect(Collectors.toList()); // Java8 OP
+	}
+	
+	@Override
 	public List<V> getVertices() {
 		return vertices;
 	}

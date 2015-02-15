@@ -69,9 +69,8 @@ public class MainController {
 		// relayout_graph, JFX bug!
 		menu_graph.getItems().get(1).setOnAction(	e -> {
 																								if (WSeminar.instance.getSourceGraph() != null)
-																									WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getGraphSize()).render(WSeminar.instance.getSourceGraph(),
-																																																																								Const.defaultCycles
-																																																																										* WSeminar.instance.getGraphSize()));
+																									WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getSourceGraph(), Const.defaultCycles
+																											* WSeminar.instance.getGraphSize(), WSeminar.instance.getGraphSize()).render());
 																							});
 	}
 	
