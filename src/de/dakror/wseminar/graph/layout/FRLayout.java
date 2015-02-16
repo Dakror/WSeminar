@@ -26,7 +26,7 @@ public class FRLayout<V> extends Layout<V> {
 	}
 	
 	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed) {
-		this(sourceGraph, maxCycles, seed, Const.gridColumns, Const.gridRows);
+		this(sourceGraph, maxCycles, seed, 1);
 	}
 	
 	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, int width, int height) {
@@ -36,7 +36,8 @@ public class FRLayout<V> extends Layout<V> {
 	}
 	
 	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, int size) {
-		this(sourceGraph, maxCycles, seed, Const.gridColumns * size, Const.gridRows * size);
+		this(sourceGraph, maxCycles, seed, (sourceGraph.getVertices().size() + sourceGraph.getEdges().size()) * size,
+					(sourceGraph.getVertices().size() + sourceGraph.getEdges().size()) * size);
 	}
 	
 	@Override

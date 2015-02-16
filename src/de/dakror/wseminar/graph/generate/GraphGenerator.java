@@ -1,9 +1,7 @@
 package de.dakror.wseminar.graph.generate;
 
-import java.util.HashMap;
-import java.util.Random;
-
 import de.dakror.wseminar.Const;
+import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.DefaultGraph;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
@@ -14,25 +12,6 @@ import de.dakror.wseminar.graph.WeightedEdge;
  * @author Dakror
  */
 public class GraphGenerator<V> {
-	public static class Params {
-		HashMap<String, Object> map = new HashMap<>();
-		
-		public Params put(String k, Object v) {
-			map.put(k, v);
-			return this;
-		}
-		
-		public <T> T get(String k) {
-			return orElse(k, null);
-		}
-		
-		@SuppressWarnings("unchecked")
-		public <T> T orElse(String k, T o) {
-			if (map.containsKey(k)) return (T) map.get(k);
-			else return o;
-		}
-	}
-	
 	/**
 	 * @param type the desired type of graph
 	 * @param size the size of the graph (1 - 3)
@@ -45,8 +24,7 @@ public class GraphGenerator<V> {
 		Graph<V> graph = null;
 		
 		long seed = params.get("seed");
-		
-		Random random = new Random(seed);
+		WSeminar.setSeed(seed);
 		
 		switch ((GraphType) params.get("type")) {
 			case ABSTRACT_GRAPH: {
@@ -54,11 +32,11 @@ public class GraphGenerator<V> {
 				
 				int nodeAmount = params.orElse("nodes", Const.nodeAmount);
 				
-				int nodes = (random.nextInt(nodeAmount / 2) + nodeAmount / 2) * (int) params.get("size");
+				int nodes = (WSeminar.r.nextInt(nodeAmount / 2) + nodeAmount / 2) * (int) params.get("size");
 				
 				for (int i = 0; i < nodes; i++) {
 					try {
-						graph.addVertex((V) ((GraphType) params.get("type")).supply(i, nodes, random));
+						graph.addVertex((V) ((GraphType) params.get("type")).supply(i, nodes));
 					} catch (Exception e) {
 						throw new IllegalStateException("Generics not matching graph type!", e);
 					}
@@ -70,20 +48,27 @@ public class GraphGenerator<V> {
 				
 				String[] weights = params.get("weights");
 				
+				int edge_type = params.get("edge_type");
+				
 				for (int i = 0; i < nodes; i++) {
-					int edges = Math.max(random.nextInt(params.orElse("edges", Const.edgeAmount)) * weights.length, 1);
+					int edges = Math.max(WSeminar.r.nextInt(Math.min(graph.getVertices().size() / 2 - 1, params.orElse("edges", Const.edgeAmount))), 1);
 					
 					for (int j = 0; j < edges; j++) {
 						int index = i;
 						do {
-							index = random.nextInt(nodes);
+							index = WSeminar.r.nextInt(nodes);
 						} while (index == i || graph.areConnected(graph.getVertices().get(i), graph.getVertices().get(index)));
 						
-						Edge<V> edge = new WeightedEdge<V>(graph.getVertices().get(i), graph.getVertices().get(index), random.nextInt(Const.edgesMaxCost),
-																								weights[random.nextInt(weights.length)]);
+						int types = Math.max(WSeminar.r.nextInt(weights.length), 1);
 						
-						// TODO: not 2 same types to the same node
-						graph.addEdge(edge);
+						for (int k = 0; k < types; k++) {
+							Edge<V> edge = new WeightedEdge<V>(graph.getVertices().get(i), graph.getVertices().get(index), WSeminar.r.nextInt(Const.edgesMaxCost),
+																									weights[WSeminar.r.nextInt(weights.length)]);
+							
+							if (edge_type == 1 || (edge_type == 2 && WSeminar.r.nextFloat() > WSeminar.r.nextFloat())) edge.setDirected(true);
+							
+							graph.addEdge(edge);
+						}
 					}
 					
 					edgesPlaced += edges;

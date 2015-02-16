@@ -1,6 +1,5 @@
 package de.dakror.wseminar.graph;
 
-import java.util.Random;
 
 /**
  * @author Dakror
@@ -8,7 +7,7 @@ import java.util.Random;
 public enum GraphType {
 	ABSTRACT_GRAPH("Abstrakter Graph") {
 		@Override
-		public Object supply(int nodeIndex, int totalNodes, Random r) {
+		public Object supply(int nodeIndex, int totalNodes) {
 			return nodeIndex;
 		}
 	},
@@ -23,7 +22,7 @@ public enum GraphType {
 		this.title = title;
 	}
 	
-	public Object supply(int nodeIndex, int totalNodes, Random r) {
+	public Object supply(int nodeIndex, int totalNodes) {
 		throw new UnsupportedOperationException("Graph type not supported yet!");
 	}
 	

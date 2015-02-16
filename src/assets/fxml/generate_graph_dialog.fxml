@@ -60,7 +60,7 @@
                <content>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="100.0" prefWidth="292.0">
                      <content>
-                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="98.0" prefWidth="274.0" styleClass="property-sheet" VBox.vgrow="NEVER">
+                        <GridPane fx:id="adv_abstract" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="274.0" styleClass="property-sheet" VBox.vgrow="NEVER">
               <columnConstraints>
                 <ColumnConstraints hgrow="NEVER" maxWidth="157.0" minWidth="10.0" prefWidth="137.0" />
                 <ColumnConstraints hgrow="ALWAYS" maxWidth="196.0" minWidth="10.0" prefWidth="188.0" />
@@ -68,6 +68,7 @@
               <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
@@ -89,8 +90,10 @@
                                     <Tooltip text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
                                  </tooltip>
                               </Slider>
-                              <Label text="Kantengewichte" GridPane.rowIndex="2" />
-                              <Button fx:id="edit_weights" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="bearbeiten..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Kantengewichte" GridPane.rowIndex="3" />
+                              <Button fx:id="edit_weights" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="bearbeiten..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="Kantenart" GridPane.rowIndex="2" />
+                              <ChoiceBox fx:id="edge_type" maxWidth="1.7976931348623157E308" prefHeight="23.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <VBox.margin>
                   <Insets />

@@ -15,6 +15,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -23,7 +24,7 @@ import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
-import de.dakror.wseminar.graph.generate.GraphGenerator.Params;
+import de.dakror.wseminar.graph.generate.Params;
 import de.dakror.wseminar.graph.layout.FRLayout;
 import de.dakror.wseminar.graph.layout.Layout;
 
@@ -38,10 +39,7 @@ public class GenerateGraphDialogController {
 	private URL location;
 	
 	@FXML
-	private ChoiceBox<GraphType> graph_type;
-	
-	@FXML
-	private Button cancelButton;
+	private GridPane adv_abstract;
 	
 	@FXML
 	private TitledPane advanced;
@@ -50,32 +48,43 @@ public class GenerateGraphDialogController {
 	private Slider graph_size;
 	
 	@FXML
-	private TextField graph_seed;
-	
-	@FXML
-	private ImageView logo;
-	
-	@FXML
 	private Slider edge_count;
 	
 	@FXML
 	private Button okButton;
 	
 	@FXML
-	private Slider node_count;
+	private HBox okParent;
 	
 	@FXML
-	private HBox okParent;
+	private Label messageLabel;
+	
+	@FXML
+	private ChoiceBox<GraphType> graph_type;
 	
 	@FXML
 	private Button edit_weights;
 	
 	@FXML
-	private Label messageLabel;
+	private Button cancelButton;
+	
+	@FXML
+	private TextField graph_seed;
+	
+	@FXML
+	private ImageView logo;
+	
+	@FXML
+	private Slider node_count;
+	
+	@FXML
+	private ChoiceBox<String> edge_type;
 	
 	public static final int speed = 200;
 	
 	String[] weights = { "Standardgewicht" };
+	
+	public static final String[] edgeTypes = { "Ungerichtet", "Gerichtet", "Gemischt" };
 	
 	@SuppressWarnings("unchecked")
 	@FXML
@@ -99,6 +108,9 @@ public class GenerateGraphDialogController {
 		
 		graph_type.getItems().addAll(GraphType.values());
 		graph_type.setValue(GraphType.ABSTRACT_GRAPH);
+		
+		edge_type.getItems().addAll(edgeTypes);
+		edge_type.setValue(edge_type.getItems().get(0));
 		
 		EventHandler<ActionEvent> close = e -> ((Stage) cancelButton.getScene().getWindow()).close();
 		
@@ -129,12 +141,13 @@ public class GenerateGraphDialogController {
 			}
 			
 			Params params = new Params().put("type", graph_type.getValue()).put("size", (int) graph_size.getValue()).put("seed", seed).put("weights", weights);
-			if (node_count.getValue() != Const.nodeAmount) params.put("nodes", (int) node_count.getValue());
-			if (edge_count.getValue() != Const.edgeAmount) params.put("edges", (int) edge_count.getValue());
+			params.put("edge_type", edge_type.getItems().indexOf(edge_type.getValue()));
+			
+			if (node_count.getValue() != Const.nodeAmount) params.put("nodes", (int) Math.max(8, node_count.getValue()));
+			if (edge_count.getValue() != Const.edgeAmount) params.put("edges", (int) Math.max(2, edge_count.getValue()));
 			
 			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(params);
 			
-			WSeminar.setSeed(seed);
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
 			

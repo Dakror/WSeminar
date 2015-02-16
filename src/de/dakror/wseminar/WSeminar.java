@@ -83,12 +83,8 @@ public class WSeminar extends Application {
 		if (pane != null) {
 			pane.getParent().setOnScroll(e -> {
 				if (graph != null) {
-					pane.setScaleX(Math.max(0.1f, Math.min(2, pane.getScaleX() + e.getDeltaY() * 0.001f)));
-					pane.setScaleY(Math.max(0.1f, Math.min(2, pane.getScaleY() + e.getDeltaY() * 0.001f)));
-					
-					((Slider) WSeminar.window.getScene().lookup("#zoom")).setValue(100 * pane.getScaleX());
-					
-					e.consume();
+					Slider zoom = ((Slider) WSeminar.window.getScene().lookup("#zoom"));
+					zoom.setValue(zoom.getValue() + e.getDeltaY() * 0.075f);
 				}
 			});
 			pane.getParent().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
@@ -299,6 +295,7 @@ public class WSeminar extends Application {
 	
 	public static void setSeed(long seed2) {
 		if (seed == seed2) return;
+		if (r != null) System.out.println("Overriding main Seed!");
 		r = new Random(seed2);
 		seed = seed2;
 	}
