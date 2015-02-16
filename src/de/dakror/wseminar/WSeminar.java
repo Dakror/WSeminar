@@ -2,6 +2,7 @@ package de.dakror.wseminar;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -39,6 +40,7 @@ import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.WeightedEdge;
+import de.dakror.wseminar.graph.layout.Layout;
 import de.dakror.wseminar.graph.vertexdata.Delay;
 import de.dakror.wseminar.ui.VisualEdge;
 import de.dakror.wseminar.ui.VisualVertex;
@@ -50,12 +52,15 @@ public class WSeminar extends Application {
 	public static WSeminar instance;
 	public static Window window;
 	
+	public static Random r;
+	public static long seed;
+	
 	static HashMap<String, Image> imgCache = new HashMap<>();
 	
 	Graph<Integer> sourceGraph;
+	Layout<Integer> layout;
 	Graph<Vertex<Integer>> graph;
 	int graphSize;
-	long seed;
 	
 	public VisualVertex<Integer> activeVertex;
 	
@@ -118,14 +123,6 @@ public class WSeminar extends Application {
 		}
 	}
 	
-	public void setSeed(long seed) {
-		this.seed = seed;
-	}
-	
-	public long getSeed() {
-		return seed;
-	}
-	
 	public void setSourceGraph(Graph<Integer> sourceGraph) {
 		getMenuItem("#menu_graph", "relayout_graph").setDisable(sourceGraph == null);
 		this.sourceGraph = sourceGraph;
@@ -133,6 +130,14 @@ public class WSeminar extends Application {
 	
 	public Graph<Integer> getSourceGraph() {
 		return sourceGraph;
+	}
+	
+	public void setLayout(Layout<Integer> layout) {
+		this.layout = layout;
+	}
+	
+	public Layout<Integer> getLayout() {
+		return layout;
 	}
 	
 	public void setGraphSize(int graphSize) {
@@ -291,6 +296,12 @@ public class WSeminar extends Application {
 	}
 	
 	// -- statics -- //
+	
+	public static void setSeed(long seed2) {
+		if (seed == seed2) return;
+		r = new Random(seed2);
+		seed = seed2;
+	}
 	
 	public static Scene createScene(String resource) {
 		try {

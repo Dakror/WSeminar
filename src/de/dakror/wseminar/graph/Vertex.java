@@ -38,6 +38,10 @@ public class Vertex<T> {
 		return (V) vertexData.get(cl);
 	}
 	
+	public Object[] getAll() {
+		return vertexData.values().toArray(new Object[] {});
+	}
+	
 	public boolean remove(Class<?> cl) {
 		return vertexData.remove(cl) != null;
 	}

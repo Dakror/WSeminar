@@ -11,9 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.Pane;
-import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
-import de.dakror.wseminar.graph.layout.FRLayout;
 
 /**
  * @author Dakror
@@ -67,11 +65,9 @@ public class MainController {
 		menu_graph.getItems().get(0).setOnAction(e -> createGenerateDialog());
 		
 		// relayout_graph, JFX bug!
-		menu_graph.getItems().get(1).setOnAction(	e -> {
-																								if (WSeminar.instance.getSourceGraph() != null)
-																									WSeminar.instance.transitionTo(new FRLayout<Integer>(WSeminar.instance.getSourceGraph(), Const.defaultCycles
-																											* WSeminar.instance.getGraphSize(), WSeminar.instance.getGraphSize()).render());
-																							});
+		menu_graph.getItems().get(1).setOnAction(e -> {
+			if (WSeminar.instance.getSourceGraph() != null) WSeminar.instance.transitionTo(WSeminar.instance.getLayout().render());
+		});
 	}
 	
 	void createGenerateDialog() {

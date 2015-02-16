@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -74,7 +73,7 @@ public class GenerateGraphDialogController {
 	@FXML
 	private Label messageLabel;
 	
-	public static final int speed = 400;
+	public static final int speed = 200;
 	
 	String[] weights = { "Standardgewicht" };
 	
@@ -135,35 +134,37 @@ public class GenerateGraphDialogController {
 			
 			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(params);
 			
+			WSeminar.setSeed(seed);
 			WSeminar.instance.setSourceGraph(graph);
-			WSeminar.instance.setSeed(seed);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
 			
-			Layout<Integer> layout = new FRLayout<Integer>(graph, Const.defaultCycles, seed);
-			layout.init();
+			Layout<Integer> layout = new FRLayout<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (int) graph_size.getValue());
+			WSeminar.instance.setLayout(layout);
 			
-			new Thread() {
-				@Override
-				public void run() {
-					for (int i = 0; i < 50000; i += 20) {
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								layout.step();
-								layout.finish();
-								WSeminar.instance.transitionTo(layout.getGraph());
-							}
-						});
-						if (!WSeminar.window.isShowing()) return;
-						
-						try {
-							Thread.sleep(speed);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}.start();
+			WSeminar.instance.setGraph(layout.render(), true);
+			
+			// new Thread() {
+			// @Override
+			// public void run() {
+			// for (int i = 0; i < Const.defaultCycles; i += 20) {
+			// Platform.runLater(new Runnable() {
+			// @Override
+			// public void run() {
+			// layout.step();
+			// layout.finish();
+			// WSeminar.instance.transitionTo(layout.getGraph());
+			// }
+			// });
+			// if (!WSeminar.window.isShowing()) return;
+			//
+			// try {
+			// Thread.sleep(speed);
+			// } catch (InterruptedException e) {
+			// e.printStackTrace();
+			// }
+			// }
+			// }
+			// }.start();
 			
 			close.handle(null);
 		});

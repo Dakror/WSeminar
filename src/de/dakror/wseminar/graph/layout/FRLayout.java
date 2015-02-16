@@ -1,6 +1,7 @@
 package de.dakror.wseminar.graph.layout;
 
 import de.dakror.wseminar.Const;
+import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
@@ -21,7 +22,7 @@ public class FRLayout<V> extends Layout<V> {
 	}
 	
 	public FRLayout(Graph<V> sourceGraph, int maxCycles) {
-		this(sourceGraph, maxCycles, (long) (Math.random() * Long.MAX_VALUE));
+		this(sourceGraph, maxCycles, WSeminar.seed);
 	}
 	
 	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed) {
@@ -90,8 +91,8 @@ public class FRLayout<V> extends Layout<V> {
 			float min = Math.min(length, temperature);
 			
 			p.pos.add(d.disp.x / length * min, d.disp.y / length * min);
-			p.pos.x = Math.min(width, Math.max(0, p.pos.x));
-			p.pos.y = Math.min(height, Math.max(0, p.pos.y));
+			p.pos.x = Math.min(width - r.nextFloat(), Math.max(r.nextFloat(), p.pos.x));
+			p.pos.y = Math.min(height - r.nextFloat(), Math.max(r.nextFloat(), p.pos.y));
 		}
 		temperature -= step;
 	}
