@@ -95,8 +95,12 @@ public class DefaultGraph<V> implements Graph<V> {
 			Vertex<V> from = graph.getVertices().get(vertices.indexOf(edge.getFrom()));
 			Vertex<V> to = graph.getVertices().get(vertices.indexOf(edge.getTo()));
 			
-			graph.addEdge(edge instanceof WeightedEdge ? new WeightedEdge<Vertex<V>>(from, to, ((WeightedEdge<V>) edge).getWeight(), ((WeightedEdge<V>) edge).getType())
-					: new Edge<Vertex<V>>(from, to));
+			Edge<Vertex<V>> e = edge instanceof WeightedEdge ? new WeightedEdge<Vertex<V>>(from, to, ((WeightedEdge<V>) edge).getWeight(), ((WeightedEdge<V>) edge).getType())
+					: new Edge<Vertex<V>>(from, to);
+			
+			e.setDirected(edge.isDirected());
+			
+			graph.addEdge(e);
 		}
 		return graph;
 	}

@@ -15,7 +15,7 @@ import de.dakror.wseminar.math.Vector2;
 public class FRLayout<V> extends Layout<V> {
 	float k;
 	
-	int width, height;
+	float width, height;
 	
 	public FRLayout(Graph<V> sourceGraph) {
 		this(sourceGraph, Const.defaultCycles);
@@ -29,15 +29,14 @@ public class FRLayout<V> extends Layout<V> {
 		this(sourceGraph, maxCycles, seed, 1);
 	}
 	
-	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, int width, int height) {
+	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, float width, float height) {
 		super(sourceGraph, maxCycles, seed);
 		this.width = width;
 		this.height = height;
 	}
 	
-	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, int size) {
-		this(sourceGraph, maxCycles, seed, (sourceGraph.getVertices().size() + sourceGraph.getEdges().size()) * size,
-					(sourceGraph.getVertices().size() + sourceGraph.getEdges().size()) * size);
+	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, float size) {
+		this(sourceGraph, maxCycles, seed, sourceGraph.getVertices().size() * size, sourceGraph.getVertices().size() * size);
 	}
 	
 	@Override

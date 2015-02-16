@@ -80,7 +80,7 @@ public class GenerateGraphDialogController {
 	@FXML
 	private ChoiceBox<String> edge_type;
 	
-	public static final int speed = 200;
+	public static final int speed = 400;
 	
 	String[] weights = { "Standardgewicht" };
 	
@@ -151,7 +151,7 @@ public class GenerateGraphDialogController {
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
 			
-			Layout<Integer> layout = new FRLayout<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (int) graph_size.getValue());
+			Layout<Integer> layout = new FRLayout<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (float) Math.sqrt(graph_size.getValue()));
 			WSeminar.instance.setLayout(layout);
 			
 			WSeminar.instance.setGraph(layout.render(), true);

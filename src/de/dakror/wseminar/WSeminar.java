@@ -30,7 +30,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -39,7 +38,6 @@ import de.dakror.wseminar.controller.GenerateGraphDialogController;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.WeightedEdge;
 import de.dakror.wseminar.graph.layout.Layout;
 import de.dakror.wseminar.graph.vertexdata.Delay;
 import de.dakror.wseminar.ui.VisualEdge;
@@ -64,15 +62,15 @@ public class WSeminar extends Application {
 	
 	public VisualVertex<Integer> activeVertex;
 	
-	int duration = 400;
+	int duration = 200;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		instance = this;
 		window = primaryStage;
 		primaryStage.setMaximized(true);
-		
 		primaryStage.setScene(createScene("main"));
+		
 		primaryStage.setTitle("WSeminar Extrema: Wegfindung - Maximilian Stark");
 		
 		primaryStage.getIcons().addAll(getImage("mind_map-24.png"), getImage("mind_map-32.png"));
@@ -178,7 +176,6 @@ public class WSeminar extends Application {
 		for (int i = 0; i < graph.getEdges().size(); i++) {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
 			Line node = (Line) pane.lookup("#E" + i);
-			Text text = (Text) pane.lookup("#ET" + i);
 			
 			VisualVertex<Integer> newFrom = new VisualVertex<Integer>("#node", e.getFrom());
 			VisualVertex<Integer> newTo = new VisualVertex<Integer>("#node", e.getTo());
@@ -189,11 +186,8 @@ public class WSeminar extends Application {
 																							new KeyValue(node.endXProperty(),     newTo.getTranslateX() + Const.cellSize / 2),
 																							new KeyValue(node.endYProperty(),     newTo.getTranslateY() + Const.cellSize / 2)));			
 			//@on
-			TranslateTransition tt = new TranslateTransition(new Duration(GenerateGraphDialogController.speed), text);
-			tt.setToX(0.5f * (newFrom.getTranslateX() + Const.cellSize / 2 + newTo.getTranslateX() + Const.cellSize / 2));
-			tt.setToY(0.5f * (newFrom.getTranslateY() + Const.cellSize / 2 + newTo.getTranslateY() + Const.cellSize / 2));
 			
-			pt.getChildren().addAll(tl, tt);
+			pt.getChildren().add(tl);
 		}
 		
 		pt.play();
@@ -263,14 +257,6 @@ public class WSeminar extends Application {
 			
 			pane.getChildren().add(0, edge);
 			
-			FadeTransition ft = null;
-			if (e instanceof WeightedEdge) {
-				ft = new FadeTransition(Duration.millis(duration), edge.getText());
-				ft.setFromValue(0);
-				ft.setToValue(1);
-				ft.setInterpolator(Interpolator.EASE_OUT);
-			}
-			
 			FadeTransition ft2 = new FadeTransition(Duration.millis(duration), edge);
 			ft2.setFromValue(0);
 			ft2.setToValue(1);
@@ -283,7 +269,6 @@ public class WSeminar extends Application {
 			st.setToY(1);
 			
 			ParallelTransition pt = new ParallelTransition(edge, ft2, st);
-			if (ft != null) pt.getChildren().add(ft);
 			
 			pt.setDelay(Duration.millis(Math.max(e.getFrom().get(Delay.class).delay, e.getTo().get(Delay.class).delay)));
 			
