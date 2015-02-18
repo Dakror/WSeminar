@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -56,8 +57,18 @@ public class MainController {
 			if (WSeminar.instance.getGraph() != null) {
 				Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
 				
-				pane.setScaleX(Math.max(0.1f, Math.min(2, newVal.floatValue() / 100f)));
-				pane.setScaleY(Math.max(0.1f, Math.min(2, newVal.floatValue() / 100f)));
+				Bounds a = pane.getBoundsInParent();
+				
+				pane.setScaleX(Math.max(0.1f, Math.min(4, newVal.floatValue() / 100f)));
+				pane.setScaleY(Math.max(0.1f, Math.min(4, newVal.floatValue() / 100f)));
+				
+				Bounds b = pane.getBoundsInParent();
+				
+				float mouseX = (float) (WSeminar.instance.scrollMouse.x == 0 ? a.getWidth() / 2 : WSeminar.instance.scrollMouse.x);
+				float mouseY = (float) (WSeminar.instance.scrollMouse.y == 0 ? a.getHeight() / 2 : WSeminar.instance.scrollMouse.y);
+				
+				pane.setTranslateX(pane.translateXProperty().add(mouseX - (mouseX / a.getWidth() * b.getWidth())).get());
+				pane.setTranslateY(pane.translateYProperty().add(mouseY - (mouseY / a.getHeight() * b.getHeight())).get());
 			}
 		});
 		

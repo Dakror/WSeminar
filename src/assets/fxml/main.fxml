@@ -79,7 +79,7 @@
             <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <Label text="Zoom: " />
-                  <Slider fx:id="zoom" blockIncrement="0.0" majorTickUnit="100.0" max="200.0" minorTickCount="8" prefHeight="15.0" prefWidth="150.0" showTickMarks="true" snapToTicks="true" value="100.0">
+                  <Slider fx:id="zoom" blockIncrement="0.0" majorTickUnit="100.0" max="400.0" minorTickCount="4" prefHeight="15.0" prefWidth="150.0" showTickMarks="true" snapToTicks="true" value="100.0">
                      <padding>
                         <Insets top="4.0" />
                      </padding>

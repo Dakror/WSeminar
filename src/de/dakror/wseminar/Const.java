@@ -20,7 +20,7 @@ public class Const {
 	public static Interpolator overlyEaseIn = Interpolator.SPLINE(.43, .65, .19, 1);
 	
 	// -- graph visualization -- //
-	public static int defaultCycles = 300;
+	public static int defaultCycles = 500;
 	
 	// -- edge colors -- //
 	public static enum State {

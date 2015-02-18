@@ -40,6 +40,7 @@ import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.layout.Layout;
 import de.dakror.wseminar.graph.vertexdata.Delay;
+import de.dakror.wseminar.math.Vector2;
 import de.dakror.wseminar.ui.VisualEdge;
 import de.dakror.wseminar.ui.VisualVertex;
 
@@ -58,11 +59,15 @@ public class WSeminar extends Application {
 	Graph<Integer> sourceGraph;
 	Layout<Integer> layout;
 	Graph<Vertex<Integer>> graph;
+	public Vector2 scrollMouse = new Vector2();
+	
 	int graphSize;
 	
 	public VisualVertex<Integer> activeVertex;
 	
 	int duration = 200;
+	
+	float lastX = -1, lastY = -1;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -81,39 +86,42 @@ public class WSeminar extends Application {
 		if (pane != null) {
 			pane.getParent().setOnScroll(e -> {
 				if (graph != null) {
+					scrollMouse.set((float) (e.getX() - pane.getBoundsInParent().getMinX()), (float) (e.getY() - pane.getBoundsInParent().getMinY()));
 					Slider zoom = ((Slider) WSeminar.window.getScene().lookup("#zoom"));
-					zoom.setValue(zoom.getValue() + e.getDeltaY() * 0.075f);
+					zoom.setValue(zoom.getValue() + e.getDeltaY() * 0.25f);
 				}
 			});
-			pane.getParent().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-				float lastX = -1, lastY = -1;
+			
+			EventHandler<MouseEvent> eh = e -> {
+				scrollMouse.set((float) e.getX(), (float) e.getY());
 				
-				@Override
-				public void handle(MouseEvent event) {
-					if (event.isSecondaryButtonDown() && graph != null) {
-						window.getScene().setCursor(Cursor.MOVE);
-						if (lastX != -1) {
-							float deltaX = (float) (event.getX() - lastX);
-							float deltaY = (float) (event.getY() - lastY);
-							pane.setTranslateX(pane.getTranslateX() + deltaX);
-							pane.setTranslateY(pane.getTranslateY() + deltaY);
-						}
-						
-						lastX = (float) event.getX();
-						lastY = (float) event.getY();
-					} else {
-						if (event.isPrimaryButtonDown() && activeVertex != null) {
-							if (!activeVertex.contains(event.getX(), event.getY())) {
-								activeVertex.setActive(false);
-								activeVertex = null;
-							}
-						}
-						lastX = -1;
-						lastY = -1;
-						window.getScene().setCursor(Cursor.DEFAULT);
+				if (e.isSecondaryButtonDown() && graph != null) {
+					window.getScene().setCursor(Cursor.MOVE);
+					if (lastX != -1) {
+						float deltaX = (float) (e.getX() - lastX);
+						float deltaY = (float) (e.getY() - lastY);
+						pane.setTranslateX(pane.getTranslateX() + deltaX);
+						pane.setTranslateY(pane.getTranslateY() + deltaY);
 					}
+					
+					lastX = (float) e.getX();
+					lastY = (float) e.getY();
+				} else {
+					if (e.isPrimaryButtonDown() && activeVertex != null) {
+						if (!activeVertex.contains(e.getX(), e.getY())) {
+							activeVertex.setActive(false);
+							activeVertex = null;
+						}
+					}
+					lastX = -1;
+					lastY = -1;
+					window.getScene().setCursor(Cursor.DEFAULT);
 				}
-			});
+			};
+			
+			pane.getParent().setOnMouseReleased(eh);
+			pane.getParent().setOnMouseDragged(eh);
+			pane.getParent().setOnMouseExited(e -> scrollMouse.zero());
 		}
 	}
 	

@@ -5,9 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
@@ -93,29 +90,15 @@ public class VisualEdge<V> extends Line {
 		startYProperty().addListener(cl);
 		endXProperty().addListener(cl);
 		endYProperty().addListener(cl);
+		
+		setStrokeWidth(3);
+		setStrokeLineCap(StrokeLineCap.ROUND);
+		p.setStrokeWidth(1);
 	}
 	
 	void setColor(Color color) {
 		this.color = color;
-		Vector2 middle = new Vector2((float) (getEndX() + getStartX()), (float) (getEndY() + getStartY())).scl(0.5f);
-		Vector2 vec = new Vector2((float) (getEndX() - getStartX()), (float) (getEndY() - getStartY()));
-		
-		// rotate 90° cw
-		float tmp = vec.x;
-		vec.x = vec.y;
-		vec.y = -tmp;
-		
-		float size = 5;
-		
-		vec.nor().scl(size);
-		Vector2 a = middle.clone().sub(vec.clone().scl(0.5f));
-		Vector2 b = middle.clone().add(vec.clone().scl(0.5f));
-		
-		setStrokeWidth(size);
-		setStrokeLineCap(StrokeLineCap.ROUND);
-		setStroke(new LinearGradient(a.x, a.y, b.x, b.y, false, CycleMethod.NO_CYCLE, new Stop(0, Color.TRANSPARENT), new Stop(0.5, color), new Stop(1, Color.TRANSPARENT)));
-		
-		p.setStrokeWidth(1);
+		setStroke(color);
 		p.setStroke(color.darker());
 		p.setFill(color);
 	}
