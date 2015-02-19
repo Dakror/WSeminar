@@ -13,18 +13,15 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -40,7 +37,8 @@ import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.layout.Layout;
 import de.dakror.wseminar.graph.vertexdata.Delay;
-import de.dakror.wseminar.math.Vector2;
+import de.dakror.wseminar.ui.GraphTreeCell;
+import de.dakror.wseminar.ui.GraphTreeItem;
 import de.dakror.wseminar.ui.VisualEdge;
 import de.dakror.wseminar.ui.VisualVertex;
 
@@ -59,15 +57,12 @@ public class WSeminar extends Application {
 	Graph<Integer> sourceGraph;
 	Layout<Integer> layout;
 	Graph<Vertex<Integer>> graph;
-	public Vector2 scrollMouse = new Vector2();
 	
 	int graphSize;
 	
 	public VisualVertex<Integer> activeVertex;
 	
 	int duration = 200;
-	
-	float lastX = -1, lastY = -1;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -81,48 +76,6 @@ public class WSeminar extends Application {
 		primaryStage.getIcons().addAll(getImage("mind_map-24.png"), getImage("mind_map-32.png"));
 		
 		primaryStage.show();
-		
-		Pane pane = (Pane) window.getScene().lookup("#graph");
-		if (pane != null) {
-			pane.getParent().setOnScroll(e -> {
-				if (graph != null) {
-					scrollMouse.set((float) (e.getX() - pane.getBoundsInParent().getMinX()), (float) (e.getY() - pane.getBoundsInParent().getMinY()));
-					Slider zoom = ((Slider) WSeminar.window.getScene().lookup("#zoom"));
-					zoom.setValue(zoom.getValue() + e.getDeltaY() * 0.25f);
-				}
-			});
-			
-			EventHandler<MouseEvent> eh = e -> {
-				scrollMouse.set((float) e.getX(), (float) e.getY());
-				
-				if (e.isSecondaryButtonDown() && graph != null) {
-					window.getScene().setCursor(Cursor.MOVE);
-					if (lastX != -1) {
-						float deltaX = (float) (e.getX() - lastX);
-						float deltaY = (float) (e.getY() - lastY);
-						pane.setTranslateX(pane.getTranslateX() + deltaX);
-						pane.setTranslateY(pane.getTranslateY() + deltaY);
-					}
-					
-					lastX = (float) e.getX();
-					lastY = (float) e.getY();
-				} else {
-					if (e.isPrimaryButtonDown() && activeVertex != null) {
-						if (!activeVertex.contains(e.getX(), e.getY())) {
-							activeVertex.setActive(false);
-							activeVertex = null;
-						}
-					}
-					lastX = -1;
-					lastY = -1;
-					window.getScene().setCursor(Cursor.DEFAULT);
-				}
-			};
-			
-			pane.getParent().setOnMouseReleased(eh);
-			pane.getParent().setOnMouseDragged(eh);
-			pane.getParent().setOnMouseExited(e -> scrollMouse.zero());
-		}
 	}
 	
 	public void setSourceGraph(Graph<Integer> sourceGraph) {
@@ -202,16 +155,28 @@ public class WSeminar extends Application {
 		this.graph = graph;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void setGraph(Graph<Vertex<Integer>> graph, boolean animate) {
 		this.graph = graph;
+		
 		Node n = WSeminar.window.getScene().lookup("#newGraph");
 		if (n != null) n.setVisible(graph == null);
-		Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
+		Pane pane = (Pane) window.getScene().lookup("#graph");
 		pane.getChildren().clear();
+		
+		TreeView<String> tv = ((TreeView<String>) window.getScene().lookup("#graph_tree"));
+		
+		tv.setCellFactory(tree -> new GraphTreeCell());
+		
+		GraphTreeItem root = new GraphTreeItem(null, "Graph");
+		tv.setRoot(root);
 		
 		for (Vertex<Integer> v : graph.getVertices()) {
 			VisualVertex<Integer> circle = new VisualVertex<Integer>("#node", v);
 			circle.setId("V" + v.data());
+			
+			GraphTreeItem gti = new GraphTreeItem(circle, "Vertex");
+			root.getChildren().add(gti);
 			
 			Label l = new Label(v.data() + "");
 			l.setId("VT" + v.data());
@@ -255,10 +220,6 @@ public class WSeminar extends Application {
 			if (animate) pt.play();
 		}
 		
-		addEdges(pane, graph, animate);
-	}
-	
-	public void addEdges(Pane pane, Graph<Vertex<Integer>> graph, boolean animate) {
 		for (int i = 0; i < graph.getEdges().size(); i++) {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
 			VisualEdge<Integer> edge = new VisualEdge<>(e, i, pane);

@@ -43,7 +43,7 @@
                     <tabs>
                         <Tab text="Netz">
                            <content>
-                              <ListView fx:id="graph_list" prefHeight="200.0" prefWidth="200.0" />
+                              <TreeView fx:id="graph_tree" prefHeight="200.0" prefWidth="200.0" styleClass="SBKIT-hierarchy-panel" />
                            </content>
                         </Tab>
                       <Tab text="Wege">
