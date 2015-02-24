@@ -18,17 +18,16 @@ public class GraphTreeCell extends TreeCell<String> {
 	
 	@SuppressWarnings("unchecked")
 	public GraphTreeCell() {
-		super();
-		
 		getStyleClass().add("hierarchy-tree-cell");
 		name.setMinWidth((-1.0D / 0.0D));
 		
 		value.getStyleClass().addAll("hierarchy-readwrite-label", "label");
+		value.setDisable(true); // TODO: temporary
 		HBox.setHgrow(value, Priority.ALWAYS);
 		graphic.getStyleClass().add("tree-cell-graphic");
 		graphic.getChildren().addAll(new Node[] { name, value });
 		selectedProperty().addListener((obs, oldVal, newVal) -> {
-			if (getTreeItem() != null) {
+			if (getTreeItem() != null && isSelected()) {
 				Node node = ((GraphTreeItem) getTreeItem()).getNode();
 				if (node instanceof VisualVertex) {
 					if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);

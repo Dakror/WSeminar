@@ -46,9 +46,10 @@ public class Vertex<T> {
 		return vertexData.remove(cl) != null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Vertex) return data.equals(((Vertex<?>) obj).data);
+		if (obj instanceof Vertex) return data.equals(((Vertex<T>) obj).data);
 		return false;
 	}
 }

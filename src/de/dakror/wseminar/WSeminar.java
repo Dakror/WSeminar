@@ -1,6 +1,7 @@
 package de.dakror.wseminar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -171,58 +172,71 @@ public class WSeminar extends Application {
 		GraphTreeItem root = new GraphTreeItem(null, "Graph");
 		tv.setRoot(root);
 		
-		for (Vertex<Integer> v : graph.getVertices()) {
-			VisualVertex<Integer> circle = new VisualVertex<Integer>("#node", v);
-			circle.setId("V" + v.data());
-			
-			GraphTreeItem gti = new GraphTreeItem(circle, "Vertex");
-			root.getChildren().add(gti);
-			
-			Label l = new Label(v.data() + "");
-			l.setId("VT" + v.data());
-			l.setTextFill(Color.BLACK);
-			l.setFont(Font.font(null, FontWeight.NORMAL, 15));
-			l.setMinSize(Const.cellSize, Const.cellSize);
-			l.setAlignment(Pos.CENTER);
-			l.setTranslateX(circle.getTranslateX());
-			l.setTranslateY(circle.getTranslateY());
-			
-			FadeTransition ft = new FadeTransition(Duration.millis(duration), l);
-			ft.setFromValue(0);
-			ft.setToValue(1);
-			ft.setInterpolator(Interpolator.EASE_OUT);
-			
-			FadeTransition ft2 = new FadeTransition(Duration.millis(duration), circle);
-			ft2.setFromValue(0);
-			ft2.setToValue(1);
-			ft2.setInterpolator(Interpolator.EASE_OUT);
-			
-			ScaleTransition st = new ScaleTransition(Duration.millis(duration), circle);
-			st.setFromX(0);
-			st.setFromY(0);
-			st.setToX(1);
-			st.setToY(1);
-			st.setInterpolator(Const.overlyEaseIn);
-			
-			l.setDisable(true);
-			
-			ParallelTransition pt = new ParallelTransition(circle, ft, ft2, st);
-			
-			pane.getChildren().add(circle);
-			pane.getChildren().add(l);
-			float delay = (float) (Math.random() * 400);
-			
-			Delay d = new Delay();
-			d.delay = delay;
-			v.add(d);
-			
-			pt.setDelay(Duration.millis(delay));
-			if (animate) pt.play();
-		}
+		ArrayList<Vertex<Integer>> addedVertices = new ArrayList<>();
 		
 		for (int i = 0; i < graph.getEdges().size(); i++) {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
 			VisualEdge<Integer> edge = new VisualEdge<>(e, i, pane);
+			
+			for (Vertex<Integer> v : new Vertex[] { e.getFrom(), e.getTo() }) {
+				if (addedVertices.contains(v)) continue;
+				
+				VisualVertex<Integer> circle = new VisualVertex<Integer>("#node", v);
+				circle.setId("V" + v.data());
+				
+				GraphTreeItem gti = new GraphTreeItem(circle, "Vertex", v.data());
+				root.getChildren().add(gti);
+				
+				System.out.println(circle.getStyleClass().getClass());
+				// circle.getStyleClass().addListener((ListChangeListener<String>) c -> {
+				// if (c.getList().contains("active")) {
+				// tv.getSelectionModel().select(gti);
+				// }
+				// });
+				
+				Label l = new Label(v.data() + "");
+				l.setId("VT" + v.data());
+				l.setTextFill(Color.BLACK);
+				l.setFont(Font.font(null, FontWeight.NORMAL, 15));
+				l.setMinSize(Const.cellSize, Const.cellSize);
+				l.setAlignment(Pos.CENTER);
+				l.setTranslateX(circle.getTranslateX());
+				l.setTranslateY(circle.getTranslateY());
+				
+				FadeTransition ft = new FadeTransition(Duration.millis(duration), l);
+				ft.setFromValue(0);
+				ft.setToValue(1);
+				ft.setInterpolator(Interpolator.EASE_OUT);
+				
+				FadeTransition ft2 = new FadeTransition(Duration.millis(duration), circle);
+				ft2.setFromValue(0);
+				ft2.setToValue(1);
+				ft2.setInterpolator(Interpolator.EASE_OUT);
+				
+				ScaleTransition st = new ScaleTransition(Duration.millis(duration), circle);
+				st.setFromX(0);
+				st.setFromY(0);
+				st.setToX(1);
+				st.setToY(1);
+				st.setInterpolator(Const.overlyEaseIn);
+				
+				l.setDisable(true);
+				
+				ParallelTransition pt = new ParallelTransition(circle, ft, ft2, st);
+				
+				pane.getChildren().add(circle);
+				pane.getChildren().add(l);
+				float delay = (float) (Math.random() * 400);
+				
+				Delay d = new Delay();
+				d.delay = delay;
+				v.add(d);
+				
+				pt.setDelay(Duration.millis(delay));
+				if (animate) pt.play();
+				
+				addedVertices.add(v);
+			}
 			
 			pane.getChildren().add(0, edge);
 			
@@ -243,6 +257,8 @@ public class WSeminar extends Application {
 			
 			if (animate) pt.play();
 		}
+		
+		root.getChildren().sort((a, b) -> Integer.compare(((GraphTreeItem) a).getParam(), ((GraphTreeItem) b).getParam()));
 	}
 	
 	// -- statics -- //

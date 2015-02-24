@@ -91,7 +91,7 @@ public class VisualEdge<V> extends Line {
 		endXProperty().addListener(cl);
 		endYProperty().addListener(cl);
 		
-		setStrokeWidth(3);
+		setStrokeWidth(2);
 		setStrokeLineCap(StrokeLineCap.ROUND);
 		p.setStrokeWidth(1);
 	}

@@ -54,6 +54,8 @@ public class MainController {
 	
 	float lastX = -1, lastY = -1;
 	
+	long last;
+	
 	@FXML
 	void initialize() {
 		Vector2 scrollMouse = new Vector2();
@@ -81,7 +83,14 @@ public class MainController {
 		
 		graph.getParent().setOnScroll(e -> {
 			if (graph != null) {
-				scrollMouse.set((float) (e.getX() - graph.getBoundsInParent().getMinX()), (float) (e.getY() - graph.getBoundsInParent().getMinY()));
+				Bounds bounds = graph.getBoundsInParent();
+				
+				float x = (float) (e.getX() - graph.getBoundsInParent().getMinX());
+				float y = (float) (e.getY() - graph.getBoundsInParent().getMinY());
+				if (x < 0 || x > bounds.getWidth()) x = (float) (bounds.getWidth() / 2);
+				if (y < 0 || y > bounds.getHeight()) x = (float) (bounds.getHeight() / 2);
+				
+				scrollMouse.set(x, y);
 				Slider zoom = ((Slider) WSeminar.window.getScene().lookup("#zoom"));
 				zoom.setValue(zoom.getValue() + e.getDeltaY() * 0.25f);
 			}
@@ -123,7 +132,10 @@ public class MainController {
 		
 		// relayout_graph, JFX bug!
 		menu_graph.getItems().get(1).setOnAction(e -> {
-			if (WSeminar.instance.getSourceGraph() != null) WSeminar.instance.transitionTo(WSeminar.instance.getLayout().render());
+			if (WSeminar.instance.getSourceGraph() != null && (System.currentTimeMillis() - last) > 200) {
+				WSeminar.instance.transitionTo(WSeminar.instance.getLayout().render());
+				last = System.currentTimeMillis();
+			}
 		});
 		
 	}
