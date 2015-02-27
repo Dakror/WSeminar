@@ -38,7 +38,19 @@ public class VisualVertex<V> extends Circle {
 			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setState(State.ACTIVE));
 		} else {
 			getStyleClass().remove("active");
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setState(State.DEFAULT));
+			//@off
+			getParent().getChildrenUnmodifiable().
+			stream().
+			filter(n -> 
+			(n instanceof VisualEdge)
+			&& WSeminar.instance.
+			getGraph()
+			.isConnected(
+			             vertex,
+			             ((VisualEdge<V>) n).edge))
+			             .forEach(n -> (
+			            		 (VisualEdge<V>) n)
+			            		 .setState(State.DEFAULT));
 		}
 	}
 	

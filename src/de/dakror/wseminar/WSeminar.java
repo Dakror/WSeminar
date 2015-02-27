@@ -187,13 +187,6 @@ public class WSeminar extends Application {
 				GraphTreeItem gti = new GraphTreeItem(circle, "Vertex", v.data());
 				root.getChildren().add(gti);
 				
-				// System.out.println(circle.getStyleClass().getClass());
-				// circle.getStyleClass().addListener((ListChangeListener<String>) c -> {
-				// if (c.getList().contains("active")) {
-				// tv.getSelectionModel().select(gti);
-				// }
-				// });
-				
 				Label l = new Label(v.data() + "");
 				l.setId("VT" + v.data());
 				l.setTextFill(Color.BLACK);

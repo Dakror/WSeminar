@@ -18,9 +18,6 @@ public class SpringLayout<V> extends Layout<V> {
 	float forceMultiplier = 1.0f / 3.0f;
 	float desiredLength = 3;
 	
-	float x = Integer.MAX_VALUE;
-	float y = Integer.MAX_VALUE;
-	
 	public SpringLayout(Graph<V> sourceGraph) {
 		super(sourceGraph, Const.defaultCycles);
 	}
@@ -53,11 +50,6 @@ public class SpringLayout<V> extends Layout<V> {
 		relaxEdges();
 		calculateRepulsion();
 		moveNodes();
-	}
-	
-	@Override
-	public void finish() {
-		reposition();
 	}
 	
 	void relaxEdges() {
@@ -106,15 +98,5 @@ public class SpringLayout<V> extends Layout<V> {
 			
 			v.get(Position.class).pos.add(Math.max(-maxMovement, Math.min(maxMovement, f.F.x)), Math.max(-maxMovement, Math.min(maxMovement, f.F.y)));
 		}
-	}
-	
-	void reposition() {
-		graph.getVertices().forEach(v -> {
-			Vector2 p = v.get(Position.class).pos;
-			if (p.x < x) x = p.x;
-			if (p.y < y) y = p.y;
-		});
-		
-		graph.getVertices().forEach(v -> v.get(Position.class).pos.sub(x, y));
 	}
 }

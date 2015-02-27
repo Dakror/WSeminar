@@ -2,10 +2,14 @@ package de.dakror.wseminar.graph.layout;
 
 import java.util.Random;
 
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.vertexdata.Position;
+import de.dakror.wseminar.math.Vector2;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -22,6 +26,13 @@ public abstract class Layout<V> {
 	long seed;
 	boolean isInit = false;
 	Random r;
+	
+	float minX = Integer.MAX_VALUE;
+	float minY = Integer.MAX_VALUE;
+	float maxX = 0;
+	float maxY = 0;
+	
+	Bounds bounds;
 	
 	public Layout(Graph<V> sourceGraph) {
 		this(sourceGraph, Const.defaultCycles);
@@ -68,7 +79,9 @@ public abstract class Layout<V> {
 	
 	public abstract void step();
 	
-	public void finish() {}
+	public void finish() {
+		reposition();
+	}
 	
 	public Graph<Vertex<V>> getGraph() {
 		return graph;
@@ -84,5 +97,23 @@ public abstract class Layout<V> {
 	
 	public int getMaxCycles() {
 		return maxCycles;
+	}
+	
+	protected void reposition() {
+		graph.getVertices().forEach(v -> {
+			Vector2 p = v.get(Position.class).pos;
+			if (p.x < minX) minX = p.x;
+			if (p.y < minY) minY = p.y;
+			if (p.x > maxX) maxX = p.x;
+			if (p.y > maxY) maxY = p.y;
+		});
+		
+		bounds = new BoundingBox(minX, minY, maxX - minX, maxY - minY);
+		
+		graph.getVertices().forEach(v -> v.get(Position.class).pos.sub(minX, minY));
+	}
+	
+	public Bounds getBounds() {
+		return bounds;
 	}
 }
