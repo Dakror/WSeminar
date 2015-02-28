@@ -15,12 +15,14 @@ import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -160,10 +162,14 @@ public class WSeminar extends Application {
 	public void setGraph(Graph<Vertex<Integer>> graph, boolean animate) {
 		this.graph = graph;
 		
-		Node n = WSeminar.window.getScene().lookup("#newGraph");
+		Node n = window.getScene().lookup("#newGraph");
 		if (n != null) n.setVisible(graph == null);
 		Pane pane = (Pane) window.getScene().lookup("#graph");
 		pane.getChildren().clear();
+		
+		((Slider) window.getScene().lookup("#zoom")).setValue(100);
+		pane.setScaleX(1);
+		pane.setScaleY(1);
 		
 		TreeView<String> tv = ((TreeView<String>) window.getScene().lookup("#graph_tree"));
 		
@@ -252,6 +258,11 @@ public class WSeminar extends Application {
 		}
 		
 		root.getChildren().sort((a, b) -> Integer.compare(((GraphTreeItem) a).getParam(), ((GraphTreeItem) b).getParam()));
+		
+		Bounds pB = pane.getParent().getParent().getBoundsInParent();
+		
+		pane.setTranslateX((pB.getWidth() - layout.getBounds().getWidth() * Const.cellSize) / 2);
+		pane.setTranslateY((pB.getHeight() - layout.getBounds().getHeight() * Const.cellSize) / 2);
 	}
 	
 	// -- statics -- //

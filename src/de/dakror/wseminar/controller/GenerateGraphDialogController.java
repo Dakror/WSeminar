@@ -148,6 +148,7 @@ public class GenerateGraphDialogController {
 			
 			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(params);
 			
+			
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
 			Layout<Integer> layout = new FRLayout<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (float) Math.sqrt(Math.sqrt(graph.getVertices().size()
