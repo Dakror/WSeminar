@@ -1,4 +1,4 @@
-package de.dakror.wseminar.graph.layout;
+package de.dakror.wseminar.graph.algorithm;
 
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
@@ -12,30 +12,30 @@ import de.dakror.wseminar.math.Vector2;
 /**
  * @author Maximilian Stark | Dakror
  */
-public class FRLayout<V> extends Layout<V> {
+public class FruchtermanReingold<V> extends Layout<V> {
 	float k;
 	
 	float width, height;
 	
-	public FRLayout(Graph<V> sourceGraph) {
+	public FruchtermanReingold(Graph<V> sourceGraph) {
 		this(sourceGraph, Const.defaultCycles);
 	}
 	
-	public FRLayout(Graph<V> sourceGraph, int maxCycles) {
+	public FruchtermanReingold(Graph<V> sourceGraph, int maxCycles) {
 		this(sourceGraph, maxCycles, WSeminar.seed);
 	}
 	
-	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed) {
+	public FruchtermanReingold(Graph<V> sourceGraph, int maxCycles, long seed) {
 		this(sourceGraph, maxCycles, seed, 1);
 	}
 	
-	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, float width, float height) {
+	public FruchtermanReingold(Graph<V> sourceGraph, int maxCycles, long seed, float width, float height) {
 		super(sourceGraph, maxCycles, seed);
 		this.width = width;
 		this.height = height;
 	}
 	
-	public FRLayout(Graph<V> sourceGraph, int maxCycles, long seed, float size) {
+	public FruchtermanReingold(Graph<V> sourceGraph, int maxCycles, long seed, float size) {
 		this(sourceGraph, maxCycles, seed, sourceGraph.getVertices().size() * size, sourceGraph.getVertices().size() * size);
 	}
 	

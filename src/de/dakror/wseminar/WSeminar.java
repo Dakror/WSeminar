@@ -38,7 +38,7 @@ import de.dakror.wseminar.controller.GenerateGraphDialogController;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.layout.Layout;
+import de.dakror.wseminar.graph.algorithm.Layout;
 import de.dakror.wseminar.graph.vertexdata.Delay;
 import de.dakror.wseminar.ui.GraphTreeCell;
 import de.dakror.wseminar.ui.GraphTreeItem;

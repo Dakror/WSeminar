@@ -23,10 +23,10 @@ import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.GraphType;
+import de.dakror.wseminar.graph.algorithm.FruchtermanReingold;
+import de.dakror.wseminar.graph.algorithm.Layout;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
 import de.dakror.wseminar.graph.generate.Params;
-import de.dakror.wseminar.graph.layout.FRLayout;
-import de.dakror.wseminar.graph.layout.Layout;
 
 /**
  * @author Dakror
@@ -151,7 +151,7 @@ public class GenerateGraphDialogController {
 			
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
-			Layout<Integer> layout = new FRLayout<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (float) Math.sqrt(Math.sqrt(graph.getVertices().size()
+			Layout<Integer> layout = new FruchtermanReingold<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (float) Math.sqrt(Math.sqrt(graph.getVertices().size()
 					/ graph_size.getValue())));
 			WSeminar.instance.setLayout(layout);
 			

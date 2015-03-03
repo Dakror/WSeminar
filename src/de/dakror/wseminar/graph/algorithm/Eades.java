@@ -1,4 +1,4 @@
-package de.dakror.wseminar.graph.layout;
+package de.dakror.wseminar.graph.algorithm;
 
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.graph.Edge;
@@ -11,22 +11,22 @@ import de.dakror.wseminar.math.Vector2;
 /**
  * @author Maximilian Stark | Dakror
  */
-public class SpringLayout<V> extends Layout<V> {
+public class Eades<V> extends Layout<V> {
 	
 	float stretch = 0.7f;
 	int repulsionRange = 10;
 	float forceMultiplier = 1.0f / 3.0f;
 	float desiredLength = 3;
 	
-	public SpringLayout(Graph<V> sourceGraph) {
+	public Eades(Graph<V> sourceGraph) {
 		super(sourceGraph, Const.defaultCycles);
 	}
 	
-	public SpringLayout(Graph<V> sourceGraph, int maxCycles) {
+	public Eades(Graph<V> sourceGraph, int maxCycles) {
 		super(sourceGraph, maxCycles, (long) (Math.random() * Long.MAX_VALUE));
 	}
 	
-	public SpringLayout(Graph<V> sourceGraph, int maxCycles, long seed) {
+	public Eades(Graph<V> sourceGraph, int maxCycles, long seed) {
 		super(sourceGraph, maxCycles, seed);
 	}
 	

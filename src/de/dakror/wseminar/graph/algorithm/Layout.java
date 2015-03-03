@@ -1,4 +1,4 @@
-package de.dakror.wseminar.graph.layout;
+package de.dakror.wseminar.graph.algorithm;
 
 import java.util.Random;
 
@@ -18,21 +18,21 @@ public abstract class Layout<V> {
 	/**
 	 * To fake minimal distance between nodes
 	 */
-	final float EPSILON = 0.00001f;
+	protected final float EPSILON = 0.00001f;
 	
-	Graph<V> sourceGraph;
-	Graph<Vertex<V>> graph;
-	int maxCycles;
-	long seed;
-	boolean isInit = false;
-	Random r;
+	protected Graph<V> sourceGraph;
+	protected Graph<Vertex<V>> graph;
+	protected int maxCycles;
+	protected long seed;
+	protected boolean isInit = false;
+	protected Random r;
 	
-	float minX = Integer.MAX_VALUE;
-	float minY = Integer.MAX_VALUE;
-	float maxX = 0;
-	float maxY = 0;
+	protected float minX = Integer.MAX_VALUE;
+	protected float minY = Integer.MAX_VALUE;
+	protected float maxX = 0;
+	protected float maxY = 0;
 	
-	Bounds bounds;
+	protected Bounds bounds;
 	
 	public Layout(Graph<V> sourceGraph) {
 		this(sourceGraph, Const.defaultCycles);
