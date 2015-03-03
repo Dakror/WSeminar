@@ -3,7 +3,7 @@ package de.dakror.wseminar.math;
 /**
  * @author Dakror
  */
-public class Vector2 {
+public class Vector2 implements Comparable<Vector2> {
 	public float x, y;
 	
 	public Vector2() {}
@@ -108,5 +108,11 @@ public class Vector2 {
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Vector2 ? x == ((Vector2) obj).x && y == ((Vector2) obj).y : false;
+	}
+	
+	@Override
+	public int compareTo(Vector2 o) {
+		if (x == o.x) return Float.compare(y, o.y);
+		else return Float.compare(x, o.x);
 	}
 }
