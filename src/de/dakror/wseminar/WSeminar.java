@@ -160,6 +160,7 @@ public class WSeminar extends Application {
 	
 	@SuppressWarnings("unchecked")
 	public void setGraph(Graph<Vertex<Integer>> graph, boolean animate) {
+		activeVertex = null;
 		this.graph = graph;
 		
 		Node n = window.getScene().lookup("#newGraph");
