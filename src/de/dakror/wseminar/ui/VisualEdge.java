@@ -1,5 +1,7 @@
 package de.dakror.wseminar.ui;
 
+import java.text.NumberFormat;
+
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -42,7 +44,11 @@ public class VisualEdge<V> extends Line {
 		
 		text = new Text();
 		if (edge instanceof WeightedEdge) {
-			text.setText(((WeightedEdge<Vertex<V>>) edge).getWeight() + "");
+			
+			NumberFormat nf = NumberFormat.getNumberInstance();
+			nf.setMaximumFractionDigits(2);
+			
+			text.setText(nf.format(((WeightedEdge<Vertex<V>>) edge).getWeight()));
 			text.setOpacity(0);
 			pane.getChildren().add(text);
 		}
