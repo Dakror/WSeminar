@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -32,6 +33,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import de.dakror.wseminar.controller.GenerateGraphDialogController;
@@ -277,7 +279,7 @@ public class WSeminar extends Application {
 	public static Scene createScene(String resource) {
 		try {
 			FXMLLoader l = new FXMLLoader(WSeminar.class.getResource("/assets/fxml/" + resource + ".fxml"));
-			Pane pane = (Pane) l.load();
+			Parent pane = (Parent) l.load();
 			Scene scene = new Scene(pane);
 			scene.getStylesheets().addAll("assets/css/Theme.css", "assets/css/style.css");
 			
@@ -288,14 +290,18 @@ public class WSeminar extends Application {
 		}
 	}
 	
-	public static Stage createDialog(String sceneResource, String title, Window owner) {
+	public static Stage createDialog(String resource, String title, Window owner) {
+		return createDialog(resource, title, owner, StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+	}
+	
+	public static Stage createDialog(String resource, String title, Window owner, StageStyle style, Modality modality) {
 		Stage stage = new Stage();
 		stage.setResizable(false);
+		stage.initStyle(style);
 		stage.getIcons().addAll(WSeminar.getImage("mind_map-24.png"), WSeminar.getImage("mind_map-32.png"));
-		
-		stage.setScene(WSeminar.createScene(sceneResource));
+		stage.setScene(WSeminar.createScene(resource));
 		stage.setTitle(title);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(modality);
 		stage.initOwner(owner);
 		stage.show();
 		

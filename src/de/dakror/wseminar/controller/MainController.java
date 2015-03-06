@@ -3,6 +3,8 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -10,11 +12,18 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.algorithm.Layout;
 import de.dakror.wseminar.math.Vector2;
 
 /**
@@ -133,14 +142,61 @@ public class MainController {
 		// relayout_graph, JFX bug!
 		menu_graph.getItems().get(1).setOnAction(e -> {
 			if (WSeminar.instance.getSourceGraph() != null && (System.currentTimeMillis() - last) > 200) {
-				WSeminar.instance.transitionTo(WSeminar.instance.getLayout().render());
+				MainController.doLayoutWithProgress(WSeminar.instance.getLayout(), null, true, true);
 				last = System.currentTimeMillis();
 			}
 		});
-		
 	}
 	
 	void createGenerateDialog() {
 		WSeminar.createDialog("generate_graph_dialog", "Neues Netz generieren", WSeminar.window);
+	}
+	
+	public static void doLayoutWithProgress(Layout<Integer> layout, String message, boolean transition, boolean setGraphAnimate) {
+		if (layout.getSourceGraph().getVertices().size() < 100) {
+			Graph<Vertex<Integer>> render = layout.render();
+			if (transition) WSeminar.instance.transitionTo(render);
+			else WSeminar.instance.setGraph(render, setGraphAnimate);
+			
+			return;
+		}
+		
+		Stage progress = WSeminar.createDialog("progress", "Fortschritt", WSeminar.window, StageStyle.TRANSPARENT, Modality.NONE);
+		
+		if (message == null) {
+			progress.getScene().setFill(null);
+			progress.getScene().getRoot().setStyle("-fx-background-color: transparent");
+		}
+		
+		Label msgLabel = (Label) progress.getScene().lookup("#message");
+		msgLabel.setVisible(message == null);
+		msgLabel.setText(message);
+		
+		progress.setAlwaysOnTop(true);
+		
+		ProgressIndicator pi = ((ProgressIndicator) progress.getScene().lookup("#progress"));
+		pi.setProgress(0);
+		
+		ChangeListener<Number> cl = (obs, newVal, oldVal) -> Platform.runLater(() -> {
+			pi.setProgress(Math.round(newVal.doubleValue() * 100) / 100.0);
+		});
+		
+		new Thread() {
+			@Override
+			public void run() {
+				layout.progress.addListener(cl);
+				Graph<Vertex<Integer>> render = layout.render();
+				layout.progress.removeListener(cl);
+				
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						progress.close();
+						if (transition) WSeminar.instance.transitionTo(render);
+						else WSeminar.instance.setGraph(render, setGraphAnimate);
+					}
+				});
+			}
+		}.start();
 	}
 }

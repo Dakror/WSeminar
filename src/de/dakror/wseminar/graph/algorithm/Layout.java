@@ -2,6 +2,8 @@ package de.dakror.wseminar.graph.algorithm;
 
 import java.util.Random;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import de.dakror.wseminar.Const;
@@ -34,6 +36,8 @@ public abstract class Layout<V> {
 	
 	protected Bounds bounds;
 	
+	public DoubleProperty progress = new SimpleDoubleProperty(0);
+	
 	public Layout(Graph<V> sourceGraph) {
 		this(sourceGraph, Const.defaultCycles);
 	}
@@ -52,25 +56,21 @@ public abstract class Layout<V> {
 	}
 	
 	public Graph<Vertex<V>> render() {
-		init();
-		isInit = true;
-		
-		for (int i = 0; i < maxCycles; i++)
-			step();
-		
-		finish();
-		
-		return graph;
+		return render(maxCycles);
 	}
 	
-	public Graph<Vertex<V>> render(int customSteps) {
+	public Graph<Vertex<V>> render(int steps) {
 		if (!isInit) init();
 		isInit = true;
+		progress.set(0);
 		
-		for (int i = 0; i < customSteps; i++)
+		for (int i = 0; i < steps; i++) {
 			step();
+			progress.set(progress.get() + 1.0 / steps);
+		}
 		
 		finish();
+		progress.set(1);
 		
 		return graph;
 	}

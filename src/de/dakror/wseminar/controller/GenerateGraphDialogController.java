@@ -86,6 +86,8 @@ public class GenerateGraphDialogController {
 	
 	public static final String[] edgeTypes = { "Ungerichtet", "Gerichtet", "Gemischt" };
 	
+	long seed = 0;
+	
 	@SuppressWarnings("unchecked")
 	@FXML
 	void initialize() {
@@ -123,13 +125,11 @@ public class GenerateGraphDialogController {
 			
 			((Button) stage.getScene().lookup("#okButton")).setOnAction(ev -> {
 				weights = ((ListView<?>) stage.getScene().lookup("#list")).getItems().toArray(new String[] {});
-				((Stage) ((Button) stage.getScene().lookup("#okButton")).getScene().getWindow()).close();
+				stage.close();
 			});
 		});
 		
 		okButton.setOnAction(e -> {
-			long seed = 0;
-			
 			try {
 				if (graph_seed.getText().length() == 0) {
 					seed = (long) (Math.random() * Long.MAX_VALUE);
@@ -147,15 +147,14 @@ public class GenerateGraphDialogController {
 			if (edge_count.getValue() != Const.edgeAmount) params.put("edges", (int) Math.max(2, edge_count.getValue()));
 			
 			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(params);
-			
-			
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
-			Layout<Integer> layout = new FruchtermanReingold<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (float) Math.sqrt(Math.sqrt(graph.getVertices().size()
-					/ graph_size.getValue())));
+			
+			Layout<Integer> layout = new FruchtermanReingold<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed,
+																																(float) Math.sqrt(Math.sqrt(graph.getVertices().size() / graph_size.getValue())));
 			WSeminar.instance.setLayout(layout);
 			
-			WSeminar.instance.setGraph(layout.render(), true);
+			MainController.doLayoutWithProgress(layout, null, false, true);
 			
 			// new Thread() {
 			// @Override
