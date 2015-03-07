@@ -56,11 +56,15 @@ public abstract class Layout<V> {
 	}
 	
 	public Graph<Vertex<V>> render() {
-		return render(maxCycles);
+		return render(true);
 	}
 	
-	public Graph<Vertex<V>> render(int steps) {
-		if (!isInit) init();
+	public Graph<Vertex<V>> render(boolean init) {
+		return render(maxCycles, true);
+	}
+	
+	public Graph<Vertex<V>> render(int steps, boolean init) {
+		if (init || !isInit) init();
 		isInit = true;
 		progress.set(0);
 		
