@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 
 /**
@@ -29,10 +30,17 @@ public class GraphTreeCell extends TreeCell<String> {
 		selectedProperty().addListener((obs, oldVal, newVal) -> {
 			if (getTreeItem() != null && isSelected()) {
 				Node node = ((GraphTreeItem) getTreeItem()).getNode();
+				
+				if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
+				if (WSeminar.instance.activeEdge != null) WSeminar.instance.activeEdge.setState(State.DEFAULT);
+				
 				if (node instanceof VisualVertex) {
-					if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
 					WSeminar.instance.activeVertex = (VisualVertex<Integer>) node;
 					((VisualVertex<?>) node).setActive(true);
+				}
+				if (node instanceof VisualEdge) {
+					WSeminar.instance.activeEdge = (VisualEdge<Integer>) node;
+					((VisualEdge<?>) node).setState(State.ACTIVE);
 				}
 			}
 		});
@@ -52,6 +60,10 @@ public class GraphTreeCell extends TreeCell<String> {
 			Node node = ((GraphTreeItem) getTreeItem()).getNode();
 			if (node instanceof VisualVertex) {
 				value.setText(((VisualVertex<?>) ((GraphTreeItem) getTreeItem()).getNode()).getVertex().data() + "");
+			}
+			
+			if (node instanceof VisualEdge) {
+				value.setText(((VisualEdge<?>) ((GraphTreeItem) getTreeItem()).getNode()).text.getText());
 			}
 			
 			value.setVisible(value.getText().length() > 0);

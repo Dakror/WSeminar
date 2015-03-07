@@ -25,20 +25,26 @@ public class Const {
 	// -- edge colors -- //
 	public static enum State {
 		DEFAULT,
-		ACTIVE(Color.valueOf("#2279e5")),
+		ACTIVE(Color.valueOf("#2279e5"), Color.valueOf("#2279e5").darker()),
 		
 		;
 		
-		private Color color;
+		private Color lineColor;
+		private Color textColor;
 		
 		private State() {}
 		
-		private State(Color color) {
-			this.color = color;
+		private State(Color lineColor, Color textColor) {
+			this.lineColor = lineColor;
+			this.textColor = textColor;
 		}
 		
-		public Color getColor() {
-			return color;
+		public Color getLineColor() {
+			return lineColor;
+		}
+		
+		public Color getTextColor() {
+			return textColor;
 		}
 	}
 }

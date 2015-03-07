@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -66,6 +67,7 @@ public class WSeminar extends Application {
 	int graphSize;
 	
 	public VisualVertex<Integer> activeVertex;
+	public VisualEdge<Integer> activeEdge;
 	
 	int duration = 200;
 	
@@ -188,12 +190,19 @@ public class WSeminar extends Application {
 			VisualEdge<Integer> edge = new VisualEdge<>(e, i, pane);
 			
 			for (Vertex<Integer> v : new Vertex[] { e.getFrom(), e.getTo() }) {
-				if (addedVertices.contains(v)) continue;
+				int index = addedVertices.indexOf(v);
 				
 				VisualVertex<Integer> circle = new VisualVertex<Integer>("#node", v);
 				circle.setId("V" + v.data());
 				
 				GraphTreeItem gti = new GraphTreeItem(circle, "Vertex", v.data());
+				
+				if (v.equals(e.getFrom()) || !e.isDirected()) {
+					TreeItem<String> item = index == -1 ? gti : root.getChildren().get(index);
+					item.getChildren().add(new GraphTreeItem(edge, "Kante " + (e.isDirected() ? "" : "<") + "-> " + e.getOtherEnd(v).data(), 14));
+					if (index > -1) continue;
+				}
+				
 				root.getChildren().add(gti);
 				
 				Label l = new Label(v.data() + "");

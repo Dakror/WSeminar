@@ -25,7 +25,7 @@ import de.dakror.wseminar.math.Vector2;
  */
 public class VisualEdge<V> extends Line {
 	Color color;
-	Text text;
+	public Text text;
 	Polygon p;
 	Edge<Vertex<V>> edge;
 	State state;
@@ -84,7 +84,7 @@ public class VisualEdge<V> extends Line {
 		cl.changed(null, 0, 0); // initial placement for sub elements
 		
 		EventHandler<MouseEvent> en = e -> setColor(Color.valueOf("#5f5f5f"));
-		EventHandler<MouseEvent> ex = e -> setColor(state.getColor() != null ? state.getColor() : Color.DARKGRAY);
+		EventHandler<MouseEvent> ex = e -> setColor(state.getLineColor() != null ? state.getLineColor() : Color.DARKGRAY);
 		
 		setOnMouseEntered(en);
 		setOnMouseExited(ex);
@@ -111,8 +111,10 @@ public class VisualEdge<V> extends Line {
 	
 	public void setState(State state) {
 		this.state = state;
-		if (state.getColor() != null) setColor(state.getColor());
+		if (state.getLineColor() != null) setColor(state.getLineColor());
 		else setColor(Color.DARKGRAY);
+		if (state.getTextColor() != null) text.setFill(state.getTextColor());
+		else text.setFill(Color.BLACK);
 	}
 	
 	public State getState() {

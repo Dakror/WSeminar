@@ -42,6 +42,11 @@ public class Edge<V> {
 		return this;
 	}
 	
+	public V getOtherEnd(V end) {
+		if (end.equals(from)) return to;
+		else return from;
+	}
+	
 	public boolean isDirected() {
 		return directed;
 	}
