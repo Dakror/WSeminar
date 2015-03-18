@@ -215,3 +215,10 @@ dist/
 build/build/
 externalLibs/
 project/
+
+
+#Ignore all files in /tex except for .tex and .pdf files
+
+tex/*
+!tex/*.tex
+!tex/*.pdf
