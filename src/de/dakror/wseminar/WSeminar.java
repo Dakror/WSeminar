@@ -200,8 +200,8 @@ public class WSeminar extends Application {
 				if (v.equals(e.getFrom()) || !e.isDirected()) {
 					TreeItem<String> item = index == -1 ? gti : root.getChildren().get(index);
 					item.getChildren().add(new GraphTreeItem(edge, "Kante " + (e.isDirected() ? "" : "<") + "-> " + e.getOtherEnd(v).data(), 14));
-					if (index > -1) continue;
 				}
+				if (index > -1) continue;
 				
 				root.getChildren().add(gti);
 				
