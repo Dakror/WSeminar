@@ -1,5 +1,7 @@
 package de.dakror.wseminar.ui;
 
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.shape.Circle;
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.Const.State;
@@ -28,6 +30,16 @@ public class VisualVertex<V> extends Circle {
 			
 			setActive(true);
 			WSeminar.instance.activeVertex = (VisualVertex<Integer>) VisualVertex.this;
+			TreeView<String> tv = ((TreeView<String>) getScene().lookup("#graph_tree"));
+			for (TreeItem<String> item : tv.getRoot().getChildren()) {
+				if (item instanceof GraphTreeItem) {
+					GraphTreeItem gti = (GraphTreeItem) item;
+					if (gti.node == VisualVertex.this) {
+						tv.getSelectionModel().select(gti);
+						break;
+					}
+				}
+			}
 		});
 	}
 	

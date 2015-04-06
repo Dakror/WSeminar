@@ -44,7 +44,6 @@ public class VisualEdge<V> extends Line {
 		
 		text = new Text();
 		if (edge instanceof WeightedEdge) {
-			
 			NumberFormat nf = NumberFormat.getNumberInstance();
 			nf.setMaximumFractionDigits(2);
 			
