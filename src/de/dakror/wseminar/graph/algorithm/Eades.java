@@ -4,8 +4,8 @@ import de.dakror.wseminar.Const;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.vertexdata.Force;
-import de.dakror.wseminar.graph.vertexdata.Position;
+import de.dakror.wseminar.graph.VertexData.Force;
+import de.dakror.wseminar.graph.VertexData.Position;
 import de.dakror.wseminar.math.Vector2;
 
 /**

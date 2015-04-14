@@ -7,7 +7,8 @@ import de.dakror.wseminar.Const;
 import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.vertexdata.Position;
+import de.dakror.wseminar.graph.VertexData.Position;
+import de.dakror.wseminar.graph.algorithm.BritishMuseum;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -26,7 +27,14 @@ public class VisualVertex<V> extends Circle {
 		getStyleClass().add("visual-vertex");
 		
 		setOnMouseClicked(e -> {
-			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
+			
+			BritishMuseum<Integer> bm = new BritishMuseum<>(WSeminar.instance.getSourceGraph());
+			
+			if (WSeminar.instance.activeVertex != null) {
+				WSeminar.instance.activeVertex.setActive(false);
+				System.out.println("HELLO " + WSeminar.instance.activeVertex.vertex.data() + " -> " + VisualVertex.this.vertex.data() + ": "
+						+ bm.findPath(WSeminar.instance.activeVertex.vertex.data(), (Integer) VisualVertex.this.vertex.data()));
+			}
 			
 			setActive(true);
 			WSeminar.instance.activeVertex = (VisualVertex<Integer>) VisualVertex.this;

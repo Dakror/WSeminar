@@ -22,7 +22,7 @@ import javafx.util.StringConverter;
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.GraphType;
+import de.dakror.wseminar.graph.Graph.GraphType;
 import de.dakror.wseminar.graph.algorithm.FruchtermanReingold;
 import de.dakror.wseminar.graph.algorithm.Layout;
 import de.dakror.wseminar.graph.generate.GraphGenerator;

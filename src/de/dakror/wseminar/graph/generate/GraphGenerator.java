@@ -5,7 +5,7 @@ import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.DefaultGraph;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.GraphType;
+import de.dakror.wseminar.graph.Graph.GraphType;
 import de.dakror.wseminar.graph.WeightedEdge;
 
 /**

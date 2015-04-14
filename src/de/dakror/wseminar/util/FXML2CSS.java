@@ -19,7 +19,6 @@ public class FXML2CSS extends Application {
 	/**
 	 * @param args
 	 */
-	
 	public static void main(String[] args) {
 		if (args.length == 0) throw new IllegalArgumentException("No file specified");
 		launch(args);

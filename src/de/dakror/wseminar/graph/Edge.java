@@ -1,10 +1,11 @@
 package de.dakror.wseminar.graph;
 
 
+
 /**
  * @author Maximilian Stark | Dakror
  */
-public class Edge<V> {
+public class Edge<V> implements Comparable<Edge<V>> {
 	V from, to;
 	boolean directed;
 	
@@ -54,5 +55,10 @@ public class Edge<V> {
 	@Override
 	public String toString() {
 		return "E[" + from + " " + (directed ? "" : "<") + "-> " + to + "]";
+	}
+	
+	@Override
+	public int compareTo(Edge<V> o) {
+		return 0;
 	}
 }

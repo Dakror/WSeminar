@@ -16,8 +16,8 @@ import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.VertexData.Position;
 import de.dakror.wseminar.graph.WeightedEdge;
-import de.dakror.wseminar.graph.vertexdata.Position;
 import de.dakror.wseminar.math.Vector2;
 
 /**

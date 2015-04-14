@@ -1,5 +1,6 @@
 package de.dakror.wseminar.graph;
 
+
 /**
  * @author Maximilian Stark | Dakror
  */
@@ -38,5 +39,10 @@ public class WeightedEdge<V> extends Edge<V> {
 	@Override
 	public String toString() {
 		return "WE[" + from + " " + (directed ? "" : "<") + " " + weight + " (" + type + ") > " + to + "]";
+	}
+	
+	@Override
+	public int compareTo(Edge<V> o2) {
+		return Float.compare(weight, o2 instanceof WeightedEdge ? ((WeightedEdge<V>) o2).getWeight() : 0);
 	}
 }
