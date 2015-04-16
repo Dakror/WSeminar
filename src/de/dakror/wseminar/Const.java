@@ -18,7 +18,7 @@ public class Const {
 	 * Used http://cubic-bezier.com/
 	 */
 	public static Interpolator overlyEaseIn = Interpolator.SPLINE(.43, .65, .19, 1);
-	
+	public static int visualModeTimeout = 250;
 	// -- graph visualization -- //
 	public static int defaultCycles = 500;
 	
@@ -26,6 +26,7 @@ public class Const {
 	public static enum State {
 		DEFAULT,
 		ACTIVE(Color.valueOf("#2279e5"), Color.valueOf("#2279e5").darker()),
+		OPEN_LIST(Color.valueOf("#00ff00"), Color.valueOf("#00ff00").darker()),
 		
 		;
 		

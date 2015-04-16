@@ -52,4 +52,9 @@ public class Vertex<T> {
 		if (obj instanceof Vertex) return data.equals(((Vertex<T>) obj).data);
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return "[V (" + data + ")]";
+	}
 }

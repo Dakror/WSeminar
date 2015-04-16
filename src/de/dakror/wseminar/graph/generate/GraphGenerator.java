@@ -20,7 +20,7 @@ public class GraphGenerator<V> {
 	 * @return the generated graph
 	 */
 	@SuppressWarnings("unchecked")
-	public Graph<V> generateGraph(Params params) {
+	public Graph<V> generateGraph(Params<String> params) {
 		Graph<V> graph = null;
 		
 		long seed = params.get("seed");

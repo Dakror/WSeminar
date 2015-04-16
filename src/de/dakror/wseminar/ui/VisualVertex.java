@@ -27,13 +27,12 @@ public class VisualVertex<V> extends Circle {
 		getStyleClass().add("visual-vertex");
 		
 		setOnMouseClicked(e -> {
-			
-			BritishMuseum<Integer> bm = new BritishMuseum<>(WSeminar.instance.getSourceGraph());
+			BritishMuseum bm = new BritishMuseum(WSeminar.instance.getGraph());
 			
 			if (WSeminar.instance.activeVertex != null) {
 				WSeminar.instance.activeVertex.setActive(false);
 				System.out.println("HELLO " + WSeminar.instance.activeVertex.vertex.data() + " -> " + VisualVertex.this.vertex.data() + ": "
-						+ bm.findPath(WSeminar.instance.activeVertex.vertex.data(), (Integer) VisualVertex.this.vertex.data()));
+						+ bm.findPath(WSeminar.instance.activeVertex.vertex, VisualVertex.this.vertex));
 			}
 			
 			setActive(true);

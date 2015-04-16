@@ -7,27 +7,22 @@ import java.util.List;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
+import de.dakror.wseminar.graph.Vertex;
 
 /**
  * @author Maximilian Stark | Dakror
  */
-public class BritishMuseum<V> {
-	Graph<V> graph;
-	ArrayList<V> nodes;
+public class BritishMuseum<V> extends PathFinder<V> {
+	ArrayList<Vertex<V>> nodes;
+	ArrayList<Vertex<V>> pathStub;
 	
-	ArrayList<V> pathStub;
-	
-	
-	
-	boolean visualMode;
-	
-	public BritishMuseum(Graph<V> graph) {
-		this.graph = graph;
+	public BritishMuseum(Graph<Vertex<V>> graph) {
 		nodes = new ArrayList<>();
 		pathStub = new ArrayList<>();
 	}
 	
-	public Path<V> findPath(V from, V to) {
+	@Override
+	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
 		if (from.equals(to)) return new Path<>();
 		
 		nodes.clear();
@@ -38,17 +33,20 @@ public class BritishMuseum<V> {
 		return new Path<>(nodes);
 	}
 	
-	boolean takeStep(V node, V to) {
+	@Override
+	protected boolean takeStep(Vertex<V> node, Vertex<V> to) {
+		super.takeStep(node, to);
+		
 		if (pathStub.contains(node)) return false;
 		
 		nodes.add(node);
 		if (node.equals(to)) return true;
 		pathStub.add(node);
 		
-		List<Edge<V>> edges = graph.getEdges(node);
+		List<Edge<Vertex<V>>> edges = graph.getEdges(node);
 		Collections.sort(edges);
 		
-		for (Edge<V> e : edges) {
+		for (Edge<Vertex<V>> e : edges) {
 			if (takeStep(e.getOtherEnd(node), to)) {
 				pathStub.remove(node);
 				return true;
@@ -57,18 +55,7 @@ public class BritishMuseum<V> {
 		
 		pathStub.remove(node);
 		nodes.remove(node);
+		
 		return false;
-	}
-	
-	public void setVisualMode(boolean visualMode) {
-		this.visualMode = visualMode;
-	}
-	
-	public boolean isVisualMode() {
-		return visualMode;
-	}
-	
-	public Graph<V> getGraph() {
-		return graph;
 	}
 }

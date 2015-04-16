@@ -27,6 +27,7 @@ import de.dakror.wseminar.graph.algorithm.FruchtermanReingold;
 import de.dakror.wseminar.graph.algorithm.Layout;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
 import de.dakror.wseminar.graph.generate.Params;
+import de.dakror.wseminar.graph.generate.Params.SParams;
 
 /**
  * @author Dakror
@@ -140,7 +141,7 @@ public class GenerateGraphDialogController {
 				seed = graph_seed.getText().hashCode();
 			}
 			
-			Params params = new Params().put("type", graph_type.getValue()).put("size", (int) graph_size.getValue()).put("seed", seed).put("weights", weights);
+			Params<String> params = new SParams().put("type", graph_type.getValue()).put("size", (int) graph_size.getValue()).put("seed", seed).put("weights", weights);
 			params.put("edge_type", edge_type.getItems().indexOf(edge_type.getValue()));
 			
 			if (node_count.getValue() != Const.nodeAmount) params.put("nodes", (int) Math.max(8, node_count.getValue()));
