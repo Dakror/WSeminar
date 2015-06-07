@@ -15,40 +15,17 @@
  ******************************************************************************/
 
 
-package de.dakror.wseminar.graph;
+package de.dakror.wseminar.graph.algorithm;
 
-import java.util.List;
+import de.dakror.wseminar.graph.Path;
+import de.dakror.wseminar.graph.Vertex;
 
 /**
  * @author Maximilian Stark | Dakror
  */
-public interface Graph<V> {
-	public List<Edge<V>> getEdges();
-	
-	public List<Edge<V>> getEdgesFrom(V from);
-	
-	public List<Edge<V>> getEdgesTo(V to);
-	
-	public List<Edge<V>> getEdges(V v);
-	
-	public List<V> getVertices();
-	
-	public void addEdge(Edge<V> edge);
-	
-	public boolean removeEdge(V from, V to);
-	
-	public void addVertex(V v);
-	
-	public boolean removeVertex(V v);
-	
-	public boolean areConnected(V from, V to);
-	
-	@SuppressWarnings("hiding")
-	public <V> boolean isConnected(V v, Edge<V> edge);
-	
-	public Edge<V> getEdge(V from, V to);
-	
-	public float getWeight(V from, V to);
-	
-	public Graph<Vertex<V>> getVertexGraph(Class<?>... vertexData);
+public class DFS<V> extends PathFinder<V> {
+	@Override
+	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
+		return null;
+	}
 }

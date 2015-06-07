@@ -40,6 +40,8 @@ public class VisualVertex<V> extends Circle {
 		getStyleClass().add("visual-vertex");
 		
 		setOnMouseClicked(e -> {
+			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
+			
 			setActive(true);
 			WSeminar.instance.activeVertex = (VisualVertex<Integer>) VisualVertex.this;
 			TreeView<String> tv = ((TreeView<String>) getScene().lookup("#graph_tree"));

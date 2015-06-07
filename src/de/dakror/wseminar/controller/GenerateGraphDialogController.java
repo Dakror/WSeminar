@@ -39,7 +39,6 @@ import javafx.util.StringConverter;
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.Graph.GraphType;
 import de.dakror.wseminar.graph.algorithm.FruchtermanReingold;
 import de.dakror.wseminar.graph.algorithm.Layout;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
@@ -76,9 +75,6 @@ public class GenerateGraphDialogController {
 	
 	@FXML
 	private Label messageLabel;
-	
-	@FXML
-	private ChoiceBox<GraphType> graph_type;
 	
 	@FXML
 	private Button edit_weights;
@@ -126,9 +122,6 @@ public class GenerateGraphDialogController {
 		
 		logo.setImage(WSeminar.getImage("new_graph-50.png"));
 		
-		graph_type.getItems().addAll(GraphType.values());
-		graph_type.setValue(GraphType.ABSTRACT_GRAPH);
-		
 		edge_type.getItems().addAll(edgeTypes);
 		edge_type.setValue(edge_type.getItems().get(0));
 		
@@ -158,7 +151,7 @@ public class GenerateGraphDialogController {
 				seed = graph_seed.getText().hashCode();
 			}
 			
-			Params<String> params = new SParams().put("type", graph_type.getValue()).put("size", (int) graph_size.getValue()).put("seed", seed).put("weights", weights);
+			Params<String> params = new SParams().put("size", (int) graph_size.getValue()).put("seed", seed).put("weights", weights);
 			params.put("edge_type", edge_type.getItems().indexOf(edge_type.getValue()));
 			
 			if (node_count.getValue() != Const.nodeAmount) params.put("nodes", (int) Math.max(8, node_count.getValue()));
