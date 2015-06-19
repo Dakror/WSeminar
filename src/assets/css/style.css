@@ -48,8 +48,8 @@
 
 .titled-pane.text-like > .title {
 	-fx-background-color: null;
+	-fx-border-color: #999 transparent transparent transparent;
 }
-
 
 .theme-presets .SBKIT-hierarchy-panel .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected,
 .theme-presets .SBKIT-hierarchy-panel .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected .tree-cell-graphic,

@@ -27,7 +27,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -77,9 +76,6 @@ public class GenerateGraphDialogController {
 	private Label messageLabel;
 	
 	@FXML
-	private Button edit_weights;
-	
-	@FXML
 	private Button cancelButton;
 	
 	@FXML
@@ -96,13 +92,10 @@ public class GenerateGraphDialogController {
 	
 	public static final int speed = 400;
 	
-	String[] weights = { "Standardgewicht" };
-	
 	public static final String[] edgeTypes = { "Ungerichtet", "Gerichtet", "Gemischt" };
 	
 	long seed = 0;
 	
-	@SuppressWarnings("unchecked")
 	@FXML
 	void initialize() {
 		graph_size.setLabelFormatter(new StringConverter<Double>() {
@@ -129,17 +122,6 @@ public class GenerateGraphDialogController {
 		
 		cancelButton.setOnAction(close);
 		
-		edit_weights.setOnAction(e -> {
-			Stage stage = WSeminar.createDialog("edit_weights_dialog", "Kantengewichte bearbeiten", WSeminar.window);
-			stage.setAlwaysOnTop(true);
-			((ListView<String>) stage.getScene().lookup("#list")).getItems().addAll(weights);
-			
-			((Button) stage.getScene().lookup("#okButton")).setOnAction(ev -> {
-				weights = ((ListView<?>) stage.getScene().lookup("#list")).getItems().toArray(new String[] {});
-				stage.close();
-			});
-		});
-		
 		okButton.setOnAction(e -> {
 			try {
 				if (graph_seed.getText().length() == 0) {
@@ -151,7 +133,7 @@ public class GenerateGraphDialogController {
 				seed = graph_seed.getText().hashCode();
 			}
 			
-			Params<String> params = new SParams().put("size", (int) graph_size.getValue()).put("seed", seed).put("weights", weights);
+			Params<String> params = new SParams().put("size", (int) graph_size.getValue()).put("seed", seed);
 			params.put("edge_type", edge_type.getItems().indexOf(edge_type.getValue()));
 			
 			if (node_count.getValue() != Const.nodeAmount) params.put("nodes", (int) Math.max(8, node_count.getValue()));

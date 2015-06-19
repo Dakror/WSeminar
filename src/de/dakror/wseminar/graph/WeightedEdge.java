@@ -23,12 +23,10 @@ package de.dakror.wseminar.graph;
  */
 public class WeightedEdge<V> extends Edge<V> {
 	float weight;
-	String type;
 	
-	public WeightedEdge(V from, V to, float weight, String type) {
+	public WeightedEdge(V from, V to, float weight) {
 		super(from, to);
 		this.weight = weight;
-		this.type = type;
 	}
 	
 	public WeightedEdge(V from, V to, boolean directed, float weight) {
@@ -45,17 +43,9 @@ public class WeightedEdge<V> extends Edge<V> {
 		return this;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
 	@Override
 	public String toString() {
-		return "WE[" + from + " " + (directed ? "" : "<") + " " + weight + " (" + type + ") > " + to + "]";
+		return "WE[" + from + " " + (directed ? "" : "<") + " " + weight + " > " + to + "]";
 	}
 	
 	@Override

@@ -1,5 +1,21 @@
+<!-- 
+  Copyright 2015 Maximilian Stark | Dakror <mail@dakror.de>
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.geometry.*?>
@@ -9,7 +25,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane hgap="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.GenerateGraphDialogController">
+<GridPane hgap="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.GenerateGraphDialogController">
   <children>
     <ImageView fx:id="logo" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
     </ImageView>
@@ -20,7 +36,7 @@
             <Font name="System Bold" size="13.0" />
           </font>
         </Label>
-            <GridPane styleClass="property-sheet" VBox.vgrow="NEVER">
+            <GridPane prefHeight="95.0" prefWidth="292.0" styleClass="property-sheet" VBox.vgrow="NEVER">
               <columnConstraints>
                 <ColumnConstraints hgrow="NEVER" maxWidth="157.0" minWidth="10.0" prefWidth="137.0" />
                 <ColumnConstraints hgrow="ALWAYS" maxWidth="196.0" minWidth="10.0" prefWidth="188.0" />
@@ -53,11 +69,11 @@
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </padding>
             </GridPane>
-            <TitledPane fx:id="advanced" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="155.0" prefWidth="292.0" styleClass="text-like" text="Erweitert" VBox.vgrow="NEVER">
+            <TitledPane fx:id="advanced" animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="155.0" prefWidth="292.0" styleClass="text-like" text="Erweitert" VBox.vgrow="NEVER">
                <content>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="100.0" prefWidth="292.0">
                      <content>
-                        <GridPane fx:id="adv_abstract" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="274.0" styleClass="property-sheet" VBox.vgrow="NEVER">
+                        <GridPane fx:id="adv_abstract" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="94.0" prefWidth="292.0" styleClass="property-sheet" VBox.vgrow="NEVER">
               <columnConstraints>
                 <ColumnConstraints hgrow="NEVER" maxWidth="157.0" minWidth="10.0" prefWidth="137.0" />
                 <ColumnConstraints hgrow="ALWAYS" maxWidth="196.0" minWidth="10.0" prefWidth="188.0" />
@@ -65,7 +81,6 @@
               <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
@@ -87,8 +102,6 @@
                                     <Tooltip text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
                                  </tooltip>
                               </Slider>
-                              <Label text="Kantengewichte" GridPane.rowIndex="3" />
-                              <Button fx:id="edit_weights" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="bearbeiten..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Kantenart" GridPane.rowIndex="2" />
                               <ChoiceBox fx:id="edge_type" maxWidth="1.7976931348623157E308" prefHeight="23.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>

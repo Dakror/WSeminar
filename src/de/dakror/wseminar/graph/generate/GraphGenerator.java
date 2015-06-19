@@ -55,8 +55,6 @@ public class GraphGenerator<V> {
 		
 		int edgesPlaced = 0;
 		
-		String[] weights = params.get("weights");
-		
 		int edge_type = params.get("edge_type");
 		
 		for (int i = 0; i < nodes; i++) {
@@ -68,16 +66,11 @@ public class GraphGenerator<V> {
 					index = WSeminar.r.nextInt(nodes);
 				} while (index == i || graph.areConnected(graph.getVertices().get(i), graph.getVertices().get(index)));
 				
-				int types = Math.max(WSeminar.r.nextInt(weights.length), 1);
+				Edge<V> edge = new WeightedEdge<V>(graph.getVertices().get(i), graph.getVertices().get(index), WSeminar.r.nextInt(Const.edgesMaxCost));
 				
-				for (int k = 0; k < types; k++) {
-					Edge<V> edge = new WeightedEdge<V>(graph.getVertices().get(i), graph.getVertices().get(index), WSeminar.r.nextInt(Const.edgesMaxCost),
-																							weights[WSeminar.r.nextInt(weights.length)]);
-					
-					if (edge_type == 1 || (edge_type == 2 && WSeminar.r.nextFloat() > WSeminar.r.nextFloat())) edge.setDirected(true);
-					
-					graph.addEdge(edge);
-				}
+				if (edge_type == 1 || (edge_type == 2 && WSeminar.r.nextFloat() > WSeminar.r.nextFloat())) edge.setDirected(true);
+				
+				graph.addEdge(edge);
 			}
 			
 			edgesPlaced += edges;
