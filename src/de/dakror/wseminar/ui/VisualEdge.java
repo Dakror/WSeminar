@@ -29,7 +29,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Text;
 import de.dakror.wseminar.Const;
-import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Vertex;
@@ -45,7 +44,7 @@ public class VisualEdge<V> extends Line {
 	public Text text;
 	Polygon p;
 	Edge<Vertex<V>> edge;
-	State state;
+	boolean active;
 	
 	boolean left;
 	
@@ -54,8 +53,6 @@ public class VisualEdge<V> extends Line {
 					edge.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
 		this.edge = edge;
 		setId("E" + id);
-		
-		state = State.DEFAULT;
 		
 		left = WSeminar.r.nextBoolean();
 		
@@ -100,7 +97,7 @@ public class VisualEdge<V> extends Line {
 		cl.changed(null, 0, 0); // initial placement for sub elements
 		
 		EventHandler<MouseEvent> en = e -> setColor(Color.valueOf("#5f5f5f"));
-		EventHandler<MouseEvent> ex = e -> setColor(state.getLineColor() != null ? state.getLineColor() : Color.DARKGRAY);
+		EventHandler<MouseEvent> ex = e -> setColor(active ? Color.valueOf("#2279e5") : Color.DARKGRAY);
 		
 		setOnMouseEntered(en);
 		setOnMouseExited(ex);
@@ -125,15 +122,16 @@ public class VisualEdge<V> extends Line {
 		p.setFill(color);
 	}
 	
-	public void setState(State state) {
-		this.state = state;
-		if (state.getLineColor() != null) setColor(state.getLineColor());
+	public void setActive(boolean active) {
+		if (active) setColor(Color.valueOf("#2279e5"));
 		else setColor(Color.DARKGRAY);
-		if (state.getTextColor() != null) text.setFill(state.getTextColor());
+		if (active) text.setFill(Color.valueOf("#2279e5").darker());
 		else text.setFill(Color.BLACK);
+		
+		this.active = active;
 	}
 	
-	public State getState() {
-		return state;
+	public boolean isActive() {
+		return active;
 	}
 }

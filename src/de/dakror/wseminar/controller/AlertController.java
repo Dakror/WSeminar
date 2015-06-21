@@ -30,7 +30,6 @@ import javafx.stage.Stage;
  * @author Dakror
  */
 public class AlertController {
-	
 	@FXML
 	private ResourceBundle resources;
 	

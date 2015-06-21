@@ -26,6 +26,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -37,6 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
@@ -47,7 +51,6 @@ import de.dakror.wseminar.math.Vector2;
  * @author Dakror
  */
 public class MainController {
-	
 	@FXML
 	private ResourceBundle resources;
 	
@@ -55,13 +58,22 @@ public class MainController {
 	private URL location;
 	
 	@FXML
-	private Menu menu_graph;
+	private ChoiceBox<String> path_strategy;
 	
 	@FXML
 	private MenuItem relayout_graph;
 	
 	@FXML
+	private CheckBox path_faststack;
+	
+	@FXML
 	private Slider zoom;
+	
+	@FXML
+	private CheckBox path_benchmark;
+	
+	@FXML
+	private CheckBox path_goalbounding;
 	
 	@FXML
 	private Pane graph;
@@ -73,10 +85,25 @@ public class MainController {
 	private MenuItem new_graph;
 	
 	@FXML
+	private Button path_start;
+	
+	@FXML
+	private Button path_delete;
+	
+	@FXML
+	private Menu menu_graph;
+	
+	@FXML
+	private ChoiceBox<String> path_algorithm;
+	
+	@FXML
 	private TreeView<String> graph_tree;
 	
 	@FXML
-	private TreeView<?> paths_tree;
+	private Button path_goal;
+	
+	@FXML
+	private CheckBox path_animate;
 	
 	float lastX = -1, lastY = -1;
 	
@@ -139,7 +166,7 @@ public class MainController {
 			} else {
 				if (e.isPrimaryButtonDown() && WSeminar.instance.activeVertex != null) {
 					if (!WSeminar.instance.activeVertex.contains(e.getX(), e.getY())) {
-						WSeminar.instance.activeVertex.setActive(false);
+						WSeminar.instance.activeVertex.setState(State.DEFAULT);
 						WSeminar.instance.activeVertex = null;
 					}
 				}
@@ -163,6 +190,9 @@ public class MainController {
 				last = System.currentTimeMillis();
 			}
 		});
+		
+		// -- path section -- //
+		
 	}
 	
 	void createGenerateDialog() {

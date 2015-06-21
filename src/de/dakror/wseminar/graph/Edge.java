@@ -14,10 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-
 package de.dakror.wseminar.graph;
-
-
 
 /**
  * @author Maximilian Stark | Dakror

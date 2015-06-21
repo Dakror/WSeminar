@@ -37,39 +37,39 @@
  ******************************************************************************/
 
 .theme-presets {
-    -sb-base: rgb(147, 147, 147);
-    -sb-base-dark: derive(-sb-base, -25%);
+    -sb-base: rgb(147.0, 147.0, 147.0);
+    -sb-base-dark: derive(-sb-base, -25.0%);
     
-    -sb-header-text: derive(-sb-base, -70%);
-    -sb-header-text-dimmed: derive(-sb-base, -30%);
-    -sb-header-detail: derive(-sb-base, -40%);
-    -sb-header-height: 32;
+    -sb-header-text: derive(-sb-base, -70.0%);
+    -sb-header-text-dimmed: derive(-sb-base, -30.0%);
+    -sb-header-detail: derive(-sb-base, -40.0%);
+    -sb-header-height: 32.0;
     
-    -sb-content-text: derive(-sb-base, -50%);
-    -sb-content-text-dimmed: derive(-sb-base, -20%);
-    -sb-content-detail: derive(-sb-base, -25%);
-    -sb-content-background: derive(-sb-base, 98%);
+    -sb-content-text: derive(-sb-base, -50.0%);
+    -sb-content-text-dimmed: derive(-sb-base, -20.0%);
+    -sb-content-detail: derive(-sb-base, -25.0%);
+    -sb-content-background: derive(-sb-base, 98.0%);
     
-    -sb-grad-hi: derive(-sb-base, 110%);
-    -sb-sharp-edge-hi: derive(-sb-base, 90%);
-    -sb-flat: derive(-sb-base, 60%);
-    -sb-sharp-edge-lo: derive(-sb-base, 20%);
+    -sb-grad-hi: derive(-sb-base, 110.0%);
+    -sb-sharp-edge-hi: derive(-sb-base, 90.0%);
+    -sb-flat: derive(-sb-base, 60.0%);
+    -sb-sharp-edge-lo: derive(-sb-base, 20.0%);
     
-    -sb-scrollbar-thumb: derive(-sb-base, 60%);
+    -sb-scrollbar-thumb: derive(-sb-base, 60.0%);
     
     -sb-focus-color: -fx-focus-color;
-    -sb-focus-inner-background: rgba(255, 255, 255, 0.4);
-    -sb-selected-bar-color: rgb(75, 155, 210);
-    -sb-selected-bar-unfocused-color: derive(-sb-content-background, -15%);
+    -sb-focus-inner-background: rgba(255.0, 255.0, 255.0, 0.4);
+    -sb-selected-bar-color: rgb(75.0, 155.0, 210.0);
+    -sb-selected-bar-unfocused-color: derive(-sb-content-background, -15.0%);
     
-    -sb-line-art: derive(-sb-base, 40%);
+    -sb-line-art: derive(-sb-base, 40.0%);
     -sb-line-art-accent: red;
     
-    -sb-css-winner-color: rgb(210, 240, 255);
-    -sb-warning-panel: rgb(230, 225, 140);
-    -sb-warning-panel-text: derive(-sb-base, -50%);
-    -sb-warning-panel-text-dimmed: derive(-sb-base, -20%);
-    -sb-message-panel: rgb(185, 220, 240);
+    -sb-css-winner-color: rgb(210.0, 240.0, 255.0);
+    -sb-warning-panel: rgb(230.0, 225.0, 140.0);
+    -sb-warning-panel-text: derive(-sb-base, -50.0%);
+    -sb-warning-panel-text-dimmed: derive(-sb-base, -20.0%);
+    -sb-message-panel: rgb(185.0, 220.0, 240.0);
 }
 
 /*******************************************************************************
@@ -84,11 +84,11 @@
 
 .theme-presets .context-menu {
     -fx-background-color: -sb-sharp-edge-lo, white;
-    -fx-background-insets: 0, 1;
-    -fx-background-radius: 0;
+    -fx-background-insets: 0.0, 1.0;
+    -fx-background-radius: 0.0;
 }
 .theme-presets .custom-menu-item {
-    -fx-padding: 4 8 4 8;
+    -fx-padding: 4.0 8.0 4.0 8.0;
 }
 .theme-presets .custom-menu-item:focused {
     -fx-background: white;
@@ -115,10 +115,10 @@
         c0,1.979-1.602,3.58-3.578,3.58c-1.979,0-3.582-1.602-3.582-3.58c0-1.978,1.603-3.58,3.582-3.58
         C9.98,4.418,11.582,6.021,11.582,7.998z";
     -fx-background-color: -sb-header-detail;
-    -fx-min-width: 8;
-    -fx-max-width: 8;
-    -fx-min-height: 8;
-    -fx-max-height: 8;
+    -fx-min-width: 8.0;
+    -fx-max-width: 8.0;
+    -fx-min-height: 8.0;
+    -fx-max-height: 8.0;
 }
 .theme-presets .property-sheet .cog-shape {
     -fx-background-color: -sb-content-detail;
@@ -130,18 +130,18 @@
 
 .theme-presets .accordion > .titled-pane > .title {
     -fx-background-color: 
-        derive(-sb-content-background, -35%), -sb-sharp-edge-lo, -sb-sharp-edge-hi, -sb-flat;
-    -fx-background-insets: 0 0 -1 0, 0, 1 0 0 0, 2 0 0 0; 
+        derive(-sb-content-background, -35.0%), -sb-sharp-edge-lo, -sb-sharp-edge-hi, -sb-flat;
+    -fx-background-insets: 0.0 0.0 -1.0 0.0, 0.0, 1.0 0.0 0.0 0.0, 2.0 0.0 0.0 0.0; 
     -fx-padding: 0.385em 0.692em 0.231em 0.692em;
     -fx-font-size: 0.875em;
     -fx-alignment: center-right;
-    -fx-effect: dropshadow( two-pass-box, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 1 );
+    -fx-effect: dropshadow( two-pass-box, rgba(0.0, 0.0, 0.0, 0.2), 5.0, 0.0, 0.0, 1.0 );
 }
 .theme-presets .accordion > .titled-pane > .title > .text {
     -fx-fill: -sb-header-text;
 }
 .theme-presets .accordion > .first-titled-pane > .title {
-    -fx-background-insets: 0 0 -1 0, 0, 1 0 1 0, 2 0 0 0;
+    -fx-background-insets: 0.0 0.0 -1.0 0.0, 0.0, 1.0 0.0 1.0 0.0, 2.0 0.0 0.0 0.0;
 }
 .theme-presets .accordion > .titled-pane > .title > .arrow-button {
     -fx-padding: -0.154em 0.583em 0.0em 0.0em; 
@@ -151,8 +151,8 @@
     -fx-padding: 0.154em 0.231em 0.231em 0.231em; /* 2 3 3 3 */
 }
 .theme-presets .pane-shadow {
-    -fx-background-color: derive(-sb-content-background, -35%);
-    -fx-effect: dropshadow( two-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 0 );
+    -fx-background-color: derive(-sb-content-background, -35.0%);
+    -fx-effect: dropshadow( two-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0, 0.0, 0.0, 0.0 );
 }
 
 /*******************************************************************************
@@ -165,15 +165,15 @@
 .theme-presets .SBKIT-library-panel .accordion > .titled-pane > .content,
 .theme-presets .SBKIT-hierarchy-panel .tree-view {
     -fx-border-color: null;
-    -fx-border-width: 0;
+    -fx-border-width: 0.0;
     -fx-background-color: -sb-content-background;
-    -fx-background-insets: 0;
-    -fx-padding: 0;
+    -fx-background-insets: 0.0;
+    -fx-padding: 0.0;
 }
 
 .theme-presets .titled-pane > .content {
-    -fx-border-width: 0;
-    -fx-border-insets: 0;
+    -fx-border-width: 0.0;
+    -fx-border-insets: 0.0;
 }
 
 /*******************************************************************************
@@ -182,12 +182,12 @@
 
 .theme-presets .SBKIT-inspector-panel.split-pane > .split-pane-divider {
     -fx-background-color: transparent;
-    -fx-background-insets: -1 0 -3 0;
-    -fx-border-width: 0;
-    -fx-padding: 0;
+    -fx-background-insets: -1.0 0.0 -3.0 0.0;
+    -fx-border-width: 0.0;
+    -fx-padding: 0.0;
 }
 .theme-presets .SBKIT-inspector-panel.split-pane > .split-pane-divider .split-pane-divider {
-    -fx-padding: 3;
+    -fx-padding: 3.0;
     -fx-shape: "";
 }
 
@@ -208,40 +208,40 @@
 }
 .theme-presets .scroll-bar .increment-arrow, 
 .theme-presets .scroll-bar .decrement-arrow {
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 .theme-presets .scroll-bar:vertical {
     -fx-background-color: -sb-sharp-edge-lo, -sb-content-background;
-    -fx-background-insets: 0 0 0 0, 0 0 0 1;
+    -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0 0.0 0.0 1.0;
 }
 .theme-presets .scroll-bar:horizontal {
     -fx-background-color: -sb-sharp-edge-lo, -sb-content-background;
-    -fx-background-insets: 0, 1 0 0 0;
+    -fx-background-insets: 0.0, 1.0 0.0 0.0 0.0;
 }
 .theme-presets .scroll-bar .thumb {
-    -fx-background-color: derive(-sb-sharp-edge-lo, 0%), -sb-scrollbar-thumb;
-    -fx-background-radius: 10, 10;
+    -fx-background-color: derive(-sb-sharp-edge-lo, 0.0%), -sb-scrollbar-thumb;
+    -fx-background-radius: 10.0, 10.0;
 }
 .theme-presets .scroll-bar:vertical .thumb {
-    -fx-background-insets: 3 4 3 4, 4 5 4 5;
+    -fx-background-insets: 3.0 4.0 3.0 4.0, 4.0 5.0 4.0 5.0;
 }
 .theme-presets .scroll-bar:horizontal .thumb {
-    -fx-background-insets: 4 3 4 3, 5 4 5 4;
+    -fx-background-insets: 4.0 3.0 4.0 3.0, 5.0 4.0 5.0 4.0;
 }
 .theme-presets .scroll-pane .corner,
 .theme-presets .tree-view .virtual-flow .corner {
     -fx-background-color: -sb-sharp-edge-lo, -sb-content-background;
-    -fx-background-insets: 0 -1 -1 0, 1 -1 -1 1;
+    -fx-background-insets: 0.0 -1.0 -1.0 0.0, 1.0 -1.0 -1.0 1.0;
 }
 
 .theme-presets .text-area .scroll-pane .scroll-bar:horizontal {
-    -fx-background-insets: 0 1 1 1, 1 1 1 1;
+    -fx-background-insets: 0.0 1.0 1.0 1.0, 1.0 1.0 1.0 1.0;
 }
 .theme-presets .text-area .scroll-pane .scroll-bar:vertical {
-    -fx-background-insets: 1 1 1 0, 1 1 1 1;
+    -fx-background-insets: 1.0 1.0 1.0 0.0, 1.0 1.0 1.0 1.0;
 }
 .theme-presets .text-area .scroll-pane .corner {
-    -fx-background-insets: 0 1 1 0, 1 1 1 1;
+    -fx-background-insets: 0.0 1.0 1.0 0.0, 1.0 1.0 1.0 1.0;
 }
 
 /*******************************************************************************
@@ -258,7 +258,7 @@
 
 .theme-presets .SBKIT-library-panel .list-view {
     -fx-background-color: transparent;
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 .theme-presets .SBKIT-library-panel .list-view .list-cell .text {
     -fx-fill: -sb-content-text;
@@ -266,8 +266,8 @@
 .theme-presets .SBKIT-library-panel .list-view .list-cell {
     -fx-background-color: transparent;
     -fx-cell-size: 1.8em;
-    -fx-background-insets: 2 0 -2 0;
-    -fx-padding: 2 0 0 4;
+    -fx-background-insets: 2.0 0.0 -2.0 0.0;
+    -fx-padding: 2.0 0.0 0.0 4.0;
 }
 .theme-presets .SBKIT-library-panel .list-view .list-cell:filled:hover {
     -fx-background-color: null; /* no hover effect on list view */
@@ -289,23 +289,23 @@
 /* ListCell graphic is an HBox */
 .theme-presets .SBKIT-library-panel .list-cell-graphic {
     -fx-alignment: center-left;
-    -fx-padding: 0 2 0 2;
-    -fx-spacing: 4;
+    -fx-padding: 0.0 2.0 0.0 2.0;
+    -fx-spacing: 4.0;
 }
 
 .theme-presets .SBKIT-library-panel .library-no-results-label {
     -fx-text-fill: -sb-content-text-dimmed;
     -fx-font-size: 0.875em;
-    -fx-padding: 6 0 0 10;
+    -fx-padding: 6.0 0.0 0.0 10.0;
 }
 
 .theme-presets .SBKIT-library-panel .library-section-label {
-    -fx-text-fill: derive(-sb-content-text, 10%);
+    -fx-text-fill: derive(-sb-content-text, 10.0%);
     -fx-font-size: 0.875em;
     -fx-background-color: 
-        derive(-sb-sharp-edge-lo, 65%),
-        linear-gradient(to right, derive(-sb-content-background, 40%) 0%, -sb-content-background 70%);
-    -fx-background-insets: -4 -2 -4 -12, -3 -2 -3 -12;
+        derive(-sb-sharp-edge-lo, 65.0%),
+        linear-gradient(to right, derive(-sb-content-background, 40.0%) 0.0%, -sb-content-background 70.0%);
+    -fx-background-insets: -4.0 -2.0 -4.0 -12.0, -3.0 -2.0 -3.0 -12.0;
 }
 
 .theme-presets .SBKIT-library-panel .library-classname-label {
@@ -350,15 +350,15 @@
 
 .theme-presets .SBKIT-hierarchy-panel .tree-cell {
     -fx-background-color: transparent;
-    -fx-padding: 2 0 2 0;
-    -fx-background-insets: 0 0 0 0;
+    -fx-padding: 2.0 0.0 2.0 0.0;
+    -fx-background-insets: 0.0 0.0 0.0 0.0;
 }
 .theme-presets .SBKIT-hierarchy-panel .tree-cell .label {
     -fx-text-fill: -sb-content-text;
 }
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-first-cell {
-    -fx-padding: 4 0 0 1; 
-    -fx-background-insets: 4 0 0 0;
+    -fx-padding: 4.0 0.0 0.0 1.0; 
+    -fx-background-insets: 4.0 0.0 0.0 0.0;
 }
 
 /* Selected rows */
@@ -381,19 +381,19 @@
 /* TreeCell graphic is a HBox */
 .theme-presets .SBKIT-hierarchy-panel .tree-cell-graphic {
     -fx-alignment: center-left;
-    -fx-padding: 0 2 0 0;
-    -fx-spacing: 2;
+    -fx-padding: 0.0 2.0 0.0 0.0;
+    -fx-spacing: 2.0;
 }
 
 .theme-presets .SBKIT-hierarchy-panel .tree-view .tree-cell .tree-disclosure-node {
-    -fx-padding: 7 6 6 9;
-    -fx-background-color: derive(-sb-sharp-edge-hi, -60%), derive(-sb-sharp-edge-lo, 55%);
-    -fx-background-insets: 3 2 2 5, 4 3 3 6;
-    -fx-background-radius: 10;
+    -fx-padding: 7.0 6.0 6.0 9.0;
+    -fx-background-color: derive(-sb-sharp-edge-hi, -60.0%), derive(-sb-sharp-edge-lo, 55.0%);
+    -fx-background-insets: 3.0 2.0 2.0 5.0, 4.0 3.0 3.0 6.0;
+    -fx-background-radius: 10.0;
     -fx-cursor: hand;
 }
 .theme-presets .SBKIT-hierarchy-panel .tree-view .tree-cell:expanded .tree-disclosure-node {
-    -fx-background-color: derive(-sb-sharp-edge-lo, 10%), derive(-sb-sharp-edge-hi, 0%);
+    -fx-background-color: derive(-sb-sharp-edge-lo, 10.0%), derive(-sb-sharp-edge-hi, 0.0%);
 }
 .theme-presets .SBKIT-hierarchy-panel .tree-view .tree-cell .tree-disclosure-node .arrow {
     -fx-shape: "M0,3h3V0h1v3h3v1H4v3H3l0-3H0V3z";
@@ -404,7 +404,7 @@
     -fx-shape: "M0,3h7v1H0V3z M0,0L0,0L0,0L0,0L0,0z M7,7L7,7L7,7L7,7L7,7z";
     -fx-padding: 0.2em;
     -fx-background-color: -sb-content-text;
-    -fx-rotate: 0;
+    -fx-rotate: 0.0;
 }
 
 /*******************************************************************************
@@ -412,7 +412,7 @@
  ******************************************************************************/
 
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-place-holder-label {
-    -fx-label-padding: 0 3 0 0;
+    -fx-label-padding: 0.0 3.0 0.0 0.0;
 }
 
 /*******************************************************************************
@@ -422,7 +422,7 @@
 /* editable label on node in hierarchy (info / node id / fx:id) */
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-readwrite-label {
     -fx-border-color: transparent;
-    -fx-border-insets: 0 1 0 0;
+    -fx-border-insets: 0.0 1.0 0.0 0.0;
 }
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-readwrite-label:hover {
     -fx-border-color: -sb-sharp-edge-hi;
@@ -437,10 +437,10 @@
 
 .theme-presets .SBKIT-hierarchy-panel .inline-editor, .inline-editor:focused {
     -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-border-color: rgb(25, 164, 255);
+    -fx-background-insets: 0.0;
+    -fx-border-color: rgb(25.0, 164.0, 255.0);
     -fx-text-fill: black;
-    -fx-padding: 0 1 0 1;
+    -fx-padding: 0.0 1.0 0.0 1.0;
 }
 
 /*******************************************************************************
@@ -453,11 +453,11 @@
     -fx-text-alignment: center;
     -fx-alignment: center;
     -fx-wrap-text: true;
-    -fx-label-padding: 16;
+    -fx-label-padding: 16.0;
     -fx-background-color: transparent;
     -fx-border-color: -sb-sharp-edge-lo;
-    -fx-border-width: 1;
-    -fx-border-style: segments(1px, 2px);
+    -fx-border-width: 1.0;
+    -fx-border-style: segments(1.0px, 2.0px);
 }
 
 /*******************************************************************************
@@ -469,25 +469,25 @@
 .theme-presets .SBKIT-content-panel .selection-handles {
     -fx-fill: white;
     -fx-stroke: blue;
-    -fx-stroke-width: 1;
+    -fx-stroke-width: 1.0;
     -fx-stroke-type: inside;
 }
 
 .theme-presets .SBKIT-content-panel .selection-handles-dim {
     -fx-fill: white;
     -fx-stroke: gray;
-    -fx-stroke-width: 1;
+    -fx-stroke-width: 1.0;
     -fx-stroke-type: inside;
 }
 
 .theme-presets .SBKIT-content-panel .selection-rect {
     -fx-stroke: null; 
-    -fx-fill: rgba(0, 0, 0, 0.05);
+    -fx-fill: rgba(0.0, 0.0, 0.0, 0.05);
 }
 
 .theme-presets .SBKIT-content-panel .selection-wire {
-    -fx-stroke: rgb(25, 164, 255);
-    -fx-stroke-width: 1;
+    -fx-stroke: rgb(25.0, 164.0, 255.0);
+    -fx-stroke-width: 1.0;
     -fx-fill: null;
 }
 
@@ -499,7 +499,7 @@
 
 .theme-presets .SBKIT-content-panel .parent-ring {
     /* -fx-stroke is setup from user preferences */
-    -fx-stroke-width: 7;
+    -fx-stroke-width: 7.0;
     -fx-stroke-type: outside;
     -fx-opacity: 0.5;
     -fx-fill: null;
@@ -507,14 +507,14 @@
 
 .theme-presets .SBKIT-content-panel .target-ring {
     /* -fx-stroke is setup from user preferences */
-    -fx-stroke-width: 7;
+    -fx-stroke-width: 7.0;
     -fx-stroke-type: inside;
     -fx-opacity: 0.9;
     -fx-fill: null;
 }
 
 .theme-presets .SBKIT-content-panel .target-crack {
-    -fx-stroke-width: 5;
+    -fx-stroke-width: 5.0;
     -fx-stroke-type: centered;
     -fx-stroke-line-cap: butt;
     -fx-stroke: black;
@@ -523,9 +523,9 @@
 }
 
 .theme-presets .SBKIT-content-panel .resize-rudder {
-    -fx-stroke-width: 1;
+    -fx-stroke-width: 1.0;
     -fx-opacity: 0.3;
-    -fx-stroke-dash-array: 8 8;
+    -fx-stroke-dash-array: 8.0 8.0;
 }
 
 /*******************************************************************************
@@ -534,15 +534,15 @@
 
 .theme-presets .SBKIT-content-panel .stage-prompt {
     -fx-font-size: 1.231em; /* 16px (base pixel size of 13px) */
-    -fx-text-fill: derive(-sb-content-text, 100%);
+    -fx-text-fill: derive(-sb-content-text, 100.0%);
     -fx-text-alignment: center;
     -fx-alignment: center;
     -fx-wrap-text: true;
-    -fx-label-padding: 16;
+    -fx-label-padding: 16.0;
     -fx-background-color: transparent;
     -fx-border-color: -sb-sharp-edge-hi;
-    -fx-border-width: 1;
-    -fx-border-style: segments(1px, 2px);
+    -fx-border-width: 1.0;
+    -fx-border-style: segments(1.0px, 2.0px);
 }
 
 .theme-presets .SBKIT-content-panel .stage-prompt-default {
@@ -551,7 +551,7 @@
     -fx-text-alignment: center;
     -fx-alignment: center;
     -fx-wrap-text: true;
-    -fx-label-padding: 16;
+    -fx-label-padding: 16.0;
     -fx-background-color: white;
     /*-fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.3), 15, 0.0, 0, 10 );*/
 }
@@ -561,18 +561,18 @@
  ******************************************************************************/
 
 .theme-presets .SBKIT-content-panel .tray {
-    -fx-border-color: rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5);
-    -fx-border-insets: 0, 1, 2;
-    -fx-border-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-border-color: rgba(255.0, 255.0, 255.0, 0.4), rgba(0.0, 0.0, 0.0, 0.5), rgba(255.0, 255.0, 255.0, 0.5);
+    -fx-border-insets: 0.0, 1.0, 2.0;
+    -fx-border-radius: 5.0 5.0 0.0 0.0, 4.0 4.0 0.0 0.0, 3.0 3.0 0.0 0.0;
     -fx-background-color: #bbddff; /* Can be overwritten by user preferences */
-    -fx-background-radius: 2 2 0 0;
-    -fx-background-insets: 3;
+    -fx-background-radius: 2.0 2.0 0.0 0.0;
+    -fx-background-insets: 3.0;
     -fx-alignment: center;
 }
 
 .theme-presets .SBKIT-content-panel .tray.south {
-    -fx-border-radius: 0 0 5 5, 0 0 4 4, 0 0 3 3;
-    -fx-background-radius: 0 0 2 2;
+    -fx-border-radius: 0.0 0.0 5.0 5.0, 0.0 0.0 4.0 4.0, 0.0 0.0 3.0 3.0;
+    -fx-background-radius: 0.0 0.0 2.0 2.0;
 }
 
 .theme-presets .SBKIT-content-panel .tray.text {
@@ -582,11 +582,11 @@
 }
 
 .theme-presets .SBKIT-content-panel .tray.west .text {
-   -fx-rotate: +90;
+   -fx-rotate: 90.0;
 }
 
 .theme-presets .SBKIT-content-panel .tray.east .text {
-   -fx-rotate: -90;
+   -fx-rotate: -90.0;
 }
 
 /*******************************************************************************
@@ -595,32 +595,32 @@
 
 .theme-presets .SBKIT-content-panel .gap {
     -fx-stroke: transparent;
-    -fx-fill: rgba(0,0,0,0.2);
+    -fx-fill: rgba(0.0,0.0,0.0,0.2);
 }
 
 .theme-presets .SBKIT-content-panel .gap.selected {
-    -fx-fill: rgba(0,0,0,0.4);
+    -fx-fill: rgba(0.0,0.0,0.0,0.4);
 }
 
 .theme-presets .SBKIT-content-panel .gap.hilit {
-    -fx-stroke: rgba(0,0,0,0.4);
+    -fx-stroke: rgba(0.0,0.0,0.0,0.4);
     -fx-stroke-line-cap: butt;
 /*  -fx-stroke-width is setup programmatically */
 }
 
 .theme-presets .SBKIT-content-panel .gap.empty {
-    -fx-stroke: rgba(0,0,0,0.4);
+    -fx-stroke: rgba(0.0,0.0,0.0,0.4);
     -fx-stroke-line-cap: butt;
-    -fx-stroke-dash-array: 3 3;
+    -fx-stroke-dash-array: 3.0 3.0;
 }
 
 .theme-presets .SBKIT-content-panel .tray.selected {
-    -fx-border-color: rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 1), rgba(255, 255, 255, 0.5);
+    -fx-border-color: rgba(255.0, 255.0, 255.0, 0.4), rgba(0.0, 0.0, 0.0, 1.0), rgba(255.0, 255.0, 255.0, 0.5);
     -fx-background-color: yellow;
 }
 
 .theme-presets .SBKIT-content-panel .tray.selected .text {
-    -fx-text-fill: rgba(0,0,0,0.8);
+    -fx-text-fill: rgba(0.0,0.0,0.0,0.8);
 }
 
 /*******************************************************************************
@@ -629,17 +629,17 @@
 
 .theme-presets .SBKIT-content-panel .target-ring.BorderPane {
     -fx-alignment: CENTER;
-    -fx-border-width: 1;
-    -fx-border-color: rgba(0,0,0,0.1);
-    -fx-background-color: rgba(0,0,0,0.1);
+    -fx-border-width: 1.0;
+    -fx-border-color: rgba(0.0,0.0,0.0,0.1);
+    -fx-background-color: rgba(0.0,0.0,0.0,0.1);
     -fx-text-fill: grey;
 }
 
 .theme-presets .SBKIT-content-panel .target-ring.selected.BorderPane {
     -fx-alignment: CENTER;
-    -fx-border-width: 1;
-    -fx-border-color: rgba(0,0,0,0.1);
-    -fx-background-color: rgba(0,0,0,0.4);
+    -fx-border-width: 1.0;
+    -fx-border-color: rgba(0.0,0.0,0.0,0.1);
+    -fx-background-color: rgba(0.0,0.0,0.0,0.4);
     -fx-text-fill: grey;
 }
 
@@ -649,8 +649,8 @@
 
 .theme-presets .SBKIT-content-panel .marquee {
 /*    -fx-fill: rgba(178, 178, 229, 0.2);*/
-    -fx-fill: rgba(150, 150, 150, 0.2);
-    -fx-stroke: rgba(0, 0, 0, 0.3);
+    -fx-fill: rgba(150.0, 150.0, 150.0, 0.2);
+    -fx-stroke: rgba(0.0, 0.0, 0.0, 0.3);
     -fx-stroke-type: inside;
 }
 
@@ -659,8 +659,8 @@
  ******************************************************************************/
 
 .theme-presets .SBKIT-content-panel .resize-shadow {
-    -fx-background-color: rgba(255, 255, 0.0, 0.5);
-    -fx-border-width: 1;
+    -fx-background-color: rgba(255.0, 255.0, 0.0, 0.5);
+    -fx-border-width: 1.0;
     -fx-border-style: dotted;
     -fx-border-color: black;
 }
@@ -670,8 +670,8 @@
  ******************************************************************************/
 
 .theme-presets .SBKIT-content-panel .css-pick-chrome {
-    -fx-background-color: rgba(0.0, 255, 0.0, 0.5);
-    -fx-border-width: 1;
+    -fx-background-color: rgba(0.0, 255.0, 0.0, 0.5);
+    -fx-border-width: 1.0;
     -fx-border-style: dotted;
     -fx-border-color: black;
 }
@@ -681,9 +681,9 @@
  ******************************************************************************/
 
 .theme-presets .SBKIT-content-panel .outline-ring {
-    -fx-stroke: rgba(0,0,0,0.2);
+    -fx-stroke: rgba(0.0,0.0,0.0,0.2);
     -fx-stroke-type: inside;
-    -fx-fill: rgba(0,0,0,0.01);
+    -fx-fill: rgba(0.0,0.0,0.0,0.01);
 }
 
 
@@ -713,7 +713,7 @@
 
 .theme-presets .property-sheet .label {
     -fx-text-fill: -sb-content-text;
-    -fx-padding: 4 0 3 0;
+    -fx-padding: 4.0 0.0 3.0 0.0;
 }
 
 .theme-presets .property-sheet .button {
@@ -721,24 +721,24 @@
 }
 
 .theme-presets .property-sheet .check-box .box {
-    -fx-background-radius: 0;
+    -fx-background-radius: 0.0;
     -fx-padding: 0.231em 0.231em 0.154em 0.154em;
 }
 .theme-presets .property-sheet .check-box:selected .box {
-    -fx-background-radius: 0;
+    -fx-background-radius: 0.0;
     -fx-padding: 0.308em;
 }
 .theme-presets .property-sheet .check-box:selected > .box > .mark,
 .theme-presets .property-sheet .check-box:indeterminate > .box > .mark {
     -fx-background-color: -sb-content-detail;
-    -fx-background-insets: 0;
+    -fx-background-insets: 0.0;
     -fx-padding: 0.308em 0.308em 0.385em 0.385em;
 }
 
 .theme-presets .property-sheet .hyperlink, 
 .theme-presets .property-sheet .hyperlink:visited {
     -fx-text-fill: -sb-content-text;
-    -fx-padding: 3 4 2 0;
+    -fx-padding: 3.0 4.0 2.0 0.0;
     -fx-underline: false;
 }
 .theme-presets .property-sheet .hyperlink:hover, 
@@ -750,43 +750,43 @@
 .theme-presets .property-sheet .choice-box, 
 .theme-presets .property-sheet .menu-button, 
 .theme-presets .property-sheet .toggle-button {
-    -fx-padding: 4 6 3 6;
-    -fx-background-radius: 0;
+    -fx-padding: 4.0 6.0 3.0 6.0;
+    -fx-background-radius: 0.0;
 }
 
 .theme-presets .property-sheet .text-field {
     -fx-text-fill: -sb-content-text;
-    -fx-padding: 4 5 3 5;
-    -fx-background-radius: 0;
+    -fx-padding: 4.0 5.0 3.0 5.0;
+    -fx-background-radius: 0.0;
 }
 
 .theme-presets .property-sheet .text-area {
     -fx-text-fill: -sb-content-text;
-    -fx-background-radius: 0;
+    -fx-background-radius: 0.0;
 }
 .theme-presets .property-sheet .text-area .content {
-    -fx-padding: 3 5 3 5;
+    -fx-padding: 3.0 5.0 3.0 5.0;
 }
 
 .theme-presets .property-sheet .choice-box > .open-button, 
 .theme-presets .property-sheet .menu-button > .arrow-button {
-    -fx-padding: 2 0 2 0;
+    -fx-padding: 2.0 0.0 2.0 0.0;
 }
 .theme-presets .property-sheet .choice-box > .label, 
 .theme-presets .property-sheet .menu-button > .label {
-    -fx-padding: 0 4 0 0;
+    -fx-padding: 0.0 4.0 0.0 0.0;
 }
 .theme-presets .property-sheet .choice-box > .open-button > .arrow,
 .theme-presets .property-sheet .menu-button > .arrow-button > .arrow  {
     -fx-background-color: -sb-content-detail;
-    -fx-background-insets: 0;
+    -fx-background-insets: 0.0;
     -fx-padding: 0.154em 0.308em 0.154em 0.231em;  /* 2 4 2 3 */
 }
 
 .theme-presets .property-sheet .small-label {
-    -fx-font-size: 0.750em; /* 9 */
+    -fx-font-size: 0.75em; /* 9 */
     -fx-text-fill: -sb-content-text-dimmed;
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 
 .theme-presets .inspector-message .text {
@@ -796,27 +796,27 @@
 
 .theme-presets .property-sheet .cog-menubutton {
     -fx-background-color: -sb-content-background;
-    -fx-background-radius: 0;
-    -fx-padding: 4 0 3 1;
-    -fx-graphic-text-gap: 0;
-    -fx-min-width: 10;
-    -fx-max-width: 10;
-    -fx-min-height: 10;
+    -fx-background-radius: 0.0;
+    -fx-padding: 4.0 0.0 3.0 1.0;
+    -fx-graphic-text-gap: 0.0;
+    -fx-min-width: 10.0;
+    -fx-max-width: 10.0;
+    -fx-min-height: 10.0;
 }
 .theme-presets .property-sheet .cog-menubutton:hover {
-    -fx-background-color: derive(-sb-content-background, -10%), -sb-content-background;
-    -fx-background-insets: 0, 1;
+    -fx-background-color: derive(-sb-content-background, -10.0%), -sb-content-background;
+    -fx-background-insets: 0.0, 1.0;
 }
 .theme-presets .property-sheet .cog-menubutton:focused {
     -fx-background-color: -fx-focus-color, -fx-background;
 }
 .theme-presets .property-sheet .cog-menubutton > .arrow-button {
     visibility: hidden;
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 .theme-presets .property-sheet .cog-menubutton > .arrow {
     -fx-shape: null;
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 
 /*******************************************************************************
@@ -825,11 +825,11 @@
 
 .theme-presets .css-override {
     -fx-background-color: -sb-css-winner-color;
-    -fx-border-color: derive(-sb-sharp-edge-lo, 0%);
+    -fx-border-color: derive(-sb-sharp-edge-lo, 0.0%);
     -fx-border-style: dotted;
 }
 .theme-presets .css-override > .hyperlink {
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 
 /*******************************************************************************
@@ -838,10 +838,10 @@
 
 .theme-presets .sub-section-background {
     -fx-background-color:  
-        derive(-sb-sharp-edge-lo, 65%),
-        linear-gradient(to left, derive(-sb-content-background, 40%) 0%, -sb-content-background 70%);
-    -fx-background-insets: 7 -1 8 -10, 8 -1 9 -10;
-    -fx-padding: 8 10 8 0;
+        derive(-sb-sharp-edge-lo, 65.0%),
+        linear-gradient(to left, derive(-sb-content-background, 40.0%) 0.0%, -sb-content-background 70.0%);
+    -fx-background-insets: 7.0 -1.0 8.0 -10.0, 8.0 -1.0 9.0 -10.0;
+    -fx-padding: 8.0 10.0 8.0 0.0;
 }
 
 /*******************************************************************************
@@ -850,19 +850,19 @@
 
 .theme-presets .property-sheet .insets-icon-top {
     -fx-background-color: -sb-content-detail, -sb-flat, -sb-content-background;
-    -fx-background-insets: 0, 1 0 0 0, 1;
+    -fx-background-insets: 0.0, 1.0 0.0 0.0 0.0, 1.0;
 }
 .theme-presets .property-sheet .insets-icon-right {
     -fx-background-color: -sb-content-detail, -sb-flat, -sb-content-background;
-    -fx-background-insets: 0, 0 1 0 0, 1;
+    -fx-background-insets: 0.0, 0.0 1.0 0.0 0.0, 1.0;
 }
 .theme-presets .property-sheet .insets-icon-bottom {
     -fx-background-color: -sb-content-detail, -sb-flat, -sb-content-background;
-    -fx-background-insets: 0, 0 0 1 0, 1;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0, 1.0;
 }
 .theme-presets .property-sheet .insets-icon-left {
     -fx-background-color: -sb-content-detail, -sb-flat, -sb-content-background;
-    -fx-background-insets: 0, 0 0 0 1, 1;
+    -fx-background-insets: 0.0, 0.0 0.0 0.0 1.0, 1.0;
 }
 
 .theme-presets .property-sheet .insets-copy-button-shape {
@@ -870,24 +870,24 @@
         6.643L3.598,4L0.9,1.357 C0.703,1.164,0.7,0.847,0.893,0.65c0.194-0.196,0.51-0.2,
         0.708-0.007L5.027,4L1.6,7.357C1.502,7.453,1.376,7.5,1.25,7.5z";
     -fx-background-color: -sb-content-detail;
-    -fx-min-width: 4;
-    -fx-max-width: 4;
-    -fx-min-height: 8;
-    -fx-max-height: 8;
+    -fx-min-width: 4.0;
+    -fx-max-width: 4.0;
+    -fx-min-height: 8.0;
+    -fx-max-height: 8.0;
 }
 .theme-presets .property-sheet .insets-copy-button {
     -fx-background-color: null;
-    -fx-background-radius: 0;
-    -fx-min-width: 10;
-    -fx-max-width: 10;
+    -fx-background-radius: 0.0;
+    -fx-min-width: 10.0;
+    -fx-max-width: 10.0;
 }
 .theme-presets .property-sheet .insets-copy-button:hover {
-    -fx-background-color: derive(-sb-content-background, -10%), -sb-content-background;
-    -fx-background-insets: 0 1 0 1, 1 2 1 2;
+    -fx-background-color: derive(-sb-content-background, -10.0%), -sb-content-background;
+    -fx-background-insets: 0.0 1.0 0.0 1.0, 1.0 2.0 1.0 2.0;
 }
 .theme-presets .property-sheet .insets-copy-button:focused {
     -fx-background-color: -fx-focus-color, -fx-background;
-    -fx-background-insets: 0 1 0 1, 1 2 1 2;
+    -fx-background-insets: 0.0 1.0 0.0 1.0, 1.0 2.0 1.0 2.0;
 }
 
 /*******************************************************************************
@@ -895,12 +895,12 @@
  ******************************************************************************/
 
 .theme-presets .property-sheet .rotation-dial {
-    -fx-background-radius: 100;
+    -fx-background-radius: 100.0;
 }
 .theme-presets .property-sheet .rotation-handle {
-    -fx-background-color: -sb-sharp-edge-lo, derive(-sb-flat, 30%);
-    -fx-background-insets: 14 5 14 23, 15 6 15 24;
-    -fx-background-radius: 20, 20;
+    -fx-background-color: -sb-sharp-edge-lo, derive(-sb-flat, 30.0%);
+    -fx-background-insets: 14.0 5.0 14.0 23.0, 15.0 6.0 15.0 24.0;
+    -fx-background-radius: 20.0, 20.0;
 }
 
 /*******************************************************************************
@@ -909,7 +909,7 @@
 
 .theme-presets .property-sheet .ap-constraints-outer-border {
     -fx-border-color: -sb-line-art;
-    -fx-border-insets: -1;
+    -fx-border-insets: -1.0;
 }
 .theme-presets .property-sheet .ap-constraints-inner-border {
     -fx-border-color: -sb-line-art;
@@ -922,16 +922,16 @@
 }
 .theme-presets .property-sheet .ap-constraints-toggle {
     -fx-background-color: transparent;
-    -fx-padding: 3;
+    -fx-padding: 3.0;
 }
 .theme-presets .property-sheet .ap-constraints-toggle:hover {
     -fx-cursor: hand;
     -fx-background-color: #cccccc, -fx-base;
-    -fx-background-insets: 1, 2;
+    -fx-background-insets: 1.0, 2.0;
 }
 .theme-presets .property-sheet .ap-constraints-toggle:focused {
     -fx-background-color: -fx-focus-color, -fx-inner-border, -fx-base, -fx-faint-focus-color, -fx-base;
-    -fx-background-insets: -0.2, 1, 2, -1.4, 2.6;
+    -fx-background-insets: -0.2, 1.0, 2.0, -1.4, 2.6;
 }
 
 /*******************************************************************************
@@ -940,13 +940,13 @@
 
 .theme-presets .property-sheet .multi-row-plus-button {
     -fx-text-fill: -sb-content-detail;
-    -fx-padding: 4 3 3 4;
-    -fx-min-width: 17;
+    -fx-padding: 4.0 3.0 3.0 4.0;
+    -fx-min-width: 17.0;
 }
 
 .theme-presets .property-sheet .multi-row-menubutton {
-    -fx-padding: 4 5 3 1;
-    -fx-min-width: 17;
+    -fx-padding: 4.0 5.0 3.0 1.0;
+    -fx-min-width: 17.0;
 }
 
 /*******************************************************************************
@@ -956,9 +956,9 @@
 .theme-presets .property-sheet .symbol-prefix {
     -fx-text-fill: -sb-content-text-dimmed;
     -fx-background-color: 
-        derive(-sb-content-background, -15%), -sb-content-background;
-    -fx-background-insets: 0, 1 0 1 1;
-    -fx-padding: 4 3 3 5;
+        derive(-sb-content-background, -15.0%), -sb-content-background;
+    -fx-background-insets: 0.0, 1.0 0.0 1.0 1.0;
+    -fx-padding: 4.0 3.0 3.0 5.0;
 }
 
 /*******************************************************************************
@@ -967,11 +967,11 @@
 
 .theme-presets .property-sheet .auto-suggest-popup, 
 .theme-presets .property-sheet .auto-suggest-popup .custom-menu-item {
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 .theme-presets .property-sheet .auto-suggest-popup .custom-menu-item .list-view {
     -fx-background-color: -sb-sharp-edge-lo, white;
-    -fx-background-insets: 0, 1;
+    -fx-background-insets: 0.0, 1.0;
 }
 
 /*******************************************************************************
@@ -982,7 +982,7 @@
     -fx-text-fill: -sb-content-text-dimmed;
 }
 .table-cell {
-    -fx-padding: 3 4 1 4;
+    -fx-padding: 3.0 4.0 1.0 4.0;
 }
 .theme-presets .property-sheet .table-row-cell {
     -fx-background-color: -fx-table-cell-border-color, -fx-background;
@@ -995,7 +995,7 @@
 .theme-presets .property-sheet .table-view > .column-header-background > .show-hide-columns-button,
 .theme-presets .property-sheet .table-view:constrained-resize .filler,
 .theme-presets .property-sheet .tree-table-view:constrained-resize .filler {
-    -fx-padding: 2 6 2 6;
+    -fx-padding: 2.0 6.0 2.0 6.0;
 }
 .theme-presets .property-sheet .column-header .label {
     -fx-text-fill: -sb-content-text;
@@ -1023,7 +1023,7 @@
 
 .theme-presets .css-panel-background {
     -fx-background-color: -sb-sharp-edge-lo, -sb-content-background;
-    -fx-background-insets: 0, 1 0 0 0;
+    -fx-background-insets: 0.0, 1.0 0.0 0.0 0.0;
 }
 
 /*******************************************************************************
@@ -1038,61 +1038,61 @@
 }
 .theme-presets .SBKIT-css-panel .table-view .hyperlink {
     -fx-font-size: 0.875em;
-    -fx-padding: 0 0 0 4;
-    -fx-border-width: 0px;
+    -fx-padding: 0.0 0.0 0.0 4.0;
+    -fx-border-width: 0.0px;
     -fx-text-fill: -sb-content-text;
 }
 .theme-presets .SBKIT-css-panel .table-view .label {
     -fx-font-size: 0.875em;
-    -fx-padding: 0 0 0 4;
+    -fx-padding: 0.0 0.0 0.0 4.0;
     -fx-text-fill: -sb-content-text;
 }
 .theme-presets .SBKIT-css-panel .table-view {
     -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-border-width: 0;
-    -fx-padding: 0;
+    -fx-background-insets: 0.0;
+    -fx-border-width: 0.0;
+    -fx-padding: 0.0;
 }
 .theme-presets .SBKIT-css-panel .table-row-cell, .table-row-cell:selected {
-    -fx-background-color: derive(-sb-line-art, 30%), -sb-content-background;
-    -fx-background-insets: 0, 0 1 1 0;
+    -fx-background-color: derive(-sb-line-art, 30.0%), -sb-content-background;
+    -fx-background-insets: 0.0, 0.0 1.0 1.0 0.0;
 }
 .theme-presets .SBKIT-css-panel .table-cell {
-    -fx-background-color: derive(-sb-line-art, 30%), -sb-content-background;
-    -fx-background-insets: 0, 0 1 1 0;
-    -fx-border-width: 0;
-    -fx-padding: 0;
+    -fx-background-color: derive(-sb-line-art, 30.0%), -sb-content-background;
+    -fx-background-insets: 0.0, 0.0 1.0 1.0 0.0;
+    -fx-border-width: 0.0;
+    -fx-padding: 0.0;
 }
 .theme-presets .SBKIT-css-panel .table-cell:last-visible {
-    -fx-background-insets: 0, 0 0 1 0;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0;
 }
 .theme-presets .SBKIT-css-panel .table-view .column-header {
     -fx-background-color: -sb-sharp-edge-lo, -sb-sharp-edge-hi, -sb-flat;
-    -fx-background-insets: -1 0 0 0, 0 1 1 0, 1 1 1 0;
+    -fx-background-insets: -1.0 0.0 0.0 0.0, 0.0 1.0 1.0 0.0, 1.0 1.0 1.0 0.0;
 }
 .theme-presets .SBKIT-css-panel .table-view .column-header .label {
     -fx-text-fill: -sb-content-text;
     -fx-font-weight: normal;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 0 0 0 5;
+    -fx-padding: 0.0 0.0 0.0 5.0;
 }
 .theme-presets .SBKIT-css-panel .table-view .filler {
     -fx-background-color: -sb-sharp-edge-lo, -sb-sharp-edge-hi, -sb-flat;
-    -fx-background-insets: -1 0 0 0, 0 1 1 0, 1 1 1 0;
+    -fx-background-insets: -1.0 0.0 0.0 0.0, 0.0 1.0 1.0 0.0, 1.0 1.0 1.0 0.0;
 }
 
 .theme-presets .SBKIT-css-panel .notAppliedStyleLine .line {
-    -fx-border-width: 0;
+    -fx-border-width: 0.0;
     -fx-background-color:black;
 }
 
 .theme-presets .SBKIT-css-panel .winner-background {
     -fx-background-color: -sb-css-winner-color;
-    -fx-background-insets: 0 1 1 0;
+    -fx-background-insets: 0.0 1.0 1.0 0.0;
 }
 
 .theme-presets .SBKIT-css-panel .note-label .text {
-    -fx-font-size: 0.750em;
+    -fx-font-size: 0.75em;
     -fx-fill: -sb-content-text-dimmed;
 }
 
@@ -1110,44 +1110,44 @@
     -fx-shape: "M9.084,7.833c-1.709,0.25-3.242,0.734-3.242,0.734l2.783,4.892l-1.708,1L3.904,9.454C2.713,
     9.967,1.208,11.5,1.208,11.5L1,1 L9.084,7.833z";
     -fx-background-color: -sb-content-text;
-    -fx-min-width: 8;
-    -fx-max-width: 8;
-    -fx-min-height: 13;
-    -fx-max-height: 13;
+    -fx-min-width: 8.0;
+    -fx-max-width: 8.0;
+    -fx-min-height: 13.0;
+    -fx-max-height: 13.0;
 }
 
 .theme-presets .SBKIT-css-panel .css-cursor-shape {
     -fx-shape: "M9.083,7.833C4.833,8.25,1,11,1,11V1L9.083,7.833z M8,14H6v-3h2v-1H5v5h3V14z M12,
     12h-2v-1h2v-1H9v3h2v1H9v1h3V12z M16,12 h-2v-1h2v-1h-3v3h2v1h-2v1h3V12z";
     -fx-background-color: -sb-content-text;
-    -fx-min-width: 15;
-    -fx-max-width: 15;
-    -fx-min-height: 15;
-    -fx-max-height: 15;
+    -fx-min-width: 15.0;
+    -fx-max-width: 15.0;
+    -fx-min-height: 15.0;
+    -fx-max-height: 15.0;
 }
 
 .theme-presets .SBKIT-css-panel .toggle-button {
     -fx-background-color: -sb-sharp-edge-lo, -sb-sharp-edge-hi, -sb-flat;
-    -fx-background-insets: 0, 0 0 1 0, 1 0 1 0;
-    -fx-background-radius: 0;
-    -fx-min-width: 25;
-    -fx-min-height: 25;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0, 1.0 0.0 1.0 0.0;
+    -fx-background-radius: 0.0;
+    -fx-min-width: 25.0;
+    -fx-min-height: 25.0;
 }
 .theme-presets .SBKIT-css-panel .toggle-button:selected {
     -fx-background-color: 
-        derive(-sb-sharp-edge-lo, -25%), 
-        derive(-sb-sharp-edge-lo, -10%), 
-        linear-gradient(to bottom, derive(-sb-flat, -20% ) 0%, derive(-sb-flat, -12% ) 20%);
-    -fx-background-insets: -1 0 0 0, 0, 0 1 1 1;
+        derive(-sb-sharp-edge-lo, -25.0%), 
+        derive(-sb-sharp-edge-lo, -10.0%), 
+        linear-gradient(to bottom, derive(-sb-flat, -20.0% ) 0.0%, derive(-sb-flat, -12.0% ) 20.0%);
+    -fx-background-insets: -1.0 0.0 0.0 0.0, 0.0, 0.0 1.0 1.0 1.0;
 }
 .theme-presets .SBKIT-css-panel .toggle-button:focused {
     -fx-background-color: 
         -fx-focus-color, 
-        linear-gradient(to bottom, derive(-sb-flat, -20% ) 0%, derive(-sb-flat, -12% ) 20%);
-    -fx-background-insets: -1 0 0 0, 0 1 1 1;
+        linear-gradient(to bottom, derive(-sb-flat, -20.0% ) 0.0%, derive(-sb-flat, -12.0% ) 20.0%);
+    -fx-background-insets: -1.0 0.0 0.0 0.0, 0.0 1.0 1.0 1.0;
 }
 .theme-presets .SBKIT-css-panel .css-toggle-left {
-    -fx-background-insets: 0, 0 0 1 1, 1 0 1 1;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 1.0, 1.0 0.0 1.0 1.0;
 }
 
 /*******************************************************************************
@@ -1156,38 +1156,38 @@
 
 .theme-presets .SBKIT-css-panel .styleable-path {
     -fx-background-color: -sb-sharp-edge-lo, -sb-sharp-edge-hi, -sb-flat;
-    -fx-background-insets: -1 0 0 0, 0 0 1 0, 1 0 1 0;
+    -fx-background-insets: -1.0 0.0 0.0 0.0, 0.0 0.0 1.0 0.0, 1.0 0.0 1.0 0.0;
 }
 .theme-presets .SBKIT-css-panel .styleable-path .label {
     -fx-font-size: 0.875em;
     -fx-text-fill: -sb-header-text;
-    -fx-padding: 0 12 0 8;
+    -fx-padding: 0.0 12.0 0.0 8.0;
 }
 .theme-presets .SBKIT-css-panel .styleable-path .hyperlink {
     -fx-font-size: 0.875em;
     -fx-text-fill: -sb-header-text;
-    -fx-padding: 0 0 0 0;
-    -fx-border-width: 0;
+    -fx-padding: 0.0 0.0 0.0 0.0;
+    -fx-border-width: 0.0;
 }
 .theme-presets .SBKIT-css-panel .styleable-path .button {
-    -fx-background-color: -sb-sharp-edge-lo, derive(-sb-sharp-edge-hi, 10%);
-    -fx-background-insets: 0, 1;
-    -fx-background-radius: 100;
-    -fx-min-width: 16;
-    -fx-max-width: 16;
-    -fx-min-height: 16;
-    -fx-max-height: 16;
+    -fx-background-color: -sb-sharp-edge-lo, derive(-sb-sharp-edge-hi, 10.0%);
+    -fx-background-insets: 0.0, 1.0;
+    -fx-background-radius: 100.0;
+    -fx-min-width: 16.0;
+    -fx-max-width: 16.0;
+    -fx-min-height: 16.0;
+    -fx-max-height: 16.0;
 }
 .theme-presets .SBKIT-css-panel .styleable-path .button:hover {
-    -fx-background-color: derive(-sb-sharp-edge-lo, -10%), derive(-sb-sharp-edge-hi, 40%);
+    -fx-background-color: derive(-sb-sharp-edge-lo, -10.0%), derive(-sb-sharp-edge-hi, 40.0%);
 }
 .theme-presets .SBKIT-css-panel .styleable-path-button-shape {
     -fx-shape: "M 0 -3.5 v 7 l 4 -3.5 z";
     -fx-background-color: -sb-content-text;
-    -fx-min-width: 5;
-    -fx-max-width: 5;
-    -fx-min-height: 6;
-    -fx-max-height: 6;
+    -fx-min-width: 5.0;
+    -fx-max-width: 5.0;
+    -fx-min-height: 6.0;
+    -fx-max-height: 6.0;
 }
 .theme-presets .SBKIT-css-panel .styleable-path-optional-label .text {
     -fx-fill: -sb-header-text-dimmed;
@@ -1199,23 +1199,23 @@
 
 .theme-presets .SBKIT-css-panel .lookup-button {
     -fx-background-color: transparent;
-    -fx-background-insets: 0;
+    -fx-background-insets: 0.0;
 }
 .theme-presets .SBKIT-css-panel .lookup-button .label {
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 .theme-presets .SBKIT-css-panel .lookup-button .arrow-button {
-    -fx-padding: 0 3 2 2;
+    -fx-padding: 0.0 3.0 2.0 2.0;
 }
 .theme-presets .SBKIT-css-panel .lookup-button .arrow-button > .arrow {
-    -fx-padding: 0 0.231em 0.154em 0.154em;
+    -fx-padding: 0.0 0.231em 0.154em 0.154em;
     -fx-background-color: -sb-content-detail;
     -fx-effect: null;
 }
 .theme-presets .SBKIT-css-panel .lookup-button:hover .arrow-button {
     -fx-background-color: -sb-content-detail, white;
-    -fx-background-insets: 0 0 3 0, 1 1 4 0;
-    -fx-background-radius: 0, 0;
+    -fx-background-insets: 0.0 0.0 3.0 0.0, 1.0 1.0 4.0 0.0;
+    -fx-background-radius: 0.0, 0.0;
 }
 
 /*******************************************************************************
@@ -1224,25 +1224,25 @@
 
 .theme-presets .SBKIT-css-panel .css-panel-cog-menubutton {
     -fx-background-color: transparent;
-    -fx-background-radius: 0;
-    -fx-graphic-text-gap: 0;
-    -fx-min-width: 16;
-    -fx-max-width: 16;
-    -fx-min-height: 12;
-    -fx-max-height: 12;
+    -fx-background-radius: 0.0;
+    -fx-graphic-text-gap: 0.0;
+    -fx-min-width: 16.0;
+    -fx-max-width: 16.0;
+    -fx-min-height: 12.0;
+    -fx-max-height: 12.0;
 }
 .theme-presets .SBKIT-css-panel .css-panel-cog-menubutton:hover {
-    -fx-background-color: derive(-sb-sharp-edge-lo, 20%), -sb-css-winner-color;
-    -fx-background-insets: 0, 1;
+    -fx-background-color: derive(-sb-sharp-edge-lo, 20.0%), -sb-css-winner-color;
+    -fx-background-insets: 0.0, 1.0;
 }
 .theme-presets .SBKIT-css-panel .css-panel-cog-menubutton:focused {
     -fx-background-color: -fx-focus-color, -fx-background;
 }
 .theme-presets .SBKIT-css-panel .css-panel-cog-menubutton > .arrow-button {
     visibility: hidden;
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }
 .theme-presets .SBKIT-css-panel .css-panel-cog-menubutton > .arrow {
     -fx-shape: null;
-    -fx-padding: 0;
+    -fx-padding: 0.0;
 }

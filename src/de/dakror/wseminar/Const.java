@@ -18,7 +18,6 @@
 package de.dakror.wseminar;
 
 import javafx.animation.Interpolator;
-import javafx.scene.paint.Color;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -39,30 +38,14 @@ public class Const {
 	// -- graph visualization -- //
 	public static int defaultCycles = 500;
 	
-	// -- edge colors -- //
-	public static enum State {
+	// -- visual vertex state -- //
+	public enum State {
 		DEFAULT,
-		ACTIVE(Color.valueOf("#2279e5"), Color.valueOf("#2279e5").darker()),
-		OPEN_LIST(Color.valueOf("#00ff00"), Color.valueOf("#00ff00").darker()),
-		
-		;
-		
-		private Color lineColor;
-		private Color textColor;
-		
-		private State() {}
-		
-		private State(Color lineColor, Color textColor) {
-			this.lineColor = lineColor;
-			this.textColor = textColor;
-		}
-		
-		public Color getLineColor() {
-			return lineColor;
-		}
-		
-		public Color getTextColor() {
-			return textColor;
-		}
+		ACTIVE,
+		START,
+		GOAL,
+		OPENLIST,
+		CLOSEDLIST,
+		BACKTRACK
 	}
 }

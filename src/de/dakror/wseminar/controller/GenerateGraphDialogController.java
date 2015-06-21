@@ -149,28 +149,28 @@ public class GenerateGraphDialogController {
 			
 			MainController.doLayoutWithProgress(layout, null, false, true);
 			
-			// new Thread() {
-			// @Override
-			// public void run() {
-			// for (int i = 0; i < Const.defaultCycles; i += 20) {
-			// Platform.runLater(new Runnable() {
-			// @Override
-			// public void run() {
-			// layout.step();
-			// layout.finish();
-			// WSeminar.instance.transitionTo(layout.getGraph());
-			// }
-			// });
-			// if (!WSeminar.window.isShowing()) return;
-			//
-			// try {
-			// Thread.sleep(speed);
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
-			// }
-			// }
-			// }.start();
+			/*new Thread() {
+				@Override
+				public void run() {
+					for (int i = 0; i < Const.defaultCycles; i += 20) {
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								layout.step();
+								layout.finish();
+								WSeminar.instance.transitionTo(layout.getGraph());
+							}
+						});
+						if (!WSeminar.window.isShowing()) return;
+						
+						try {
+							Thread.sleep(speed);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}.start();*/
 			
 			close.handle(null);
 		});

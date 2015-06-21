@@ -92,7 +92,10 @@ public class WSeminar extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		instance = this;
 		window = primaryStage;
+		
 		primaryStage.setMaximized(true);
+		primaryStage.minWidthProperty().set(1280);
+		primaryStage.minHeightProperty().set(800);
 		primaryStage.setScene(createScene("main"));
 		
 		primaryStage.setTitle("WSeminar Extrema: Wegfindung - Maximilian Stark");

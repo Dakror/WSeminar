@@ -25,7 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 
 public class ProgressController {
-	
 	@FXML
 	private ResourceBundle resources;
 	

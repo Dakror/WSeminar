@@ -1,54 +1,86 @@
 .link-label {
 	-fx-cursor: hand;
 	-fx-underline: false;
-	-fx-font-size: 18px !important;
+	-fx-font-size: 18.0px !important;
 }
 
 .link-label:hover {
 	-fx-text-fill: #6072ff;
-	-fx-font-size: 18px;
+	-fx-font-size: 18.0px;
 	-fx-cursor: hand;
 	-fx-underline: true;
 }
 
 .place-holder, .link-label {
 	-fx-text-fill: #9f9f9f;
-	-fx-font-size: 13px;
+	-fx-font-size: 13.0px;
 }
 
 .visual-vertex {
-	-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
-	-fx-fill: radial-gradient(focus-angle 34deg, center 50% 50%, radius 75%, white, #696969);
+	-fx-effect: dropshadow(three-pass-box, black, 10.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #696969);
 	-fx-stroke: black;
 	-fx-stroke-width: 0.5;
 	-fx-stroke-type: inside;
 }
 
 .visual-vertex:hover {
-	-fx-effect: dropshadow(three-pass-box, #2176de, 20, 0, 0, 0);
-	-fx-fill: radial-gradient(focus-angle 34deg, center 50% 50%, radius 75%, white, #8bb7c6);
+	-fx-effect: dropshadow(three-pass-box, #2176de, 20.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #8bb7c6);
 }
 
 .visual-vertex:pressed, .visual-vertex.active {
-	-fx-effect: dropshadow(three-pass-box, #00459a, 20, 0.25, 0, 0);
-	-fx-fill: radial-gradient(focus-angle 34deg, center 50% 50%, radius 75%, white, #0072ff);
+	-fx-effect: dropshadow(three-pass-box, #00459a, 20.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #0072ff);
+}
+
+.visual-vertex.start {
+	-fx-effect: dropshadow(three-pass-box, #009a19, 20.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #05e129);
+}
+
+.visual-vertex.goal {
+	-fx-effect: dropshadow(three-pass-box, #9d0000, 20.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #c40707);
+}
+
+.visual-vertex.openlist {
+	-fx-effect: dropshadow(three-pass-box, #00b6b8, 20.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #07e0e3);
+}
+
+.visual-vertex.closedlist {
+	-fx-effect: dropshadow(three-pass-box, #3c009f, 20.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #711efb);
+}
+
+.visual-vertex.backtrack {
+	-fx-effect: dropshadow(three-pass-box, #d56705, 20.0, 0.0, 0.0, 0.0);
+	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #ff7800);
 }
 
 .split-pane > .split-pane-divider {  
-    -fx-padding: 0 0 0 2px;  
+    -fx-padding: 0.0 0.0 0.0 2.0px;  
 } 
 
 .tree-view * , .list-view {
     -fx-border-color: null;
-    -fx-border-width: 0;
-    -fx-background-color: derive(rgb(147, 147, 147), 98%);
-    -fx-background-insets: 0;
-    -fx-padding: 0;
+    -fx-border-width: 0.0;
+    -fx-background-color: derive(rgb(147.0, 147.0, 147.0), 98.0%);
+    -fx-background-insets: 0.0;
+    -fx-padding: 0.0;
 }
 
-.titled-pane.text-like > .title {
-	-fx-background-color: null;
-	-fx-border-color: #999 transparent transparent transparent;
+.titled-pane.text-like > .title, .titled-pane.text-like-top > .title, .titled-pane.text-like-bot > .title  {
+	-fx-background-color: linear-gradient(to right, rgb(179.0,179.0,179.0, 0.5) 0.0, rgba(255.0,255.0,255.0,0.0) 100.0%);
+	-fx-background-radius: 0.0;
+}
+
+.titled-pane.text-like-top > .title {
+	-fx-border-color: linear-gradient(to right, rgb(0.0,0.0,0.0, 0.5) 0.0, rgba(255.0,255.0,255.0,0.0) 100.0%) transparent transparent transparent;
+}
+.titled-pane.text-like-bot > .title {
+	-fx-border-color: transparent transparent linear-gradient(to right, rgb(0.0,0.0,0.0, 0.5) 0.0, rgba(255.0,255.0,255.0,0.0) 100.0%) transparent;
 }
 
 .theme-presets .SBKIT-hierarchy-panel .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected,
@@ -57,15 +89,19 @@
      -fx-background-color: -sb-selected-bar-color;
 }
 
+.theme-presets .SBKIT-hierarchy-panel .tree-cell {
+	-fx-padding: 4.0 0.0 4.0 0.0;
+}
+
 .theme-presets .SBKIT-hierarchy-panel .tree-cell .tree-disclosure-node {
-    -fx-padding: 7 6 6 9;
-    -fx-background-color: derive(-sb-sharp-edge-hi, -60%), derive(-sb-sharp-edge-lo, 55%);
-    -fx-background-insets: 3 2 2 5, 4 3 3 6;
-    -fx-background-radius: 10;
+    -fx-padding: 7.0 6.0 6.0 9.0;
+    -fx-background-color: derive(-sb-sharp-edge-hi, -60.0%), derive(-sb-sharp-edge-lo, 55.0%);
+    -fx-background-insets: 3.0 2.0 2.0 5.0, 4.0 3.0 3.0 6.0;
+    -fx-background-radius: 10.0;
     -fx-cursor: hand;
 }
 .theme-presets .SBKIT-hierarchy-panel .tree-cell:expanded .tree-disclosure-node {
-    -fx-background-color: derive(-sb-sharp-edge-lo, 10%), derive(-sb-sharp-edge-hi, 0%);
+    -fx-background-color: derive(-sb-sharp-edge-lo, 10.0%), derive(-sb-sharp-edge-hi, 0.0%);
 }
 .theme-presets .SBKIT-hierarchy-panel .tree-cell .tree-disclosure-node .arrow {
     -fx-shape: "M0,3h3V0h1v3h3v1H4v3H3l0-3H0V3z";
@@ -76,23 +112,24 @@
     -fx-shape: "M0,3h7v1H0V3z M0,0L0,0L0,0L0,0L0,0z M7,7L7,7L7,7L7,7L7,7z";
     -fx-padding: 0.2em;
     -fx-background-color: -sb-content-text;
-    -fx-rotate: 0;
+    -fx-rotate: 0.0;
 }
 
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-readwrite-label {
     -fx-border-color: transparent;
     -fx-border-width: 2px;
-    -fx-text-fill: -sb-content-text-dimmed;
+    -fx-border-radius: 4px;
+    -fx-text-fill: -sb-content-text-dimmed !important;
 }
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-readwrite-label:hover {
-    -fx-border-color: -sb-sharp-edge-hi;
-    -fx-cursor: text !important; 
+    -fx-border-color: -sb-sharp-edge-lo;
+    -fx-cursor: text !important;
     -fx-text-fill: -sb-content-text;
 }
 
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-readwrite-label:focused,
 .theme-presets .SBKIT-hierarchy-panel .hierarchy-readwrite-label:focused * {
 	-fx-background-color: white !important;
-    -fx-border-color: rgb(25, 164, 255);
+    -fx-border-color: rgb(25.0, 164.0, 255.0);
     -fx-text-fill: black;
 }

@@ -40,7 +40,7 @@ public class GraphTreeCell extends TreeCell<String> {
 		name.setMinWidth((-1.0D / 0.0D));
 		
 		value.getStyleClass().addAll("hierarchy-readwrite-label", "label");
-		value.setDisable(true); // TODO: temporary
+		//		value.
 		HBox.setHgrow(value, Priority.ALWAYS);
 		graphic.getStyleClass().add("tree-cell-graphic");
 		graphic.getChildren().addAll(new Node[] { name, value });
@@ -48,16 +48,16 @@ public class GraphTreeCell extends TreeCell<String> {
 			if (getTreeItem() != null && isSelected()) {
 				Node node = ((GraphTreeItem) getTreeItem()).getNode();
 				
-				if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
-				if (WSeminar.instance.activeEdge != null) WSeminar.instance.activeEdge.setState(State.DEFAULT);
+				if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setState(State.DEFAULT);
+				if (WSeminar.instance.activeEdge != null) WSeminar.instance.activeEdge.setActive(false);
 				
 				if (node instanceof VisualVertex) {
 					WSeminar.instance.activeVertex = (VisualVertex<Integer>) node;
-					((VisualVertex<?>) node).setActive(true);
+					((VisualVertex<?>) node).setState(State.ACTIVE);
 				}
 				if (node instanceof VisualEdge) {
 					WSeminar.instance.activeEdge = (VisualEdge<Integer>) node;
-					((VisualEdge<?>) node).setState(State.ACTIVE);
+					((VisualEdge<?>) node).setActive(true);
 				}
 			}
 		});
@@ -83,6 +83,7 @@ public class GraphTreeCell extends TreeCell<String> {
 				value.setText(((VisualEdge<?>) ((GraphTreeItem) getTreeItem()).getNode()).text.getText());
 			}
 			
+			value.setMaxWidth(50);
 			value.setVisible(value.getText().length() > 0);
 			setGraphic(graphic);
 		}

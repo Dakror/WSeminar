@@ -10,127 +10,178 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane hgap="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.GenerateGraphDialogController">
-  <children>
-    <ImageView fx:id="logo" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
-    </ImageView>
-    <VBox minHeight="-Infinity" prefHeight="114.0" prefWidth="230.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.vgrow="NEVER">
-      <children>
-        <Label fx:id="messageLabel" text="Neues Netz generieren" textAlignment="LEFT" wrapText="true" VBox.vgrow="NEVER">
-          <font>
-            <Font name="System Bold" size="13.0" />
-          </font>
-        </Label>
-            <GridPane prefHeight="95.0" prefWidth="292.0" styleClass="property-sheet" VBox.vgrow="NEVER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" maxWidth="157.0" minWidth="10.0" prefWidth="137.0" />
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="196.0" minWidth="10.0" prefWidth="188.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Größe" />
-                  <Slider fx:id="graph_size" blockIncrement="1.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" prefHeight="81.0" prefWidth="188.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.columnIndex="1">
-                     <padding>
-                        <Insets top="7.0" />
-                     </padding>
-                     <tooltip>
-                        <Tooltip text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
-                     </tooltip>
-                  </Slider>
-                  <Label text="Seed" GridPane.rowIndex="1" />
-                  <TextField fx:id="graph_seed" promptText="-" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <tooltip>
-                        <Tooltip text="Der Seed dient zur Prozeduralen Generierung.&#10;Der gleiche Seed erzeugt immer das gleiche Netz." />
-                     </tooltip>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
-               </padding>
-            </GridPane>
-            <TitledPane fx:id="advanced" animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="155.0" prefWidth="292.0" styleClass="text-like" text="Erweitert" VBox.vgrow="NEVER">
-               <content>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="100.0" prefWidth="292.0">
-                     <content>
-                        <GridPane fx:id="adv_abstract" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="94.0" prefWidth="292.0" styleClass="property-sheet" VBox.vgrow="NEVER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" maxWidth="157.0" minWidth="10.0" prefWidth="137.0" />
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="196.0" minWidth="10.0" prefWidth="188.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="max. Kanten pro Knoten" GridPane.rowIndex="1" />
-                  <Slider fx:id="edge_count" blockIncrement="1.0" majorTickUnit="5.0" max="20.0" minorTickCount="4" prefHeight="81.0" prefWidth="188.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <padding>
-                        <Insets top="7.0" />
-                     </padding>
-                     <tooltip>
-                        <Tooltip text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
-                     </tooltip>
-                  </Slider>
-                  <Label text="Knoten-Skalierung" />
-                              <Slider fx:id="node_count" blockIncrement="1.0" majorTickUnit="20.0" prefHeight="34.0" prefWidth="179.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="20.0" GridPane.columnIndex="1">
-                                 <padding>
-                                    <Insets top="7.0" />
-                                 </padding>
-                                 <tooltip>
-                                    <Tooltip text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
-                                 </tooltip>
-                              </Slider>
-                              <Label text="Kantenart" GridPane.rowIndex="2" />
-                              <ChoiceBox fx:id="edge_type" maxWidth="1.7976931348623157E308" prefHeight="23.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
-               </padding>
-            </GridPane>
-                     </content></ScrollPane>
-               </content>
-            </TitledPane>
-      </children>
-    </VBox>
-    <HBox maxHeight="-Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1">
-      <children>
-        <Pane maxWidth="+Infinity" HBox.hgrow="ALWAYS" />
-        <Button fx:id="cancelButton" cancelButton="true" minWidth="80.0" mnemonicParsing="false" text="Abbruch" HBox.hgrow="NEVER">
-          <HBox.margin>
-            <Insets />
-          </HBox.margin>
-        </Button>
-        <HBox fx:id="okParent" alignment="CENTER">
-          <children>
-            <Button fx:id="okButton" minWidth="80.0" mnemonicParsing="false" text="Ok" HBox.hgrow="NEVER">
-              <HBox.margin>
-                <Insets left="14.0" />
-              </HBox.margin>
-            </Button>
-          </children>
-        </HBox>
-      </children>
-    </HBox>
-  </children>
-  <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" />
-    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="+Infinity" minWidth="-Infinity" />
-  </columnConstraints>
-  <padding>
-    <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
-  </padding>
-  <rowConstraints>
-    <RowConstraints maxHeight="Infinity" minHeight="-Infinity" valignment="CENTER" vgrow="ALWAYS" />
-    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="NEVER" />
-  </rowConstraints>
+<GridPane hgap="14.0" maxHeight="1.7976931348623157E308"
+	maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+	prefHeight="283.0" prefWidth="384.0" styleClass="theme-presets" vgap="20.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.dakror.wseminar.controller.GenerateGraphDialogController">
+	<children>
+		<ImageView fx:id="logo" fitHeight="50.0" fitWidth="50.0"
+			pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0"
+			GridPane.halignment="CENTER" GridPane.rowIndex="0"
+			GridPane.valignment="TOP">
+		</ImageView>
+		<VBox minHeight="-Infinity" prefHeight="114.0" prefWidth="230.0"
+			spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0"
+			GridPane.vgrow="NEVER">
+			<children>
+				<Label fx:id="messageLabel" text="Neues Netz generieren"
+					textAlignment="LEFT" wrapText="true" VBox.vgrow="NEVER">
+					<font>
+						<Font name="System Bold" size="13.0" />
+					</font>
+				</Label>
+				<GridPane prefHeight="95.0" prefWidth="292.0" styleClass="property-sheet"
+					VBox.vgrow="NEVER">
+					<columnConstraints>
+						<ColumnConstraints hgrow="NEVER" maxWidth="157.0"
+							minWidth="10.0" prefWidth="137.0" />
+						<ColumnConstraints hgrow="ALWAYS" maxWidth="196.0"
+							minWidth="10.0" prefWidth="188.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Label text="Größe" />
+						<Slider fx:id="graph_size" blockIncrement="1.0"
+							majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0"
+							prefHeight="81.0" prefWidth="188.0" showTickLabels="true"
+							showTickMarks="true" snapToTicks="true" value="1.0"
+							GridPane.columnIndex="1">
+							<padding>
+								<Insets top="7.0" />
+							</padding>
+							<tooltip>
+								<Tooltip
+									text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
+							</tooltip>
+						</Slider>
+						<Label text="Seed" GridPane.rowIndex="1" />
+						<TextField fx:id="graph_seed" promptText="-"
+							GridPane.columnIndex="1" GridPane.rowIndex="1">
+							<tooltip>
+								<Tooltip
+									text="Der Seed dient zur Prozeduralen Generierung.&#10;Der gleiche Seed erzeugt immer das gleiche Netz." />
+							</tooltip>
+						</TextField>
+					</children>
+					<VBox.margin>
+						<Insets />
+					</VBox.margin>
+					<padding>
+						<Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+					</padding>
+				</GridPane>
+				<TitledPane fx:id="advanced" animated="false"
+					collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+					prefHeight="155.0" prefWidth="292.0" styleClass="text-like-top"
+					text="Erweitert" VBox.vgrow="NEVER">
+					<content>
+						<ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+							prefHeight="100.0" prefWidth="292.0">
+							<content>
+								<GridPane fx:id="adv_abstract" maxHeight="1.7976931348623157E308"
+									maxWidth="1.7976931348623157E308" prefHeight="94.0" prefWidth="292.0"
+									styleClass="property-sheet" VBox.vgrow="NEVER">
+									<columnConstraints>
+										<ColumnConstraints hgrow="NEVER" maxWidth="157.0"
+											minWidth="10.0" prefWidth="137.0" />
+										<ColumnConstraints hgrow="ALWAYS" maxWidth="196.0"
+											minWidth="10.0" prefWidth="188.0" />
+									</columnConstraints>
+									<rowConstraints>
+										<RowConstraints minHeight="10.0" prefHeight="30.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0"
+											vgrow="SOMETIMES" />
+									</rowConstraints>
+									<children>
+										<Label text="max. Kanten pro Knoten" GridPane.rowIndex="1" />
+										<Slider fx:id="edge_count" blockIncrement="1.0"
+											majorTickUnit="5.0" max="20.0" minorTickCount="4" prefHeight="81.0"
+											prefWidth="188.0" showTickLabels="true" showTickMarks="true"
+											snapToTicks="true" value="3.0" GridPane.columnIndex="1"
+											GridPane.rowIndex="1">
+											<padding>
+												<Insets top="7.0" />
+											</padding>
+											<tooltip>
+												<Tooltip
+													text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
+											</tooltip>
+										</Slider>
+										<Label text="Knoten-Skalierung" />
+										<Slider fx:id="node_count" blockIncrement="1.0"
+											majorTickUnit="20.0" prefHeight="34.0" prefWidth="179.0"
+											showTickLabels="true" showTickMarks="true" snapToTicks="true"
+											value="20.0" GridPane.columnIndex="1">
+											<padding>
+												<Insets top="7.0" />
+											</padding>
+											<tooltip>
+												<Tooltip
+													text="Die Größe des zu generierenden Netzes.&#10;Klein - Mittel - Groß" />
+											</tooltip>
+										</Slider>
+										<Label text="Kantenart" GridPane.rowIndex="2" />
+										<ChoiceBox fx:id="edge_type" maxWidth="1.7976931348623157E308"
+											prefHeight="23.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+									</children>
+									<VBox.margin>
+										<Insets />
+									</VBox.margin>
+									<padding>
+										<Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+									</padding>
+								</GridPane>
+							</content>
+						</ScrollPane>
+					</content>
+				</TitledPane>
+			</children>
+		</VBox>
+		<HBox maxHeight="-Infinity" maxWidth="+Infinity" minHeight="-Infinity"
+			minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1">
+			<children>
+				<Pane maxWidth="+Infinity" HBox.hgrow="ALWAYS" />
+				<Button fx:id="cancelButton" cancelButton="true" minWidth="80.0"
+					mnemonicParsing="false" text="Abbruch" HBox.hgrow="NEVER">
+					<HBox.margin>
+						<Insets />
+					</HBox.margin>
+				</Button>
+				<HBox fx:id="okParent" alignment="CENTER">
+					<children>
+						<Button fx:id="okButton" minWidth="80.0" mnemonicParsing="false"
+							text="Ok" HBox.hgrow="NEVER">
+							<HBox.margin>
+								<Insets left="14.0" />
+							</HBox.margin>
+						</Button>
+					</children>
+				</HBox>
+			</children>
+		</HBox>
+	</children>
+	<columnConstraints>
+		<ColumnConstraints hgrow="NEVER" maxWidth="-Infinity"
+			minWidth="-Infinity" />
+		<ColumnConstraints halignment="CENTER" hgrow="ALWAYS"
+			maxWidth="+Infinity" minWidth="-Infinity" />
+	</columnConstraints>
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+	</padding>
+	<rowConstraints>
+		<RowConstraints maxHeight="Infinity" minHeight="-Infinity"
+			valignment="CENTER" vgrow="ALWAYS" />
+		<RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+			vgrow="NEVER" />
+	</rowConstraints>
 </GridPane>

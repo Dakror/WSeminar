@@ -53,7 +53,7 @@ public class FruchtermanReingold<V> extends Layout<V> {
 	}
 	
 	public FruchtermanReingold(Graph<V> sourceGraph, int maxCycles, long seed, float size) {
-		this(sourceGraph, maxCycles, seed, sourceGraph.getVertices().size() * size, sourceGraph.getVertices().size() * size);
+		this(sourceGraph, maxCycles, seed, sourceGraph.getVertices().size() * size * size, sourceGraph.getVertices().size() * size * size);
 	}
 	
 	@Override

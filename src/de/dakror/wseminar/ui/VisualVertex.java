@@ -1,4 +1,5 @@
 /*******************************************************************************
+
  * Copyright 2015 Maximilian Stark | Dakror <mail@dakror.de>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +29,7 @@ import de.dakror.wseminar.graph.VertexData.Position;
  */
 public class VisualVertex<V> extends Circle {
 	Vertex<V> vertex;
+	State state;
 	
 	@SuppressWarnings("unchecked")
 	public VisualVertex(String selector, Vertex<V> v) {
@@ -40,9 +42,9 @@ public class VisualVertex<V> extends Circle {
 		getStyleClass().add("visual-vertex");
 		
 		setOnMouseClicked(e -> {
-			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
+			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setState(State.DEFAULT);
 			
-			setActive(true);
+			setState(State.ACTIVE);
 			WSeminar.instance.activeVertex = (VisualVertex<Integer>) VisualVertex.this;
 			TreeView<String> tv = ((TreeView<String>) getScene().lookup("#graph_tree"));
 			for (TreeItem<String> item : tv.getRoot().getChildren()) {
@@ -58,14 +60,18 @@ public class VisualVertex<V> extends Circle {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void setActive(boolean active) {
-		if (active) {
-			getStyleClass().add("active");
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setState(State.ACTIVE));
+	public void setState(State state) {
+		if (state != State.DEFAULT) {
+			getStyleClass().add(state.name().toLowerCase());
 		} else {
-			getStyleClass().remove("active");
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setState(State.DEFAULT));
+			getStyleClass().remove(this.state.name().toLowerCase());
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(false));
 		}
+		
+		if (state == State.ACTIVE) {
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(true));
+		}
+		this.state = state;
 	}
 	
 	public Vertex<V> getVertex() {
