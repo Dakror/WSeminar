@@ -21,10 +21,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.WeightedEdge;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -39,8 +42,32 @@ public class GraphTreeCell extends TreeCell<String> {
 		getStyleClass().add("hierarchy-tree-cell");
 		name.setMinWidth((-1.0D / 0.0D));
 		
+		value.setDisable(true);
 		value.getStyleClass().addAll("hierarchy-readwrite-label", "label");
-		//		value.
+		value.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.ENTER) graphic.requestFocus();
+		});
+		value.focusedProperty().addListener((obs, oldVal, newVal) -> {
+			if (!newVal) {
+				String val = value.getText();
+				
+				Node node = ((GraphTreeItem) getTreeItem()).getNode();
+				
+				if (node instanceof VisualEdge) {
+					float num = 0;
+					try {
+						num = (float) Double.parseDouble(val);
+					} catch (NumberFormatException e) {
+						value.setText(((VisualEdge<Integer>) node).text.getText());
+						return;
+					}
+					
+					((VisualEdge<Integer>) node).text.setText((int) num + "");
+					((WeightedEdge<Vertex<Integer>>) ((VisualEdge<Integer>) node).edge).setWeight(num);
+				}
+			}
+		});
+		
 		HBox.setHgrow(value, Priority.ALWAYS);
 		graphic.getStyleClass().add("tree-cell-graphic");
 		graphic.getChildren().addAll(new Node[] { name, value });
@@ -77,10 +104,9 @@ public class GraphTreeCell extends TreeCell<String> {
 			Node node = ((GraphTreeItem) getTreeItem()).getNode();
 			if (node instanceof VisualVertex) {
 				value.setText(((VisualVertex<?>) ((GraphTreeItem) getTreeItem()).getNode()).getVertex().data() + "");
-			}
-			
-			if (node instanceof VisualEdge) {
+			} else if (node instanceof VisualEdge) {
 				value.setText(((VisualEdge<?>) ((GraphTreeItem) getTreeItem()).getNode()).text.getText());
+				value.setDisable(!(((VisualEdge<?>) node).edge instanceof WeightedEdge));
 			}
 			
 			value.setMaxWidth(50);

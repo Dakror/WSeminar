@@ -35,6 +35,10 @@ public class Vertex<T> {
 		return data;
 	}
 	
+	public void set(T data) {
+		this.data = data;
+	}
+	
 	public void add(Object... vd) {
 		for (Object v : vd)
 			vertexData.put(v.getClass(), v);

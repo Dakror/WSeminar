@@ -32,7 +32,7 @@ public class VisualVertex<V> extends Circle {
 	State state;
 	
 	@SuppressWarnings("unchecked")
-	public VisualVertex(String selector, Vertex<V> v) {
+	public VisualVertex(Vertex<V> v) {
 		vertex = v;
 		setCenterX(Const.cellSize / 2);
 		setCenterY(Const.cellSize / 2);

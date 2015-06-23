@@ -149,7 +149,7 @@ public class WSeminar extends Application {
 			Node node = pane.lookup("#V" + v.data());
 			Node text = pane.lookup("#VT" + v.data());
 			TranslateTransition tt = new TranslateTransition(Duration.millis(GenerateGraphDialogController.speed), node);
-			VisualVertex<Integer> newCircle = new VisualVertex<Integer>("#node", v);
+			VisualVertex<Integer> newCircle = new VisualVertex<Integer>(v);
 			
 			tt.setToX(newCircle.getTranslateX());
 			tt.setToY(newCircle.getTranslateY());
@@ -165,8 +165,8 @@ public class WSeminar extends Application {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
 			Line node = (Line) pane.lookup("#E" + i);
 			
-			VisualVertex<Integer> newFrom = new VisualVertex<Integer>("#node", e.getFrom());
-			VisualVertex<Integer> newTo = new VisualVertex<Integer>("#node", e.getTo());
+			VisualVertex<Integer> newFrom = new VisualVertex<Integer>(e.getFrom());
+			VisualVertex<Integer> newTo = new VisualVertex<Integer>(e.getTo());
 			//@off
 			Timeline tl = new Timeline(new KeyFrame(new Duration(GenerateGraphDialogController.speed), 
 			                                        new KeyValue(node.startXProperty(), newFrom.getTranslateX() + Const.cellSize / 2),
@@ -212,7 +212,7 @@ public class WSeminar extends Application {
 			for (Vertex<Integer> v : new Vertex[] { e.getFrom(), e.getTo() }) {
 				int index = addedVertices.indexOf(v);
 				
-				VisualVertex<Integer> circle = new VisualVertex<Integer>("#node", v);
+				VisualVertex<Integer> circle = new VisualVertex<Integer>(v);
 				circle.setId("V" + v.data());
 				
 				GraphTreeItem gti = new GraphTreeItem(circle, "Vertex", v.data());
