@@ -22,6 +22,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import de.dakror.wseminar.controller.GenerateGraphDialogController;
+import de.dakror.wseminar.graph.Edge;
+import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.VertexData.Delay;
+import de.dakror.wseminar.graph.algorithm.Layout;
+import de.dakror.wseminar.ui.GraphTreeCell;
+import de.dakror.wseminar.ui.GraphTreeItem;
+import de.dakror.wseminar.ui.VisualEdge;
+import de.dakror.wseminar.ui.VisualVertex;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -54,16 +64,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.Duration;
-import de.dakror.wseminar.controller.GenerateGraphDialogController;
-import de.dakror.wseminar.graph.Edge;
-import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.VertexData.Delay;
-import de.dakror.wseminar.graph.algorithm.Layout;
-import de.dakror.wseminar.ui.GraphTreeCell;
-import de.dakror.wseminar.ui.GraphTreeItem;
-import de.dakror.wseminar.ui.VisualEdge;
-import de.dakror.wseminar.ui.VisualVertex;
 
 /**
  * @author Dakror
@@ -219,7 +219,7 @@ public class WSeminar extends Application {
 				
 				if (v.equals(e.getFrom()) || !e.isDirected()) {
 					TreeItem<String> item = index == -1 ? gti : root.getChildren().get(index);
-					item.getChildren().add(new GraphTreeItem(edge, "Kante " + (e.isDirected() ? "" : "<") + "-> " + e.getOtherEnd(v).data(), 14));
+					item.getChildren().add(new GraphTreeItem(edge, "Kante " + (e.isDirected() ? "" : "<") + "-> " + e.getOtherEnd(v).data(), i));
 				}
 				if (index > -1) continue;
 				
@@ -341,7 +341,7 @@ public class WSeminar extends Application {
 		MenuButton menu = (MenuButton) window.getScene().lookup(menuSelector);
 		for (MenuItem mi : menu.getItems())
 			if (mi.getId().equals(id)) return mi;
-		
+			
 		System.out.println("NOP");
 		return null;
 	}

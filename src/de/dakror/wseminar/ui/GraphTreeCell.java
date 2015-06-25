@@ -17,17 +17,18 @@
 
 package de.dakror.wseminar.ui;
 
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeCell;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.WeightedEdge;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -64,6 +65,15 @@ public class GraphTreeCell extends TreeCell<String> {
 					
 					((VisualEdge<Integer>) node).text.setText((int) num + "");
 					((WeightedEdge<Vertex<Integer>>) ((VisualEdge<Integer>) node).edge).setWeight(num);
+					for (TreeItem<String> vti : getTreeView().getRoot().getChildren()) {
+						for (TreeItem<String> eti : vti.getChildren()) {
+							if (((GraphTreeItem) eti).getParam().equals(((GraphTreeItem) getTreeItem()).getParam())) {
+								String value = eti.getValue();
+								eti.setValue(null);
+								eti.setValue(value);
+							}
+						}
+					}
 				}
 			}
 		});
@@ -94,6 +104,7 @@ public class GraphTreeCell extends TreeCell<String> {
 	protected void updateItem(String item, boolean empty) {
 		super.updateItem(item, empty);
 		
+		value.setDisable(true);
 		if (empty) {
 			setText(null);
 			setGraphic(null);
