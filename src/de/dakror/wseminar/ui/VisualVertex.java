@@ -15,14 +15,16 @@
 
 package de.dakror.wseminar.ui;
 
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.shape.Circle;
 import de.dakror.wseminar.Const;
 import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.Position;
+import javafx.scene.Cursor;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.shape.Circle;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -42,6 +44,27 @@ public class VisualVertex<V> extends Circle {
 		getStyleClass().add("visual-vertex");
 		
 		setOnMouseClicked(e -> {
+			if (e.getButton() != MouseButton.PRIMARY) return;
+			
+			if (WSeminar.instance.selectStartVertex || WSeminar.instance.selectGoalVertex) {
+				if (WSeminar.instance.selectStartVertex) {
+					if (WSeminar.instance.startVertex != null) WSeminar.instance.startVertex.setState(State.DEFAULT);
+					setState(State.START);
+					WSeminar.instance.startVertex = (VisualVertex<Integer>) VisualVertex.this;
+				}
+				
+				if (WSeminar.instance.selectGoalVertex) {
+					if (WSeminar.instance.goalVertex != null) WSeminar.instance.goalVertex.setState(State.DEFAULT);
+					setState(State.GOAL);
+					WSeminar.instance.goalVertex = (VisualVertex<Integer>) VisualVertex.this;
+				}
+				
+				WSeminar.instance.selectStartVertex = false;
+				WSeminar.instance.selectGoalVertex = false;
+				getScene().setCursor(Cursor.DEFAULT);
+				return;
+			}
+			
 			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setState(State.DEFAULT);
 			
 			setState(State.ACTIVE);
@@ -65,11 +88,13 @@ public class VisualVertex<V> extends Circle {
 			getStyleClass().add(state.name().toLowerCase());
 		} else {
 			getStyleClass().remove(this.state.name().toLowerCase());
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(false));
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge)
+					&& WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(false));
 		}
 		
 		if (state == State.ACTIVE) {
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge) && WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(true));
+			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge)
+					&& WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(true));
 		}
 		this.state = state;
 	}

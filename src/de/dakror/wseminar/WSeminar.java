@@ -83,10 +83,12 @@ public class WSeminar extends Application {
 	
 	int graphSize;
 	
-	public VisualVertex<Integer> activeVertex;
+	public VisualVertex<Integer> activeVertex, startVertex, goalVertex;
 	public VisualEdge<Integer> activeEdge;
 	
 	int duration = 200;
+	
+	public boolean selectStartVertex, selectGoalVertex;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {

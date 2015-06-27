@@ -21,6 +21,14 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import de.dakror.wseminar.Const;
+import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.algorithm.FruchtermanReingold;
+import de.dakror.wseminar.graph.algorithm.Layout;
+import de.dakror.wseminar.graph.generate.GraphGenerator;
+import de.dakror.wseminar.graph.generate.Params;
+import de.dakror.wseminar.graph.generate.Params.SParams;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -35,14 +43,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import de.dakror.wseminar.Const;
-import de.dakror.wseminar.WSeminar;
-import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.algorithm.FruchtermanReingold;
-import de.dakror.wseminar.graph.algorithm.Layout;
-import de.dakror.wseminar.graph.generate.GraphGenerator;
-import de.dakror.wseminar.graph.generate.Params;
-import de.dakror.wseminar.graph.generate.Params.SParams;
 
 /**
  * @author Dakror
@@ -92,12 +92,10 @@ public class GenerateGraphDialogController {
 	
 	public static final int speed = 400;
 	
-	public static final String[] edgeTypes = { "Ungerichtet", "Gerichtet", "Gemischt" };
-	
 	long seed = 0;
 	
 	@FXML
-	void initialize() {
+			void initialize() {
 		graph_size.setLabelFormatter(new StringConverter<Double>() {
 			
 			String[] sizes = { "Klein", "Mittel", "Groß" };
@@ -115,7 +113,7 @@ public class GenerateGraphDialogController {
 		
 		logo.setImage(WSeminar.getImage("new_graph-50.png"));
 		
-		edge_type.getItems().addAll(edgeTypes);
+		edge_type.getItems().addAll("Ungerichtet", "Gerichtet", "Gemischt");
 		edge_type.setValue(edge_type.getItems().get(0));
 		
 		EventHandler<ActionEvent> close = e -> ((Stage) cancelButton.getScene().getWindow()).close();

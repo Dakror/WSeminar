@@ -113,7 +113,7 @@
 																				<Tooltip text="Aufnahme in Statistik" />
 																			</tooltip>
 																		</CheckBox>
-																		<Button fx:id="path_start" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Weg suchen" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+																		<Button fx:id="path_find" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Weg suchen" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 																		<Button fx:id="path_delete" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Entfernen" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 																	</children>
 																</GridPane>

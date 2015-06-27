@@ -20,6 +20,12 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.dakror.wseminar.Const.State;
+import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.algorithm.Layout;
+import de.dakror.wseminar.math.Vector2;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
@@ -40,12 +46,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import de.dakror.wseminar.Const.State;
-import de.dakror.wseminar.WSeminar;
-import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.algorithm.Layout;
-import de.dakror.wseminar.math.Vector2;
 
 /**
  * @author Dakror
@@ -88,6 +88,9 @@ public class MainController {
 	private Button path_start;
 	
 	@FXML
+	private Button path_find;
+	
+	@FXML
 	private Button path_delete;
 	
 	@FXML
@@ -110,7 +113,7 @@ public class MainController {
 	long last;
 	
 	@FXML
-	void initialize() {
+			void initialize() {
 		Vector2 scrollMouse = new Vector2();
 		
 		new_graph_label.setOnMouseClicked(e -> createGenerateDialog());
@@ -192,7 +195,25 @@ public class MainController {
 		});
 		
 		// -- path section -- //
+		path_start.setOnAction(e -> {
+			if (WSeminar.instance.getSourceGraph() == null) return;
+			WSeminar.instance.selectStartVertex = true;
+			path_start.getScene().setCursor(Cursor.HAND);
+		});
 		
+		path_goal.setOnAction(e -> {
+			if (WSeminar.instance.getSourceGraph() == null) return;
+			WSeminar.instance.selectGoalVertex = true;
+			path_goal.getScene().setCursor(Cursor.HAND);
+		});
+		
+		path_algorithm.getItems().addAll("BFS", "DFS", "Dijkstra", "A*");
+		path_algorithm.setValue(path_algorithm.getItems().get(0));
+		
+		path_algorithm.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
+			path_faststack.setDisable(newVal.intValue() != 3);
+			path_goalbounding.setDisable(newVal.intValue() != 3);
+		});
 	}
 	
 	void createGenerateDialog() {

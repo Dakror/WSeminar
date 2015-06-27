@@ -25,7 +25,7 @@
 }
 
 .visual-vertex:hover {
-	-fx-effect: dropshadow(three-pass-box, #2176de, 20.0, 0.0, 0.0, 0.0);
+	-fx-effect: dropshadow(three-pass-box, derive(#00459a, -10.0%), 20.0, 0.0, 0.0, 0.0);
 	-fx-fill: radial-gradient(focus-angle 34.0deg, center 50.0% 50.0%, radius 75.0%, white, #8bb7c6);
 }
 
