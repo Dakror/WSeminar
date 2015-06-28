@@ -20,7 +20,6 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
@@ -169,7 +168,7 @@ public class MainController {
 			} else {
 				if (e.isPrimaryButtonDown() && WSeminar.instance.activeVertex != null) {
 					if (!WSeminar.instance.activeVertex.contains(e.getX(), e.getY())) {
-						WSeminar.instance.activeVertex.setState(State.DEFAULT);
+						WSeminar.instance.activeVertex.setActive(false);
 						WSeminar.instance.activeVertex = null;
 					}
 				}

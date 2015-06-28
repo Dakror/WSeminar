@@ -32,6 +32,7 @@ import javafx.scene.shape.Circle;
 public class VisualVertex<V> extends Circle {
 	Vertex<V> vertex;
 	State state;
+	boolean active;
 	
 	@SuppressWarnings("unchecked")
 	public VisualVertex(Vertex<V> v) {
@@ -48,13 +49,13 @@ public class VisualVertex<V> extends Circle {
 			
 			if (WSeminar.instance.selectStartVertex || WSeminar.instance.selectGoalVertex) {
 				if (WSeminar.instance.selectStartVertex) {
-					if (WSeminar.instance.startVertex != null) WSeminar.instance.startVertex.setState(State.DEFAULT);
+					if (WSeminar.instance.startVertex != null) WSeminar.instance.startVertex.setActive(false);
 					setState(State.START);
 					WSeminar.instance.startVertex = (VisualVertex<Integer>) VisualVertex.this;
 				}
 				
 				if (WSeminar.instance.selectGoalVertex) {
-					if (WSeminar.instance.goalVertex != null) WSeminar.instance.goalVertex.setState(State.DEFAULT);
+					if (WSeminar.instance.goalVertex != null) WSeminar.instance.goalVertex.setActive(false);
 					setState(State.GOAL);
 					WSeminar.instance.goalVertex = (VisualVertex<Integer>) VisualVertex.this;
 				}
@@ -65,9 +66,11 @@ public class VisualVertex<V> extends Circle {
 				return;
 			}
 			
-			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setState(State.DEFAULT);
+			if (WSeminar.instance.activeVertex == VisualVertex.this) return;
 			
-			setState(State.ACTIVE);
+			if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
+			
+			setActive(true);
 			WSeminar.instance.activeVertex = (VisualVertex<Integer>) VisualVertex.this;
 			TreeView<String> tv = ((TreeView<String>) getScene().lookup("#graph_tree"));
 			for (TreeItem<String> item : tv.getRoot().getChildren()) {
@@ -83,19 +86,22 @@ public class VisualVertex<V> extends Circle {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void setState(State state) {
-		if (state != State.DEFAULT) {
-			getStyleClass().add(state.name().toLowerCase());
-		} else {
-			getStyleClass().remove(this.state.name().toLowerCase());
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge)
-					&& WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(false));
-		}
+	public void setActive(boolean active) {
+		if (getStyleClass().contains("active")) getStyleClass().remove("active");
+		else getStyleClass().add("active");
 		
-		if (state == State.ACTIVE) {
-			getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge)
-					&& WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(true));
-		}
+		getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge)
+				&& WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(active));
+				
+		this.active = active;
+	}
+	
+	public void setState(State state) {
+		if (this.state == state) return;
+		
+		if (this.state != null) getStyleClass().remove(this.state.name().toLowerCase());
+		getStyleClass().add(state.name().toLowerCase());
+		
 		this.state = state;
 	}
 	

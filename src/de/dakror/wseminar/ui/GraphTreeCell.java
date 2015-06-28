@@ -17,7 +17,6 @@
 
 package de.dakror.wseminar.ui;
 
-import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.WeightedEdge;
@@ -85,14 +84,14 @@ public class GraphTreeCell extends TreeCell<String> {
 			if (getTreeItem() != null && isSelected()) {
 				Node node = ((GraphTreeItem) getTreeItem()).getNode();
 				
-				if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setState(State.DEFAULT);
-				if (WSeminar.instance.activeEdge != null) WSeminar.instance.activeEdge.setActive(false);
 				
-				if (node instanceof VisualVertex) {
+				if (node instanceof VisualVertex && node != WSeminar.instance.activeVertex) {
+					if (WSeminar.instance.activeVertex != null) WSeminar.instance.activeVertex.setActive(false);
 					WSeminar.instance.activeVertex = (VisualVertex<Integer>) node;
-					((VisualVertex<?>) node).setState(State.ACTIVE);
+					((VisualVertex<?>) node).setActive(true);
 				}
-				if (node instanceof VisualEdge) {
+				if (node instanceof VisualEdge && node != WSeminar.instance.activeEdge) {
+					if (WSeminar.instance.activeEdge != null) WSeminar.instance.activeEdge.setActive(false);
 					WSeminar.instance.activeEdge = (VisualEdge<Integer>) node;
 					((VisualEdge<?>) node).setActive(true);
 				}

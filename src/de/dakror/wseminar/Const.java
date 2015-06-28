@@ -40,8 +40,6 @@ public class Const {
 	
 	// -- visual vertex state -- //
 	public enum State {
-		DEFAULT,
-		ACTIVE,
 		START,
 		GOAL,
 		OPENLIST,
