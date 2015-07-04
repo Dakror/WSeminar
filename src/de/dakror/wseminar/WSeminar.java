@@ -27,7 +27,7 @@ import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.Delay;
-import de.dakror.wseminar.graph.algorithm.Layout;
+import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.ui.GraphTreeCell;
 import de.dakror.wseminar.ui.GraphTreeItem;
 import de.dakror.wseminar.ui.VisualEdge;

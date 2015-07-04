@@ -24,6 +24,7 @@ import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.Disposition;
 import de.dakror.wseminar.graph.VertexData.Position;
+import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
 
 /**

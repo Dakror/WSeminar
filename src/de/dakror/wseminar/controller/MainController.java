@@ -22,8 +22,10 @@ import java.util.ResourceBundle;
 
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.algorithm.Layout;
+import de.dakror.wseminar.graph.algorithm.DFS;
+import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -174,7 +176,7 @@ public class MainController {
 				}
 				lastX = -1;
 				lastY = -1;
-				graph.getScene().setCursor(Cursor.DEFAULT);
+				if (graph.getScene().getCursor() == Cursor.MOVE) graph.getScene().setCursor(Cursor.DEFAULT);
 			}
 		};
 		
@@ -206,13 +208,26 @@ public class MainController {
 			path_goal.getScene().setCursor(Cursor.HAND);
 		});
 		
-		path_algorithm.getItems().addAll("BFS", "DFS", "Dijkstra", "A*");
+		path_algorithm.getItems().addAll(/*"BFS",*/ "DFS"/*, "Dijkstra", "A*"*/);
 		path_algorithm.setValue(path_algorithm.getItems().get(0));
 		
 		path_algorithm.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
 			path_faststack.setDisable(newVal.intValue() != 3);
 			path_goalbounding.setDisable(newVal.intValue() != 3);
 		});
+		
+		path_find.setOnAction(e -> {
+			if (path_find.isDisable()) {
+				// hah! we got here from our hack in VisualVertex
+				path_find.setDisable(WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex);
+			} else {
+				Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph()).findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+				
+				// now what :D
+				
+			}
+		});
+		
 	}
 	
 	void createGenerateDialog() {

@@ -25,7 +25,7 @@ import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.algorithm.FruchtermanReingold;
-import de.dakror.wseminar.graph.algorithm.Layout;
+import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.graph.generate.GraphGenerator;
 import de.dakror.wseminar.graph.generate.Params;
 import de.dakror.wseminar.graph.generate.Params.SParams;

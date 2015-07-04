@@ -17,15 +17,67 @@
 
 package de.dakror.wseminar.graph.algorithm;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import de.dakror.wseminar.graph.Edge;
+import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.VertexData;
+import de.dakror.wseminar.graph.VertexData.PathCommons;
+import de.dakror.wseminar.graph.WeightedEdge;
+import de.dakror.wseminar.graph.algorithm.common.PathFinder;
 
 /**
  * @author Maximilian Stark | Dakror
  */
 public class DFS<V> extends PathFinder<V> {
+	public DFS(Graph<Vertex<V>> graph) {
+		super(graph);
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
-		return null;
+		from.add(new VertexData.PathCommons<V>());
+		
+		takeStep(from, to);
+		
+		Path<Vertex<V>> p = new Path<Vertex<V>>();
+		Vertex<V> v = to;
+		
+		while (v.get(PathCommons.class).parent != null) {
+			p.add(0, v);
+			v = v.get(PathCommons.class).parent;
+		}
+		p.add(0, from);
+		
+		return p;
+	}
+	
+	@Override
+	protected boolean takeStep(Vertex<V> node, Vertex<V> to) {
+		super.takeStep(node, to);
+		
+		if (node.equals(to)) return true;
+		List<Edge<Vertex<V>>> edges = graph.getEdges(node).stream().filter(e -> isNotVisited(e.getOtherEnd(node))).sorted((a, b) -> Float.compare(a instanceof WeightedEdge
+				? ((WeightedEdge<Vertex<V>>) a).getWeight() : 0, b instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) b).getWeight() : 0)).collect(Collectors.toList());
+				
+		for (Edge<Vertex<V>> e : edges) {
+			Vertex<V> oe = e.getOtherEnd(node);
+			PathCommons<V> pc = new VertexData.PathCommons<V>();
+			pc.parent = node;
+			oe.add(pc);
+			if (takeStep(oe, to)) return true;
+		}
+		
+		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean isNotVisited(Vertex<V> node) {
+		VertexData.PathCommons<V> data;
+		return (data = node.get(VertexData.PathCommons.class)) == null || !data.visited;
 	}
 }

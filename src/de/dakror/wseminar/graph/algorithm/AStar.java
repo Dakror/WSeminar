@@ -15,35 +15,23 @@
  ******************************************************************************/
 
 
-package de.dakror.wseminar.graph;
+package de.dakror.wseminar.graph.algorithm;
 
-import de.dakror.wseminar.math.Vector2;
+import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.Path;
+import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.algorithm.common.PathFinder;
 
 /**
  * @author Maximilian Stark | Dakror
  */
-public class VertexData {
-	public static class Delay {
-		public float delay;
+public class AStar<V> extends PathFinder<V> {
+	public AStar(Graph<Vertex<V>> graph) {
+		super(graph);
 	}
 	
-	public static class Disposition {
-		public Vector2 disp = new Vector2();
-	}
-	
-	public static class Force {
-		public Vector2 Fe = new Vector2(), Fr = new Vector2(), F = new Vector2();
-	}
-	
-	public static class Position {
-		public Vector2 pos = new Vector2();
-	}
-	
-	public static class PathCommons<V> {
-		public Vertex<V> parent;
-		/**
-		 * Used for manual override only, otherwise gets determined by wether this Data Element exists on the Vertex
-		 */
-		public boolean visited = true;
+	@Override
+	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
+		return null;
 	}
 }
