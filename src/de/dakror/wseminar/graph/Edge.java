@@ -72,6 +72,11 @@ public class Edge<V> implements Comparable<Edge<V>> {
 	}
 	
 	@Override
+	public int hashCode() {
+		return from.hashCode() + toString().hashCode() * (directed ? -1 : 1);
+	}
+	
+	@Override
 	public int compareTo(Edge<V> o) {
 		return 0;
 	}

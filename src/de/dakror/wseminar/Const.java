@@ -18,6 +18,8 @@
 package de.dakror.wseminar;
 
 import javafx.animation.Interpolator;
+import javafx.event.Event;
+import javafx.event.EventType;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -38,12 +40,17 @@ public class Const {
 	// -- graph visualization -- //
 	public static int defaultCycles = 500;
 	
+	// -- events -- //
+	public static final EventType<Event> RESET = new EventType<Event>(Event.ANY, "RESET");
+	
 	// -- visual vertex state -- //
 	public enum State {
 		START,
 		GOAL,
 		OPENLIST,
 		CLOSEDLIST,
-		BACKTRACK
+		BACKTRACK,
+		
+		REVERT;
 	}
 }

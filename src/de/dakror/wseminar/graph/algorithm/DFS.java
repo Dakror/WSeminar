@@ -20,6 +20,7 @@ package de.dakror.wseminar.graph.algorithm;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
@@ -28,11 +29,13 @@ import de.dakror.wseminar.graph.VertexData;
 import de.dakror.wseminar.graph.VertexData.PathCommons;
 import de.dakror.wseminar.graph.WeightedEdge;
 import de.dakror.wseminar.graph.algorithm.common.PathFinder;
+import de.dakror.wseminar.util.Visualizer;
 
 /**
  * @author Maximilian Stark | Dakror
  */
 public class DFS<V> extends PathFinder<V> {
+	
 	public DFS(Graph<Vertex<V>> graph) {
 		super(graph);
 	}
@@ -42,7 +45,7 @@ public class DFS<V> extends PathFinder<V> {
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
 		from.add(new VertexData.PathCommons<V>());
 		
-		takeStep(from, to);
+		if (!takeStep(from, to)) System.out.println("say what?");
 		
 		Path<Vertex<V>> p = new Path<Vertex<V>>();
 		Vertex<V> v = to;
@@ -52,26 +55,38 @@ public class DFS<V> extends PathFinder<V> {
 			v = v.get(PathCommons.class).parent;
 		}
 		p.add(0, from);
-		
 		return p;
 	}
 	
 	@Override
 	protected boolean takeStep(Vertex<V> node, Vertex<V> to) {
-		super.takeStep(node, to);
+		Visualizer.setVertexState(node, State.OPENLIST, false);
 		
 		if (node.equals(to)) return true;
-		List<Edge<Vertex<V>>> edges = graph.getEdges(node).stream().filter(e -> isNotVisited(e.getOtherEnd(node))).sorted((a, b) -> Float.compare(a instanceof WeightedEdge
-				? ((WeightedEdge<Vertex<V>>) a).getWeight() : 0, b instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) b).getWeight() : 0)).collect(Collectors.toList());
-				
+		List<Edge<Vertex<V>>> edges = graph.getEdges(node).stream().filter(e -> {
+			boolean free = isNotVisited(e.getOtherEnd(node));
+			Visualizer.setEdgeActive(e, free);
+			return free;
+		}).sorted((a, b) -> Float.compare(a instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) a).getWeight() : 0,
+																			b instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) b).getWeight() : 0)).collect(Collectors.toList());
+																			
 		for (Edge<Vertex<V>> e : edges) {
+			Visualizer.setEdgeActive(e, false, false);
+		}
+		
+		for (Edge<Vertex<V>> e : edges) {
+			Visualizer.setVertexState(node, State.CLOSEDLIST, false);
+			Visualizer.setEdgePath(e, true, true);
 			Vertex<V> oe = e.getOtherEnd(node);
 			PathCommons<V> pc = new VertexData.PathCommons<V>();
 			pc.parent = node;
 			oe.add(pc);
+			
 			if (takeStep(oe, to)) return true;
+			Visualizer.setEdgePath(e, false);
 		}
 		
+		Visualizer.setVertexState(node, State.OPENLIST, false);
 		return false;
 	}
 	

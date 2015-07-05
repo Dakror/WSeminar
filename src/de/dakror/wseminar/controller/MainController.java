@@ -20,6 +20,7 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
@@ -29,6 +30,7 @@ import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -198,12 +200,14 @@ public class MainController {
 		// -- path section -- //
 		path_start.setOnAction(e -> {
 			if (WSeminar.instance.getSourceGraph() == null) return;
+			WSeminar.instance.selectGoalVertex = false;
 			WSeminar.instance.selectStartVertex = true;
 			path_start.getScene().setCursor(Cursor.HAND);
 		});
 		
 		path_goal.setOnAction(e -> {
 			if (WSeminar.instance.getSourceGraph() == null) return;
+			WSeminar.instance.selectStartVertex = false;
 			WSeminar.instance.selectGoalVertex = true;
 			path_goal.getScene().setCursor(Cursor.HAND);
 		});
@@ -217,15 +221,15 @@ public class MainController {
 		});
 		
 		path_find.setOnAction(e -> {
-			if (path_find.isDisable()) {
-				// hah! we got here from our hack in VisualVertex
-				path_find.setDisable(WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex);
-			} else {
-				Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph()).findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
-				
-				// now what :D
-				
-			}
+			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
+			
+			Event.fireEvent(WSeminar.window.getScene().getRoot(), new Event(Const.RESET));
+			new Thread() {
+				@Override
+				public void run() {
+					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph()).findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+				}
+			}.start();
 		});
 		
 	}

@@ -165,7 +165,7 @@ public class WSeminar extends Application {
 		
 		for (int i = 0; i < graph.getEdges().size(); i++) {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
-			Line node = (Line) pane.lookup("#E" + i);
+			Line node = (Line) pane.lookup("#E" + e.hashCode());
 			
 			VisualVertex<Integer> newFrom = new VisualVertex<Integer>(e.getFrom());
 			VisualVertex<Integer> newTo = new VisualVertex<Integer>(e.getTo());
@@ -209,7 +209,7 @@ public class WSeminar extends Application {
 		
 		for (int i = 0; i < graph.getEdges().size(); i++) {
 			Edge<Vertex<Integer>> e = graph.getEdges().get(i);
-			VisualEdge<Integer> edge = new VisualEdge<>(e, i, pane);
+			VisualEdge<Integer> edge = new VisualEdge<>(e, pane);
 			
 			for (Vertex<Integer> v : new Vertex[] { e.getFrom(), e.getTo() }) {
 				int index = addedVertices.indexOf(v);

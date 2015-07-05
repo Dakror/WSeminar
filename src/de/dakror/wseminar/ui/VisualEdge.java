@@ -19,6 +19,13 @@ package de.dakror.wseminar.ui;
 
 import java.text.NumberFormat;
 
+import de.dakror.wseminar.Const;
+import de.dakror.wseminar.WSeminar;
+import de.dakror.wseminar.graph.Edge;
+import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.VertexData.Position;
+import de.dakror.wseminar.graph.WeightedEdge;
+import de.dakror.wseminar.math.Vector2;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -28,13 +35,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Text;
-import de.dakror.wseminar.Const;
-import de.dakror.wseminar.WSeminar;
-import de.dakror.wseminar.graph.Edge;
-import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.VertexData.Position;
-import de.dakror.wseminar.graph.WeightedEdge;
-import de.dakror.wseminar.math.Vector2;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -45,14 +45,15 @@ public class VisualEdge<V> extends Line {
 	Polygon p;
 	Edge<Vertex<V>> edge;
 	boolean active;
+	boolean path;
 	
 	boolean left;
 	
-	public VisualEdge(Edge<Vertex<V>> edge, int id, Pane pane) {
+	public VisualEdge(Edge<Vertex<V>> edge, Pane pane) {
 		super(edge.getFrom().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getFrom().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2,
 					edge.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
 		this.edge = edge;
-		setId("E" + id);
+		setId("E" + edge.hashCode());
 		
 		left = WSeminar.r.nextBoolean();
 		
@@ -113,6 +114,8 @@ public class VisualEdge<V> extends Line {
 		setStrokeWidth(2);
 		setStrokeLineCap(StrokeLineCap.ROUND);
 		p.setStrokeWidth(1);
+		
+		addEventHandler(Const.RESET, e -> System.out.println("hello"));
 	}
 	
 	void setColor(Color color) {
@@ -123,12 +126,27 @@ public class VisualEdge<V> extends Line {
 	}
 	
 	public void setActive(boolean active) {
+		if (path && !active) return;
+		
 		if (active) setColor(Color.valueOf("#2279e5"));
 		else setColor(Color.DARKGRAY);
 		if (active) text.setFill(Color.valueOf("#2279e5").darker());
 		else text.setFill(Color.BLACK);
 		
 		this.active = active;
+	}
+	
+	public void setPath(boolean path) {
+		if (path) setColor(Color.valueOf("#3c009f"));
+		else setColor(Color.DARKGRAY);
+		if (path) text.setFill(Color.valueOf("#3c009f").darker());
+		else text.setFill(Color.BLACK);
+		
+		this.path = path;
+	}
+	
+	public boolean isPath() {
+		return path;
 	}
 	
 	public boolean isActive() {

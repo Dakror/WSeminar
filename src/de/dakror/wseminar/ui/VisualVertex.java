@@ -20,9 +20,7 @@ import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.Position;
-import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseButton;
@@ -33,7 +31,7 @@ import javafx.scene.shape.Circle;
  */
 public class VisualVertex<V> extends Circle {
 	Vertex<V> vertex;
-	State state;
+	State prevState, state;
 	boolean active;
 	
 	@SuppressWarnings("unchecked")
@@ -54,14 +52,12 @@ public class VisualVertex<V> extends Circle {
 					if (WSeminar.instance.startVertex != null) WSeminar.instance.startVertex.setState(null);
 					setState(State.START);
 					WSeminar.instance.startVertex = (VisualVertex<Integer>) VisualVertex.this;
-					((Button) WSeminar.window.getScene().lookup("#path_find")).fireEvent(new ActionEvent()); // hacky way to get around the disable
 				}
 				
 				if (WSeminar.instance.selectGoalVertex) {
 					if (WSeminar.instance.goalVertex != null) WSeminar.instance.goalVertex.setState(null);
 					setState(State.GOAL);
 					WSeminar.instance.goalVertex = (VisualVertex<Integer>) VisualVertex.this;
-					((Button) WSeminar.window.getScene().lookup("#path_find")).fireEvent(new ActionEvent()); // hacky way to get around the disable
 				}
 				
 				WSeminar.instance.selectStartVertex = false;
@@ -101,12 +97,22 @@ public class VisualVertex<V> extends Circle {
 	}
 	
 	public void setState(State state) {
+		if (state == State.REVERT) {
+			revertState();
+			return;
+		}
+		
 		if (this.state == state) return;
 		
 		if (this.state != null) getStyleClass().remove(this.state.name().toLowerCase());
 		if (state != null) getStyleClass().add(state.name().toLowerCase());
-		
+		prevState = this.state;
 		this.state = state;
+	}
+	
+	public void revertState() {
+		state = prevState;
+		prevState = null;
 	}
 	
 	public Vertex<V> getVertex() {

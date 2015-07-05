@@ -75,6 +75,11 @@ public class Vertex<T> {
 	}
 	
 	@Override
+	public int hashCode() {
+		return data.hashCode();
+	}
+	
+	@Override
 	public String toString() {
 		return "[V (" + data + ")]";
 	}

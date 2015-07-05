@@ -39,17 +39,6 @@ public abstract class PathFinder<V> {
 	
 	protected Graph<Vertex<V>> graph;
 	
-	/*boolean visualMode;
-	
-	public void setVisualMode(boolean visualMode) {
-		this.visualMode = visualMode;
-	}
-	
-	public boolean isVisualMode() {
-		return visualMode;
-	}
-	*/
-	
 	public PathFinder(Graph<Vertex<V>> graph) {
 		this.graph = graph;
 	}
@@ -66,15 +55,5 @@ public abstract class PathFinder<V> {
 	 * @param to the final goal
 	 * @return wether the step was taken
 	 */
-	protected boolean takeStep(Vertex<V> node, Vertex<V> to) {
-		/*if (visualMode) {
-			try {
-				Thread.sleep(Const.visualModeTimeout);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}*/
-		
-		return false;
-	}
+	protected abstract boolean takeStep(Vertex<V> node, Vertex<V> to);
 }
