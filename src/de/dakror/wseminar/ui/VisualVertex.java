@@ -20,6 +20,7 @@ import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.Position;
+import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -83,6 +84,9 @@ public class VisualVertex<V> extends Circle {
 				}
 			}
 		});
+		
+		addEventHandler(ActionEvent.ANY, e -> System.out.println("fgwi"));
+		addEventHandler(Const.RESET, e -> System.out.println("ohayou"));
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -20,17 +20,14 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.dakror.wseminar.Const;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
-import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.algorithm.DFS;
 import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.event.Event;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -223,13 +220,18 @@ public class MainController {
 		path_find.setOnAction(e -> {
 			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
 			
-			Event.fireEvent(WSeminar.window.getScene().getRoot(), new Event(Const.RESET));
-			new Thread() {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					graph.fireEvent(new ActionEvent());
+				}
+			});
+			/*new Thread() {
 				@Override
 				public void run() {
 					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph()).findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
 				}
-			}.start();
+			}.start();*/
 		});
 		
 	}

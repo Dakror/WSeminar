@@ -72,6 +72,16 @@ public class DFS<V> extends PathFinder<V> {
 																			
 		for (Edge<Vertex<V>> e : edges) {
 			Visualizer.setEdgeActive(e, false, false);
+			
+			Vertex<V> oe = e.getOtherEnd(node);
+			if (oe.equals(to)) {
+				Visualizer.setVertexState(node, State.CLOSEDLIST, false);
+				Visualizer.setEdgePath(e, true, true);
+				PathCommons<V> pc = new VertexData.PathCommons<V>();
+				pc.parent = node;
+				oe.add(pc);
+				return takeStep(oe, to);
+			}
 		}
 		
 		for (Edge<Vertex<V>> e : edges) {

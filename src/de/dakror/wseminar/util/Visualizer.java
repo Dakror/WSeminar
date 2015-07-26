@@ -81,7 +81,7 @@ public class Visualizer {
 	
 	static void tick() {
 		try {
-			Thread.sleep(600);
+			Thread.sleep(300);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
