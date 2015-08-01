@@ -34,6 +34,7 @@ public class FruchtermanReingold<V> extends Layout<V> {
 	float k;
 	
 	float width, height;
+	float size = 2;
 	
 	public FruchtermanReingold(Graph<V> sourceGraph) {
 		this(sourceGraph, Const.defaultCycles);
@@ -54,7 +55,8 @@ public class FruchtermanReingold<V> extends Layout<V> {
 	}
 	
 	public FruchtermanReingold(Graph<V> sourceGraph, int maxCycles, long seed, float size) {
-		this(sourceGraph, maxCycles, seed, sourceGraph.getVertices().size() * size * size, sourceGraph.getVertices().size() * size * size);
+		this(sourceGraph, maxCycles, seed, sourceGraph.getVertices().size() * size, sourceGraph.getVertices().size() * size);
+		this.size = size;
 	}
 	
 	@Override
@@ -63,7 +65,7 @@ public class FruchtermanReingold<V> extends Layout<V> {
 		// -- random init positions -- //
 		for (Vertex<V> v : graph.getVertices())
 			v.get(Position.class).pos.set(r.nextFloat() * width, r.nextFloat() * height);
-		
+			
 		calculateK(graph.getVertices().size());
 	}
 	
@@ -118,8 +120,8 @@ public class FruchtermanReingold<V> extends Layout<V> {
 	/**
 	 * k is the optimal distance between vertices
 	 */
-	void calculateK(int vertexCount) {
-		k = (float) (0.75f * Math.sqrt((width * height) / vertexCount));
+			void calculateK(int vertexCount) {
+		k = (float) (Math.sqrt((width * height / (size / 2)) / vertexCount));
 	}
 	
 	/**
@@ -128,7 +130,7 @@ public class FruchtermanReingold<V> extends Layout<V> {
 	 * @param d
 	 * @return
 	 */
-	float getFa(float d) {
+			float getFa(float d) {
 		return (d * d) / k;
 	}
 	
@@ -138,7 +140,7 @@ public class FruchtermanReingold<V> extends Layout<V> {
 	 * @param d
 	 * @return
 	 */
-	float getFr(float d) {
+			float getFr(float d) {
 		return (k * k) / d;
 	}
 }

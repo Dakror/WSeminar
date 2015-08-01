@@ -28,7 +28,9 @@ import de.dakror.wseminar.graph.WeightedEdge;
 import de.dakror.wseminar.math.Vector2;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -54,6 +56,7 @@ public class VisualEdge<V> extends Line {
 					edge.getTo().get(Position.class).pos.x * Const.cellSize + Const.cellSize / 2, edge.getTo().get(Position.class).pos.y * Const.cellSize + Const.cellSize / 2);
 		this.edge = edge;
 		setId("E" + edge.hashCode());
+		getStyleClass().add("visual-edge");
 		
 		left = WSeminar.r.nextBoolean();
 		
@@ -97,8 +100,18 @@ public class VisualEdge<V> extends Line {
 		
 		cl.changed(null, 0, 0); // initial placement for sub elements
 		
-		EventHandler<MouseEvent> en = e -> setColor(Color.valueOf("#5f5f5f"));
-		EventHandler<MouseEvent> ex = e -> setColor(active ? Color.valueOf("#2279e5") : Color.DARKGRAY);
+		EventHandler<MouseEvent> en = e -> {
+			if (!path) setColor(Color.valueOf("#5f5f5f"));
+		};
+		EventHandler<MouseEvent> ex = e -> {
+			if (!path) setColor(active ? Color.valueOf("#2279e5") : Color.DARKGRAY);
+		};
+		
+		pane.getParent().addEventHandler(ScrollEvent.ANY, e -> {
+			if (getScene() == null) return;
+			Slider zoom = ((Slider) getScene().lookup("#zoom"));
+			setStrokeWidth(2 + Math.max(0, 15 * (100 - zoom.getValue()) / 100));
+		});
 		
 		setOnMouseEntered(en);
 		setOnMouseExited(ex);
@@ -114,8 +127,6 @@ public class VisualEdge<V> extends Line {
 		setStrokeWidth(2);
 		setStrokeLineCap(StrokeLineCap.ROUND);
 		p.setStrokeWidth(1);
-		
-		addEventHandler(Const.RESET, e -> System.out.println("hello"));
 	}
 	
 	void setColor(Color color) {

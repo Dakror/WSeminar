@@ -20,6 +20,7 @@ package de.dakror.wseminar.util;
 import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Edge;
+import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.ui.VisualEdge;
 import de.dakror.wseminar.ui.VisualVertex;
@@ -62,7 +63,6 @@ public class Visualizer {
 		if (tick) tick();
 	}
 	
-	
 	public static <V> void setEdgeActive(Edge<Vertex<V>> e, boolean active) {
 		setEdgeActive(e, active, true);
 	}
@@ -79,7 +79,30 @@ public class Visualizer {
 		if (tick) tick();
 	}
 	
-	static void tick() {
+	public static <V> void resetAll(Graph<Vertex<V>> graph, boolean full) {
+		Platform.runLater(new Runnable() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void run() {
+				for (Edge<Vertex<V>> e : graph.getEdges()) {
+					((VisualEdge<V>) lookup("#E" + e.hashCode())).setActive(false);
+					if (full) ((VisualEdge<V>) lookup("#E" + e.hashCode())).setPath(false);
+					VisualVertex<V> f = ((VisualVertex<V>) lookup("#V" + e.getFrom().data()));
+					VisualVertex<V> t = ((VisualVertex<V>) lookup("#V" + e.getTo().data()));
+					
+					if (full) {
+						f.resetState();
+						t.resetState();
+					}
+					
+					f.setActive(false);
+					t.setActive(false);
+				}
+			}
+		});
+	}
+	
+	public static void tick() {
 		try {
 			Thread.sleep(300);
 		} catch (InterruptedException e) {

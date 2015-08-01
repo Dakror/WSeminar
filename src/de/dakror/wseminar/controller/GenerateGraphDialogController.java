@@ -141,9 +141,10 @@ public class GenerateGraphDialogController {
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
 			
-			Layout<Integer> layout = new FruchtermanReingold<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed,
-																																(float) Math.sqrt(Math.sqrt(graph.getVertices().size() / graph_size.getValue())));
+			Layout<Integer> layout = new FruchtermanReingold<Integer>(graph, Const.defaultCycles * (int) graph_size.getValue(), seed, (float) graph_size.getValue() + 1);
 			WSeminar.instance.setLayout(layout);
+			
+			System.out.println(seed);
 			
 			MainController.doLayoutWithProgress(layout, null, false, true);
 			

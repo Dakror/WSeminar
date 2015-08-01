@@ -22,12 +22,14 @@ import java.util.ResourceBundle;
 
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.algorithm.DFS;
 import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
+import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -117,6 +119,14 @@ public class MainController {
 		Vector2 scrollMouse = new Vector2();
 		
 		new_graph_label.setOnMouseClicked(e -> createGenerateDialog());
+		
+		new Transition() {
+			
+			@Override
+			protected void interpolate(double frac) {
+			
+			}
+		};
 		
 		zoom.valueProperty().addListener((obs, newVal, oldVal) -> {
 			if (WSeminar.instance.getGraph() != null) {
@@ -219,19 +229,12 @@ public class MainController {
 		
 		path_find.setOnAction(e -> {
 			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
-			
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					graph.fireEvent(new ActionEvent());
-				}
-			});
-			/*new Thread() {
+			new Thread() {
 				@Override
 				public void run() {
 					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph()).findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
 				}
-			}.start();*/
+			}.start();
 		});
 		
 	}

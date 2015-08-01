@@ -20,7 +20,6 @@ import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.Position;
-import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -84,15 +83,12 @@ public class VisualVertex<V> extends Circle {
 				}
 			}
 		});
-		
-		addEventHandler(ActionEvent.ANY, e -> System.out.println("fgwi"));
-		addEventHandler(Const.RESET, e -> System.out.println("ohayou"));
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void setActive(boolean active) {
 		if (getStyleClass().contains("active")) getStyleClass().remove("active");
-		else getStyleClass().add("active");
+		else if (active) getStyleClass().add("active");
 		
 		getParent().getChildrenUnmodifiable().stream().filter(n -> (n instanceof VisualEdge)
 				&& WSeminar.instance.getGraph().isConnected(vertex, ((VisualEdge<V>) n).edge)).forEach(n -> ((VisualEdge<V>) n).setActive(active));
@@ -108,10 +104,18 @@ public class VisualVertex<V> extends Circle {
 		
 		if (this.state == state) return;
 		
+		if ((this.state == State.GOAL || this.state == State.START) && state != null) {
+			return;
+		}
+		
 		if (this.state != null) getStyleClass().remove(this.state.name().toLowerCase());
 		if (state != null) getStyleClass().add(state.name().toLowerCase());
 		prevState = this.state;
 		this.state = state;
+	}
+	
+	public void resetState() {
+		if (state != State.GOAL && state != State.START) setState(null);
 	}
 	
 	public void revertState() {

@@ -20,6 +20,7 @@ package de.dakror.wseminar.graph.algorithm.common;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
+import de.dakror.wseminar.graph.VertexData.PathCommons;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -48,6 +49,12 @@ public abstract class PathFinder<V> {
 	}
 	
 	public abstract Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to);
+	
+	protected void cleanup() {
+		for (Vertex<V> v : graph.getVertices()) {
+			v.remove(PathCommons.class);
+		}
+	}
 	
 	/**
 	 * 
