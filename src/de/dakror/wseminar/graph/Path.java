@@ -20,27 +20,17 @@ package de.dakror.wseminar.graph;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.stream.Collectors;
 
 /**
  * @author Maximilian Stark | Dakror
  */
 public class Path<V> implements Iterable<V> {
 	ArrayList<V> nodes;
+	Object userData;
+	float cost;
 	
 	public Path() {
 		nodes = new ArrayList<>();
-	}
-	
-	public Path(V[] nodes) {
-		this();
-		for (V v : nodes)
-			add(v);
-	}
-	
-	public Path(Collection<? extends V> nodes) {
-		this();
-		addAll(nodes);
 	}
 	
 	@Override
@@ -88,8 +78,40 @@ public class Path<V> implements Iterable<V> {
 		return nodes.addAll(c);
 	}
 	
+	public void calculateCost(Graph<V> graph) {
+		float cost = 0;
+		for (int i = 0; i < size() - 1; i++) {
+			cost += graph.getWeight(nodes.get(i), nodes.get(i + 1));
+		}
+		
+		this.cost = cost;
+	}
+	
+	public float getCost() {
+		return cost;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (userData != null ? userData.hashCode() : 0) + nodes.hashCode();
+	}
+	
+	public void setUserData(Object userData) {
+		this.userData = userData;
+	}
+	
+	public Object getUserData() {
+		return userData;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		return obj.hashCode() == hashCode();
+	}
+	
 	@Override
 	public String toString() {
-		return nodes.stream().map(v -> v.toString()).collect(Collectors.joining(" -> ")).toString();
+		return (userData != null ? userData + " " : "") + nodes.get(0) + " -> { " + (nodes.size() - 2) + " } -> " + nodes.get(nodes.size() - 1) + " = " + cost;
 	}
 }

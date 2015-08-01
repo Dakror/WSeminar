@@ -31,11 +31,19 @@ import javafx.scene.Node;
  * @author Maximilian Stark | Dakror
  */
 public class Visualizer {
+	static boolean enabled = false;
+	
+	public static void setEnabled(boolean enabled) {
+		Visualizer.enabled = enabled;
+	}
+	
 	public static <V> void setVertexState(Vertex<V> v, State state) {
 		setVertexState(v, state, true);
 	}
 	
 	public static <V> void setVertexState(Vertex<V> v, State state, boolean tick) {
+		if (!enabled && state != State.CLOSEDLIST) return;
+		
 		Platform.runLater(new Runnable() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -68,6 +76,8 @@ public class Visualizer {
 	}
 	
 	public static <V> void setEdgeActive(Edge<Vertex<V>> e, boolean active, boolean tick) {
+		if (!enabled) return;
+		
 		Platform.runLater(new Runnable() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -103,6 +113,7 @@ public class Visualizer {
 	}
 	
 	public static void tick() {
+		if (!enabled) return;
 		try {
 			Thread.sleep(300);
 		} catch (InterruptedException e) {

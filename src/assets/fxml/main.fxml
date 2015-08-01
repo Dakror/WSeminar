@@ -54,7 +54,7 @@
 													<content>
 														<ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefViewportHeight="100.0" prefViewportWidth="171.0">
 															<content>
-																<ListView prefHeight="173.0" prefWidth="171.0" />
+																<ListView fx:id="path_list" prefHeight="173.0" prefWidth="171.0" />
 															</content>
 														</ScrollPane>
 													</content>

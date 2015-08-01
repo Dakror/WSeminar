@@ -81,6 +81,6 @@ public class Vertex<T> {
 	
 	@Override
 	public String toString() {
-		return "[V (" + data + ")]";
+		return "( " + data + " )";
 	}
 }

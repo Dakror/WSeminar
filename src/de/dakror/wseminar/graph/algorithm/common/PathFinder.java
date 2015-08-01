@@ -58,9 +58,10 @@ public abstract class PathFinder<V> {
 	
 	/**
 	 * 
+	 * @param parent the node which this call origins from
 	 * @param node the active node
 	 * @param to the final goal
 	 * @return wether the step was taken
 	 */
-	protected abstract boolean takeStep(Vertex<V> node, Vertex<V> to);
+	protected abstract boolean takeStep(Vertex<V> parent, Vertex<V> node, Vertex<V> to);
 }

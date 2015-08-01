@@ -27,7 +27,7 @@ import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.algorithm.DFS;
 import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
-import javafx.animation.Transition;
+import de.dakror.wseminar.util.Visualizer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
@@ -38,6 +38,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
@@ -105,6 +106,9 @@ public class MainController {
 	private TreeView<String> graph_tree;
 	
 	@FXML
+	private ListView<Path<Vertex<Integer>>> path_list;
+	
+	@FXML
 	private Button path_goal;
 	
 	@FXML
@@ -119,14 +123,6 @@ public class MainController {
 		Vector2 scrollMouse = new Vector2();
 		
 		new_graph_label.setOnMouseClicked(e -> createGenerateDialog());
-		
-		new Transition() {
-			
-			@Override
-			protected void interpolate(double frac) {
-			
-			}
-		};
 		
 		zoom.valueProperty().addListener((obs, newVal, oldVal) -> {
 			if (WSeminar.instance.getGraph() != null) {
@@ -227,12 +223,27 @@ public class MainController {
 			path_goalbounding.setDisable(newVal.intValue() != 3);
 		});
 		
+		path_list.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+			
+			Visualizer.resetAll(WSeminar.instance.getGraph(), true);
+		});
+		
 		path_find.setOnAction(e -> {
 			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
 			new Thread() {
 				@Override
 				public void run() {
+					Visualizer.setEnabled(path_animate.isSelected());
 					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph()).findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							if (!path_list.getItems().contains(p)) {
+								path_list.getItems().add(p);
+								path_list.getSelectionModel().select(path_list.getItems().size() - 1);
+							}
+						}
+					});
 				}
 			}.start();
 		});
