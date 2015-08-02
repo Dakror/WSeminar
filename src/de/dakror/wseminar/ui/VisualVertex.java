@@ -114,8 +114,8 @@ public class VisualVertex<V> extends Circle {
 		this.state = state;
 	}
 	
-	public void resetState() {
-		if (state != State.GOAL && state != State.START) setState(null);
+	public void resetState(boolean start) {
+		if ((state != State.GOAL && state != State.START) || start) setState(null);
 	}
 	
 	public void revertState() {

@@ -89,7 +89,7 @@ public class Visualizer {
 		if (tick) tick();
 	}
 	
-	public static <V> void resetAll(Graph<Vertex<V>> graph, boolean full) {
+	public static <V> void resetAll(Graph<Vertex<V>> graph, boolean full, boolean start) {
 		Platform.runLater(new Runnable() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -101,8 +101,8 @@ public class Visualizer {
 					VisualVertex<V> t = ((VisualVertex<V>) lookup("#V" + e.getTo().data()));
 					
 					if (full) {
-						f.resetState();
-						t.resetState();
+						f.resetState(start);
+						t.resetState(start);
 					}
 					
 					f.setActive(false);

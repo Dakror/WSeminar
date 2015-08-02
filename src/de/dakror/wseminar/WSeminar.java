@@ -25,6 +25,7 @@ import java.util.Random;
 import de.dakror.wseminar.controller.GenerateGraphDialogController;
 import de.dakror.wseminar.graph.Edge;
 import de.dakror.wseminar.graph.Graph;
+import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.Delay;
 import de.dakror.wseminar.graph.algorithm.common.Layout;
@@ -87,6 +88,8 @@ public class WSeminar extends Application {
 	
 	public VisualVertex<Integer> activeVertex, startVertex, goalVertex;
 	public VisualEdge<Integer> activeEdge;
+	
+	public HashMap<String, Path<Vertex<Integer>>> paths = new HashMap<>();
 	
 	int duration = 200;
 	
@@ -204,7 +207,7 @@ public class WSeminar extends Application {
 		Pane pane = (Pane) window.getScene().lookup("#graph");
 		pane.getChildren().clear();
 		
-		((Slider) window.getScene().lookup("#zoom")).setValue(100);
+		((Slider) window.getScene().lookup("#zoom")).setValue(200);
 		pane.setScaleX(1);
 		pane.setScaleY(1);
 		

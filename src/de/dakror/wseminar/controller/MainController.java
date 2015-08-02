@@ -20,6 +20,7 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
@@ -106,7 +107,7 @@ public class MainController {
 	private TreeView<String> graph_tree;
 	
 	@FXML
-	private ListView<Path<Vertex<Integer>>> path_list;
+	private ListView<String> path_list;
 	
 	@FXML
 	private Button path_goal;
@@ -130,8 +131,8 @@ public class MainController {
 				
 				Bounds a = pane.getBoundsInParent();
 				
-				pane.setScaleX(Math.max(0.1f, Math.min(4, newVal.floatValue() / 100f)));
-				pane.setScaleY(Math.max(0.1f, Math.min(4, newVal.floatValue() / 100f)));
+				pane.setScaleX(Math.max(0.1f, Math.min(2, newVal.floatValue() / 200f)));
+				pane.setScaleY(Math.max(0.1f, Math.min(2, newVal.floatValue() / 200f)));
 				
 				Bounds b = pane.getBoundsInParent();
 				
@@ -223,9 +224,30 @@ public class MainController {
 			path_goalbounding.setDisable(newVal.intValue() != 3);
 		});
 		
-		path_list.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+		path_delete.setOnAction(e -> path_list.getItems().remove(path_list.getSelectionModel().getSelectedIndex()));
+		
+		path_list.getItems().add("< Keinen Pfad anzeigen >");
+		path_list.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
+			Graph<Vertex<Integer>> g = WSeminar.instance.getGraph();
 			
-			Visualizer.resetAll(WSeminar.instance.getGraph(), true);
+			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(newV);
+			path_delete.setDisable(newVal == null);
+			
+			Visualizer.setEnabled(true);
+			Visualizer.resetAll(g, true, true);
+			if (newVal == null) {
+				Visualizer.setEnabled(true);
+				return;
+			}
+			
+			for (int i = 0; i < newVal.size() - 1; i++) {
+				Visualizer.setVertexState(newVal.get(i), State.CLOSEDLIST, false);
+				Visualizer.setVertexState(newVal.get(i + 1), State.CLOSEDLIST, false);
+				Visualizer.setEdgePath(g.getEdge(newVal.get(i), newVal.get(i + 1)), true, false);
+			}
+			Visualizer.setVertexState(newVal.get(0), State.START, false);
+			Visualizer.setVertexState(newVal.get(newVal.size() - 1), State.GOAL, false);
+			Visualizer.setEnabled(false);
 		});
 		
 		path_find.setOnAction(e -> {
@@ -238,12 +260,16 @@ public class MainController {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							if (!path_list.getItems().contains(p)) {
-								path_list.getItems().add(p);
+							if (!path_list.getItems().contains(p.toString())) {
+								path_list.getItems().add(p.toString());
+								WSeminar.instance.paths.put(p.toString(), p);
+								
 								path_list.getSelectionModel().select(path_list.getItems().size() - 1);
 							}
 						}
 					});
+					
+					Visualizer.setEnabled(false);
 				}
 			}.start();
 		});

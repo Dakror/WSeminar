@@ -44,7 +44,7 @@ public class DFS<V> extends PathFinder<V> {
 	
 	@Override
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
-		Visualizer.resetAll(graph, true);
+		Visualizer.resetAll(graph, true, false);
 		
 		if (!takeStep(null, from, to)) System.out.println("say what?");
 		
@@ -60,7 +60,7 @@ public class DFS<V> extends PathFinder<V> {
 		p.calculateCost(graph);
 		
 		cleanup();
-		Visualizer.resetAll(graph, false);
+		Visualizer.resetAll(graph, false, false);
 		
 		return p;
 	}
