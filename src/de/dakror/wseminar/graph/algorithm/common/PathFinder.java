@@ -21,6 +21,7 @@ import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.PathCommons;
+import de.dakror.wseminar.util.Benchmark;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -38,10 +39,13 @@ public abstract class PathFinder<V> {
 	// }
 	// }
 	
+	protected Benchmark<V> BM;
+	
 	protected Graph<Vertex<V>> graph;
 	
 	public PathFinder(Graph<Vertex<V>> graph) {
 		this.graph = graph;
+		BM = new Benchmark<>();
 	}
 	
 	public Graph<Vertex<V>> getGraph() {
@@ -54,6 +58,10 @@ public abstract class PathFinder<V> {
 		for (Vertex<V> v : graph.getVertices()) {
 			v.remove(PathCommons.class);
 		}
+	}
+	
+	public Benchmark<V> getBenchmark() {
+		return BM;
 	}
 	
 	/**

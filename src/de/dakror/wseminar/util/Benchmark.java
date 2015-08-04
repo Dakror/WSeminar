@@ -17,13 +17,33 @@
 
 package de.dakror.wseminar.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.dakror.wseminar.graph.Edge;
+import de.dakror.wseminar.graph.Vertex;
+
 /**
  * @author Maximilian Stark | Dakror
  *
  */
-public class Benchmark {
+public class Benchmark<V> {
+	public static class Timestamp implements Comparable<Timestamp> {
+		long time;
+		float stamp;
+		
+		public Timestamp(long time, float stamp) {
+			this.time = time;
+			this.stamp = stamp;
+		}
+		
+		@Override
+		public int compareTo(Timestamp o) {
+			return Long.compare(time, o.time);
+		}
+	}
+	
 	public static enum Type {
-		ALL_OPS,
 		VERTICES,
 		VERTICES_UNIQUE,
 		EDGES,
@@ -32,29 +52,88 @@ public class Benchmark {
 		OPEN_LIST_SIZE,
 		CLOSED_LIST_SIZE,
 		BACK_TRACKS,
-		OVERRIDES,
-		TIME
+		PATH_CREATION,
+		OVERRIDES
 	}
 	
-	float[] values;
+	long time, time1;
 	
+	List<Timestamp>[] values;
+	
+	List<Vertex<V>> vertices;
+	List<Edge<Vertex<V>>> edges;
+	
+	@SuppressWarnings("unchecked")
 	public Benchmark() {
-		values = new float[Type.values().length];
+		values = new ArrayList[Type.values().length];
+		for (int i = 0; i < values.length; i++)
+			values[i] = new ArrayList<>();
+			
+		vertices = new ArrayList<>();
+		edges = new ArrayList<>();
 	}
 	
 	public void add(Type t, float f) {
-		values[t.ordinal()] += f;
+		values[t.ordinal()].add(new Timestamp(System.nanoTime(), f));
 	}
 	
 	public void inc(Type t) {
 		add(t, 1);
 	}
 	
-	public float get(Type t) {
+	public void dec(Type t) {
+		add(t, -1);
+	}
+	
+	/**
+	 * Use for {@link Type#VERTICES_UNIQUE} or {@link Type#VERTICES}
+	 * @param v
+	 */
+	public void inc(Vertex<V> v) {
+		inc(Type.VERTICES);
+		if (!vertices.contains(v)) {
+			vertices.add(v);
+			inc(Type.VERTICES_UNIQUE);
+		}
+	}
+	
+	/**
+	 * Use for {@link Type#EDGES_UNIQUE} or {@link Type#EDGES}
+	 * @param v
+	 */
+	public void inc(Edge<Vertex<V>> v) {
+		inc(Type.EDGES);
+		if (!edges.contains(v)) {
+			edges.add(v);
+			inc(Type.EDGES_UNIQUE);
+		}
+	}
+	
+	public List<Timestamp> get(Type t) {
 		return values[t.ordinal()];
 	}
 	
-	public float[] getAll() {
+	public List<Timestamp>[] getAll() {
 		return values;
+	}
+	
+	public void time() {
+		if (time1 == 0) time1 = System.nanoTime();
+		else {
+			time = System.nanoTime() - time1;
+			time1 = 0;
+		}
+	}
+	
+	public long getTime() {
+		return time;
+	}
+	
+	public float getSum(Type t) {
+		float m = 0;
+		for (Timestamp ts : get(t))
+			if (ts.stamp > m) m = ts.stamp;
+			
+		return m;
 	}
 }

@@ -17,6 +17,8 @@
 
 package de.dakror.wseminar.graph.algorithm;
 
+import static de.dakror.wseminar.util.Benchmark.Type.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +48,7 @@ public class DFS<V> extends PathFinder<V> {
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
 		Visualizer.resetAll(graph, true, false);
 		
-		if (!takeStep(null, from, to)) System.out.println("say what?");
+		if (!takeStep(null, from, to)) return null;
 		
 		Path<Vertex<V>> p = new Path<Vertex<V>>();
 		p.setUserData("DFS");
@@ -55,8 +57,12 @@ public class DFS<V> extends PathFinder<V> {
 		while (meta.get(v).parent != null) {
 			p.add(0, v);
 			v = meta.get(v).parent;
+			
+			BM.inc(PATH_CREATION);
 		}
+		
 		p.add(0, from);
+		BM.inc(PATH_CREATION);
 		p.calculateCost(graph);
 		
 		cleanup();
@@ -71,20 +77,31 @@ public class DFS<V> extends PathFinder<V> {
 		pc.parent = parent;
 		meta.put(node, pc);
 		Visualizer.setVertexState(node, State.OPENLIST, false);
+		BM.inc(OPEN_LIST_SIZE);
 		
 		if (node.equals(to)) return true;
 		
 		List<Edge<Vertex<V>>> edges = graph.getEdges(node).stream().filter(e -> {
-			boolean free = meta.get(e.getOtherEnd(node)) == null;
+			Vertex<V> v = e.getOtherEnd(node);
+			
+			BM.inc(e);
+			BM.inc(v);
+			
+			boolean free = meta.get(v) == null;
 			Visualizer.setEdgeActive(e, free, false);
 			return free;
 		}).sorted((a, b) -> Float.compare(a instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) a).getWeight() : 0,
 																			b instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) b).getWeight() : 0)).collect(Collectors.toList());
-																			
+		BM.inc(SORTS);
+		
 		// is target reachable?
 		for (Edge<Vertex<V>> e : edges) {
+			BM.inc(e);
 			Vertex<V> oe = e.getOtherEnd(node);
+			BM.inc(oe);
 			if (oe.equals(to)) {
+				BM.dec(OPEN_LIST_SIZE);
+				BM.inc(CLOSED_LIST_SIZE);
 				Visualizer.setVertexState(node, State.CLOSEDLIST);
 				Visualizer.setEdgePath(e, true);
 				return takeStep(node, oe, to);
@@ -93,9 +110,13 @@ public class DFS<V> extends PathFinder<V> {
 		
 		// take next step
 		for (Edge<Vertex<V>> e : edges) {
+			BM.inc(e);
 			Vertex<V> oe = e.getOtherEnd(node);
+			BM.inc(oe);
 			Visualizer.tick();
 			
+			BM.dec(OPEN_LIST_SIZE);
+			BM.inc(CLOSED_LIST_SIZE);
 			Visualizer.setVertexState(node, State.CLOSEDLIST);
 			Visualizer.setEdgePath(e, true);
 			
@@ -113,6 +134,8 @@ public class DFS<V> extends PathFinder<V> {
 			
 			Visualizer.setEdgePath(e, false);
 		}
+		
+		BM.inc(BACK_TRACKS);
 		Visualizer.setVertexState(node, State.BACKTRACK, false);
 		
 		return false;
