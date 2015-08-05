@@ -35,6 +35,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -44,8 +47,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -60,6 +65,12 @@ public class MainController {
 	
 	@FXML
 	private URL location;
+	
+	@FXML
+	private ListView<String> path_list;
+	
+	@FXML
+	private ListView<String> path_list_benchmark;
 	
 	@FXML
 	private ChoiceBox<String> path_strategy;
@@ -77,7 +88,16 @@ public class MainController {
 	private CheckBox path_benchmark;
 	
 	@FXML
+	private Button path_find;
+	
+	@FXML
 	private CheckBox path_goalbounding;
+	
+	@FXML
+	private BorderPane benchmark;
+	
+	@FXML
+	private LineChart<Long, Float> chart_timeline;
 	
 	@FXML
 	private Pane graph;
@@ -92,9 +112,6 @@ public class MainController {
 	private Button path_start;
 	
 	@FXML
-	private Button path_find;
-	
-	@FXML
 	private Button path_delete;
 	
 	@FXML
@@ -104,16 +121,22 @@ public class MainController {
 	private ChoiceBox<String> path_algorithm;
 	
 	@FXML
-	private TreeView<String> graph_tree;
-	
-	@FXML
-	private ListView<String> path_list;
+	private TreeView<?> graph_tree;
 	
 	@FXML
 	private Button path_goal;
 	
 	@FXML
 	private CheckBox path_animate;
+	
+	@FXML
+	private BarChart<String, Float> chart_alltime;
+	
+	@FXML
+	private PieChart chart_division;
+	
+	@FXML
+	private Tab tab_benchmark;
 	
 	float lastX = -1, lastY = -1;
 	
@@ -143,6 +166,10 @@ public class MainController {
 				pane.setTranslateY(pane.translateYProperty().add(mouseY - (mouseY / a.getHeight() * b.getHeight())).get());
 			}
 		});
+		
+		
+		
+		// TODO SCROLL BROKE
 		
 		graph.getParent().setOnScroll(e -> {
 			if (graph != null) {
@@ -201,6 +228,11 @@ public class MainController {
 			}
 		});
 		
+		tab_benchmark.selectedProperty().addListener((obs, oldVal, newVal) -> {
+			benchmark.setVisible(newVal);
+			graph.setVisible(!newVal);
+		});
+		
 		// -- path section -- //
 		path_start.setOnAction(e -> {
 			if (WSeminar.instance.getSourceGraph() == null) return;
@@ -249,6 +281,7 @@ public class MainController {
 			Visualizer.setVertexState(newVal.get(newVal.size() - 1), State.GOAL, false);
 			Visualizer.setEnabled(false);
 		});
+		path_list.itemsProperty().bind(path_list_benchmark.itemsProperty());
 		
 		path_find.setOnAction(e -> {
 			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;

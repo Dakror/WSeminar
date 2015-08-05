@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.geometry.*?>
@@ -39,11 +40,19 @@
 			<items>
 				<AnchorPane minWidth="200.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
 					<children>
-						<TabPane layoutX="7.0" layoutY="-1.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinWidth="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+						<TabPane layoutX="7.0" layoutY="-1.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<tabs>
 								<Tab text="Netz">
 									<content>
-										<TreeView fx:id="graph_tree" styleClass="SBKIT-hierarchy-panel" />
+                              <AnchorPane>
+                                 <children>
+      										<TitledPane animated="false" collapsible="false" prefHeight="748.0" prefWidth="171.0" styleClass="text-like-bot" text="Netz" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+         											<TreeView fx:id="graph_tree" prefHeight="721.0" prefWidth="98.0" styleClass="SBKIT-hierarchy-panel" />
+         </content>
+      										</TitledPane>
+                                 </children>
+                              </AnchorPane>
 									</content>
 								</Tab>
 								<Tab text="Wege">
@@ -125,24 +134,105 @@
 										</VBox>
 									</content>
 								</Tab>
+								<Tab fx:id="tab_benchmark" text="Benchmark">
+									<content>
+										<AnchorPane>
+											<children>
+												<TitledPane animated="false" collapsible="false" prefHeight="748.0" prefWidth="171.0" styleClass="text-like-bot" text="Wege" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+													<content>
+														<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" prefViewportHeight="100.0" prefViewportWidth="171.0">
+															<content>
+																<ListView fx:id="path_list_benchmark" prefHeight="717.0" prefWidth="171.0" />
+															</content>
+														</ScrollPane>
+													</content>
+												</TitledPane>
+											</children>
+										</AnchorPane>
+									</content>
+								</Tab>
 							</tabs>
 						</TabPane>
 					</children>
 				</AnchorPane>
 				<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="748.0" prefWidth="1063.0">
 					<children>
-						<Pane fx:id="graph" maxHeight="1" maxWidth="1">
+						<StackPane prefHeight="748.0" prefWidth="1076.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<children>
-								<Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
-									<font>
-										<Font size="18.0" />
-									</font>
-									<cursor>
-										<Cursor fx:constant="HAND" />
-									</cursor>
-								</Label>
+								<AnchorPane prefHeight="200.0" prefWidth="200.0">
+									<children>
+										<BorderPane fx:id="benchmark" prefHeight="748.0" prefWidth="1076.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+											<top>
+												<VBox alignment="CENTER" prefHeight="396.0" prefWidth="1076.0" BorderPane.alignment="CENTER">
+													<children>
+														<Label alignment="CENTER" contentDisplay="CENTER" text="Timeline" textFill="#9f9f9f">
+															<font>
+																<Font size="18.0" />
+															</font>
+														</Label>
+														<LineChart fx:id="chart_timeline">
+															<xAxis>
+																<CategoryAxis side="BOTTOM" />
+															</xAxis>
+															<yAxis>
+																<NumberAxis side="LEFT" />
+															</yAxis>
+														</LineChart>
+													</children>
+												</VBox>
+											</top>
+											<left>
+												<VBox alignment="CENTER" prefHeight="352.0" prefWidth="503.0" BorderPane.alignment="CENTER">
+													<children>
+														<Label text="Gesamtzeit-Vergleich" textFill="#9f9f9f">
+															<font>
+																<Font size="18.0" />
+															</font>
+														</Label>
+														<BarChart fx:id="chart_alltime">
+															<xAxis>
+																<CategoryAxis side="BOTTOM" />
+															</xAxis>
+															<yAxis>
+																<NumberAxis side="LEFT" />
+															</yAxis>
+														</BarChart>
+													</children>
+												</VBox>
+											</left>
+											<right>
+												<VBox alignment="CENTER" prefHeight="352.0" prefWidth="486.0" BorderPane.alignment="CENTER">
+													<children>
+														<Label text="Zeitaufteilung" textFill="#9f9f9f">
+															<font>
+																<Font size="18.0" />
+															</font>
+														</Label>
+														<PieChart fx:id="chart_division" />
+													</children>
+												</VBox>
+											</right>
+										</BorderPane>
+									</children>
+								</AnchorPane>
+								<AnchorPane prefHeight="200.0" prefWidth="200.0">
+									<children>
+										<Pane fx:id="graph" maxHeight="1" maxWidth="1" prefHeight="748.0" prefWidth="1076.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+											<children>
+												<Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
+													<font>
+														<Font size="18.0" />
+													</font>
+													<cursor>
+														<Cursor fx:constant="HAND" />
+													</cursor>
+												</Label>
+											</children>
+										</Pane>
+									</children>
+								</AnchorPane>
 							</children>
-						</Pane>
+						</StackPane>
 					</children>
 				</AnchorPane>
 			</items>
