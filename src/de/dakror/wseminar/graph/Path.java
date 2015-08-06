@@ -93,7 +93,7 @@ public class Path<V> implements Iterable<V> {
 	
 	@Override
 	public int hashCode() {
-		return (userData != null ? userData.hashCode() : 0) + nodes.hashCode();
+		return toString().hashCode();
 	}
 	
 	public void setUserData(Object userData) {
@@ -108,6 +108,18 @@ public class Path<V> implements Iterable<V> {
 	public boolean equals(Object obj) {
 		if (obj == null) return false;
 		return obj.hashCode() == hashCode();
+	}
+	
+	public String toGrouperString() {
+		return nodes.get(0) + " -> " + nodes.get(nodes.size() - 1);
+	}
+	
+	public String toSpecString() {
+		return userData + " { " + (nodes.size() - 1) + " } = " + cost;
+	}
+	
+	public String toString(boolean spec) {
+		return spec ? toSpecString() : toGrouperString();
 	}
 	
 	@Override

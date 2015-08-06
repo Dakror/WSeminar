@@ -28,6 +28,7 @@ import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.algorithm.DFS;
 import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
+import de.dakror.wseminar.ui.PathTreeItem;
 import de.dakror.wseminar.util.Visualizer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -42,12 +43,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -67,10 +68,10 @@ public class MainController {
 	private URL location;
 	
 	@FXML
-	private ListView<String> path_list;
+	private TreeView<String> path_tree;
 	
 	@FXML
-	private ListView<String> path_list_benchmark;
+	private TreeView<String> path_tree_benchmark;
 	
 	@FXML
 	private ChoiceBox<String> path_strategy;
@@ -121,7 +122,7 @@ public class MainController {
 	private ChoiceBox<String> path_algorithm;
 	
 	@FXML
-	private TreeView<?> graph_tree;
+	private TreeView<String> graph_tree;
 	
 	@FXML
 	private Button path_goal;
@@ -166,10 +167,6 @@ public class MainController {
 				pane.setTranslateY(pane.translateYProperty().add(mouseY - (mouseY / a.getHeight() * b.getHeight())).get());
 			}
 		});
-		
-		
-		
-		// TODO SCROLL BROKE
 		
 		graph.getParent().setOnScroll(e -> {
 			if (graph != null) {
@@ -256,14 +253,24 @@ public class MainController {
 			path_goalbounding.setDisable(newVal.intValue() != 3);
 		});
 		
-		path_delete.setOnAction(e -> path_list.getItems().remove(path_list.getSelectionModel().getSelectedIndex()));
+		path_tree.setRoot(new PathTreeItem<Integer>("Pfade"));
 		
-		path_list.getItems().add("< Keinen Pfad anzeigen >");
-		path_list.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
+		path_delete.setOnAction(e -> {
+			PathTreeItem<Integer> ti = (PathTreeItem<Integer>) path_tree.getSelectionModel().getSelectedItem();
+			if (ti.isSpec()) WSeminar.instance.paths.remove(ti.getPathId());
+			else for (TreeItem<String> ti2 : ti.getChildren())
+				WSeminar.instance.paths.remove(((PathTreeItem<Integer>) ti2).getPathId());
+				
+			ti.getParent().getChildren().remove(ti);
+		});
+		
+		path_tree.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) ->
+		
+		{
 			Graph<Vertex<Integer>> g = WSeminar.instance.getGraph();
 			
-			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(newV);
-			path_delete.setDisable(newVal == null);
+			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
+			path_delete.setDisable(path_tree.getRoot().equals(newV));
 			
 			Visualizer.setEnabled(true);
 			Visualizer.resetAll(g, true, true);
@@ -281,9 +288,15 @@ public class MainController {
 			Visualizer.setVertexState(newVal.get(newVal.size() - 1), State.GOAL, false);
 			Visualizer.setEnabled(false);
 		});
-		path_list.itemsProperty().bind(path_list_benchmark.itemsProperty());
+		path_tree.getRoot().addEventHandler(TreeItem.childrenModificationEvent(), e ->
 		
-		path_find.setOnAction(e -> {
+		{
+			path_tree_benchmark.setRoot(path_tree.getRoot());
+		});
+		
+		path_find.setOnAction(e ->
+		
+		{
 			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
 			new Thread() {
 				@Override
@@ -293,12 +306,7 @@ public class MainController {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							if (!path_list.getItems().contains(p.toString())) {
-								path_list.getItems().add(p.toString());
-								WSeminar.instance.paths.put(p.toString(), p);
-								
-								path_list.getSelectionModel().select(path_list.getItems().size() - 1);
-							}
+							if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
 						}
 					});
 					

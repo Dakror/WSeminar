@@ -89,7 +89,7 @@ public class WSeminar extends Application {
 	public VisualVertex<Integer> activeVertex, startVertex, goalVertex;
 	public VisualEdge<Integer> activeEdge;
 	
-	public HashMap<String, Path<Vertex<Integer>>> paths = new HashMap<>();
+	public HashMap<Integer, Path<Vertex<Integer>>> paths = new HashMap<>();
 	
 	int duration = 200;
 	
