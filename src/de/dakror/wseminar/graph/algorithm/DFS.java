@@ -39,8 +39,8 @@ import de.dakror.wseminar.util.Visualizer;
 public class DFS<V> extends PathFinder<V> {
 	HashMap<Vertex<V>, PathCommons<V>> meta;
 	
-	public DFS(Graph<Vertex<V>> graph) {
-		super(graph);
+	public DFS(Graph<Vertex<V>> graph, boolean animate) {
+		super(graph, animate);
 		meta = new HashMap<>();
 	}
 	
@@ -136,7 +136,7 @@ public class DFS<V> extends PathFinder<V> {
 		}
 		
 		BM.inc(BACK_TRACKS);
-		Visualizer.setVertexState(node, State.BACKTRACK, false);
+		Visualizer.setVertexState(node, Visualizer.isEnabled() ? State.BACKTRACK : null, false);
 		
 		return false;
 	}

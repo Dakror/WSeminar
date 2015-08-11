@@ -149,8 +149,10 @@ public class MainController {
 		
 		new_graph_label.setOnMouseClicked(e -> createGenerateDialog());
 		
+		graph.visibleProperty().addListener((obs, newVal, oldVal) -> zoom.setDisable(newVal));
+		
 		zoom.valueProperty().addListener((obs, newVal, oldVal) -> {
-			if (WSeminar.instance.getGraph() != null) {
+			if (WSeminar.instance.getGraph() != null && graph.isVisible()) {
 				Pane pane = (Pane) WSeminar.window.getScene().lookup("#graph");
 				
 				Bounds a = pane.getBoundsInParent();
@@ -169,7 +171,7 @@ public class MainController {
 		});
 		
 		graph.getParent().setOnScroll(e -> {
-			if (graph != null) {
+			if (graph != null && graph.isVisible()) {
 				Bounds bounds = graph.getBoundsInParent();
 				
 				float x = (float) (e.getX() - graph.getBoundsInParent().getMinX());
@@ -186,7 +188,7 @@ public class MainController {
 		EventHandler<MouseEvent> eh = e -> {
 			scrollMouse.set((float) e.getX(), (float) e.getY());
 			
-			if (e.isSecondaryButtonDown() && graph != null) {
+			if (e.isSecondaryButtonDown() && graph != null && graph.isVisible()) {
 				graph.getScene().setCursor(Cursor.MOVE);
 				if (lastX != -1) {
 					float deltaX = (float) (e.getX() - lastX);
@@ -272,12 +274,8 @@ public class MainController {
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			path_delete.setDisable(path_tree.getRoot().equals(newV));
 			
-			Visualizer.setEnabled(true);
 			Visualizer.resetAll(g, true, true);
-			if (newVal == null) {
-				Visualizer.setEnabled(true);
-				return;
-			}
+			if (newVal == null) return;
 			
 			for (int i = 0; i < newVal.size() - 1; i++) {
 				Visualizer.setVertexState(newVal.get(i), State.CLOSEDLIST, false);
@@ -286,7 +284,6 @@ public class MainController {
 			}
 			Visualizer.setVertexState(newVal.get(0), State.START, false);
 			Visualizer.setVertexState(newVal.get(newVal.size() - 1), State.GOAL, false);
-			Visualizer.setEnabled(false);
 		});
 		path_tree.getRoot().addEventHandler(TreeItem.childrenModificationEvent(), e ->
 		
@@ -301,16 +298,14 @@ public class MainController {
 			new Thread() {
 				@Override
 				public void run() {
-					Visualizer.setEnabled(path_animate.isSelected());
-					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph()).findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph(), path_animate.isSelected()).findPath(	WSeminar.instance.startVertex.getVertex(),
+																																																												WSeminar.instance.goalVertex.getVertex());
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
 							if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
 						}
 					});
-					
-					Visualizer.setEnabled(false);
 				}
 			}.start();
 		});
