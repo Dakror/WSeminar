@@ -65,6 +65,8 @@ public class DFS<V> extends PathFinder<V> {
 		BM.inc(PATH_CREATION);
 		p.calculateCost(graph);
 		
+		p.setBenchmark(BM);
+		
 		cleanup();
 		Visualizer.resetAll(graph, false, false);
 		

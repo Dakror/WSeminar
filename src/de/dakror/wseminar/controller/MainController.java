@@ -20,6 +20,8 @@ package de.dakror.wseminar.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.sun.javafx.charts.Legend;
+
 import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
@@ -28,7 +30,10 @@ import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.algorithm.DFS;
 import de.dakror.wseminar.graph.algorithm.common.Layout;
 import de.dakror.wseminar.math.Vector2;
+import de.dakror.wseminar.ui.PathLineChart;
 import de.dakror.wseminar.ui.PathTreeItem;
+import de.dakror.wseminar.util.Benchmark.Timestamp;
+import de.dakror.wseminar.util.Benchmark.Type;
 import de.dakror.wseminar.util.Visualizer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -36,9 +41,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -74,9 +80,6 @@ public class MainController {
 	private TreeView<String> path_tree_benchmark;
 	
 	@FXML
-	private ChoiceBox<String> path_strategy;
-	
-	@FXML
 	private MenuItem relayout_graph;
 	
 	@FXML
@@ -95,10 +98,7 @@ public class MainController {
 	private CheckBox path_goalbounding;
 	
 	@FXML
-	private BorderPane benchmark;
-	
-	@FXML
-	private LineChart<Long, Float> chart_timeline;
+	private PathLineChart<Long, Integer> chart_timeline;
 	
 	@FXML
 	private Pane graph;
@@ -138,6 +138,9 @@ public class MainController {
 	
 	@FXML
 	private Tab tab_benchmark;
+	
+	@FXML
+	private BorderPane benchmark;
 	
 	float lastX = -1, lastY = -1;
 	
@@ -228,8 +231,8 @@ public class MainController {
 		});
 		
 		tab_benchmark.selectedProperty().addListener((obs, oldVal, newVal) -> {
-			benchmark.setVisible(newVal);
 			graph.setVisible(!newVal);
+			benchmark.setVisible(newVal);
 		});
 		
 		// -- path section -- //
@@ -256,6 +259,7 @@ public class MainController {
 		});
 		
 		path_tree.setRoot(new PathTreeItem<Integer>("Pfade"));
+		path_tree_benchmark.setRoot(new PathTreeItem<Integer>("Pfade"));
 		
 		path_delete.setOnAction(e -> {
 			PathTreeItem<Integer> ti = (PathTreeItem<Integer>) path_tree.getSelectionModel().getSelectedItem();
@@ -266,9 +270,7 @@ public class MainController {
 			ti.getParent().getChildren().remove(ti);
 		});
 		
-		path_tree.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) ->
-		
-		{
+		path_tree.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
 			Graph<Vertex<Integer>> g = WSeminar.instance.getGraph();
 			
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
@@ -285,31 +287,57 @@ public class MainController {
 			Visualizer.setVertexState(newVal.get(0), State.START, false);
 			Visualizer.setVertexState(newVal.get(newVal.size() - 1), State.GOAL, false);
 		});
-		path_tree.getRoot().addEventHandler(TreeItem.childrenModificationEvent(), e ->
 		
-		{
-			path_tree_benchmark.setRoot(path_tree.getRoot());
-		});
+		path_tree.getRoot().addEventHandler(TreeItem.childrenModificationEvent(), e -> path_tree_benchmark.setRoot(path_tree.getRoot()));
 		
-		path_find.setOnAction(e ->
-		
-		{
+		path_find.setOnAction(e -> {
 			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
 			new Thread() {
 				@Override
 				public void run() {
 					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph(), path_animate.isSelected()).findPath(	WSeminar.instance.startVertex.getVertex(),
 																																																												WSeminar.instance.goalVertex.getVertex());
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
-						}
+					Platform.runLater(() -> {
+						if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
 					});
 				}
 			}.start();
 		});
 		
+		// -- benchmark section -- //
+		chart_timeline.setAnimated(false);
+		
+		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
+			chart_timeline.setCreateSymbols(false);
+			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
+			if (newVal == null) return;
+			chart_timeline.getData().clear();
+			
+			for (Type t : Type.values()) {
+				XYChart.Series<Long, Integer> series = new XYChart.Series<>();
+				series.setName(t.desc);
+				for (Timestamp ts : newVal.getBenchmark().get(t)) {
+					XYChart.Data<Long, Integer> d = new XYChart.Data<>(ts.time, (int) ts.stamp);
+					series.getData().add(d);
+				}
+				
+				chart_timeline.getData().add(series);
+				for (XYChart.Series<Long, Integer> s : chart_timeline.getData()) {
+					//chart_timeline.l
+				}
+				Legend l = (Legend) chart_timeline.getChartLegend();
+				for (Node n : l.lookupAll(".chart-legend-item")) {
+					n.setOnMouseClicked(e -> {
+						if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
+						else n.getStyleClass().remove("disabled");
+						
+						boolean d = n.getStyleClass().contains("disabled");
+						chart_timeline.getData().get(Type.getByDesc(((Label) n).getText()).ordinal()).getNode().setVisible(!d);
+					});
+				}
+				
+			}
+		});
 	}
 	
 	void createGenerateDialog() {

@@ -21,16 +21,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import de.dakror.wseminar.util.Benchmark;
+
 /**
  * @author Maximilian Stark | Dakror
  */
 public class Path<V> implements Iterable<V> {
 	ArrayList<V> nodes;
 	Object userData;
+	Benchmark<V> benchmark;
 	float cost;
 	
 	public Path() {
 		nodes = new ArrayList<>();
+	}
+	
+	public Benchmark<V> getBenchmark() {
+		return benchmark;
+	}
+	
+	public void setBenchmark(Benchmark<V> benchmark) {
+		this.benchmark = benchmark;
 	}
 	
 	@Override

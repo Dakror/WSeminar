@@ -315,7 +315,6 @@ public class WSeminar extends Application {
 	// -- statics -- //
 	
 	public static void setSeed(long seed2) {
-		if (r != null) System.out.println("Overriding main Seed!");
 		r = new Random(seed2);
 		seed = seed2;
 	}

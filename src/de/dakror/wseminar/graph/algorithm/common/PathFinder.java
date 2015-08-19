@@ -28,19 +28,7 @@ import de.dakror.wseminar.util.Visualizer;
  * @author Maximilian Stark | Dakror
  */
 public abstract class PathFinder<V> {
-	// public enum Modes {
-	// optimize_weight,
-	// optimize_node_count,
-	// optimize_turns,
-	// }
-	//
-	// public static class PathFinderParams extends Params<Modes> {
-	// public PathFinderParams() {
-	// map = new EnumMap<Modes, Object>(Modes.class);
-	// }
-	// }
-	
-	protected Benchmark<V> BM;
+	protected Benchmark<Vertex<V>> BM;
 	
 	protected Graph<Vertex<V>> graph;
 	
@@ -62,7 +50,7 @@ public abstract class PathFinder<V> {
 		}
 	}
 	
-	public Benchmark<V> getBenchmark() {
+	public Benchmark<Vertex<V>> getBenchmark() {
 		return BM;
 	}
 	

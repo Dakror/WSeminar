@@ -20,8 +20,10 @@ package de.dakror.wseminar.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.javafx.collections.ObservableListWrapper;
+
 import de.dakror.wseminar.graph.Edge;
-import de.dakror.wseminar.graph.Vertex;
+import javafx.collections.ObservableList;
 
 /**
  * @author Maximilian Stark | Dakror
@@ -29,8 +31,8 @@ import de.dakror.wseminar.graph.Vertex;
  */
 public class Benchmark<V> {
 	public static class Timestamp implements Comparable<Timestamp> {
-		long time;
-		float stamp;
+		public final long time;
+		public final float stamp;
 		
 		public Timestamp(long time, float stamp) {
 			this.time = time;
@@ -44,37 +46,57 @@ public class Benchmark<V> {
 	}
 	
 	public static enum Type {
-		VERTICES,
-		VERTICES_UNIQUE,
-		EDGES,
-		EDGES_UNIQUE,
-		SORTS,
-		OPEN_LIST_SIZE,
-		CLOSED_LIST_SIZE,
-		BACK_TRACKS,
-		PATH_CREATION,
-		OVERRIDES
+		VERTICES("Knoten"),
+		VERTICES_UNIQUE("Verschiedene Knoten"),
+		EDGES("Kanten"),
+		EDGES_UNIQUE("Verschiede Kanten"),
+		SORTS("Sortierungen"),
+		OPEN_LIST_SIZE("OpenList-Größe"),
+		CLOSED_LIST_SIZE("ClosedList-Größe"),
+		BACK_TRACKS("Rückschritte"),
+		PATH_CREATION("Wegerstellung"),
+		OVERRIDES("Überschreibungen");
+		
+		public final String desc;
+		
+		private Type(String desc) {
+			this.desc = desc;
+		}
+		
+		public static Type getByDesc(String desc) {
+			for (Type t : values()) {
+				if (t.desc.equals(desc)) return t;
+			}
+			
+			return null;
+		}
 	}
 	
 	long time, time1;
 	
-	List<Timestamp>[] values;
+	long firstTime;
 	
-	List<Vertex<V>> vertices;
-	List<Edge<Vertex<V>>> edges;
+	ObservableList<Timestamp>[] values;
+	
+	List<V> vertices;
+	List<Edge<V>> edges;
 	
 	@SuppressWarnings("unchecked")
 	public Benchmark() {
-		values = new ArrayList[Type.values().length];
+		values = new ObservableList[Type.values().length];
 		for (int i = 0; i < values.length; i++)
-			values[i] = new ArrayList<>();
+			values[i] = new ObservableListWrapper<>(new ArrayList<>());
 			
 		vertices = new ArrayList<>();
 		edges = new ArrayList<>();
 	}
 	
 	public void add(Type t, float f) {
-		values[t.ordinal()].add(new Timestamp(System.nanoTime(), f));
+		if (firstTime == 0) firstTime = System.nanoTime();
+		
+		float last = values[t.ordinal()].size() > 0 ? values[t.ordinal()].get(values[t.ordinal()].size() - 1).stamp : 0;
+		
+		values[t.ordinal()].add(new Timestamp(System.nanoTime() - firstTime, last + f));
 	}
 	
 	public void inc(Type t) {
@@ -89,7 +111,7 @@ public class Benchmark<V> {
 	 * Use for {@link Type#VERTICES_UNIQUE} or {@link Type#VERTICES}
 	 * @param v
 	 */
-	public void inc(Vertex<V> v) {
+	public void inc(V v) {
 		inc(Type.VERTICES);
 		if (!vertices.contains(v)) {
 			vertices.add(v);
@@ -101,7 +123,7 @@ public class Benchmark<V> {
 	 * Use for {@link Type#EDGES_UNIQUE} or {@link Type#EDGES}
 	 * @param v
 	 */
-	public void inc(Edge<Vertex<V>> v) {
+	public void inc(Edge<V> v) {
 		inc(Type.EDGES);
 		if (!edges.contains(v)) {
 			edges.add(v);
@@ -109,11 +131,11 @@ public class Benchmark<V> {
 		}
 	}
 	
-	public List<Timestamp> get(Type t) {
+	public ObservableList<Timestamp> get(Type t) {
 		return values[t.ordinal()];
 	}
 	
-	public List<Timestamp>[] getAll() {
+	public ObservableList<Timestamp>[] getAll() {
 		return values;
 	}
 	

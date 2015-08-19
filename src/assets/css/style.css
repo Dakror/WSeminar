@@ -11,6 +11,10 @@
 	-fx-underline: true;
 }
 
+.disabled {
+	-fx-text-fill: #9f9f9f;
+}
+
 .place-holder, .link-label {
 	-fx-text-fill: #9f9f9f;
 	-fx-font-size: 13.0px;
