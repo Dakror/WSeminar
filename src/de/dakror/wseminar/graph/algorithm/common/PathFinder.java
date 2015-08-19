@@ -32,9 +32,12 @@ public abstract class PathFinder<V> {
 	
 	protected Graph<Vertex<V>> graph;
 	
+	protected boolean animate;
+	
 	public PathFinder(Graph<Vertex<V>> graph, boolean animate) {
 		this.graph = graph;
 		BM = new Benchmark<>();
+		this.animate = animate;
 		Visualizer.setEnabled(animate);
 	}
 	

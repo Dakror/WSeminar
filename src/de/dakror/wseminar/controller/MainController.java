@@ -17,6 +17,7 @@
 
 package de.dakror.wseminar.controller;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,6 +36,8 @@ import de.dakror.wseminar.ui.PathTreeItem;
 import de.dakror.wseminar.util.Benchmark.Timestamp;
 import de.dakror.wseminar.util.Benchmark.Type;
 import de.dakror.wseminar.util.Visualizer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
@@ -54,6 +57,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
@@ -62,6 +66,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 /**
  * @author Dakror
@@ -147,7 +152,7 @@ public class MainController {
 	long last;
 	
 	@FXML
-			void initialize() {
+	public void initialize() {
 		Vector2 scrollMouse = new Vector2();
 		
 		new_graph_label.setOnMouseClicked(e -> createGenerateDialog());
@@ -306,9 +311,9 @@ public class MainController {
 		
 		// -- benchmark section -- //
 		chart_timeline.setAnimated(false);
+		chart_timeline.setCreateSymbols(true);
 		
 		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
-			chart_timeline.setCreateSymbols(false);
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			if (newVal == null) return;
 			chart_timeline.getData().clear();
@@ -322,8 +327,13 @@ public class MainController {
 				}
 				
 				chart_timeline.getData().add(series);
+				
 				for (XYChart.Series<Long, Integer> s : chart_timeline.getData()) {
-					//chart_timeline.l
+					for (XYChart.Data<Long, Integer> d : s.getData()) {
+						Tooltip tt = new Tooltip(d.getXValue() + "ns: " + d.getYValue());
+						hackTooltipStartTiming(tt);
+						Tooltip.install(d.getNode(), tt);
+					}
 				}
 				Legend l = (Legend) chart_timeline.getChartLegend();
 				for (Node n : l.lookupAll(".chart-legend-item")) {
@@ -335,13 +345,33 @@ public class MainController {
 						chart_timeline.getData().get(Type.getByDesc(((Label) n).getText()).ordinal()).getNode().setVisible(!d);
 					});
 				}
-				
 			}
 		});
 	}
 	
-	void createGenerateDialog() {
+	public static void createGenerateDialog() {
 		WSeminar.createDialog("generate_graph_dialog", "Neues Netz generieren", WSeminar.window);
+	}
+	
+	/** 
+	 * Hack to work around the currently unmodifiable tooltip timeout.<br>
+	* Found at <a href=http://stackoverflow.com/a/27739605/4882174>http://stackoverflow.com/a/27739605/4882174</a>
+	*/
+	public static void hackTooltipStartTiming(Tooltip tooltip) {
+		try {
+			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+			fieldBehavior.setAccessible(true);
+			Object objBehavior = fieldBehavior.get(tooltip);
+			
+			Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
+			fieldTimer.setAccessible(true);
+			Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
+			
+			objTimer.getKeyFrames().clear();
+			objTimer.getKeyFrames().add(new KeyFrame(new Duration(0)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void doLayoutWithProgress(Layout<Integer> layout, String message, boolean transition, boolean setGraphAnimate) {

@@ -152,7 +152,7 @@
                      <top>
                         <AnchorPane prefHeight="505.0" prefWidth="1076.0">
                            <children>
-      										<PathLineChart fx:id="chart_timeline" createSymbols="false" title="Zeitleiste" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+      										<PathLineChart fx:id="chart_timeline" title="Zeitleiste" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
       											<xAxis>
       												<NumberAxis side="BOTTOM" />
       											</xAxis>

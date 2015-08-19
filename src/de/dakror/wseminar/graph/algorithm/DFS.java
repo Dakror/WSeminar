@@ -51,7 +51,7 @@ public class DFS<V> extends PathFinder<V> {
 		if (!takeStep(null, from, to)) return null;
 		
 		Path<Vertex<V>> p = new Path<Vertex<V>>();
-		p.setUserData("DFS");
+		p.setUserData("DFS" + (animate ? " anim" : ""));
 		Vertex<V> v = to;
 		
 		while (meta.get(v).parent != null) {

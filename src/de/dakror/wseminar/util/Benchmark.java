@@ -92,11 +92,13 @@ public class Benchmark<V> {
 	}
 	
 	public void add(Type t, float f) {
-		if (firstTime == 0) firstTime = System.nanoTime();
+		long time = System.nanoTime();
+		
+		if (firstTime == 0) firstTime = time;
 		
 		float last = values[t.ordinal()].size() > 0 ? values[t.ordinal()].get(values[t.ordinal()].size() - 1).stamp : 0;
 		
-		values[t.ordinal()].add(new Timestamp(System.nanoTime() - firstTime, last + f));
+		values[t.ordinal()].add(new Timestamp(time - firstTime, last + f));
 	}
 	
 	public void inc(Type t) {
