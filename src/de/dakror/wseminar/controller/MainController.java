@@ -341,8 +341,10 @@ public class MainController {
 						if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
 						else n.getStyleClass().remove("disabled");
 						
-						boolean d = n.getStyleClass().contains("disabled");
-						chart_timeline.getData().get(Type.getByDesc(((Label) n).getText()).ordinal()).getNode().setVisible(!d);
+						boolean ds = n.getStyleClass().contains("disabled");
+						XYChart.Series<Long, Integer> s = chart_timeline.getData().get(Type.getByDesc(((Label) n).getText()).ordinal());
+						s.getNode().setVisible(!ds);
+						s.getData().forEach(d -> d.getNode().setVisible(!ds));
 					});
 				}
 			}
@@ -368,7 +370,7 @@ public class MainController {
 			Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
 			
 			objTimer.getKeyFrames().clear();
-			objTimer.getKeyFrames().add(new KeyFrame(new Duration(0)));
+			objTimer.getKeyFrames().add(new KeyFrame(new Duration(50)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
