@@ -50,6 +50,8 @@ public class PathTreeItem<V> extends TreeItem<String> {
 	 * @return
 	 */
 	public boolean insert(Path<Vertex<V>> p) {
+		if (p == null) return false;
+		
 		for (TreeItem<String> ti : getChildren()) {
 			if (ti.getValue().equals(p.toGrouperString())) {
 				for (TreeItem<String> ti2 : ti.getChildren())

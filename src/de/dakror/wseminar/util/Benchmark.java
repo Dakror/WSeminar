@@ -48,8 +48,6 @@ public class Benchmark<V> {
 	public static enum Type {
 		VERTICES("Knoten"),
 		VERTICES_UNIQUE("Verschiedene Knoten"),
-		EDGES("Kanten"),
-		EDGES_UNIQUE("Verschiede Kanten"),
 		SORTS("Sortierungen"),
 		OPEN_LIST_SIZE("OpenList-Größe"),
 		CLOSED_LIST_SIZE("ClosedList-Größe"),
@@ -118,18 +116,6 @@ public class Benchmark<V> {
 		if (!vertices.contains(v)) {
 			vertices.add(v);
 			inc(Type.VERTICES_UNIQUE);
-		}
-	}
-	
-	/**
-	 * Use for {@link Type#EDGES_UNIQUE} or {@link Type#EDGES}
-	 * @param v
-	 */
-	public void inc(Edge<V> v) {
-		inc(Type.EDGES);
-		if (!edges.contains(v)) {
-			edges.add(v);
-			inc(Type.EDGES_UNIQUE);
 		}
 	}
 	

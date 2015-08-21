@@ -86,7 +86,6 @@ public class DFS<V> extends PathFinder<V> {
 		List<Edge<Vertex<V>>> edges = graph.getEdges(node).stream().filter(e -> {
 			Vertex<V> v = e.getOtherEnd(node);
 			
-			BM.inc(e);
 			BM.inc(v);
 			
 			boolean free = meta.get(v) == null;
@@ -98,7 +97,6 @@ public class DFS<V> extends PathFinder<V> {
 		
 		// is target reachable?
 		for (Edge<Vertex<V>> e : edges) {
-			BM.inc(e);
 			Vertex<V> oe = e.getOtherEnd(node);
 			BM.inc(oe);
 			if (oe.equals(to)) {
@@ -112,7 +110,6 @@ public class DFS<V> extends PathFinder<V> {
 		
 		// take next step
 		for (Edge<Vertex<V>> e : edges) {
-			BM.inc(e);
 			Vertex<V> oe = e.getOtherEnd(node);
 			BM.inc(oe);
 			Visualizer.tick();

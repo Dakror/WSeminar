@@ -131,6 +131,9 @@ public class GenerateGraphDialogController {
 				seed = graph_seed.getText().hashCode();
 			}
 			
+			//TODO DEBUG - disjointed graph seed
+			//seed = 4521079622940128256l;
+			
 			Params<String> params = new SParams().put("size", (int) graph_size.getValue()).put("seed", seed);
 			params.put("edge_type", edge_type.getItems().indexOf(edge_type.getValue()));
 			

@@ -303,7 +303,11 @@ public class MainController {
 					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph(), path_animate.isSelected()).findPath(	WSeminar.instance.startVertex.getVertex(),
 																																																												WSeminar.instance.goalVertex.getVertex());
 					Platform.runLater(() -> {
-						if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
+						if (p == null) {
+							Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
+							((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
+							((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden Graphes gefunden werden. Bitte wähle andere Endknoten zur Wegfindung.");
+						} else if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
 					});
 				}
 			}.start();
