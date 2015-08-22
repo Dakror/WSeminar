@@ -23,12 +23,12 @@
 					<items>
 						<MenuItem fx:id="new_graph" mnemonicParsing="false" text="Neues Netz...">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
 						<MenuItem fx:id="relayout_graph" disable="true" mnemonicParsing="false" text="Neues Layout">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="L" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="L" control="UP" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
 					</items>

@@ -90,7 +90,7 @@ public class Benchmark<V> {
 	}
 	
 	public void add(Type t, float f) {
-		long time = System.nanoTime();
+		long time = System.nanoTime() / 1000;
 		
 		if (firstTime == 0) firstTime = time;
 		

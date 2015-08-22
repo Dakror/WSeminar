@@ -136,7 +136,7 @@ public class MainController {
 	private CheckBox path_animate;
 	
 	@FXML
-	private BarChart<String, Float> chart_alltime;
+	private BarChart<String, Long> chart_alltime;
 	
 	@FXML
 	private PieChart chart_division;
@@ -317,16 +317,39 @@ public class MainController {
 		chart_timeline.setAnimated(false);
 		chart_timeline.setCreateSymbols(true);
 		
+		chart_alltime.setAnimated(false);
+		
 		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
-			if (newVal == null) return;
 			chart_timeline.getData().clear();
+			chart_alltime.getData().clear();
+			
+			if (newV.getParent() == null) return;
+			
+			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
+				
+				XYChart.Series<String, Long> sc = new XYChart.Series<>();
+				sc.setName("Gesamtzeit");
+				chart_alltime.getData().add(sc);
+				
+				for (TreeItem<String> ti : newV.getChildren()) {
+					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
+					
+					XYChart.Data<String, Long> d = new XYChart.Data<>(path.getUserData().toString(), path.getBenchmark().getTime());
+					sc.getData().add(d);
+					Tooltip tt = new Tooltip(path.getUserData().toString() + ": " + path.getBenchmark().getTime() + "ns");
+					hackTooltipStartTiming(tt);
+					Tooltip.install(d.getNode(), tt);
+				}
+			}
+			
+			if (newVal == null) return;
 			
 			for (Type t : Type.values()) {
 				XYChart.Series<Long, Integer> series = new XYChart.Series<>();
 				series.setName(t.desc);
 				for (Timestamp ts : newVal.getBenchmark().get(t)) {
-					XYChart.Data<Long, Integer> d = new XYChart.Data<>(ts.time, (int) ts.stamp);
+					XYChart.Data<Long, Integer> d = new XYChart.Data<>((long) (ts.time / (newVal.getUserData().toString().contains("anim") ? 1000f : 1)), (int) ts.stamp);
 					series.getData().add(d);
 				}
 				
@@ -334,7 +357,7 @@ public class MainController {
 				
 				for (XYChart.Series<Long, Integer> s : chart_timeline.getData()) {
 					for (XYChart.Data<Long, Integer> d : s.getData()) {
-						Tooltip tt = new Tooltip(d.getXValue() + "ns: " + d.getYValue());
+						Tooltip tt = new Tooltip(d.getXValue() + (newVal.getUserData().toString().contains("anim") ? "m" : "µ") + "s: " + d.getYValue() + " " + s.getName());
 						hackTooltipStartTiming(tt);
 						Tooltip.install(d.getNode(), tt);
 					}
