@@ -61,8 +61,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -145,7 +145,7 @@ public class MainController {
 	private Tab tab_benchmark;
 	
 	@FXML
-	private BorderPane benchmark;
+	private VBox benchmark;
 	
 	float lastX = -1, lastY = -1;
 	
@@ -335,9 +335,9 @@ public class MainController {
 				for (TreeItem<String> ti : newV.getChildren()) {
 					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
 					
-					XYChart.Data<String, Long> d = new XYChart.Data<>(path.getUserData().toString(), path.getBenchmark().getTime());
+					XYChart.Data<String, Long> d = new XYChart.Data<>(path.getUserData().toString(), path.getBenchmark().getTime() / 1000);
 					sc.getData().add(d);
-					Tooltip tt = new Tooltip(path.getUserData().toString() + ": " + path.getBenchmark().getTime() + "ns");
+					Tooltip tt = new Tooltip(path.getUserData().toString() + ": " + (path.getBenchmark().getTime() / 1000) + "ms");
 					hackTooltipStartTiming(tt);
 					Tooltip.install(d.getNode(), tt);
 				}

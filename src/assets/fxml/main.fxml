@@ -148,41 +148,6 @@
 				</AnchorPane>
 				<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="748.0" prefWidth="1063.0">
 					<children>
-						<BorderPane fx:id="benchmark" maxWidth="1.7976931348623157E308" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <top>
-                        <AnchorPane prefHeight="505.0" prefWidth="1076.0">
-                           <children>
-      										<PathLineChart fx:id="chart_timeline" title="Zeitleiste" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-      											<xAxis>
-      												<NumberAxis side="BOTTOM" />
-      											</xAxis>
-      											<yAxis>
-      												<NumberAxis side="LEFT" />
-      											</yAxis>
-      										</PathLineChart>
-                           </children>
-                        </AnchorPane>
-                     </top>
-                     <left>
-                        <AnchorPane>
-                           <children>
-                              <HBox prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-            										<BarChart fx:id="chart_alltime" title="Gesamtzeit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-            											<xAxis>
-            												<CategoryAxis side="BOTTOM" />
-            											</xAxis>
-            											<yAxis>
-            												<NumberAxis side="LEFT" />
-            											</yAxis>
-            										</BarChart>
-            										<PieChart fx:id="chart_division" title="Zeitverteilung" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </AnchorPane>
-                     </left>
-						</BorderPane>
 						<Pane fx:id="graph" maxHeight="1" maxWidth="1">
 							<children>
 								<Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
@@ -195,6 +160,27 @@
 								</Label>
 							</children>
 						</Pane>
+						<VBox fx:id="benchmark" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<children>
+								<PathLineChart prefHeight="600.0" prefWidth="1076.0" fx:id="chart_timeline" title="Zeitleiste" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+									<xAxis>
+										<NumberAxis side="BOTTOM" />
+									</xAxis>
+									<yAxis>
+										<NumberAxis side="LEFT" />
+									</yAxis>
+								</PathLineChart>
+								<BarChart fx:id="chart_alltime" prefHeight="485.0" prefWidth="1076.0" title="Gesamtzeit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+									<xAxis>
+										<CategoryAxis side="BOTTOM" />
+									</xAxis>
+									<yAxis>
+										<NumberAxis side="LEFT" />
+									</yAxis>
+								</BarChart>
+
+							</children>
+						</VBox>
 					</children>
 				</AnchorPane>
 			</items>
