@@ -30,7 +30,7 @@ import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
 import de.dakror.wseminar.graph.VertexData.PathCommons;
 import de.dakror.wseminar.graph.WeightedEdge;
-import de.dakror.wseminar.graph.algorithm.common.PathFinder;
+import de.dakror.wseminar.graph.algorithm.base.PathFinder;
 import de.dakror.wseminar.util.Visualizer;
 
 /**
@@ -77,7 +77,7 @@ public class DFS<V> extends PathFinder<V> {
 	
 	@Override
 	protected boolean takeStep(Vertex<V> parent, Vertex<V> node, Vertex<V> to) {
-		PathCommons<V> pc = new PathCommons<V>();
+		PathCommons<V> pc = new PathCommons<>();
 		pc.parent = parent;
 		meta.put(node, pc);
 		Visualizer.setVertexState(node, State.OPENLIST, false);

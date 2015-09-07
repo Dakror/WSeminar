@@ -28,8 +28,8 @@ import de.dakror.wseminar.WSeminar;
 import de.dakror.wseminar.graph.Graph;
 import de.dakror.wseminar.graph.Path;
 import de.dakror.wseminar.graph.Vertex;
-import de.dakror.wseminar.graph.algorithm.DFS;
-import de.dakror.wseminar.graph.algorithm.common.Layout;
+import de.dakror.wseminar.graph.algorithm.base.Layout;
+import de.dakror.wseminar.graph.algorithm.base.PathFinder;
 import de.dakror.wseminar.math.Vector2;
 import de.dakror.wseminar.ui.PathLineChart;
 import de.dakror.wseminar.ui.PathTreeItem;
@@ -255,7 +255,7 @@ public class MainController {
 			path_goal.getScene().setCursor(Cursor.HAND);
 		});
 		
-		path_algorithm.getItems().addAll(/*"BFS",*/ "DFS"/*, "Dijkstra", "A*"*/);
+		path_algorithm.getItems().addAll("BFS", "DFS"/*, "Dijkstra", "A*"*/);
 		path_algorithm.setValue(path_algorithm.getItems().get(0));
 		
 		path_algorithm.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
@@ -300,15 +300,21 @@ public class MainController {
 			new Thread() {
 				@Override
 				public void run() {
-					Path<Vertex<Integer>> p = new DFS<Integer>(WSeminar.instance.getGraph(), path_animate.isSelected()).findPath(	WSeminar.instance.startVertex.getVertex(),
-																																																												WSeminar.instance.goalVertex.getVertex());
-					Platform.runLater(() -> {
-						if (p == null) {
-							Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
-							((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
-							((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden Graphes gefunden werden. Bitte wähle andere Endknoten zur Wegfindung.");
-						} else if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
-					});
+					try {
+						Class<?> c = Class.forName("de.dakror.wseminar.graph.algorithm." + path_algorithm.getValue());
+						PathFinder<Integer> pf = (PathFinder<Integer>) c.getConstructor(Graph.class, boolean.class).newInstance(WSeminar.instance.getGraph(), path_animate.isSelected());
+						Path<Vertex<Integer>> p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+						
+						Platform.runLater(() -> {
+							if (p == null) {
+								Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
+								((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
+								((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden Graphes gefunden werden. Bitte wähle andere Endknoten zur Wegfindung.");
+							} else if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
+						});
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}.start();
 		});

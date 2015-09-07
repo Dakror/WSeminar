@@ -15,7 +15,7 @@
  ******************************************************************************/
 
 
-package de.dakror.wseminar.graph.algorithm.common;
+package de.dakror.wseminar.graph.algorithm.base;
 
 import java.util.Random;
 
