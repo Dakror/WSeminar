@@ -148,10 +148,20 @@ public class VisualEdge<V> extends Line {
 	}
 	
 	public void setPath(boolean path) {
+		setPath(path, false);
+	}
+	
+	public void setPath(boolean path, boolean soft) {
 		if (path) setColor(Color.valueOf("#3c009f"));
-		else setColor(Color.DARKGRAY);
+		else {
+			if (soft) setActive(active);
+			else setColor(Color.DARKGRAY);
+		}
 		if (path) text.setFill(Color.valueOf("#3c009f").darker());
-		else text.setFill(Color.BLACK);
+		else {
+			if (soft) setActive(active);
+			else text.setFill(Color.BLACK);
+		}
 		
 		this.path = path;
 	}

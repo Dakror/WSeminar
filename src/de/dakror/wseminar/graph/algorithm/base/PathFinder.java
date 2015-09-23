@@ -32,6 +32,8 @@ public abstract class PathFinder<V> {
 	
 	protected Graph<Vertex<V>> graph;
 	
+	protected Class<?>[] metaClasses = { PathCommons.class };
+	
 	protected boolean animate;
 	
 	public PathFinder(Graph<Vertex<V>> graph, boolean animate) {
@@ -49,7 +51,8 @@ public abstract class PathFinder<V> {
 	
 	protected void cleanup() {
 		for (Vertex<V> v : graph.getVertices()) {
-			v.remove(PathCommons.class);
+			for (Class<?> c : metaClasses)
+				v.remove(c);
 		}
 	}
 	

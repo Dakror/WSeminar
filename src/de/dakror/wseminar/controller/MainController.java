@@ -151,6 +151,8 @@ public class MainController {
 	
 	long last;
 	
+	boolean animatingPathFinding;
+	
 	@FXML
 	public void initialize() {
 		Vector2 scrollMouse = new Vector2();
@@ -229,7 +231,7 @@ public class MainController {
 		
 		// relayout_graph, JFX bug!
 		menu_graph.getItems().get(1).setOnAction(e -> {
-			if (WSeminar.instance.getSourceGraph() != null && (System.currentTimeMillis() - last) > 200) {
+			if (WSeminar.instance.getSourceGraph() != null && (System.currentTimeMillis() - last) > 200 && !animatingPathFinding) {
 				MainController.doLayoutWithProgress(WSeminar.instance.getLayout(), null, true, true);
 				last = System.currentTimeMillis();
 			}
@@ -255,7 +257,7 @@ public class MainController {
 			path_goal.getScene().setCursor(Cursor.HAND);
 		});
 		
-		path_algorithm.getItems().addAll("BFS", "DFS"/*, "Dijkstra", "A*"*/);
+		path_algorithm.getItems().addAll("DFS", "AStar"/*, "Dijkstra", "A*"*/);
 		path_algorithm.setValue(path_algorithm.getItems().get(0));
 		
 		path_algorithm.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
@@ -283,7 +285,6 @@ public class MainController {
 			
 			Visualizer.resetAll(g, true, true);
 			if (newVal == null) return;
-			
 			for (int i = 0; i < newVal.size() - 1; i++) {
 				Visualizer.setVertexState(newVal.get(i), State.CLOSEDLIST, false);
 				Visualizer.setVertexState(newVal.get(i + 1), State.CLOSEDLIST, false);
@@ -297,19 +298,26 @@ public class MainController {
 		
 		path_find.setOnAction(e -> {
 			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
+			
 			new Thread() {
 				@Override
 				public void run() {
 					try {
+						animatingPathFinding = true;
+						menu_graph.getItems().get(1).setDisable(true);
+						
 						Class<?> c = Class.forName("de.dakror.wseminar.graph.algorithm." + path_algorithm.getValue());
 						PathFinder<Integer> pf = (PathFinder<Integer>) c.getConstructor(Graph.class, boolean.class).newInstance(WSeminar.instance.getGraph(), path_animate.isSelected());
 						Path<Vertex<Integer>> p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+						
+						animatingPathFinding = false;
+						menu_graph.getItems().get(1).setDisable(false);
 						
 						Platform.runLater(() -> {
 							if (p == null) {
 								Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
 								((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
-								((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden Graphes gefunden werden. Bitte wähle andere Endknoten zur Wegfindung.");
+								((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden Graphs gefunden werden. Bitte wählen Sie andere Endknoten zur Wegfindung.");
 							} else if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
 						});
 					} catch (Exception e) {

@@ -14,7 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 
-
 package de.dakror.wseminar.graph;
 
 import de.dakror.wseminar.math.Vector2;
@@ -45,5 +44,14 @@ public class VertexData {
 		 * Used for manual override only, otherwise gets determined by wether this Data Element exists on the Vertex
 		 */
 		public boolean visited = true;
+	}
+	
+	public static class Heuristics<V> {
+		public Vertex<V> parent;
+		public float G, H;
+		
+		public float F() {
+			return G + H;
+		}
 	}
 }
