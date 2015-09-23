@@ -59,11 +59,11 @@ public class DFS<V> extends PathFinder<V> {
 			p.add(0, v);
 			v = meta.get(v).parent;
 			
-			BM.inc(PATH_CREATION);
+			BM.add(PATH_CREATION);
 		}
 		
 		p.add(0, from);
-		BM.inc(PATH_CREATION);
+		BM.add(PATH_CREATION);
 		p.calculateCost(graph);
 		
 		p.setBenchmark(BM);
@@ -81,29 +81,29 @@ public class DFS<V> extends PathFinder<V> {
 		pc.parent = parent;
 		meta.put(node, pc);
 		Visualizer.setVertexState(node, State.OPENLIST, false);
-		BM.inc(OPEN_LIST_SIZE);
+		BM.add(OPEN_LIST_SIZE);
 		
 		if (node.equals(to)) return true;
 		
 		List<Edge<Vertex<V>>> edges = graph.getEdges(node).stream().filter(e -> {
 			Vertex<V> v = e.getOtherEnd(node);
 			
-			BM.inc(v);
+			BM.add(v);
 			
 			boolean free = meta.get(v) == null;
 			Visualizer.setEdgeActive(e, free, false);
 			return free;
 		}).sorted((a, b) -> Float.compare(a instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) a).getWeight() : 0,
 																			b instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) b).getWeight() : 0)).collect(Collectors.toList());
-		BM.inc(SORTS);
+		BM.add(SORTS);
 		
 		// is target reachable?
 		for (Edge<Vertex<V>> e : edges) {
 			Vertex<V> oe = e.getOtherEnd(node);
-			BM.inc(oe);
+			BM.add(oe);
 			if (oe.equals(to)) {
-				BM.dec(OPEN_LIST_SIZE);
-				BM.inc(CLOSED_LIST_SIZE);
+				BM.sub(OPEN_LIST_SIZE);
+				BM.add(CLOSED_LIST_SIZE);
 				Visualizer.setVertexState(node, State.CLOSEDLIST);
 				Visualizer.setEdgePath(e, true);
 				return takeStep(node, oe, to);
@@ -113,11 +113,11 @@ public class DFS<V> extends PathFinder<V> {
 		// take next step
 		for (Edge<Vertex<V>> e : edges) {
 			Vertex<V> oe = e.getOtherEnd(node);
-			BM.inc(oe);
+			BM.add(oe);
 			Visualizer.tick();
 			
-			BM.dec(OPEN_LIST_SIZE);
-			BM.inc(CLOSED_LIST_SIZE);
+			BM.sub(OPEN_LIST_SIZE);
+			BM.add(CLOSED_LIST_SIZE);
 			Visualizer.setVertexState(node, State.CLOSEDLIST);
 			Visualizer.setEdgePath(e, true);
 			
@@ -136,7 +136,7 @@ public class DFS<V> extends PathFinder<V> {
 			Visualizer.setEdgePath(e, false);
 		}
 		
-		BM.inc(BACK_TRACKS);
+		BM.add(BACK_TRACKS);
 		Visualizer.setVertexState(node, Visualizer.isEnabled() ? State.BACKTRACK : null, false);
 		
 		return false;

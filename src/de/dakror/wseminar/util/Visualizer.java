@@ -47,7 +47,7 @@ public class Visualizer {
 	
 	@SuppressWarnings("unchecked")
 	public static <V> void setVertexState(Vertex<V> v, State state, boolean tick) {
-		Platform.runLater(() -> {
+		if (enabled) Platform.runLater(() -> {
 			((VisualVertex<V>) lookup("#V" + v.data())).setState(state);
 		});
 		
@@ -60,7 +60,7 @@ public class Visualizer {
 	
 	@SuppressWarnings("unchecked")
 	public static <V> void setEdgePath(Edge<Vertex<V>> e, boolean path, boolean tick) {
-		Platform.runLater(() -> {
+		if (enabled) Platform.runLater(() -> {
 			((VisualEdge<V>) lookup("#E" + e.hashCode())).setPath(path);
 		});
 		
@@ -69,7 +69,7 @@ public class Visualizer {
 	
 	@SuppressWarnings("unchecked")
 	public static <V> void setEdgePath(Edge<Vertex<V>> e, boolean path, boolean soft, boolean tick) {
-		Platform.runLater(() -> {
+		if (enabled) Platform.runLater(() -> {
 			((VisualEdge<V>) lookup("#E" + e.hashCode())).setPath(path, soft);
 		});
 		
@@ -82,7 +82,7 @@ public class Visualizer {
 	
 	@SuppressWarnings("unchecked")
 	public static <V> void setEdgeActive(Edge<Vertex<V>> e, boolean active, boolean tick) {
-		Platform.runLater(() -> {
+		if (enabled) Platform.runLater(() -> {
 			((VisualEdge<V>) lookup("#E" + e.hashCode())).setActive(active);
 		});
 		
@@ -91,7 +91,7 @@ public class Visualizer {
 	
 	@SuppressWarnings("unchecked")
 	public static <V> void resetAll(Graph<Vertex<V>> graph, boolean full, boolean start) {
-		Platform.runLater(() -> {
+		if (enabled) Platform.runLater(() -> {
 			for (Edge<Vertex<V>> e : graph.getEdges()) {
 				((VisualEdge<V>) lookup("#E" + e.hashCode())).setActive(false);
 				if (full) ((VisualEdge<V>) lookup("#E" + e.hashCode())).setPath(false);

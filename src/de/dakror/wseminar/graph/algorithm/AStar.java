@@ -16,6 +16,8 @@
 
 package de.dakror.wseminar.graph.algorithm;
 
+import static de.dakror.wseminar.util.Benchmark.Type.*;
+
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -48,6 +50,7 @@ public class AStar<V> extends PathFinder<V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
+		BM.time();
 		Visualizer.resetAll(graph, true, false);
 		
 		Heuristics<V> h = new Heuristics<>();
@@ -55,6 +58,8 @@ public class AStar<V> extends PathFinder<V> {
 		from.add(h);
 		
 		openList.add(from);
+		BM.add(OPEN_LIST_SIZE);
+		
 		Vertex<V> last = null;
 		while (true) {
 			if (openList.size() == 0) {
@@ -62,17 +67,17 @@ public class AStar<V> extends PathFinder<V> {
 				return null;
 			}
 			
-			System.out.println("OL: " + openList);
 			Vertex<V> v = openList.pollFirst();
+			BM.add(SORTS);
+			BM.sub(OPEN_LIST_SIZE);
+			
 			closedList.add(v);
+			BM.add(CLOSED_LIST_SIZE);
 			
 			if (v.get(Heuristics.class).parent != null) Visualizer.setEdgePath(graph.getEdge(v, v.get(Heuristics.class).parent), true, true);
 			Visualizer.setVertexState(v, State.CLOSEDLIST, true);
 			
-			if (takeStep(last, v, to)) {
-				System.out.println("Heureka!");
-				break;
-			}
+			if (takeStep(last, v, to)) break;
 			
 			last = v;
 		}
@@ -90,11 +95,17 @@ public class AStar<V> extends PathFinder<V> {
 			if (v.get(Heuristics.class).parent != null) Visualizer.setEdgePath(graph.getEdge(v, v.get(Heuristics.class).parent), true, true);
 			Visualizer.setVertexState(v, State.BACKTRACK, false);
 			v = v.get(Heuristics.class).parent;
+			
+			BM.add(PATH_CREATION);
 		}
+		p.calculateCost(graph);
+		
+		p.setBenchmark(BM);
 		
 		cleanup();
-		//Visualizer.resetAll(graph, false, false);
+		Visualizer.resetAll(graph, true, false);
 		
+		BM.time();
 		return p;
 	}
 	
@@ -106,6 +117,7 @@ public class AStar<V> extends PathFinder<V> {
 		float nG = node.get(Heuristics.class).G;
 		for (Edge<Vertex<V>> e : graph.getEdges(node)) {
 			Vertex<V> v = e.getOtherEnd(node);
+			BM.add(v);
 			if (v.get(Heuristics.class) == null) {
 				Heuristics<V> h = new Heuristics<>();
 				h.G = nG + weight(e);
@@ -115,6 +127,7 @@ public class AStar<V> extends PathFinder<V> {
 				openList.add(v);
 				Visualizer.setEdgeActive(e, true, true);
 				Visualizer.setVertexState(v, State.OPENLIST, false);
+				BM.add(OPEN_LIST_SIZE);
 			} else if (nG + weight(e) < v.get(Heuristics.class).G) {
 				v.get(Heuristics.class).G = nG + weight(e);
 				

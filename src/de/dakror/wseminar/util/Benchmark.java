@@ -99,11 +99,11 @@ public class Benchmark<V> {
 		values[t.ordinal()].add(new Timestamp(time - firstTime, last + f));
 	}
 	
-	public void inc(Type t) {
+	public void add(Type t) {
 		add(t, 1);
 	}
 	
-	public void dec(Type t) {
+	public void sub(Type t) {
 		add(t, -1);
 	}
 	
@@ -111,11 +111,11 @@ public class Benchmark<V> {
 	 * Use for {@link Type#VERTICES_UNIQUE} or {@link Type#VERTICES}
 	 * @param v
 	 */
-	public void inc(V v) {
-		inc(Type.VERTICES);
+	public void add(V v) {
+		add(Type.VERTICES);
 		if (!vertices.contains(v)) {
 			vertices.add(v);
-			inc(Type.VERTICES_UNIQUE);
+			add(Type.VERTICES_UNIQUE);
 		}
 	}
 	

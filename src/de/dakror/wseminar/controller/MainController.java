@@ -308,7 +308,10 @@ public class MainController {
 						
 						Class<?> c = Class.forName("de.dakror.wseminar.graph.algorithm." + path_algorithm.getValue());
 						PathFinder<Integer> pf = (PathFinder<Integer>) c.getConstructor(Graph.class, boolean.class).newInstance(WSeminar.instance.getGraph(), path_animate.isSelected());
+						
+						Visualizer.setEnabled(path_animate.isSelected());
 						Path<Vertex<Integer>> p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+						Visualizer.setEnabled(true);
 						
 						animatingPathFinding = false;
 						menu_graph.getItems().get(1).setDisable(false);
@@ -357,38 +360,49 @@ public class MainController {
 				}
 			}
 			
-			if (newVal == null) return;
-			
-			for (Type t : Type.values()) {
-				XYChart.Series<Long, Integer> series = new XYChart.Series<>();
-				series.setName(t.desc);
-				for (Timestamp ts : newVal.getBenchmark().get(t)) {
-					XYChart.Data<Long, Integer> d = new XYChart.Data<>((long) (ts.time / (newVal.getUserData().toString().contains("anim") ? 1000f : 1)), (int) ts.stamp);
-					series.getData().add(d);
-				}
-				
-				chart_timeline.getData().add(series);
-				
-				for (XYChart.Series<Long, Integer> s : chart_timeline.getData()) {
-					for (XYChart.Data<Long, Integer> d : s.getData()) {
-						Tooltip tt = new Tooltip(d.getXValue() + (newVal.getUserData().toString().contains("anim") ? "m" : "µ") + "s: " + d.getYValue() + " " + s.getName());
-						hackTooltipStartTiming(tt);
-						Tooltip.install(d.getNode(), tt);
+			class TimeLineDataFiller {
+						void fill(Path<Vertex<Integer>> path) {
+					for (Type t : Type.values()) {
+						XYChart.Series<Long, Integer> series = new XYChart.Series<>();
+						series.setName(t.desc);
+						for (Timestamp ts : path.getBenchmark().get(t)) {
+							XYChart.Data<Long, Integer> d = new XYChart.Data<>((long) (ts.time / (path.getUserData().toString().contains("anim") ? 1000f : 1)), (int) ts.stamp);
+							series.getData().add(d);
+						}
+						
+						chart_timeline.getData().add(series);
+						
+						for (XYChart.Series<Long, Integer> s : chart_timeline.getData()) {
+							for (XYChart.Data<Long, Integer> d : s.getData()) {
+								Tooltip tt = new Tooltip(d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s: " + d.getYValue() + " " + s.getName());
+								hackTooltipStartTiming(tt);
+								Tooltip.install(d.getNode(), tt);
+							}
+						}
+						Legend l = (Legend) chart_timeline.getChartLegend();
+						for (Node n : l.lookupAll(".chart-legend-item")) {
+							n.setOnMouseClicked(e -> {
+								if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
+								else n.getStyleClass().remove("disabled");
+								
+								boolean ds = n.getStyleClass().contains("disabled");
+								XYChart.Series<Long, Integer> s = chart_timeline.getData().get(Type.getByDesc(((Label) n).getText()).ordinal());
+								s.getNode().setVisible(!ds);
+								s.getData().forEach(d -> d.getNode().setVisible(!ds));
+							});
+						}
 					}
 				}
-				Legend l = (Legend) chart_timeline.getChartLegend();
-				for (Node n : l.lookupAll(".chart-legend-item")) {
-					n.setOnMouseClicked(e -> {
-						if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
-						else n.getStyleClass().remove("disabled");
-						
-						boolean ds = n.getStyleClass().contains("disabled");
-						XYChart.Series<Long, Integer> s = chart_timeline.getData().get(Type.getByDesc(((Label) n).getText()).ordinal());
-						s.getNode().setVisible(!ds);
-						s.getData().forEach(d -> d.getNode().setVisible(!ds));
-					});
-				}
 			}
+			
+			TimeLineDataFiller tldf = new TimeLineDataFiller();
+			
+			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
+				for (TreeItem<String> ti : newV.getChildren()) {
+					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
+					tldf.fill(path);
+				}
+			} else tldf.fill(newVal);
 		});
 	}
 	
