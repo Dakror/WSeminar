@@ -17,11 +17,13 @@
 
 package de.dakror.wseminar.controller;
 
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.sun.javafx.charts.Legend;
+import com.sun.javafx.collections.ObservableListWrapper;
 
 import de.dakror.wseminar.Const.State;
 import de.dakror.wseminar.WSeminar;
@@ -361,7 +363,19 @@ public class MainController {
 			}
 			
 			class TimeLineDataFiller {
-						void fill(Path<Vertex<Integer>> path) {
+				int count = 0;
+				Color palette[];
+				
+				void generateColors(int n) {
+					n *= Type.values().length;
+					Color[] cols = new Color[n];
+					for (int i = 0; i < n; i++) {
+						cols[i] = Color.getHSBColor((float) i / (float) n, 0.85f, 1.0f);
+					}
+					palette = cols;
+				}
+				
+				void fill(Path<Vertex<Integer>> path) {
 					for (Type t : Type.values()) {
 						XYChart.Series<Long, Integer> series = new XYChart.Series<>();
 						series.setName(t.desc);
@@ -370,39 +384,59 @@ public class MainController {
 							series.getData().add(d);
 						}
 						
+						int prevSize = chart_timeline.getData().size();
 						chart_timeline.getData().add(series);
-						
-						for (XYChart.Series<Long, Integer> s : chart_timeline.getData()) {
+						// TODO fixit
+						for (int i = prevSize; i < chart_timeline.getData().size(); i++) {
+							XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
+							Color c = palette[i * (palette.length / Type.values().length) + count];
+							s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
+							
 							for (XYChart.Data<Long, Integer> d : s.getData()) {
 								Tooltip tt = new Tooltip(d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s: " + d.getYValue() + " " + s.getName());
 								hackTooltipStartTiming(tt);
 								Tooltip.install(d.getNode(), tt);
 							}
 						}
-						Legend l = (Legend) chart_timeline.getChartLegend();
-						for (Node n : l.lookupAll(".chart-legend-item")) {
-							n.setOnMouseClicked(e -> {
-								if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
-								else n.getStyleClass().remove("disabled");
-								
-								boolean ds = n.getStyleClass().contains("disabled");
-								XYChart.Series<Long, Integer> s = chart_timeline.getData().get(Type.getByDesc(((Label) n).getText()).ordinal());
+					}
+					
+					Legend l = (Legend) chart_timeline.getChartLegend();
+					
+					for (Node n : l.lookupAll(".chart-legend-item")) {
+						n.setOnMouseClicked(e -> {
+							if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
+							else n.getStyleClass().remove("disabled");
+							
+							boolean ds = n.getStyleClass().contains("disabled");
+							
+							for (int i = Type.getByDesc(((Label) n).getText()).ordinal(); i < chart_timeline.getData().size(); i += Type.values().length) {
+								XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
 								s.getNode().setVisible(!ds);
 								s.getData().forEach(d -> d.getNode().setVisible(!ds));
-							});
-						}
+							}
+						});
 					}
+					
+					count++;
 				}
 			}
 			
 			TimeLineDataFiller tldf = new TimeLineDataFiller();
 			
 			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
+				
+				tldf.generateColors(newV.getChildren().size());
 				for (TreeItem<String> ti : newV.getChildren()) {
 					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
 					tldf.fill(path);
 				}
-			} else tldf.fill(newVal);
+			} else {
+				tldf.generateColors(1);
+				tldf.fill(newVal);
+			}
+			
+			Legend l = (Legend) chart_timeline.getChartLegend();
+			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
 		});
 	}
 	
