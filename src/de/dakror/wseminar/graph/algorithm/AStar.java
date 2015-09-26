@@ -129,6 +129,7 @@ public class AStar<V> extends PathFinder<V> {
 				Visualizer.setVertexState(v, State.OPENLIST, false);
 				BM.add(OPEN_LIST_SIZE);
 			} else if (nG + weight(e) < v.get(Heuristics.class).G) {
+				BM.add(OVERRIDES);
 				v.get(Heuristics.class).G = nG + weight(e);
 				
 				Visualizer.setEdgeActive(graph.getEdge(v.get(Heuristics.class).parent, v), false, true);

@@ -49,6 +49,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -365,6 +366,8 @@ public class MainController {
 			class TimeLineDataFiller {
 				int count = 0;
 				Color palette[];
+				int highestX = 0;
+				int highestY = 0;
 				
 				void generateColors(int n) {
 					n *= Type.values().length;
@@ -380,21 +383,27 @@ public class MainController {
 						XYChart.Series<Long, Integer> series = new XYChart.Series<>();
 						series.setName(t.desc);
 						for (Timestamp ts : path.getBenchmark().get(t)) {
+							if (ts.time > highestX) highestX = (int) ts.time;
+							if (ts.stamp > highestY) highestY = (int) ts.stamp;
+							
 							XYChart.Data<Long, Integer> d = new XYChart.Data<>((long) (ts.time / (path.getUserData().toString().contains("anim") ? 1000f : 1)), (int) ts.stamp);
 							series.getData().add(d);
 						}
 						
 						int prevSize = chart_timeline.getData().size();
 						chart_timeline.getData().add(series);
-						// TODO fixit
+						
 						for (int i = prevSize; i < chart_timeline.getData().size(); i++) {
 							XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
-							Color c = palette[i * (palette.length / Type.values().length) + count];
+							
+							Color c = palette[(i % Type.values().length) * (palette.length / Type.values().length) + count];
 							s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
 							
 							for (XYChart.Data<Long, Integer> d : s.getData()) {
-								Tooltip tt = new Tooltip(d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s: " + d.getYValue() + " " + s.getName());
+								Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue()
+										+ " " + s.getName());
 								hackTooltipStartTiming(tt);
+								d.getNode().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white", c.getRed(), c.getGreen(), c.getBlue()));
 								Tooltip.install(d.getNode(), tt);
 							}
 						}
@@ -425,7 +434,7 @@ public class MainController {
 			
 			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
 				
-				tldf.generateColors(newV.getChildren().size());
+				tldf.generateColors(newV.getChildren().size() * 2);
 				for (TreeItem<String> ti : newV.getChildren()) {
 					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
 					tldf.fill(path);
@@ -434,6 +443,12 @@ public class MainController {
 				tldf.generateColors(1);
 				tldf.fill(newVal);
 			}
+			
+			ValueAxis<Long> xAxis = (ValueAxis<Long>) chart_timeline.getXAxis();
+			ValueAxis<Integer> yAxis = (ValueAxis<Integer>) chart_timeline.getYAxis();
+			yAxis.setAutoRanging(false);
+			yAxis.setLowerBound(-1);
+			yAxis.setUpperBound(tldf.highestY + 5);
 			
 			Legend l = (Legend) chart_timeline.getChartLegend();
 			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
