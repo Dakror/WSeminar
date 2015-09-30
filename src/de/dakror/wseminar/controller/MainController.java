@@ -55,6 +55,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
@@ -149,6 +150,9 @@ public class MainController {
 	
 	@FXML
 	private VBox benchmark;
+	
+	@FXML
+	private ListView<?> chart_stats;
 	
 	float lastX = -1, lastY = -1;
 	
@@ -370,72 +374,6 @@ public class MainController {
 				}
 			}
 			
-			class TimeLineDataFiller {
-				int count = 0;
-				Color palette[];
-				int highestX = 0;
-				int highestY = 0;
-				
-				void generateColors(int n) {
-					n *= Type.values().length;
-					Color[] cols = new Color[n];
-					for (int i = 0; i < n; i++) {
-						cols[i] = Color.getHSBColor((float) i / (float) (n - 1), 0.85f, 1.0f);
-					}
-					palette = cols;
-				}
-				
-				void fill(Path<Vertex<Integer>> path) {
-					for (Type t : Type.values()) {
-						XYChart.Series<Long, Integer> series = new XYChart.Series<>();
-						series.setName(t.desc);
-						for (Timestamp ts : path.getBenchmark().get(t)) {
-							if (ts.time > highestX) highestX = (int) ts.time;
-							if (ts.stamp > highestY) highestY = (int) ts.stamp;
-							
-							XYChart.Data<Long, Integer> d = new XYChart.Data<>((long) (ts.time / (path.getUserData().toString().contains("anim") ? 1000f : 1)), (int) ts.stamp);
-							series.getData().add(d);
-						}
-						
-						int prevSize = chart_timeline.getData().size();
-						chart_timeline.getData().add(series);
-						
-						for (int i = prevSize; i < chart_timeline.getData().size(); i++) {
-							XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
-							
-							Color c = palette[(i % Type.values().length) * (palette.length / Type.values().length) + count];
-							s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
-							
-							for (XYChart.Data<Long, Integer> d : s.getData()) {
-								Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue()
-										+ " " + s.getName());
-								hackTooltipStartTiming(tt);
-								d.getNode().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white", c.getRed(), c.getGreen(), c.getBlue()));
-								Tooltip.install(d.getNode(), tt);
-							}
-						}
-					}
-					
-					Legend l = (Legend) chart_timeline.getChartLegend();
-					
-					for (Node n : l.lookupAll(".chart-legend-item")) {
-						n.setOnMouseClicked(e -> {
-							if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
-							else n.getStyleClass().remove("disabled");
-							
-							boolean ds = n.getStyleClass().contains("disabled");
-							
-							for (int i = Type.getByDesc(((Label) n).getText()).ordinal(); i < chart_timeline.getData().size(); i += Type.values().length) {
-								XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
-								s.getNode().setVisible(!ds);
-								s.getData().forEach(d -> d.getNode().setVisible(!ds));
-							}
-						});
-					}
-					
-					count++;
-				}
-			}
 			
 			TimeLineDataFiller tldf = new TimeLineDataFiller();
 			
@@ -451,11 +389,11 @@ public class MainController {
 				tldf.fill(newVal);
 			}
 			
-			ValueAxis<Long> xAxis = (ValueAxis<Long>) chart_timeline.getXAxis();
+			// ValueAxis<Long> xAxis = (ValueAxis<Long>) chart_timeline.getXAxis();
 			ValueAxis<Integer> yAxis = (ValueAxis<Integer>) chart_timeline.getYAxis();
 			yAxis.setAutoRanging(false);
 			yAxis.setLowerBound(-1);
-			yAxis.setUpperBound(tldf.highestY + 5);
+			yAxis.setUpperBound(tldf.highestY + 2);
 			
 			Legend l = (Legend) chart_timeline.getChartLegend();
 			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
@@ -534,5 +472,72 @@ public class MainController {
 				});
 			}
 		}.start();
+	}
+	
+	class TimeLineDataFiller {
+		int count = 0;
+		Color palette[];
+		int highestX = 0;
+		int highestY = 0;
+		
+		void generateColors(int n) {
+			n *= Type.values().length;
+			Color[] cols = new Color[n];
+			for (int i = 0; i < n; i++) {
+				cols[i] = Color.getHSBColor((float) i / (float) (n - 1), 0.85f, 1.0f);
+			}
+			palette = cols;
+		}
+		
+		void fill(Path<Vertex<Integer>> path) {
+			for (Type t : Type.values()) {
+				XYChart.Series<Long, Integer> series = new XYChart.Series<>();
+				series.setName(t.desc);
+				for (Timestamp ts : path.getBenchmark().get(t)) {
+					if (ts.time > highestX) highestX = (int) ts.time;
+					if (ts.stamp > highestY) highestY = (int) ts.stamp;
+					
+					XYChart.Data<Long, Integer> d = new XYChart.Data<>((long) (ts.time / (path.getUserData().toString().contains("anim") ? 1000f : 1)), (int) ts.stamp);
+					series.getData().add(d);
+				}
+				
+				int prevSize = chart_timeline.getData().size();
+				chart_timeline.getData().add(series);
+				
+				for (int i = prevSize; i < chart_timeline.getData().size(); i++) {
+					XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
+					
+					Color c = palette[(i % Type.values().length) * (palette.length / Type.values().length) + count];
+					s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
+					
+					for (XYChart.Data<Long, Integer> d : s.getData()) {
+						Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue()
+								+ " " + s.getName());
+						hackTooltipStartTiming(tt);
+						d.getNode().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white", c.getRed(), c.getGreen(), c.getBlue()));
+						Tooltip.install(d.getNode(), tt);
+					}
+				}
+			}
+			
+			Legend l = (Legend) chart_timeline.getChartLegend();
+			
+			for (Node n : l.lookupAll(".chart-legend-item")) {
+				n.setOnMouseClicked(e -> {
+					if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
+					else n.getStyleClass().remove("disabled");
+					
+					boolean ds = n.getStyleClass().contains("disabled");
+					
+					for (int i = Type.getByDesc(((Label) n).getText()).ordinal(); i < chart_timeline.getData().size(); i += Type.values().length) {
+						XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
+						s.getNode().setVisible(!ds);
+						s.getData().forEach(d -> d.getNode().setVisible(!ds));
+					}
+				});
+			}
+			
+			count++;
+		}
 	}
 }

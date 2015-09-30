@@ -162,7 +162,7 @@
 						</Pane>
 						<VBox fx:id="benchmark" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<children>
-								<PathLineChart prefHeight="600.0" prefWidth="1076.0" fx:id="chart_timeline" title="Zeitleiste" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+								<PathLineChart fx:id="chart_timeline" prefHeight="600.0" prefWidth="1076.0" title="Zeitleiste" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
 									<xAxis>
 										<NumberAxis side="BOTTOM" />
 									</xAxis>
@@ -170,14 +170,19 @@
 										<NumberAxis side="LEFT" />
 									</yAxis>
 								</PathLineChart>
-								<BarChart fx:id="chart_alltime" prefHeight="485.0" prefWidth="1076.0" title="Gesamtzeit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-									<xAxis>
-										<CategoryAxis side="BOTTOM" />
-									</xAxis>
-									<yAxis>
-										<NumberAxis side="LEFT" />
-									</yAxis>
-								</BarChart>
+                        <HBox>
+                           <children>
+      								<BarChart fx:id="chart_alltime" prefHeight="485.0" prefWidth="1076.0" title="Gesamtzeit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      									<xAxis>
+      										<CategoryAxis side="BOTTOM" />
+      									</xAxis>
+      									<yAxis>
+      										<NumberAxis side="LEFT" />
+      									</yAxis>
+      								</BarChart>
+                              <ListView fx:id="chart_stats" prefHeight="485.0" prefWidth="961.0" />
+                           </children>
+                        </HBox>
 
 							</children>
 						</VBox>
