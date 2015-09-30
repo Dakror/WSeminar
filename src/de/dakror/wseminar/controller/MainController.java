@@ -283,6 +283,8 @@ public class MainController {
 		path_tree.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
 			Graph<Vertex<Integer>> g = WSeminar.instance.getGraph();
 			
+			if (newV == null) return;
+			
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			path_delete.setDisable(path_tree.getRoot().equals(newV));
 			
@@ -378,7 +380,7 @@ public class MainController {
 					n *= Type.values().length;
 					Color[] cols = new Color[n];
 					for (int i = 0; i < n; i++) {
-						cols[i] = Color.getHSBColor((float) i / (float) n, 0.85f, 1.0f);
+						cols[i] = Color.getHSBColor((float) i / (float) (n - 1), 0.85f, 1.0f);
 					}
 					palette = cols;
 				}

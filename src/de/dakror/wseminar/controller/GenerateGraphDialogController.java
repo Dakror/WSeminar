@@ -38,6 +38,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -141,6 +142,8 @@ public class GenerateGraphDialogController {
 			if (edge_count.getValue() != Const.edgeAmount) params.put("edges", (int) Math.max(2, edge_count.getValue()));
 			
 			Graph<Integer> graph = new GraphGenerator<Integer>().generateGraph(params);
+			WSeminar.instance.paths.clear();
+			((TreeView<?>) WSeminar.window.getScene().lookup("#path_tree")).getRoot().getChildren().clear();
 			WSeminar.instance.setSourceGraph(graph);
 			WSeminar.instance.setGraphSize((int) graph_size.getValue());
 			
