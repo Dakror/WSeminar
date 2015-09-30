@@ -320,11 +320,16 @@ public class MainController {
 						menu_graph.getItems().get(1).setDisable(false);
 						
 						Platform.runLater(() -> {
+							PathTreeItem<Integer> pti = null;
+							
 							if (p == null) {
 								Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
 								((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
 								((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden Graphs gefunden werden. Bitte wählen Sie andere Endknoten zur Wegfindung.");
-							} else if (((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) WSeminar.instance.paths.put(p.hashCode(), p);
+							} else if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) != null) {
+								WSeminar.instance.paths.put(p.hashCode(), p);
+								path_tree.getSelectionModel().select(pti);
+							}
 						});
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -452,6 +457,7 @@ public class MainController {
 			
 			Legend l = (Legend) chart_timeline.getChartLegend();
 			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
+			l.getItems().forEach(e -> {});
 		});
 	}
 	

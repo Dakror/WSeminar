@@ -49,22 +49,25 @@ public class PathTreeItem<V> extends TreeItem<String> {
 	 * @param p
 	 * @return
 	 */
-	public boolean insert(Path<Vertex<V>> p) {
-		if (p == null) return false;
+	public PathTreeItem<V> insert(Path<Vertex<V>> p) {
+		if (p == null) return null;
 		
 		for (TreeItem<String> ti : getChildren()) {
 			if (ti.getValue().equals(p.toGrouperString())) {
 				for (TreeItem<String> ti2 : ti.getChildren())
-					if (ti2.getValue().equals(p.toSpecString())) return false;
+					if (ti2.getValue().equals(p.toSpecString())) return null;
 					
-				ti.getChildren().add(new PathTreeItem<V>(p, true));
-				return true;
+				PathTreeItem<V> pti = new PathTreeItem<V>(p, true);
+				ti.getChildren().add(pti);
+				return pti;
 			}
 		}
 		PathTreeItem<V> pti = new PathTreeItem<V>(p.toGrouperString());
-		pti.getChildren().add(new PathTreeItem<V>(p, true));
+		PathTreeItem<V> pti2 = new PathTreeItem<V>(p, true);
+		
+		pti.getChildren().add(pti2);
 		
 		getChildren().add(pti);
-		return true;
+		return pti2;
 	}
 }
