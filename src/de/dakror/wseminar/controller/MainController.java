@@ -244,10 +244,11 @@ public class MainController {
 				last = System.currentTimeMillis();
 			}
 		});
-		
 		tab_benchmark.selectedProperty().addListener((obs, oldVal, newVal) -> {
 			graph.setVisible(!newVal);
 			benchmark.setVisible(newVal);
+			benchmark.autosize();
+			graph.autosize();
 		});
 		
 		// -- path section -- //
@@ -352,6 +353,7 @@ public class MainController {
 		chart_alltime.setAnimated(false);
 		
 		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
+			if (newV == null) return;
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			chart_timeline.getData().clear();
 			chart_alltime.getData().clear();
@@ -383,6 +385,12 @@ public class MainController {
 					chart_table.getItems().add(path);
 				}
 			} else {
+				XYChart.Series<String, Long> sc = new XYChart.Series<>();
+				sc.setName("Gesamtzeit");
+				chart_alltime.getData().add(sc);
+				XYChart.Data<String, Long> d = new XYChart.Data<>(newVal.getUserData().toString(), newVal.getBenchmark().getTime() / 1000);
+				sc.getData().add(d);
+				
 				tldf.generateColors(2);
 				tldf.fill(newVal);
 				
@@ -391,7 +399,6 @@ public class MainController {
 			
 			Legend l = (Legend) chart_timeline.getChartLegend();
 			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
-			//TODO adjust colors
 			
 			for (int i = 0; i < l.getItems().size(); i++) {
 				Color c = tldf.palette[(i % Type.values().length) * (tldf.palette.length / Type.values().length)];
