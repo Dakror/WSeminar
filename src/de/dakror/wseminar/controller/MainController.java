@@ -41,6 +41,7 @@ import de.dakror.wseminar.util.Visualizer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -49,24 +50,24 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -149,10 +150,10 @@ public class MainController {
 	private Tab tab_benchmark;
 	
 	@FXML
-	private VBox benchmark;
+	private SplitPane benchmark;
 	
 	@FXML
-	private ListView<?> chart_stats;
+	private TableView<Path<Vertex<Integer>>> chart_table;
 	
 	float lastX = -1, lastY = -1;
 	
@@ -354,9 +355,11 @@ public class MainController {
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			chart_timeline.getData().clear();
 			chart_alltime.getData().clear();
+			chart_table.getItems().clear();
 			
 			if (newV.getParent() == null) return;
 			
+			TimeLineDataFiller tldf = new TimeLineDataFiller();
 			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
 				
 				XYChart.Series<String, Long> sc = new XYChart.Series<>();
@@ -372,33 +375,44 @@ public class MainController {
 					hackTooltipStartTiming(tt);
 					Tooltip.install(d.getNode(), tt);
 				}
-			}
-			
-			
-			TimeLineDataFiller tldf = new TimeLineDataFiller();
-			
-			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
 				
 				tldf.generateColors(newV.getChildren().size() * 2);
 				for (TreeItem<String> ti : newV.getChildren()) {
 					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
 					tldf.fill(path);
+					chart_table.getItems().add(path);
 				}
 			} else {
 				tldf.generateColors(1);
 				tldf.fill(newVal);
+				
+				chart_table.getItems().add(newVal);
 			}
-			
-			// ValueAxis<Long> xAxis = (ValueAxis<Long>) chart_timeline.getXAxis();
-			ValueAxis<Integer> yAxis = (ValueAxis<Integer>) chart_timeline.getYAxis();
-			yAxis.setAutoRanging(false);
-			yAxis.setLowerBound(-1);
-			yAxis.setUpperBound(tldf.highestY + 2);
 			
 			Legend l = (Legend) chart_timeline.getChartLegend();
 			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
+			//TODO adjust colors
 			l.getItems().forEach(e -> {});
 		});
+		
+		TableColumn<Path<Vertex<Integer>>, String> tc = new TableColumn<>("Pfad");
+		tc.setCellValueFactory(p -> new ReadOnlyObjectWrapper<String>(p.getValue().getUserData().toString()));
+		chart_table.getColumns().add(tc);
+		
+		for (Type t : Type.values()) {
+			if (t.name().endsWith("SIZE")) {
+				TableColumn<Path<Vertex<Integer>>, Integer> tc2 = new TableColumn<>("min. " + t.desc);
+				tc2.setCellValueFactory(p -> new ReadOnlyObjectWrapper<Integer>((int) p.getValue().getBenchmark().getMin(t)));
+				chart_table.getColumns().add(tc2);
+				tc2 = new TableColumn<>("max. " + t.desc);
+				tc2.setCellValueFactory(p -> new ReadOnlyObjectWrapper<Integer>((int) p.getValue().getBenchmark().getSum(t)));
+				chart_table.getColumns().add(tc2);
+			} else {
+				TableColumn<Path<Vertex<Integer>>, Integer> tc2 = new TableColumn<>(t.desc);
+				tc2.setCellValueFactory(p -> new ReadOnlyObjectWrapper<Integer>((int) p.getValue().getBenchmark().getSum(t)));
+				chart_table.getColumns().add(tc2);
+			}
+		}
 	}
 	
 	public static void createGenerateDialog() {

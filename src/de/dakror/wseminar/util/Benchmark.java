@@ -139,6 +139,14 @@ public class Benchmark<V> {
 		return time;
 	}
 	
+	public float getMin(Type t) {
+		float m = Float.MAX_VALUE;
+		for (Timestamp ts : get(t))
+			if (ts.stamp < m && ts.stamp > 0) m = ts.stamp;
+			
+		return m;
+	}
+	
 	public float getSum(Type t) {
 		float m = 0;
 		for (Timestamp ts : get(t))

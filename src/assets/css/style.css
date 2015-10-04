@@ -137,3 +137,7 @@
     -fx-border-color: rgb(25.0, 164.0, 255.0);
     -fx-text-fill: black;
 }
+
+.property-sheet .table-view {
+	-fx-background-color: transparent;
+ }

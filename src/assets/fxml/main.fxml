@@ -15,20 +15,27 @@
 <?import javafx.scene.layout.*?>
 <?import de.dakror.wseminar.ui.*?>
 
-<BorderPane prefHeight="800.0" prefWidth="1280.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dakror.wseminar.controller.MainController">
+<BorderPane prefHeight="800.0" prefWidth="1280.0" styleClass="theme-presets"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.dakror.wseminar.controller.MainController">
 	<top>
-		<MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
+		<MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+			minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
 			<menus>
 				<Menu fx:id="menu_graph" mnemonicParsing="false" text="Netz">
 					<items>
-						<MenuItem fx:id="new_graph" mnemonicParsing="false" text="Neues Netz...">
+						<MenuItem fx:id="new_graph" mnemonicParsing="false"
+							text="Neues Netz...">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="N"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem fx:id="relayout_graph" disable="true" mnemonicParsing="false" text="Neues Layout">
+						<MenuItem fx:id="relayout_graph" disable="true"
+							mnemonicParsing="false" text="Neues Layout">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="L" control="UP" meta="UP" shift="UP" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="L"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
 					</items>
@@ -39,17 +46,26 @@
 	<center>
 		<SplitPane dividerPositions="0.0" BorderPane.alignment="CENTER">
 			<items>
-				<AnchorPane minWidth="200.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
+				<AnchorPane minWidth="200.0" prefWidth="200.0"
+					SplitPane.resizableWithParent="false">
 					<children>
-						<TabPane layoutX="7.0" layoutY="-1.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+						<TabPane layoutX="7.0" layoutY="-1.0" side="LEFT"
+							tabClosingPolicy="UNAVAILABLE" tabMinWidth="70.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<tabs>
 								<Tab text="Netz">
 									<content>
 										<AnchorPane>
 											<children>
-												<TitledPane animated="false" collapsible="false" prefHeight="748.0" prefWidth="171.0" styleClass="text-like-bot" text="Netz" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+												<TitledPane animated="false" collapsible="false"
+													prefHeight="748.0" prefWidth="171.0" styleClass="text-like-bot"
+													text="Netz" AnchorPane.bottomAnchor="0.0"
+													AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+													AnchorPane.topAnchor="0.0">
 													<content>
-														<TreeView fx:id="graph_tree" prefHeight="721.0" prefWidth="98.0" styleClass="SBKIT-hierarchy-panel" />
+														<TreeView fx:id="graph_tree" prefHeight="721.0"
+															prefWidth="98.0" styleClass="SBKIT-hierarchy-panel" />
 													</content>
 												</TitledPane>
 											</children>
@@ -60,61 +76,98 @@
 									<content>
 										<VBox>
 											<children>
-												<TitledPane animated="false" collapsible="false" prefHeight="200.0" prefWidth="171.0" styleClass="text-like-bot" text="Wege">
+												<TitledPane animated="false" collapsible="false"
+													prefHeight="200.0" prefWidth="171.0" styleClass="text-like-bot"
+													text="Wege">
 													<content>
-														<ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefViewportHeight="100.0" prefViewportWidth="171.0">
+														<ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+															prefViewportHeight="100.0" prefViewportWidth="171.0">
 															<content>
-																<TreeView fx:id="path_tree" prefHeight="173.0" prefWidth="171.0" styleClass="SBKIT-hierarchy-panel" />
+																<TreeView fx:id="path_tree" prefHeight="173.0"
+																	prefWidth="171.0" styleClass="SBKIT-hierarchy-panel" />
 															</content>
 														</ScrollPane>
 													</content>
 												</TitledPane>
-												<TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="295.0" prefWidth="171.0" styleClass="text-like-bot" text="Wegkonfiguration">
+												<TitledPane animated="false" collapsible="false"
+													maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+													prefHeight="295.0" prefWidth="171.0" styleClass="text-like-bot"
+													text="Wegkonfiguration">
 													<content>
 														<VBox prefHeight="0.0" prefWidth="171.0">
 															<children>
-																<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="0.0" styleClass="property-sheet">
+																<GridPane maxHeight="1.7976931348623157E308"
+																	maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+																	minWidth="-Infinity" prefHeight="210.0" prefWidth="0.0"
+																	styleClass="property-sheet">
 																	<columnConstraints>
-																		<ColumnConstraints hgrow="SOMETIMES" maxWidth="87.0" minWidth="10.0" prefWidth="71.0" />
-																		<ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="76.0" />
+																		<ColumnConstraints hgrow="SOMETIMES"
+																			maxWidth="87.0" minWidth="10.0" prefWidth="71.0" />
+																		<ColumnConstraints hgrow="SOMETIMES"
+																			maxWidth="106.0" minWidth="10.0" prefWidth="76.0" />
 																	</columnConstraints>
 																	<rowConstraints>
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-																		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
+																		<RowConstraints minHeight="10.0"
+																			prefHeight="30.0" vgrow="SOMETIMES" />
 																	</rowConstraints>
 																	<children>
 																		<Label text="Startknoten" />
 																		<Label text="Zielknoten" GridPane.rowIndex="1" />
-																		<Button fx:id="path_start" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Auswahl" GridPane.columnIndex="1" />
-																		<Button fx:id="path_goal" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Auswahl" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+																		<Button fx:id="path_start" maxWidth="1.7976931348623157E308"
+																			mnemonicParsing="false" text="Auswahl"
+																			GridPane.columnIndex="1" />
+																		<Button fx:id="path_goal" maxWidth="1.7976931348623157E308"
+																			mnemonicParsing="false" text="Auswahl"
+																			GridPane.columnIndex="1" GridPane.rowIndex="1" />
 																		<Label text="Animiert" GridPane.rowIndex="5" />
-																		<CheckBox fx:id="path_animate" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+																		<CheckBox fx:id="path_animate"
+																			mnemonicParsing="false" GridPane.columnIndex="1"
+																			GridPane.rowIndex="5">
 																			<tooltip>
 																				<Tooltip text="Visuell nachvollziehbare Suche" />
 																			</tooltip>
 																		</CheckBox>
 																		<Label text="Algorithmus" GridPane.rowIndex="2" />
-																		<ChoiceBox fx:id="path_algorithm" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+																		<ChoiceBox fx:id="path_algorithm" prefWidth="150.0"
+																			GridPane.columnIndex="1" GridPane.rowIndex="2" />
 																		<Label text="Fast Stack" GridPane.rowIndex="3" />
-																		<CheckBox fx:id="path_faststack" disable="true" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+																		<CheckBox fx:id="path_faststack" disable="true"
+																			mnemonicParsing="false" GridPane.columnIndex="1"
+																			GridPane.rowIndex="3">
 																			<tooltip>
-																				<Tooltip text="Optimierung duch reduzierte Open-List Größe" />
+																				<Tooltip
+																					text="Optimierung duch reduzierte Open-List Größe" />
 																			</tooltip>
 																		</CheckBox>
 																		<Label text="Goal Bounding" GridPane.rowIndex="4" />
-																		<CheckBox fx:id="path_goalbounding" disable="true" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+																		<CheckBox fx:id="path_goalbounding" disable="true"
+																			mnemonicParsing="false" GridPane.columnIndex="1"
+																			GridPane.rowIndex="4">
 																			<tooltip>
 																				<Tooltip text="Optimierung durch Vorberechnung" />
 																			</tooltip>
 																		</CheckBox>
-																		<Button fx:id="path_find" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Weg suchen" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-																		<Button fx:id="path_delete" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Entfernen" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+																		<Button fx:id="path_find" maxWidth="1.7976931348623157E308"
+																			mnemonicParsing="false" text="Weg suchen"
+																			GridPane.columnIndex="1" GridPane.rowIndex="7" />
+																		<Button fx:id="path_delete" disable="true"
+																			maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+																			text="Entfernen" GridPane.columnIndex="1"
+																			GridPane.rowIndex="6" />
 																	</children>
 																</GridPane>
 															</children>
@@ -129,11 +182,18 @@
 									<content>
 										<AnchorPane>
 											<children>
-												<TitledPane animated="false" collapsible="false" prefHeight="748.0" prefWidth="171.0" styleClass="text-like-bot" text="Wege" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+												<TitledPane animated="false" collapsible="false"
+													prefHeight="748.0" prefWidth="171.0" styleClass="text-like-bot"
+													text="Wege" AnchorPane.bottomAnchor="0.0"
+													AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+													AnchorPane.topAnchor="0.0">
 													<content>
-														<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" prefViewportHeight="100.0" prefViewportWidth="171.0">
+														<ScrollPane fitToHeight="true" fitToWidth="true"
+															hbarPolicy="NEVER" maxHeight="1.7976931348623157E308"
+															prefViewportHeight="100.0" prefViewportWidth="171.0">
 															<content>
-																<TreeView fx:id="path_tree_benchmark" prefHeight="717.0" prefWidth="171.0" styleClass="SBKIT-hierarchy-panel" />
+																<TreeView fx:id="path_tree_benchmark"
+																	prefHeight="717.0" prefWidth="171.0" styleClass="SBKIT-hierarchy-panel" />
 															</content>
 														</ScrollPane>
 													</content>
@@ -146,11 +206,15 @@
 						</TabPane>
 					</children>
 				</AnchorPane>
-				<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="748.0" prefWidth="1063.0">
+				<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+					prefHeight="748.0" prefWidth="1063.0">
 					<children>
 						<Pane fx:id="graph" maxHeight="1" maxWidth="1">
 							<children>
-								<Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="233.0" styleClass="link-label" text="Erstellen Sie ein neues Netz..." textAlignment="CENTER" textFill="#9f9f9f">
+								<Label fx:id="new_graph_label" layoutX="14.0" layoutY="14.0"
+									prefHeight="27.0" prefWidth="233.0" styleClass="link-label"
+									text="Erstellen Sie ein neues Netz..." textAlignment="CENTER"
+									textFill="#9f9f9f">
 									<font>
 										<Font size="18.0" />
 									</font>
@@ -160,44 +224,91 @@
 								</Label>
 							</children>
 						</Pane>
-						<VBox fx:id="benchmark" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-							<children>
-								<PathLineChart fx:id="chart_timeline" prefHeight="600.0" prefWidth="1076.0" title="Zeitleiste" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-									<xAxis>
-										<NumberAxis side="BOTTOM" />
-									</xAxis>
-									<yAxis>
-										<NumberAxis side="LEFT" />
-									</yAxis>
-								</PathLineChart>
-                        <HBox>
-                           <children>
-      								<BarChart fx:id="chart_alltime" prefHeight="485.0" prefWidth="1076.0" title="Gesamtzeit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      									<xAxis>
-      										<CategoryAxis side="BOTTOM" />
-      									</xAxis>
-      									<yAxis>
-      										<NumberAxis side="LEFT" />
-      									</yAxis>
-      								</BarChart>
-                              <ListView fx:id="chart_stats" prefHeight="485.0" prefWidth="961.0" />
-                           </children>
-                        </HBox>
-
-							</children>
-						</VBox>
+						<SplitPane fx:id="benchmark" dividerPositions="0.5"
+							orientation="VERTICAL" prefHeight="748.0" prefWidth="1076.0"
+							visible="false" AnchorPane.bottomAnchor="0.0"
+							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="0.0">
+							<items>
+								<AnchorPane minHeight="250.0" minWidth="0.0"
+									prefHeight="100.0" prefWidth="160.0">
+									<children>
+										<PathLineChart fx:id="chart_timeline" minHeight="250.0"
+											prefHeight="600.0" prefWidth="1076.0" title="Zeitleiste"
+											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+											BorderPane.alignment="CENTER">
+											<xAxis>
+												<NumberAxis side="BOTTOM" />
+											</xAxis>
+											<yAxis>
+												<NumberAxis side="LEFT" />
+											</yAxis>
+										</PathLineChart>
+									</children>
+								</AnchorPane>
+								<AnchorPane minHeight="250.0" minWidth="0.0"
+									prefHeight="100.0" prefWidth="160.0">
+									<children>
+										<SplitPane dividerPositions="0.5" prefHeight="372.0"
+											prefWidth="1074.0" AnchorPane.bottomAnchor="0.0"
+											AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+											AnchorPane.topAnchor="0.0">
+											<items>
+												<AnchorPane minHeight="0.0" minWidth="250.0"
+													prefHeight="160.0" prefWidth="100.0">
+													<children>
+														<BarChart fx:id="chart_alltime" minHeight="-Infinity"
+															minWidth="-Infinity" prefHeight="386.0" prefWidth="536.0"
+															title="Gesamtzeit" AnchorPane.bottomAnchor="0.0"
+															AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+															AnchorPane.topAnchor="0.0">
+															<xAxis>
+																<CategoryAxis side="BOTTOM" />
+															</xAxis>
+															<yAxis>
+																<NumberAxis side="LEFT" />
+															</yAxis>
+														</BarChart>
+													</children>
+												</AnchorPane>
+												<ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308"
+													maxWidth="-Infinity" minHeight="0.0" minWidth="250.0"
+													styleClass="property-sheet" AnchorPane.bottomAnchor="0.0"
+													AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+													AnchorPane.topAnchor="0.0">
+													<content>
+														<TableView fx:id="chart_table" maxHeight="1.7976931348623157E308"
+															maxWidth="1.7976931348623157E308"
+															AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+															AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+															<columns>
+															</columns>
+														</TableView>
+													</content>
+												</ScrollPane>
+											</items>
+										</SplitPane>
+									</children>
+								</AnchorPane>
+							</items>
+						</SplitPane>
 					</children>
 				</AnchorPane>
 			</items>
 		</SplitPane>
 	</center>
 	<bottom>
-		<BorderPane prefHeight="25.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+		<BorderPane prefHeight="25.0" prefWidth="1280.0"
+			BorderPane.alignment="CENTER">
 			<right>
-				<HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+				<HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0"
+					BorderPane.alignment="CENTER">
 					<children>
 						<Label text="Zoom: " />
-						<Slider fx:id="zoom" blockIncrement="0.0" majorTickUnit="100.0" max="400.0" minorTickCount="4" prefHeight="15.0" prefWidth="150.0" showTickMarks="true" snapToTicks="true" value="200.0">
+						<Slider fx:id="zoom" blockIncrement="0.0" majorTickUnit="100.0"
+							max="400.0" minorTickCount="4" prefHeight="15.0" prefWidth="150.0"
+							showTickMarks="true" snapToTicks="true" value="200.0">
 							<padding>
 								<Insets top="4.0" />
 							</padding>
