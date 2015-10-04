@@ -383,7 +383,7 @@ public class MainController {
 					chart_table.getItems().add(path);
 				}
 			} else {
-				tldf.generateColors(1);
+				tldf.generateColors(2);
 				tldf.fill(newVal);
 				
 				chart_table.getItems().add(newVal);
@@ -392,7 +392,11 @@ public class MainController {
 			Legend l = (Legend) chart_timeline.getChartLegend();
 			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
 			//TODO adjust colors
-			l.getItems().forEach(e -> {});
+			
+			for (int i = 0; i < l.getItems().size(); i++) {
+				Color c = tldf.palette[(i % Type.values().length) * (tldf.palette.length / Type.values().length)];
+				l.getItems().get(i).getSymbol().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white;", c.getRed(), c.getGreen(), c.getBlue()));
+			}
 		});
 		
 		TableColumn<Path<Vertex<Integer>>, String> tc = new TableColumn<>("Pfad");
@@ -498,7 +502,7 @@ public class MainController {
 			n *= Type.values().length;
 			Color[] cols = new Color[n];
 			for (int i = 0; i < n; i++) {
-				cols[i] = Color.getHSBColor((float) i / (float) (n - 1), 0.85f, 1.0f);
+				cols[i] = Color.getHSBColor(i / (float) (n - 1), 0.9f, i % 2 == 0 ? 0.85f : 1.0f);
 			}
 			palette = cols;
 		}
