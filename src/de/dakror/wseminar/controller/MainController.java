@@ -18,6 +18,7 @@
 package de.dakror.wseminar.controller;
 
 import java.awt.Color;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,6 +44,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -152,6 +154,8 @@ public class MainController {
 	long last;
 	
 	boolean animatingPathFinding;
+	
+	boolean batch = false;
 	
 	@FXML
 	public void initialize() {
@@ -295,7 +299,21 @@ public class MainController {
 		path_tree.getRoot().addEventHandler(TreeItem.childrenModificationEvent(), e -> path_tree_benchmark.setRoot(path_tree.getRoot()));
 		
 		path_find.setOnAction(e -> {
-			if (WSeminar.instance.startVertex == null || WSeminar.instance.goalVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
+			if (WSeminar.instance.startVertex == null || WSeminar.instance.startVertex == WSeminar.instance.goalVertex) return;
+			
+			if (WSeminar.instance.goalVertex == null) {
+				if (!batch) {
+					Stage stage = WSeminar.createDialog("prompt", "Massen-Wegsuche", WSeminar.window);
+					((Label) stage.getScene().lookup("#message")).setText("Sicher?");
+					((Label) stage.getScene().lookup("#details")).setText("Sie haben nur einen Start- aber keinen Endknoten gewählt. Somit wird eine Wegsuche für jeden anderen Knoten im Graph gestartet. Dies kann sehr zeitaufwendig werden. \nSind Sie sicher, dass sie dies starten möchten?");
+					((Button) stage.getScene().lookup("#okButton")).setOnAction(i -> {
+						((Stage) stage.getScene().getWindow()).close();
+						batch = true;
+						path_find.fire();
+					});
+					return;
+				}
+			} else batch = false;
 			
 			new Thread() {
 				@Override
@@ -305,27 +323,51 @@ public class MainController {
 						menu_graph.getItems().get(1).setDisable(true);
 						
 						Class<?> c = Class.forName("de.dakror.wseminar.graph.algorithm." + path_algorithm.getValue());
-						PathFinder<Integer> pf = (PathFinder<Integer>) c.getConstructor(Graph.class, boolean.class).newInstance(WSeminar.instance.getGraph(), path_animate.isSelected());
+						Constructor<?> con = c.getConstructor(Graph.class, boolean.class);
 						
-						Visualizer.setEnabled(path_animate.isSelected());
-						Path<Vertex<Integer>> p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
-						Visualizer.setEnabled(true);
+						Visualizer.setEnabled(path_animate.isSelected() && !batch);
 						
-						animatingPathFinding = false;
-						menu_graph.getItems().get(1).setDisable(false);
-						
-						Platform.runLater(() -> {
-							PathTreeItem<Integer> pti = null;
-							
-							if (p == null) {
-								Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
-								((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
-								((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden oder gerichteten Graphen gefunden werden. Bitte wählen Sie andere Endknoten zur Wegfindung.");
-							} else if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) != null) {
-								WSeminar.instance.paths.put(p.hashCode(), p);
-								path_tree.getSelectionModel().select(pti);
+						if (batch) {
+							for (Vertex<Integer> v : WSeminar.instance.getGraph().getVertices()) {
+								if (!v.equals(WSeminar.instance.startVertex.getVertex())) {
+									PathFinder<Integer> pf = (PathFinder<Integer>) con.newInstance(WSeminar.instance.getGraph(), false);
+									Path<Vertex<Integer>> p = pf.findPath(WSeminar.instance.startVertex.getVertex(), v);
+									
+									if (p == null) {
+										System.out.println("no path to " + v);
+										continue;
+									}
+									Platform.runLater(() -> {
+										PathTreeItem<Integer> pti = null;
+										if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) != null) {
+											WSeminar.instance.paths.put(p.hashCode(), p);
+											path_tree.getSelectionModel().select(pti);
+										}
+									});
+								}
 							}
-						});
+							batch = false;
+						} else {
+							PathFinder<Integer> pf = (PathFinder<Integer>) con.newInstance(WSeminar.instance.getGraph(), path_animate.isSelected());
+							Path<Vertex<Integer>> p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+							Visualizer.setEnabled(true);
+							
+							animatingPathFinding = false;
+							menu_graph.getItems().get(1).setDisable(false);
+							
+							Platform.runLater(() -> {
+								PathTreeItem<Integer> pti = null;
+								
+								if (p == null) {
+									Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
+									((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
+									((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden oder gerichteten Graphen gefunden werden. Bitte wählen Sie andere Endknoten zur Wegfindung.");
+								} else if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) != null) {
+									WSeminar.instance.paths.put(p.hashCode(), p);
+									path_tree.getSelectionModel().select(pti);
+								}
+							});
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -369,9 +411,7 @@ public class MainController {
 		
 		chart_alltime.setAnimated(false);
 		
-		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) ->
-		
-		{
+		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
 			if (newV == null) return;
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			chart_timeline.getData().clear();
@@ -482,6 +522,26 @@ public class MainController {
 			return;
 		}
 		
+		Stage progress = showProgressDialog(layout.progress, message);
+		
+		new Thread() {
+			@Override
+			public void run() {
+				Graph<Vertex<Integer>> render = layout.render();
+				
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						progress.close();
+						if (transition) WSeminar.instance.transitionTo(render);
+						else WSeminar.instance.setGraph(render, setGraphAnimate);
+					}
+				});
+			}
+		}.start();
+	}
+	
+	public static Stage showProgressDialog(ObservableValue<? extends Number> ov, String message) {
 		Stage progress = WSeminar.createDialog("progress", "Fortschritt", WSeminar.window, StageStyle.TRANSPARENT, Modality.NONE);
 		
 		if (message == null) {
@@ -502,23 +562,10 @@ public class MainController {
 			pi.setProgress(Math.round(newVal.doubleValue() * 100) / 100.0);
 		});
 		
-		new Thread() {
-			@Override
-			public void run() {
-				layout.progress.addListener(cl);
-				Graph<Vertex<Integer>> render = layout.render();
-				layout.progress.removeListener(cl);
-				
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						progress.close();
-						if (transition) WSeminar.instance.transitionTo(render);
-						else WSeminar.instance.setGraph(render, setGraphAnimate);
-					}
-				});
-			}
-		}.start();
+		ov.addListener(cl);
+		progress.setOnHiding(e -> ov.removeListener(cl));
+		
+		return progress;
 	}
 	
 	class TimeLineDataFiller {
