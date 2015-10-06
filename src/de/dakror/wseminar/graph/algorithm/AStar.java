@@ -62,10 +62,7 @@ public class AStar<V> extends PathFinder<V> {
 		
 		Vertex<V> last = null;
 		while (true) {
-			if (openList.size() == 0) {
-				System.out.println("FF@20");
-				return null;
-			}
+			if (openList.size() == 0) return null;
 			
 			Vertex<V> v = openList.pollFirst();
 			BM.add(SORTS);
@@ -92,7 +89,9 @@ public class AStar<V> extends PathFinder<V> {
 		
 		while (v != null) {
 			p.add(0, v);
-			if (v.get(Heuristics.class).parent != null) Visualizer.setEdgePath(graph.getEdge(v, v.get(Heuristics.class).parent), true, true);
+			if (v.get(Heuristics.class).parent != null) {
+				Visualizer.setEdgePath(graph.getEdge(v, v.get(Heuristics.class).parent), true, true);
+			}
 			Visualizer.setVertexState(v, State.BACKTRACK, false);
 			v = v.get(Heuristics.class).parent;
 			
@@ -112,10 +111,13 @@ public class AStar<V> extends PathFinder<V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean takeStep(Vertex<V> parent, Vertex<V> node, Vertex<V> to) {
-		if (node.equals(to)) return true;
+		if (node.equals(to)) {
+			to.add(node.get(Heuristics.class));
+			return true;
+		}
 		
 		float nG = node.get(Heuristics.class).G;
-		for (Edge<Vertex<V>> e : graph.getEdges(node)) {
+		for (Edge<Vertex<V>> e : graph.getEdgesFrom(node)) {
 			Vertex<V> v = e.getOtherEnd(node);
 			BM.add(v);
 			if (v.get(Heuristics.class) == null) {
@@ -133,6 +135,7 @@ public class AStar<V> extends PathFinder<V> {
 				v.get(Heuristics.class).G = nG + weight(e);
 				
 				Visualizer.setEdgeActive(graph.getEdge(v.get(Heuristics.class).parent, v), false, true);
+				
 				v.get(Heuristics.class).parent = node;
 				
 				Visualizer.setEdgeActive(e, true, false);

@@ -35,12 +35,12 @@ public class DefaultGraph<V> implements Graph<V> {
 	
 	@Override
 	public List<Edge<V>> getEdgesFrom(V from) {
-		return edges.stream().filter(edge -> edge.getFrom().equals(from)).collect(Collectors.toList()); // Java8 OP
+		return edges.stream().filter(edge -> edge.getFrom().equals(from) || (!edge.isDirected() && edge.getTo().equals(from))).collect(Collectors.toList()); // Java8 OP
 	}
 	
 	@Override
 	public List<Edge<V>> getEdgesTo(V to) {
-		return edges.stream().filter(edge -> edge.getTo().equals(to)).collect(Collectors.toList()); // Java8 OP
+		return edges.stream().filter(edge -> edge.getTo().equals(to) || (!edge.isDirected() && edge.getTo().equals(to))).collect(Collectors.toList()); // Java8 OP
 	}
 	
 	@Override
@@ -90,8 +90,8 @@ public class DefaultGraph<V> implements Graph<V> {
 	
 	@Override
 	public Edge<V> getEdge(V from, V to) {
-		return edges.stream().filter(	e -> e.isDirected() ? e.getFrom().equals(from) && e.getTo().equals(to) : (e.getFrom().equals(from) || e.getFrom().equals(to))
-																			&& (e.getTo().equals(from) || e.getTo().equals(to))).findFirst().orElse(null);
+		return edges.stream().filter(e -> e.isDirected() ? (e.getFrom().equals(from) && e.getTo().equals(to) || e.getTo().equals(from) && e.getFrom().equals(to))
+				: (e.getFrom().equals(from) || e.getFrom().equals(to)) && (e.getTo().equals(from) || e.getTo().equals(to))).findFirst().orElse(null);
 	}
 	
 	@Override

@@ -118,6 +118,9 @@ public class Visualizer {
 	}
 	
 	static Node lookup(String selector) {
-		return WSeminar.window.getScene().lookup(selector);
+		Node n = WSeminar.window.getScene().lookup(selector);
+		
+		if (n == null) System.err.println(selector);
+		return n;
 	}
 }

@@ -85,7 +85,7 @@ public class DFS<V> extends PathFinder<V> {
 		
 		if (node.equals(to)) return true;
 		
-		List<Edge<Vertex<V>>> edges = graph.getEdges(node).stream().filter(e -> {
+		List<Edge<Vertex<V>>> edges = graph.getEdgesFrom(node).stream().filter(e -> {
 			Vertex<V> v = e.getOtherEnd(node);
 			
 			BM.add(v);

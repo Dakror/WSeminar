@@ -49,7 +49,6 @@ import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -93,9 +92,6 @@ public class MainController {
 	private MenuItem relayout_graph;
 	
 	@FXML
-	private CheckBox path_faststack;
-	
-	@FXML
 	private Slider zoom;
 	
 	@FXML
@@ -103,9 +99,6 @@ public class MainController {
 	
 	@FXML
 	private Button path_find;
-	
-	@FXML
-	private CheckBox path_goalbounding;
 	
 	@FXML
 	private PathLineChart<Long, Integer> chart_timeline;
@@ -144,9 +137,6 @@ public class MainController {
 	private BarChart<String, Long> chart_alltime;
 	
 	@FXML
-	private PieChart chart_division;
-	
-	@FXML
 	private Tab tab_benchmark;
 	
 	@FXML
@@ -156,6 +146,8 @@ public class MainController {
 	private TableView<Path<Vertex<Integer>>> chart_table;
 	
 	float lastX = -1, lastY = -1;
+	
+	float dragStartX, dragStartY;
 	
 	long last;
 	
@@ -269,11 +261,6 @@ public class MainController {
 		path_algorithm.getItems().addAll("DFS", "AStar"/*, "Dijkstra", "A*"*/);
 		path_algorithm.setValue(path_algorithm.getItems().get(0));
 		
-		path_algorithm.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
-			path_faststack.setDisable(newVal.intValue() != 3);
-			path_goalbounding.setDisable(newVal.intValue() != 3);
-		});
-		
 		path_tree.setRoot(new PathTreeItem<Integer>("Pfade"));
 		path_tree_benchmark.setRoot(new PathTreeItem<Integer>("Pfade"));
 		
@@ -333,7 +320,7 @@ public class MainController {
 							if (p == null) {
 								Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
 								((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
-								((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden Graphs gefunden werden. Bitte wählen Sie andere Endknoten zur Wegfindung.");
+								((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden oder gerichteten Graphen gefunden werden. Bitte wählen Sie andere Endknoten zur Wegfindung.");
 							} else if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) != null) {
 								WSeminar.instance.paths.put(p.hashCode(), p);
 								path_tree.getSelectionModel().select(pti);
@@ -350,9 +337,41 @@ public class MainController {
 		chart_timeline.setAnimated(false);
 		chart_timeline.setCreateSymbols(true);
 		
+		/*chart_timeline.setOnDragDetected(e -> {
+			chart_timeline.startFullDrag();
+			Number x = chart_timeline.getXAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getX());
+			Number y = chart_timeline.getYAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getY());
+			dragStartX = x.floatValue();
+			dragStartY = y.floatValue();
+		});
+		
+		chart_timeline.setOnMouseDragReleased(e -> {
+			Number x = chart_timeline.getXAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getX());
+			Number y = chart_timeline.getYAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getY());
+			
+			chart_timeline.getXAxis().setAutoRanging(false);
+			ValueAxis<Long> xAxis = (ValueAxis<Long>) (chart_timeline.getXAxis());
+			xAxis.setLowerBound((int) Math.min(x.floatValue(), dragStartX));
+			xAxis.setUpperBound((int) Math.max(x.floatValue(), dragStartX));
+			
+			chart_timeline.getYAxis().setAutoRanging(false);
+			ValueAxis<Integer> yAxis = (ValueAxis<Integer>) (chart_timeline.getYAxis());
+			yAxis.setLowerBound((int) Math.min(y.floatValue(), dragStartY));
+			yAxis.setUpperBound((int) Math.max(y.floatValue(), dragStartY));
+		});
+		
+		chart_timeline.setOnMousePressed(e -> {
+			if (e.getButton() == MouseButton.SECONDARY) {
+				chart_timeline.getXAxis().setAutoRanging(true);
+				chart_timeline.getYAxis().setAutoRanging(true);
+			}
+		});*/
+		
 		chart_alltime.setAnimated(false);
 		
-		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
+		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) ->
+		
+		{
 			if (newV == null) return;
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			chart_timeline.getData().clear();
@@ -410,7 +429,9 @@ public class MainController {
 		tc.setCellValueFactory(p -> new ReadOnlyObjectWrapper<String>(p.getValue().getUserData().toString()));
 		chart_table.getColumns().add(tc);
 		
-		for (Type t : Type.values()) {
+		for (Type t : Type.values())
+		
+		{
 			if (t.name().endsWith("SIZE")) {
 				TableColumn<Path<Vertex<Integer>>, Integer> tc2 = new TableColumn<>("min. " + t.desc);
 				tc2.setCellValueFactory(p -> new ReadOnlyObjectWrapper<Integer>((int) p.getValue().getBenchmark().getMin(t)));
@@ -424,6 +445,7 @@ public class MainController {
 				chart_table.getColumns().add(tc2);
 			}
 		}
+		
 	}
 	
 	public static void createGenerateDialog() {
