@@ -90,7 +90,7 @@
 																		<Label text="Startknoten" />
 																		<Label text="Zielknoten" GridPane.rowIndex="1" />
 																		<Button fx:id="path_start" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Auswahl" GridPane.columnIndex="1" />
-																		<Button fx:id="path_goal" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Auswahl" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+																		<Button fx:id="path_goal" mnemonicParsing="false" prefHeight="23.0" prefWidth="60.0" text="Auswahl" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 																		<Label text="Animiert" GridPane.rowIndex="3" />
 																		<CheckBox fx:id="path_animate" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
 																			<tooltip>
@@ -101,6 +101,7 @@
 																		<ChoiceBox fx:id="path_algorithm" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 																		<Button fx:id="path_find" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Weg suchen" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 																		<Button fx:id="path_delete" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Entfernen" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                      <Button fx:id="path_x" mnemonicParsing="false" text="X" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
 																	</children>
 																</GridPane>
 															</children>

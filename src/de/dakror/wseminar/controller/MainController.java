@@ -133,6 +133,9 @@ public class MainController {
 	private Button path_goal;
 	
 	@FXML
+	private Button path_x;
+	
+	@FXML
 	private CheckBox path_animate;
 	
 	@FXML
@@ -260,6 +263,13 @@ public class MainController {
 			WSeminar.instance.selectStartVertex = false;
 			WSeminar.instance.selectGoalVertex = true;
 			path_goal.getScene().setCursor(Cursor.HAND);
+		});
+		
+		path_x.setOnAction(e -> {
+			if (WSeminar.instance.getSourceGraph() == null) return;
+			if (WSeminar.instance.goalVertex != null) WSeminar.instance.goalVertex.setState(null);
+			WSeminar.instance.selectGoalVertex = false;
+			WSeminar.instance.goalVertex = null;
 		});
 		
 		path_algorithm.getItems().addAll("DFS", "AStar"/*, "Dijkstra", "A*"*/);
@@ -460,8 +470,8 @@ public class MainController {
 			for (int i = 0; i < chart_timeline.getData().size(); i++) {
 				XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
 				
-				Path<Vertex<Integer>> path = chart_timeline.getData().size() == Type.values().length ? newVal
-						: WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV.getChildren().get(i / Type.values().length)).getPathId());
+				Path<Vertex<Integer>> path = newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()
+						? WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV.getChildren().get(i / Type.values().length)).getPathId()) : newVal;
 						
 				Color c = tldf.palette[(i % Type.values().length) * (tldf.palette.length / Type.values().length) + i / Type.values().length];
 				s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
