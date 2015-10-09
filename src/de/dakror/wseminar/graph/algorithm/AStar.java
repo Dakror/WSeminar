@@ -80,7 +80,7 @@ public class AStar<V> extends PathFinder<V> {
 		}
 		
 		Path<Vertex<V>> p = new Path<Vertex<V>>();
-		p.setUserData("AStar" + (animate ? " anim" : ""));
+		p.setUserData("AStar" + (animate ? " anim" : "") + " " + from.data() + "->" + to.data());
 		Vertex<V> v = to;
 		
 		for (Edge<Vertex<V>> e : graph.getEdges()) {

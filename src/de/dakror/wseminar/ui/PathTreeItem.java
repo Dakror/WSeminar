@@ -49,11 +49,11 @@ public class PathTreeItem<V> extends TreeItem<String> {
 	 * @param p
 	 * @return
 	 */
-	public PathTreeItem<V> insert(Path<Vertex<V>> p) {
+	public PathTreeItem<V> insert(Path<Vertex<V>> p, boolean batch) {
 		if (p == null) return null;
 		
 		for (TreeItem<String> ti : getChildren()) {
-			if (ti.getValue().equals(p.toGrouperString())) {
+			if (ti.getValue().equals(p.toGrouperString()) || (batch && isSameBatch(ti.getValue(), p.toGrouperString()))) {
 				for (TreeItem<String> ti2 : ti.getChildren())
 					if (ti2.getValue().equals(p.toSpecString())) return null;
 					
@@ -62,12 +62,19 @@ public class PathTreeItem<V> extends TreeItem<String> {
 				return pti;
 			}
 		}
-		PathTreeItem<V> pti = new PathTreeItem<V>(p.toGrouperString());
+		
+		String gr = p.toGrouperString();
+		
+		PathTreeItem<V> pti = new PathTreeItem<V>(batch ? (gr.substring(0, gr.lastIndexOf("(")) + "( * )") : gr);
 		PathTreeItem<V> pti2 = new PathTreeItem<V>(p, true);
 		
 		pti.getChildren().add(pti2);
 		
 		getChildren().add(pti);
 		return pti2;
+	}
+	
+	boolean isSameBatch(String s1, String s2) {
+		return s1.substring(0, s1.indexOf("->")).equals(s2.substring(0, s2.indexOf("->")));
 	}
 }

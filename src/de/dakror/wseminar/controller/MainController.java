@@ -316,6 +316,7 @@ public class MainController {
 			} else batch = false;
 			
 			new Thread() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public void run() {
 					try {
@@ -339,7 +340,7 @@ public class MainController {
 									}
 									Platform.runLater(() -> {
 										PathTreeItem<Integer> pti = null;
-										if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) != null) {
+										if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p, true)) != null) {
 											WSeminar.instance.paths.put(p.hashCode(), p);
 											path_tree.getSelectionModel().select(pti);
 										}
@@ -362,7 +363,7 @@ public class MainController {
 									Stage stage = WSeminar.createDialog("alert", "Wegfindung", WSeminar.window);
 									((Label) stage.getScene().lookup("#message")).setText("Wegfindung fehlgeschlagen");
 									((Label) stage.getScene().lookup("#details")).setText("Womöglich konnte der Weg aufgrund eines nicht vollständig zusammenhängenden oder gerichteten Graphen gefunden werden. Bitte wählen Sie andere Endknoten zur Wegfindung.");
-								} else if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p)) != null) {
+								} else if ((pti = ((PathTreeItem<Integer>) path_tree.getRoot()).insert(p, false)) != null) {
 									WSeminar.instance.paths.put(p.hashCode(), p);
 									path_tree.getSelectionModel().select(pti);
 								}
@@ -456,8 +457,41 @@ public class MainController {
 				chart_table.getItems().add(newVal);
 			}
 			
+			for (int i = 0; i < chart_timeline.getData().size(); i++) {
+				XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
+				
+				Path<Vertex<Integer>> path = chart_timeline.getData().size() == Type.values().length ? newVal
+						: WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV.getChildren().get(i / Type.values().length)).getPathId());
+						
+				Color c = tldf.palette[(i % Type.values().length) * (tldf.palette.length / Type.values().length) + i / Type.values().length];
+				s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
+				
+				for (XYChart.Data<Long, Integer> d : s.getData()) {
+					Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue() + " "
+							+ s.getName());
+					hackTooltipStartTiming(tt);
+					d.getNode().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white", c.getRed(), c.getGreen(), c.getBlue()));
+					Tooltip.install(d.getNode(), tt);
+				}
+			}
+			
 			Legend l = (Legend) chart_timeline.getChartLegend();
 			l.setItems(new ObservableListWrapper<>(l.getItems().subList(0, Type.values().length)));
+			
+			for (Node n : l.lookupAll(".chart-legend-item")) {
+				n.setOnMouseClicked(e -> {
+					if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
+					else n.getStyleClass().remove("disabled");
+					
+					boolean ds = n.getStyleClass().contains("disabled");
+					
+					for (int i = Type.getByDesc(((Label) n).getText()).ordinal(); i < chart_timeline.getData().size(); i += Type.values().length) {
+						XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
+						s.getNode().setVisible(!ds);
+						s.getData().forEach(d -> d.getNode().setVisible(!ds));
+					}
+				});
+			}
 			
 			for (int i = 0; i < l.getItems().size(); i++) {
 				Color c = tldf.palette[(i % Type.values().length) * (tldf.palette.length / Type.values().length)];
@@ -469,9 +503,7 @@ public class MainController {
 		tc.setCellValueFactory(p -> new ReadOnlyObjectWrapper<String>(p.getValue().getUserData().toString()));
 		chart_table.getColumns().add(tc);
 		
-		for (Type t : Type.values())
-		
-		{
+		for (Type t : Type.values()) {
 			if (t.name().endsWith("SIZE")) {
 				TableColumn<Path<Vertex<Integer>>, Integer> tc2 = new TableColumn<>("min. " + t.desc);
 				tc2.setCellValueFactory(p -> new ReadOnlyObjectWrapper<Integer>((int) p.getValue().getBenchmark().getMin(t)));
@@ -569,7 +601,6 @@ public class MainController {
 	}
 	
 	class TimeLineDataFiller {
-		int count = 0;
 		Color palette[];
 		int highestX = 0;
 		int highestY = 0;
@@ -594,44 +625,8 @@ public class MainController {
 					XYChart.Data<Long, Integer> d = new XYChart.Data<>((long) (ts.time / (path.getUserData().toString().contains("anim") ? 1000f : 1)), (int) ts.stamp);
 					series.getData().add(d);
 				}
-				
-				int prevSize = chart_timeline.getData().size();
 				chart_timeline.getData().add(series);
-				
-				for (int i = prevSize; i < chart_timeline.getData().size(); i++) {
-					XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
-					
-					Color c = palette[(i % Type.values().length) * (palette.length / Type.values().length) + count];
-					s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
-					
-					for (XYChart.Data<Long, Integer> d : s.getData()) {
-						Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue()
-								+ " " + s.getName());
-						hackTooltipStartTiming(tt);
-						d.getNode().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white", c.getRed(), c.getGreen(), c.getBlue()));
-						Tooltip.install(d.getNode(), tt);
-					}
-				}
 			}
-			
-			Legend l = (Legend) chart_timeline.getChartLegend();
-			
-			for (Node n : l.lookupAll(".chart-legend-item")) {
-				n.setOnMouseClicked(e -> {
-					if (!n.getStyleClass().contains("disabled")) n.getStyleClass().add("disabled");
-					else n.getStyleClass().remove("disabled");
-					
-					boolean ds = n.getStyleClass().contains("disabled");
-					
-					for (int i = Type.getByDesc(((Label) n).getText()).ordinal(); i < chart_timeline.getData().size(); i += Type.values().length) {
-						XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
-						s.getNode().setVisible(!ds);
-						s.getData().forEach(d -> d.getNode().setVisible(!ds));
-					}
-				});
-			}
-			
-			count++;
 		}
 	}
 }
