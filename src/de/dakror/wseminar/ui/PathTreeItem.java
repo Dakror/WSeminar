@@ -58,6 +58,11 @@ public class PathTreeItem<V> extends TreeItem<String> {
 					if (ti2.getValue().equals(p.toSpecString())) return null;
 					
 				PathTreeItem<V> pti = new PathTreeItem<V>(p, true);
+				
+				if (batch && !ti.getValue().endsWith("( * )")) {
+					ti.setValue(ti.getValue().substring(0, ti.getValue().indexOf("->") + 2) + " ( * )");
+				}
+				
 				ti.getChildren().add(pti);
 				return pti;
 			}

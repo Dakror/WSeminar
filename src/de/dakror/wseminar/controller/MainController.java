@@ -59,6 +59,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
@@ -69,6 +70,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -272,7 +274,7 @@ public class MainController {
 			WSeminar.instance.goalVertex = null;
 		});
 		
-		path_algorithm.getItems().addAll("DFS", "AStar"/*, "Dijkstra", "A*"*/);
+		path_algorithm.getItems().addAll("DFS", "AStar"/*, "Dijkstra"*/);
 		path_algorithm.setValue(path_algorithm.getItems().get(0));
 		
 		path_tree.setRoot(new PathTreeItem<Integer>("Pfade"));
@@ -390,39 +392,14 @@ public class MainController {
 		chart_timeline.setAnimated(false);
 		chart_timeline.setCreateSymbols(true);
 		
-		/*chart_timeline.setOnDragDetected(e -> {
-			chart_timeline.startFullDrag();
-			Number x = chart_timeline.getXAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getX());
-			Number y = chart_timeline.getYAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getY());
-			dragStartX = x.floatValue();
-			dragStartY = y.floatValue();
-		});
-		
-		chart_timeline.setOnMouseDragReleased(e -> {
-			Number x = chart_timeline.getXAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getX());
-			Number y = chart_timeline.getYAxis().getValueForDisplay(e.getPickResult().getIntersectedPoint().getY());
-			
-			chart_timeline.getXAxis().setAutoRanging(false);
-			ValueAxis<Long> xAxis = (ValueAxis<Long>) (chart_timeline.getXAxis());
-			xAxis.setLowerBound((int) Math.min(x.floatValue(), dragStartX));
-			xAxis.setUpperBound((int) Math.max(x.floatValue(), dragStartX));
-			
-			chart_timeline.getYAxis().setAutoRanging(false);
-			ValueAxis<Integer> yAxis = (ValueAxis<Integer>) (chart_timeline.getYAxis());
-			yAxis.setLowerBound((int) Math.min(y.floatValue(), dragStartY));
-			yAxis.setUpperBound((int) Math.max(y.floatValue(), dragStartY));
-		});
-		
-		chart_timeline.setOnMousePressed(e -> {
-			if (e.getButton() == MouseButton.SECONDARY) {
-				chart_timeline.getXAxis().setAutoRanging(true);
-				chart_timeline.getYAxis().setAutoRanging(true);
-			}
-		});*/
-		
 		chart_alltime.setAnimated(false);
 		
+		path_tree_benchmark.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		
 		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
+			
+						path_tree_benchmark.getSelectionModel().getSelectedItems().forEach(new
+			
 			if (newV == null) return;
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			chart_timeline.getData().clear();
@@ -480,6 +457,7 @@ public class MainController {
 					Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue() + " "
 							+ s.getName());
 					hackTooltipStartTiming(tt);
+					((StackPane) d.getNode()).setPrefSize(8, 8);
 					d.getNode().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white", c.getRed(), c.getGreen(), c.getBlue()));
 					Tooltip.install(d.getNode(), tt);
 				}
