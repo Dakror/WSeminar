@@ -234,7 +234,9 @@ public class MainController {
 		graph.getParent().setOnMouseExited(e -> scrollMouse.zero());
 		
 		// new_graph
-		menu_graph.getItems().get(0).setOnAction(e -> createGenerateDialog());
+		menu_graph.getItems().get(0).setOnAction(e -> {
+			if (!animatingPathFinding) createGenerateDialog();
+		});
 		
 		// relayout_graph, JFX bug!
 		menu_graph.getItems().get(1).setOnAction(e -> {
@@ -331,6 +333,7 @@ public class MainController {
 				public void run() {
 					try {
 						animatingPathFinding = true;
+						menu_graph.getItems().get(0).setDisable(true);
 						menu_graph.getItems().get(1).setDisable(true);
 						
 						Class<?> c = Class.forName("de.dakror.wseminar.graph.algorithm." + path_algorithm.getValue());
@@ -364,6 +367,7 @@ public class MainController {
 							Visualizer.setEnabled(true);
 							
 							animatingPathFinding = false;
+							menu_graph.getItems().get(0).setDisable(false);
 							menu_graph.getItems().get(1).setDisable(false);
 							
 							Platform.runLater(() -> {

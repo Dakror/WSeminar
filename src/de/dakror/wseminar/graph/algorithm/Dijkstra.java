@@ -61,13 +61,15 @@ public class Dijkstra<V> extends PathFinder<V> {
 		
 		boolean found = false;
 		
+		Vertex<V> v = null;
+		
 		while (!list.isEmpty()) {
 			Collections.sort(list, (a, b) -> {
 				int c = Float.compare(a.get(InfPath.class).d, b.get(InfPath.class).d);
 				if (c == 0) return a.data().toString().compareTo(b.data().toString());
 				return c;
 			});
-			Vertex<V> v = list.remove(0);
+			v = list.remove(0);
 			Visualizer.setVertexState(v, State.CLOSEDLIST, true);
 			
 			if (v.equals(to)) {
@@ -82,7 +84,6 @@ public class Dijkstra<V> extends PathFinder<V> {
 		
 		Path<Vertex<V>> p = new Path<Vertex<V>>();
 		p.setUserData("Dijkstra" + (animate ? " anim" : "") + " " + from.data() + "->" + to.data());
-		Vertex<V> v = to;
 		
 		for (Edge<Vertex<V>> e : graph.getEdges()) {
 			Visualizer.setEdgePath(e, false, false, false);
@@ -90,6 +91,9 @@ public class Dijkstra<V> extends PathFinder<V> {
 		
 		while (v != null) {
 			p.add(0, v);
+			
+			System.out.println(v);
+			
 			if (v.get(InfPath.class).parent != null) {
 				Visualizer.setEdgePath(graph.getEdge(v, v.get(InfPath.class).parent), true, true);
 			}
