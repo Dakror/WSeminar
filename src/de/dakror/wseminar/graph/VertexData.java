@@ -46,12 +46,15 @@ public class VertexData {
 		public boolean visited = true;
 	}
 	
-	public static class Heuristics<V> {
-		public Vertex<V> parent;
+	public static class Heuristics<V> extends PathCommons<V> {
 		public float G, H;
 		
 		public float F() {
 			return G + H;
 		}
+	}
+	
+	public static class InfPath<V> extends PathCommons<V> {
+		public float d = Float.MAX_VALUE;
 	}
 }

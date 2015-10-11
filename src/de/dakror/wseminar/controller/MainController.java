@@ -14,7 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 
-
 package de.dakror.wseminar.controller;
 
 import java.awt.Color;
@@ -59,7 +58,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
@@ -274,7 +272,7 @@ public class MainController {
 			WSeminar.instance.goalVertex = null;
 		});
 		
-		path_algorithm.getItems().addAll("DFS", "AStar"/*, "Dijkstra"*/);
+		path_algorithm.getItems().addAll("DFS", "Dijkstra", "AStar");
 		path_algorithm.setValue(path_algorithm.getItems().get(0));
 		
 		path_tree.setRoot(new PathTreeItem<Integer>("Pfade"));
@@ -394,11 +392,11 @@ public class MainController {
 		
 		chart_alltime.setAnimated(false);
 		
-		path_tree_benchmark.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		//		path_tree_benchmark.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
 		path_tree_benchmark.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newV) -> {
 			
-						path_tree_benchmark.getSelectionModel().getSelectedItems().forEach(new
+			//						path_tree_benchmark.getSelectionModel().getSelectedItems().forEach(new
 			
 			if (newV == null) return;
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
