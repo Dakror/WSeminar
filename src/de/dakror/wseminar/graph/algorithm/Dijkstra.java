@@ -92,8 +92,6 @@ public class Dijkstra<V> extends PathFinder<V> {
 		while (v != null) {
 			p.add(0, v);
 			
-			System.out.println(v);
-			
 			if (v.get(InfPath.class).parent != null) {
 				Visualizer.setEdgePath(graph.getEdge(v, v.get(InfPath.class).parent), true, true);
 			}
