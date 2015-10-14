@@ -45,7 +45,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -62,7 +61,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
@@ -101,21 +99,21 @@ public class WSeminar extends Application {
 		window = primaryStage;
 		
 		primaryStage.setOnCloseRequest(e -> System.exit(0));
-		primaryStage.setMaximized(true);
-		/*primaryStage.minWidthProperty().set(1280);
-		primaryStage.minHeightProperty().set(800);*/
+		//primaryStage.setMaximized(true);
+		primaryStage.minWidthProperty().set(1280);
+		primaryStage.minHeightProperty().set(800);
 		primaryStage.setScene(createScene("main"));
 		
 		primaryStage.setTitle("WSeminar Extrema: Wegfindung - Maximilian Stark");
 		
 		primaryStage.getIcons().addAll(getImage("mind_map-24.png"), getImage("mind_map-32.png"));
 		
-		//TODO: DEBUG REMOVE THAT
+		/*//TODO: DEBUG REMOVE THAT
 		Rectangle2D r = Screen.getScreens().get(2).getBounds();
 		primaryStage.setX(r.getMinX());
 		primaryStage.setY(r.getMinY());
 		primaryStage.setWidth(r.getWidth());
-		primaryStage.setHeight(r.getHeight());
+		primaryStage.setHeight(r.getHeight());*/
 		
 		primaryStage.show();
 	}
