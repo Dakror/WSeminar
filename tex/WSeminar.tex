@@ -1,10 +1,11 @@
 \documentclass[12pt]{article}
-\usepackage[german]{babel}
+\usepackage[ngerman]{babel}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{setspace}
 \setstretch{1.5}
+\usepackage[paper=a4paper,left=25mm,right=35mm,top=25mm,bottom=2mm]{geometry}
 
 \hypersetup{
     colorlinks,
@@ -31,7 +32,13 @@
 \newpage
 
 \section{Grundlagen und Terminologie}
-\newpage
+Zu Beginn werden in diesem Abschnitt die grundlegenden Begriffe der Graphen-Theorie geklärt. Auch Fachbegriffe aus der Implementierung durch die Informatik werden erläutert.
+\\
+Das Fundament der Graphen-Theorie ist der namensgebende \textit{Graph} $G\; = \{\;V,\;E\;\}$, welcher aus einer Menge von \textit{Knoten} $V$ (von engl. "`Vertex") und aus einer Menge \textit{Kanten} $E$ (von engl. "`Edge").\\
+  Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und einen \textit{Endknoten}. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich das als Pfeil interpretieren, da die Verbindung monodirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
+\\
+In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}-Paar nur einfach verbunden ist, reicht in der Implementierung dieser Ansatz aus.
+
 
 \section{Aufbau und Bedienung des Programms}
 \newpage
