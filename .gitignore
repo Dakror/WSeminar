@@ -220,5 +220,6 @@ project/
 #Ignore all files in /tex except for .tex and .pdf files
 
 tex/*
+!tex/res
 !tex/*.tex
 !tex/*.pdf
