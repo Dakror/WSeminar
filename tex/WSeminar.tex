@@ -40,7 +40,7 @@ Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \text
 \\\\
 Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, welcher aus einer Menge von \textit{Knoten} $V$ (von engl. "`Vertex") und aus einer Menge \textit{Kanten} $E$ (von engl. "`Edge").
 \\
-Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und einen \textit{Endknoten}. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich das als Pfeil interpretieren, da die Verbindung monodirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
+Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und einen \textit{Endknoten}. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich das als Pfeil interpretieren, da die Verbindung unidirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
 \\
 In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}-Paar nur einfach verbunden ist, reicht in der Implementierung dieser Ansatz aus.
 \\
@@ -54,15 +54,18 @@ Geschrieben ist das Programm in der Programmiersprache \textit{Java} unter Verwe
 \begin{figure}[h!]
 \includegraphics[width=\textwidth]{res/main_screenshot.png}
 \centering
-\caption{Die Start- und Hauptansicht der Applikation\label{fig:main_screenshot}}
+\caption{Die Start- und Hauptansicht der Applikation}
+\label{fig:main_screenshot}
 \end{figure}
-Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detailierte Informationen über den \texti{Graphen}, bereits berechnete \texit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs" unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (siehe \cite{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des Graphen, als auch der Vergleichstatistiken und Tabellen.
+\\
+Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs" unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (siehe Abb.~\ref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des Graphen, als auch der Vergleichsstatistiken und Tabellen.
+\\
+Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Features visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys" zu mehr Komfort oder Genauigkeit der Anwendung. 
 \newpage
 -
 \newpage
-
 \section{Konstruktion des Graphen}
-
+Im nächsten Schritt werden wir nun einen Graphen erzeugen lassen und die Funktionsweise des Generators betrachten.
 \newpage
 
 \section{Visuelles Layout des Graphen}
