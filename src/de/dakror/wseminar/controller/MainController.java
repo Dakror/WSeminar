@@ -309,6 +309,9 @@ public class MainController {
 			
 			if (newV == null) return;
 			
+			WSeminar.instance.startVertex = null;
+			WSeminar.instance.goalVertex = null;
+			
 			Path<Vertex<Integer>> newVal = WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV).getPathId());
 			path_delete.setDisable(path_tree.getRoot().equals(newV));
 			
