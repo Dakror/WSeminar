@@ -66,6 +66,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -150,6 +152,9 @@ public class MainController {
 	@FXML
 	private TableView<Path<Vertex<Integer>>> chart_table;
 	
+	@FXML
+	private Label seed_label;
+	
 	float lastX = -1, lastY = -1;
 	
 	float dragStartX, dragStartY;
@@ -186,6 +191,16 @@ public class MainController {
 				pane.setTranslateY(pane.translateYProperty().add(mouseY - (mouseY / a.getHeight() * b.getHeight())).get());
 			}
 		});
+		
+		Tooltip tooltip = new Tooltip("Klicken, um zu kopieren.");
+		hackTooltipStartTiming(tooltip);
+		seed_label.setOnMouseClicked(e -> {
+			Clipboard clipboard = Clipboard.getSystemClipboard();
+			ClipboardContent content = new ClipboardContent();
+			content.putString("" + WSeminar.seed);
+			clipboard.setContent(content);
+		});
+		Tooltip.install(seed_label, tooltip);
 		
 		graph.getParent().setOnScroll(e -> {
 			if (graph != null && graph.isVisible()) {
