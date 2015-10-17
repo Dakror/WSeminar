@@ -3,11 +3,14 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+
 \usepackage{setspace}
 \setstretch{1.5}
 \usepackage[paper=a4paper,left=25mm,right=35mm,top=25mm,bottom=20mm]{geometry}
 \usepackage{graphicx}
-
+\usepackage{wrapfig}
+%\usepackage{lipsum}
+%
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -17,6 +20,9 @@
 }
 
 \begin{document}
+
+\renewcommand{\figurename}{Abb.}
+\def\figureautorefname{Abb.}
 
 \title{Extremwertproblem Wegfindung \\  \large{\enspace Vergleich verschiedener Algorithmen}}
 
@@ -34,43 +40,75 @@
 \newpage
 
 \section{Grundlagen und Terminologie}
+\label{sec:basics}
 Zu Beginn werden in diesem Abschnitt die grundlegenden Begriffe der Graphen-Theorie geklärt. Auch Fachbegriffe aus der Implementierung durch die Informatik werden erläutert.
 \\
 Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten\textit{Graphen}.
-\\\\
-Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, welcher aus einer Menge von \textit{Knoten} $V$ (von engl. "`Vertex") und aus einer Menge \textit{Kanten} $E$ (von engl. "`Edge").
 \\
-Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und einen \textit{Endknoten}. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich das als Pfeil interpretieren, da die Verbindung unidirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
+Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ 
+(von engl. "`Vertex") und aus einer Menge \textit{Kanten} $E$ (von engl. "`Edge").
 \\
-In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}-Paar nur einfach verbunden ist, reicht in der Implementierung dieser Ansatz aus.
+Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und
+einen \textit{Endknoten}. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich das als Pfeil interpretieren, da die Verbindung unidirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, 
+denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
 \\
-Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, welcher allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt. Mehr dazu in Abschnitt \ref{sec:layout}.
+In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}-Paar nur einfach verbunden ist, reicht in der Implementierung 
+dieser Ansatz aus.
+\\
+Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, welcher allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
+\\
+Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseodozufalls}-generator verwendet. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen von Zahlen 
+und genügt für unsere Zwecke. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt werden 
+kann.
 \newpage
 \section{Aufbau und Bedienung des Programms}
+\label{sec:manual}
 Das Programm, im eigentlichen Fokus stehend, fungiert sowohl als visuelle Möglichkeit der Darstellung, als auch als Quelle für Vergleichsdaten und Messungen in selbst erzeugten Szenarien.
 Geschrieben ist das Programm in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx}.
 \begin{figure}[h!]
-\includegraphics[width=\textwidth]{res/main_screenshot.png}
+\includegraphics[width=0.8\textwidth]{res/main_screenshot.png}
 \centering
 \caption{Die Start- und Hauptansicht der Applikation}
 \label{fig:main_screenshot}
 \end{figure}
 \\
-Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs" unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (siehe Abb.~\ref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des Graphen, als auch der Vergleichsstatistiken und Tabellen.
+Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und 
+die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs" unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) 
+beschriftet, dient als Hauptansicht von sowohl des Graphen, als auch der Vergleichsstatistiken und Tabellen.
 \\
-Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Features visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys" zu mehr Komfort oder Genauigkeit der Anwendung. So kann beispielsweise das \textit{Relayout} (Abschnitt \ref{sec:layout}) des \textit{Graphen} per "`L"\;Taste, das \textit{Generieren} (Abschnitt \ref{sec:construct}) eines neuen unter Benutzung von "`N".
+Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Features visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys"\;zu mehr Komfort oder Genauigkeit 
+der Anwendung. So kann beispielsweise das \textit{Relayout} (siehe \autoref{sec:layout}) des \textit{Graphen} per "`L"\;Taste, das \textit{Generieren} (siehe \autoref{sec:construct}) eines neuen unter Benutzung 
+von "`N".
 \\
-
-\newpage
--
 \newpage
 \section{Konstruktion des Graphen}
 \label{sec:construct}
-Im nächsten Schritt werden wir nun einen Graphen erzeugen lassen und die Funktionsweise des Generators betrachten.
+Im nächsten Schritt werden wir nun einen Graphen erzeugen lassen und die Funktionsweise des Generators betrachten. 
+Durch Klicken auf "`Erstellen Sie ein neues Netz..."\;wird ein Dialog-Fenster geöffnet (\autoref{fig:new_graph_screenshot}), welches verschiedene 
+\begin{wrapfigure}{l}{0.5\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[scale=0.6]{res/new_graph_screenshot.png}
+\end{center}
+\vspace{-20pt}
+\centering
+\caption{Dialog zur \textit{Netz}-Generierung}
+\label{fig:new_graph_screenshot}
+\end{wrapfigure}
+Genererierungs-\textit{Parameter} zur Konfiguration anbietet. 
+\\
+Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Größenregler und einem 
+\textit{Seed}\footnote{\hyperref[sec:basics]{siehe Abschnitt \ref*{sec:basics} - \nameref{sec:basics}}}-Eingabefeld ausgestattet.
+Im \textit{Erweitert}-Bereich lässt sich die Generierung "`feintunen", d.h aufs Genaueste einstellen. So können die Anzahl an Maximalknoten, berechnet durch 
+\[ 
+Knoten_{Max} = \textit{Größe} * \textit{Knoten-Skalierung}
+\]
+und die maximale \textit{Kanten}-Anzahl pro \textit{Knoten} festgelegt werden. Ebenso kann die Wahl zwischen drei Typen von \textit{Kanten} getroffen werden: \textit{Ungerichtet}, \textit{Gemischt} und 
+\textit{Gerichtet}\footnotemark[1], was alle \textit{Kanten} des zu generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, dass die Gerichtetheit jeder \textit{Kante} zufallsbedingt ist.
 \newpage
-
+\clearpage
 \section{Visuelles Layout des Graphen}
 \label{sec:layout}
 \newpage
