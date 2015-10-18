@@ -23,12 +23,9 @@
 
 \renewcommand{\figurename}{Abb.}
 \def\figureautorefname{Abb.}
+\def\algorithmautorefname{Alg.}
 
-\newcommand{\Knoten}{\textit{Knoten\ }}
-\newcommand{\Kante}{\textit{Kante\ }}
-\newcommand{\Kanten}{\textit{Kanten\ }}
-
-\floatname{algorithm}{Algorithmus}
+\floatname{algorithm}{Alg.}
 
 \title{Extremwertproblem Wegfindung \\  \large{\enspace Vergleich verschiedener Algorithmen}}
 
@@ -51,23 +48,23 @@ Zu Beginn werden in diesem Abschnitt die grundlegenden Begriffe der Graphen-Theo
 \\
 Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten \textit{Graphen}.
 \\
-Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \Knoten $V$ 
-(von engl. "`Vertex") und aus einer Menge \Kanten $E$ (von engl. "`Edge").
+Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ 
+(von engl. "`Vertex") und aus einer Menge \textit{Kanten} $E$ (von engl. "`Edge").
 \\
-Zeichnerisch werden \Knoten als Punkte oder Kreise dargestellt; \Kanten als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \Kante hat einen \textit{Startknoten} und
+Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und
 einen \textit{Endknoten}. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich das als Pfeil interpretieren, da die Verbindung unidirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, 
-denen nicht nur zwei \Knoten zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \Knoten gesehen werden kann.
+denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
 \\
-In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \Knoten definiert. Da in der Regel jedes \Knoten-Paar nur einfach verbunden ist, reicht in der Implementierung 
+In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}-Paar nur einfach verbunden ist, reicht in der Implementierung 
 dieser Ansatz aus.
 \\
-Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, welcher allen \Knoten durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
+Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, welcher allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
 \\
-Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseodozufalls}-generator verwendet. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen von Zahlen 
-und genügt für unsere Zwecke. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt werden 
-kann.
+Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseodozufall}-Generator verwendet \cite{random}. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen 
+von Zahlen und genügt für unsere Zwecke. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt
+werden kann.
 \newpage
 \section{Aufbau und Bedienung des Programms}
 \label{sec:manual}
@@ -82,7 +79,7 @@ Geschrieben ist das Programm in der Programmiersprache \textit{Java} unter Verwe
 \\
 Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und 
 die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs" unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) 
-beschriftet, dient als Hauptansicht von sowohl des Graphen, als auch der Vergleichsstatistiken und Tabellen.
+beschriftet, dient als Hauptansicht von sowohl des \textit{Graphen}, als auch der Vergleichsstatistiken und Tabellen.
 \\
 Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Features visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys"\;zu mehr Komfort oder Genauigkeit 
 der Anwendung. So kann beispielsweise das \textit{Relayout} (siehe \autoref{sec:layout}) des \textit{Graphen} per "`L"\;Taste, das \textit{Generieren} (siehe \autoref{sec:construct}) eines neuen unter Benutzung 
@@ -106,18 +103,30 @@ Durch Klicken auf "`Erstellen Sie ein neues Netz..."\;wird ein Dialog-Fenster ge
 Genererierungs-\textit{Parameter} zur Konfiguration anbietet. 
 \\
 Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Regler für die Größe $s$ und einem 
-\textit{Seed}\footnote{\hyperref[sec:basics]{siehe Abschnitt \ref*{sec:basics} - \nameref{sec:basics}}}-Eingabefeld ausgestattet.
+\textit{Seed}\footnote{\hyperref[sec:basics]{Abschnitt \ref*{sec:basics} - \nameref{sec:basics}}}-Eingabefeld ausgestattet.
 \\
-Im \textit{Erweitert}-Bereich lässt sich die Generierung "`feintunen", d.h aufs Genaueste einstellen. So können die Anzahl an Maximalknoten $n_{max}$ und die maximale \Kanten-Anzahl $e_{max}$ pro \Knoten festgelegt 
-werden. Ebenso kann die Wahl zwischen drei Typen $t$ von \Kanten getroffen werden: \textit{Ungerichtet}, \textit{Gemischt} und \textit{Gerichtet}\footnotemark[1], was alle \Kanten des zu 
-generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, dass die Gerichtetheit jeder \Kante zufallsbedingt ist.
+Im \textit{Erweitert}-Bereich lässt sich die Generierung "`feintunen", d.h aufs Genaueste einstellen. So können die Anzahl an Maximalknoten $n_{max}$ und die maximale \textit{Kanten}-Anzahl $e_{max}$ pro \textit{Knoten} 
+festgelegt werden. Ebenso kann die Wahl zwischen drei Typen $t$ von \textit{Kanten} getroffen werden: \textit{Ungerichtet}, \textit{Gemischt} und \textit{Gerichtet}\footnotemark[1], was alle \textit{Kanten} des zu 
+generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, dass die Gerichtetheit jeder \textit{Kante} zufallsbedingt ist.
 \\
 Durch Bestätigen per Klick auf "`Ok" wird der Generator mit diesen \textit{Parametern} gestartet.
 \\
-Zunächst wird der Seed für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Anzahl an \Knoten berechnet und in den \textit{Graph} eingesetzt. Daraufhin wird für jeden 
-\Knoten eine Anzahl an \Kanten bestimmt und versucht, diese durch zufällige Wahl mit einem anderen \Knoten zu verbinden, wobei der jeweils gesuchte \Knoten weder der Ausgangsknoten selbst, noch ein
-bereits verbundener \Knoten sein soll. Sobald eine Kombination gefunden wurde, wird die entsprechende \Kante mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. Dann wird auf Basis des 
-\textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die \Kante im \textit{Graphen} platziert (Alg.~\autoref{alg:generatorv2}).
+Zunächst wird der Seed für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Anzahl an \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden 
+\textit{Knoten} eine Anzahl an \textit{Kanten} bestimmt. Durch das "`Clampen", d.h Einzwicken, Eingrenzen, der Start- und 
+Generierungswerte durch
+\vspace{-20pt}
+\begin{gather*}
+e = max(1,\,R(0,\;min(n/2-1,\,e_{max}))) \\
+\left(\begin{aligned}
+max(a, b) = (a > b)\;a : b\\
+min(a, b) = (a < b)\;a : b
+\end{aligned}
+\right)
+\end{gather*}
+wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich sind. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen 
+\textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der Ausgangsknoten selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, 
+wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. Dann wird auf Basis des \textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die 
+\textit{Kante} im \textit{Graphen} platziert (\autoref{alg:generatorv2}).
 \begin{algorithm}
 \caption{\textit{Graph-Generator v1} \label{alg:generator}}
 \begin{algorithmic}[1]
@@ -224,6 +233,7 @@ bereits verbundener \Knoten sein soll. Sobald eine Kombination gefunden wurde, w
 \newpage
 
 \begin{thebibliography}{9}
+\bibitem{random} Java Zufalls-Funktion http://docs.oracle.com/javase/7/docs/api/java/util/Random.html \emph{abgerufen am 18.10.15}
 \bibitem{javafx} JavaFX-Homepage http://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm \emph{abgerufen am 14.10.15}
 \end{thebibliography}
 
