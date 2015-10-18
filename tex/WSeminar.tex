@@ -104,13 +104,13 @@ Genererierungs-\textit{Parameter} zur Konfiguration anbietet.
 Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Regler für die Größe $s$ und einem 
 \textit{Seed}\footnote{\hyperref[sec:basics]{Abschnitt \ref*{sec:basics} - \nameref{sec:basics}}}-Eingabefeld ausgestattet.
 \\
-Im \textit{Erweitert}-Bereich lässt sich die Generierung "`feintunen", d.h aufs Genaueste einstellen. So können die Anzahl an Maximalknoten $n_{max}$ und die maximale \textit{Kanten}-Anzahl $e_{max}$ pro \textit{Knoten} 
+Im \textit{Erweitert}-Bereich lässt sich die Generierung aufs Genaueste einstellen. So können die Anzahl an Maximalknoten $n_{max}$ und die maximale \textit{Kanten}-Anzahl $e_{max}$ pro \textit{Knoten} 
 festgelegt werden. Ebenso kann die Wahl zwischen drei Typen $t$ von \textit{Kanten} getroffen werden: \textit{Ungerichtet}, \textit{Gemischt} und \textit{Gerichtet}\footnotemark[1], was alle \textit{Kanten} des zu 
 generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, dass die Gerichtetheit jeder \textit{Kante} zufallsbedingt ist.
 \\
 Durch Bestätigen per Klick auf "`Ok" wird der Generator mit diesen \textit{Parametern} gestartet.
 \\
-Zunächst wird der Seed für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Menge von \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden 
+Zunächst wird der \textit{Seed} für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Menge von \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden 
 \textit{Knoten} eine Anzahl an \textit{Kanten} bestimmt. Durch das "`Clampen", d.h Einzwicken, Eingrenzen, der Start- und 
 Generierungswerte durch
 \vspace{-20pt}
@@ -126,7 +126,7 @@ wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren ka
 \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der Ausgangsknoten selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, 
 wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. Dann wird auf Basis des \textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die 
 \textit{Kante} im \textit{Graphen} platziert (\autoref{alg:generatorv2}).
-\newpage
+
 \begin{algorithm}
 \caption{\textit{Graph-Generator v1} \label{alg:generator}}
 \begin{algorithmic}[1]
