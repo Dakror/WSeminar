@@ -3,14 +3,14 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
-
+\usepackage{algorithm,algpseudocode}% http://ctan.org/pkg/{algorithms,algorithmicx}
 \usepackage{setspace}
 \setstretch{1.5}
 \usepackage[paper=a4paper,left=25mm,right=35mm,top=25mm,bottom=20mm]{geometry}
 \usepackage{graphicx}
 \usepackage{wrapfig}
 %\usepackage{lipsum}
-%
+
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -23,6 +23,12 @@
 
 \renewcommand{\figurename}{Abb.}
 \def\figureautorefname{Abb.}
+
+\newcommand{\Knoten}{\textit{Knoten\ }}
+\newcommand{\Kante}{\textit{Kante\ }}
+\newcommand{\Kanten}{\textit{Kanten\ }}
+
+\floatname{algorithm}{Algorithmus}
 
 \title{Extremwertproblem Wegfindung \\  \large{\enspace Vergleich verschiedener Algorithmen}}
 
@@ -43,19 +49,19 @@
 \label{sec:basics}
 Zu Beginn werden in diesem Abschnitt die grundlegenden Begriffe der Graphen-Theorie geklärt. Auch Fachbegriffe aus der Implementierung durch die Informatik werden erläutert.
 \\
-Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten\textit{Graphen}.
+Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten \textit{Graphen}.
 \\
-Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ 
-(von engl. "`Vertex") und aus einer Menge \textit{Kanten} $E$ (von engl. "`Edge").
+Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \Knoten $V$ 
+(von engl. "`Vertex") und aus einer Menge \Kanten $E$ (von engl. "`Edge").
 \\
-Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und
+Zeichnerisch werden \Knoten als Punkte oder Kreise dargestellt; \Kanten als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \Kante hat einen \textit{Startknoten} und
 einen \textit{Endknoten}. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich das als Pfeil interpretieren, da die Verbindung unidirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, 
-denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
+denen nicht nur zwei \Knoten zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \Knoten gesehen werden kann.
 \\
-In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}-Paar nur einfach verbunden ist, reicht in der Implementierung 
+In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \Knoten definiert. Da in der Regel jedes \Knoten-Paar nur einfach verbunden ist, reicht in der Implementierung 
 dieser Ansatz aus.
 \\
-Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, welcher allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
+Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, welcher allen \Knoten durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
 \\
@@ -99,14 +105,92 @@ Durch Klicken auf "`Erstellen Sie ein neues Netz..."\;wird ein Dialog-Fenster ge
 \end{wrapfigure}
 Genererierungs-\textit{Parameter} zur Konfiguration anbietet. 
 \\
-Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Größenregler und einem 
+Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Regler für die Größe $s$ und einem 
 \textit{Seed}\footnote{\hyperref[sec:basics]{siehe Abschnitt \ref*{sec:basics} - \nameref{sec:basics}}}-Eingabefeld ausgestattet.
-Im \textit{Erweitert}-Bereich lässt sich die Generierung "`feintunen", d.h aufs Genaueste einstellen. So können die Anzahl an Maximalknoten, berechnet durch 
-\[ 
-Knoten_{Max} = \textit{Größe} * \textit{Knoten-Skalierung}
-\]
-und die maximale \textit{Kanten}-Anzahl pro \textit{Knoten} festgelegt werden. Ebenso kann die Wahl zwischen drei Typen von \textit{Kanten} getroffen werden: \textit{Ungerichtet}, \textit{Gemischt} und 
-\textit{Gerichtet}\footnotemark[1], was alle \textit{Kanten} des zu generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, dass die Gerichtetheit jeder \textit{Kante} zufallsbedingt ist.
+\\
+Im \textit{Erweitert}-Bereich lässt sich die Generierung "`feintunen", d.h aufs Genaueste einstellen. So können die Anzahl an Maximalknoten $n_{max}$ und die maximale \Kanten-Anzahl $e_{max}$ pro \Knoten festgelegt 
+werden. Ebenso kann die Wahl zwischen drei Typen $t$ von \Kanten getroffen werden: \textit{Ungerichtet}, \textit{Gemischt} und \textit{Gerichtet}\footnotemark[1], was alle \Kanten des zu 
+generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, dass die Gerichtetheit jeder \Kante zufallsbedingt ist.
+\\
+Durch Bestätigen per Klick auf "`Ok" wird der Generator mit diesen \textit{Parametern} gestartet.
+\\
+Zunächst wird der Seed für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Anzahl an \Knoten berechnet und in den \textit{Graph} eingesetzt. Daraufhin wird für jeden 
+\Knoten eine Anzahl an \Kanten bestimmt und versucht, diese durch zufällige Wahl mit einem anderen \Knoten zu verbinden, wobei der jeweils gesuchte \Knoten weder der Ausgangsknoten selbst, noch ein
+bereits verbundener \Knoten sein soll. Sobald eine Kombination gefunden wurde, wird die entsprechende \Kante mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. Dann wird auf Basis des 
+\textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die \Kante im \textit{Graphen} platziert (Alg.~\autoref{alg:generatorv2}).
+\begin{algorithm}
+\caption{\textit{Graph-Generator v1} \label{alg:generator}}
+\begin{algorithmic}[1]
+\Statex
+\Require {Zufallsgenerator R, max. Kantengewicht $W_{max} = 30$}
+\Ensure {Graph g}
+\Statex
+\Procedure{generateGraph}{$seed$, s, $n_{max}$, $e_{max}$, $t$}
+	\State $R.seed \gets seed$
+	\State $n \gets (R(0,\,n_{max}/2) + n_{max}/2) * s$
+	\State add \textit{n} nodes to \textit{g}
+	\For {$i=0 \to n$}
+		\State $e \gets max(1,\,R(0,\;min(n/2-1,\,e_{max})))$
+		\For {$j=0 \to e$}
+			\State $index \gets i$
+			\Repeat 
+				\State $index \gets R(0,\,n)$
+			\Until $index = i \text{ or \textit{g.nodes}[\textit{i}] is connected to \textit{g.nodes}[\textit{index}]}$
+			
+			\State $e \gets \text{edge from \textit{g.nodes}[\textit{i}] to \textit{g.nodes}[\textit{index}], } w = R(0, W_{max})$
+			\If {$t = 1 \text{ or } (t = 2 \text{ and } R() > R())$}
+				\State $e.directed \gets true$
+			\EndIf
+			\State add \textit{e} to \textit{g}
+		\EndFor
+	\EndFor
+\EndProcedure
+
+\end{algorithmic}
+\end{algorithm}
+
+% damit die erste fassung komplett auf english bleibt erst hier 
+\renewcommand{\algorithmicrequire}{\textbf{geg.:}}
+\renewcommand{\algorithmicensure}{\textbf{ges.:}}
+\renewcommand{\algorithmicprocedure}{\textbf{prozedur}}
+\renewcommand{\algorithmicfor}{\textbf{für}}
+\renewcommand{\algorithmicdo}{\textbf{wiederhole}}
+\renewcommand{\algorithmicend}{\textbf{ende}}
+\renewcommand{\algorithmicrepeat}{\textbf{wiederhole}}
+\renewcommand{\algorithmicif}{\textbf{wenn}}
+\renewcommand{\algorithmicthen}{\textbf{dann}}
+\renewcommand{\algorithmicuntil}{\textbf{solange}} % for the classic do ... while
+\newcommand{\sei}{\textbf{sei }}
+
+\begin{algorithm}
+\caption{\textit{Graph-Generator v2} \label{alg:generatorv2}}
+\begin{algorithmic}[1]
+\Statex
+\Require {Zufallsgenerator R, max. Kantengewicht $W_{max} = 30$}
+\Ensure {Graph g}
+\Statex
+\Procedure{generiereGraph}{$seed$, $g$, $n_{max}$, $e_{max}$, $t$}
+	\State setze Seed von $R$ zu $seed$
+	\State \sei $n$ $R(n_{max}/2,\,n_{max}) * s$ \Comment Zufällige Anzahl im Interval $\big[n_{max}/2;\;n_{max}\big[$
+	\State füge $n$ $Knoten$ zu $g$ hinzu
+	\For {$i=0 \to n$}
+		\State \sei $e$ $max(1,\,R(0,\;min(n/2-1,\,e_{max})))$ \Comment $max(a,b$) = Größerer Wert
+		\For {$j=0 \to e$}
+			\State \sei $index$ $i$
+			\Repeat 
+			\State \sei $index$ $R(0,\,n)$
+			\Until $index$ gleich $i$ oder $Knoten_{i}$ mit $Knoten_{index}$ verbunden
+			\State \sei $e$ Kante von $Knoten_{i}$ zu $Knoten_{index}$, Gewicht $w = R(0, W_{max})$
+			\If {$t =$ \textsc{Gemischt} oder $(t =$ \textsc{Gerichtet} und $R() > R())$} \State \Comment $R>R =$ Zufallstest
+				\State setze $e$ gerichtet
+			\EndIf
+			\State füge $e$ zu $g$ hinzu
+		\EndFor
+	\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 \newpage
 \clearpage
 \section{Visuelles Layout des Graphen}
