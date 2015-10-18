@@ -110,7 +110,7 @@ generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, d
 \\
 Durch Bestätigen per Klick auf "`Ok" wird der Generator mit diesen \textit{Parametern} gestartet.
 \\
-Zunächst wird der Seed für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Anzahl an \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden 
+Zunächst wird der Seed für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Menge von \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden 
 \textit{Knoten} eine Anzahl an \textit{Kanten} bestimmt. Durch das "`Clampen", d.h Einzwicken, Eingrenzen, der Start- und 
 Generierungswerte durch
 \vspace{-20pt}
@@ -122,10 +122,11 @@ min(a, b) = (a < b)\;a : b
 \end{aligned}
 \right)
 \end{gather*}
-wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich sind. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen 
+wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen 
 \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der Ausgangsknoten selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, 
 wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. Dann wird auf Basis des \textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die 
 \textit{Kante} im \textit{Graphen} platziert (\autoref{alg:generatorv2}).
+\newpage
 \begin{algorithm}
 \caption{\textit{Graph-Generator v1} \label{alg:generator}}
 \begin{algorithmic}[1]
@@ -182,7 +183,7 @@ wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \te
 	\State \sei $n$ $R(n_{max}/2,\,n_{max}) * s$ \Comment Zufällige Anzahl im Interval $\big[n_{max}/2;\;n_{max}\big[$
 	\State füge $n$ $Knoten$ zu $g$ hinzu
 	\For {$i=0 \to n$}
-		\State \sei $e$ $max(1,\,R(0,\;min(n/2-1,\,e_{max})))$ \Comment $max(a,b$) = Größerer Wert
+		\State \sei $e$ $max(1,\,R(0,\;min(n/2-1,\,e_{max})))$
 		\For {$j=0 \to e$}
 			\State \sei $index$ $i$
 			\Repeat 
@@ -200,7 +201,6 @@ wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \te
 \end{algorithm}
 
 \newpage
-\clearpage
 \section{Visuelles Layout des Graphen}
 \label{sec:layout}
 \newpage
