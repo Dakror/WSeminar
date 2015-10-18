@@ -3,13 +3,12 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
-\usepackage{algorithm,algpseudocode}% http://ctan.org/pkg/{algorithms,algorithmicx}
+\usepackage{algorithm,algpseudocode}
 \usepackage{setspace}
 \setstretch{1.5}
 \usepackage[paper=a4paper,left=25mm,right=35mm,top=25mm,bottom=20mm]{geometry}
 \usepackage{graphicx}
 \usepackage{wrapfig}
-%\usepackage{lipsum}
 
 \hypersetup{
     colorlinks,
@@ -178,7 +177,7 @@ wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \te
 \Require {Zufallsgenerator R, max. Kantengewicht $W_{max} = 30$}
 \Ensure {Graph g}
 \Statex
-\Procedure{generiereGraph}{$seed$, $g$, $n_{max}$, $e_{max}$, $t$}
+\Procedure{generiereGraph}{$seed$, $s$, $n_{max}$, $e_{max}$, $t$}
 	\State setze Seed von $R$ zu $seed$
 	\State \sei $n$ $R(n_{max}/2,\,n_{max}) * s$ \Comment Zufällige Anzahl im Interval $\big[n_{max}/2;\;n_{max}\big[$
 	\State füge $n$ $Knoten$ zu $g$ hinzu
