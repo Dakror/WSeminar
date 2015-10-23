@@ -117,8 +117,8 @@ Generierungswerte durch
 \begin{gather*}
 e = max(1,\,R(0,\;min(n/2-1,\,e_{max}))) \\
 \left(\begin{aligned}
-max(a, b) = (a > b)\;a : b\\
-min(a, b) = (a < b)\;a : b
+max(a, b) \to \text{Größere der beiden Parameter}\\
+min(a, b) \to \text{Kleinere der beiden Parameter}
 \end{aligned}
 \right)
 \end{gather*}
@@ -200,9 +200,11 @@ wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \te
 \end{algorithmic}
 \end{algorithm}
 
-\newpage
+\clearpage
 \section{Visuelles Layout des Graphen}
 \label{sec:layout}
+In vorangegangen Abschnitten wurde das grundlegende Konzept eines \textit{Graphen} bereits dargestellt. Wenn man sich nun Gedanken dazu macht, wie denn ein solch abstraktes Konstrukt optimal visuell zu präsentieren ist,
+begibt man sich in die Thematik des \textit{Layouts} (von engl. "`Anordnung") eines \textit{Graphen}.
 \newpage
 
 \section{Wegfindungs-Algorithmen}
