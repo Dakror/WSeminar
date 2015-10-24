@@ -33,7 +33,6 @@
 \maketitle
 \thispagestyle{empty}
 \clearpage
-mid
 
 \tableofcontents
 \thispagestyle{empty}
@@ -70,11 +69,12 @@ werden kann.
 \section{Aufbau und Bedienung des Programms}
 \label{sec:manual}
 Das Programm, im eigentlichen Fokus stehend, fungiert sowohl als visuelle Möglichkeit der Darstellung, als auch als Quelle für Vergleichsdaten und Messungen in selbst erzeugten Szenarien.
-Geschrieben ist das Programm in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx}.
+Im weiteren Verlauf wird es als \textit{PathFinder} bezeichnet.\\
+Geschrieben ist die Anwendung in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx}.
 \begin{figure}[h!]
 \includegraphics[width=0.8\textwidth]{res/main_screenshot.png}
 \centering
-\caption{Die Start- und Hauptansicht der Applikation}
+\caption{Die Start- und Hauptansicht von \textit{PathFinder}}
 \label{fig:main_screenshot}
 \end{figure}
 \\
@@ -127,7 +127,7 @@ min(a, b) \to \text{Kleinere der beiden Parameter}
 wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen 
 \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der Ausgangsknoten selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, 
 wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. Dann wird auf Basis des \textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die 
-\textit{Kante} im \textit{Graphen} platziert (\autoref{alg:generatorv2}).
+\textit{Kante} im \textit{Graphen} platziert (\autoref{alg:generatorv2})\footnote{vgl. Anhang: GraphGenerator.java}.
 
 \begin{algorithm}
 \caption{\textit{Graph-Generator v1} \label{alg:generator}}
@@ -201,7 +201,6 @@ wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \te
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-
 \clearpage
 \section{Visuelles Layout des Graphen}
 \label{sec:layout}
@@ -212,6 +211,8 @@ simulieren ein einem großen Molekül ähnelndes Konstrukt, in dem verschiedene 
 \textit{mechanische Equilibrium}, die gegenseitige Aufhebung jeglicher wirkenden Kräfte.\\
 Vorteile dieser Methode sind die enorme Flexibilität der Simulation und die sehr zufriedenstellenden Resultate in Bezug auf die \textit{Planarität} des visualiserten \textit{Graphen}.
 Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, die benötigt wird, um ein akzeptables Ergebnis zu erhalten; insbesondere bei sehr großen \textit{Netzen}.
+\\
+Der in \textit{PathFinder} verwendete Algorithmus ist der \textit{Fruchtermann-Reingold} Algorithmus, welcher 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde.\cite{fruchterman}
 \newpage
 
 \section{Wegfindungs-Algorithmen}
@@ -244,12 +245,19 @@ Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, 
 %\bibliographystyle{plain}
 %\bibliography{WSeminar}
 \begin{thebibliography}{9}
-\bibitem{random} Java Zufalls-Funktion http://docs.oracle.com/javase/7/docs/api/java/util/Random.html \emph{abgerufen am 18.10.15}
-\bibitem{javafx} JavaFX-Homepage http://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm \emph{abgerufen am 14.10.15}
-\bibitem{force-directed}
-Stephen~G. Kobourov.
-\newblock Spring embedders and force directed graph drawing algorithms.
-\newblock {\em CoRR}, abs/1201.3011, 2012.
+
+\bibitem{random} Java Zufalls-Funktion\\
+\newblock http://docs.oracle.com/javase/7/docs/api/java/util/Random.html \\\emph{zul. abgerufen am 18.10.15}
+\bibitem{javafx} JavaFX-Homepage\\
+\newblock http://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm \\\emph{zul. abgerufen am 14.10.15}
+
+\bibitem{fruchterman} Thomas M.~J. Fruchterman and Edward~M. Reingold\\
+\newblock "`Graph drawing by force-directed placement", 1991\\
+\newblock ftp://ftp.mathe2.uni-bayreuth.de/axel/papers/reingold:graph{\_}drawing{\_}by{\_}force{\_}directed{\_}\\placement.pdf \\\emph{zul. abgerufen am 24.10.15}
+
+\bibitem{force-directed} Stephen~G. Kobourov\\
+\newblock "`Spring embedders and force directed graph drawing algorithms.", 2012\\
+\newblock http://arxiv.org/pdf/1201.3011v1.pdf \\\emph{zul. abgerufen am 24.10.15}
 
 \end{thebibliography}
 
