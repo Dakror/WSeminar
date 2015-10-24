@@ -47,7 +47,7 @@ Zu Beginn werden in diesem Abschnitt die grundlegenden Begriffe der Graphen-Theo
 \\
 Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten \textit{Graphen}.
 \\
-Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = \{V,\,E\}$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ 
+Zugrunde all dem liegt die Graphen-Theorie. Deren Fundament ist der namensgebende \textit{Graph} $G\; = (V,\,E)$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ 
 (von engl. "`Vertex") und aus einer Menge \textit{Kanten} $E$ (von engl. "`Edge").
 \\
 Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und
@@ -203,8 +203,14 @@ wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \te
 \clearpage
 \section{Visuelles Layout des Graphen}
 \label{sec:layout}
-In vorangegangen Abschnitten wurde das grundlegende Konzept eines \textit{Graphen} bereits dargestellt. Wenn man sich nun Gedanken dazu macht, wie denn ein solch abstraktes Konstrukt optimal visuell zu präsentieren ist,
-begibt man sich in die Thematik des \textit{Layouts} (von engl. "`Anordnung") eines \textit{Graphen}.
+In vorangegangen Abschnitten wurde das grundlegende Konzept eines \textit{Graphen} bereits dargestellt. Wenn man sich nun mit der optimalen visuellen Darstellung eines \textit{Graphen} auseinandersetzt,
+begibt man sich in die Thematik von \textit{Layouts} (von engl. "`Anordnung") eines \textit{Graphen}.\\
+Es gibt die verschiedensten Ansätze, zu einer übersichtlichen Visualisierung zu gelangen, darunter die \textit{force-directed algorithms} (von engl. "`kraft-gerichtet" oder "`kraft-basierend"). Diese simulieren
+ein einem großen Molekül ähnelndes Konstrukt, in dem verschiedene \textit{Kräfte}, die von \textit{Knoten} und \textit{Kanten} ausgehen, aufeinander wirken. Das Ziel solcher Simulationen ist das 
+\textit{mechanische Equilibrium}, die gegenseitige Aufhebung jeglicher wirkenden Kräfte.\\
+Vorteile dieser Methode sind die ungleiche Flexibilität der Simulation und die sehr zufriedenstellenden Resultate in Bezug auf die \textit{Planarität}\footnote{} des visualiserten \textit{Graphen}.
+Ein \textit{Graph} gilt als \textit{planar}, sobald sich keinerlei \textit{Kanten} kreuzen.\\
+Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, um ein akzeptables Ergebnis zu erhalten, insbesondere bei sehr großen \textit{Netzen}.
 \newpage
 
 \section{Wegfindungs-Algorithmen}
