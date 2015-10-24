@@ -104,7 +104,7 @@ public class WSeminar extends Application {
 		primaryStage.minHeightProperty().set(800);
 		primaryStage.setScene(createScene("main"));
 		
-		primaryStage.setTitle("WSeminar Extrema: Wegfindung - Maximilian Stark");
+		primaryStage.setTitle("PathFinder - WSeminar Extrema");
 		
 		primaryStage.getIcons().addAll(getImage("mind_map-24.png"), getImage("mind_map-32.png"));
 		

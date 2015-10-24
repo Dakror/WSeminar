@@ -221,5 +221,6 @@ project/
 
 tex/*
 !tex/res
+!tex/*.bib
 !tex/*.tex
 !tex/*.pdf
