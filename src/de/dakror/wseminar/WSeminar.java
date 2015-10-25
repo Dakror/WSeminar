@@ -100,8 +100,8 @@ public class WSeminar extends Application {
 		
 		primaryStage.setOnCloseRequest(e -> System.exit(0));
 		//primaryStage.setMaximized(true);
-		primaryStage.minWidthProperty().set(1280);
-		primaryStage.minHeightProperty().set(800);
+		primaryStage.minWidthProperty().set(800);
+		primaryStage.minHeightProperty().set(600);
 		primaryStage.setScene(createScene("main"));
 		
 		primaryStage.setTitle("PathFinder - WSeminar Extrema");
