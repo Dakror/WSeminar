@@ -54,13 +54,17 @@
 \clearpage
 
 \section{Risikofaktor Navigationsgerät}
-"Wenn möglich, bitte wenden"\ auf der Autobahn. "Jetzt links abbiegen"\ im Kreisverkehr. Navigationssysteme können Todesfallen oder Verursacher schwerer Unglücke sein. Denn die Menschen vertrauen ihnen oft blind. So zum Beispiel erging es einem 33-jährigen im niedersächsischen Einbeck. Denn als die Polizei an der Unfallstelle eintraf, bot sich ihnen ein kurioses Bild: Der Pkw steckte auf einer abwärtsführenden Fußgängertreppe fest. Jegliche Versuche des Fahrers, sein Fahrzeug zu befreien, blieben erfolglos. Bedanken darf sich dieser Mann, ebenso wie eine junge Frau, die aufgrund eines Tippfehlers in einem Ort 850km entfernt vom gewünschten Ziel eintraf, bei der allzu freundlichen Stimme aus der Mittelkonsole.\cite{navi} Darum ist es umso wichtiger, dass Navi's immer über aktuellste Kartendaten verfügen und auch ausgiebig auf Fehler geprüft werden.
+"`Wenn möglich, bitte wenden"\ auf der Autobahn. "`Jetzt links abbiegen"\ im Kreisverkehr. Navigationssysteme können Todesfallen oder Verursacher schwerer Unglücke sein. Denn die Menschen vertrauen ihnen oft blind. So zum Beispiel erging es einem 33-jährigen im niedersächsischen Einbeck. Denn als die Polizei an der Unfallstelle eintraf, bot sich ihnen ein kurioses Bild: Der Pkw steckte auf einer abwärtsführenden Fußgängertreppe fest. Jegliche Versuche des Fahrers, sein Fahrzeug zu befreien, blieben erfolglos. Bedanken darf sich dieser Mann, ebenso wie eine junge Frau, die aufgrund eines Tippfehlers in einem Ort 850km entfernt vom gewünschten Ziel eintraf, bei der allzu freundlichen Stimme aus der Mittelkonsole \cite{navi}. Darum ist es umso wichtiger, dass "`Navis"\ immer über aktuellste Kartendaten verfügen und auch ausgiebig auf Fehler geprüft werden. 
+\\
+Aber nicht nur detailreiche Straßeninformationen sind für ein gutes Navigationsgerät von Bedeutung. Denn die Daten können noch so genau sein; wenn das Gerät keine vernünftigen Wege berechnen kann, ist es genau so unbrauchbar. Darum geht es in dieser Arbeit, nämlich die verschiedenen Methoden zur Wegberechnung in einem Straßen-\textit{Netz} oder ähnlichem. Es werden drei \textit{Algorithmen} vorgestellt und Vergleiche der selbigen angestellt, um festzustellen, für welche Zwecke welche Methode am zielführendsten ist. Als Werkzeug zur genaueren Untersuchung und für Vergleichsstatistiken habe ich zusätzlich ein Programm namens \textit{PathFinder} geschrieben, in dem die \textit{Algorithmen} adaptiert sind. Diese Ausführungen sind in gewisser Weise als Bedienungsanleitung des Programms zu sehen, da sich sämtliche Darstellungen und Tabellendaten darauf stützen. 
+\\
+Mit der Mathematik als Leitfach, im Themenbereich von Extremwertproblemen, wird konkret das \textit{Problem des kürzesten Wegs} in Angriff genommen. Der optimale, kürzeste Weg zeichnet sich aber nicht nur durch seine Eigenschaft, am schnellsten von \textit{A} nach \textit{B} zu gelangen, aus, sondern auch durch die für die Bestimmung dieses Wegs benötigte Zeit und den Rechenaufwand. Denn ein "`Navi", das vier Stunden rechnet, um den besten Weg zu ermitteln, wird sich nicht bei den Konsumenten durchsetzen, aber genauso wenig ein Gerät, welches den Fahrer ohne Rechenzeit über Feld- und Waldwege lotst. Es muss eine \textit{Balance zwischen Quantität und Qualität} gefunden werden. Und wo diese Mitte liegt, versuchen wir nun herauszufinden.
 \newpage
 
 \section{Grundlagen und Terminologie}
 \label{sec:basics}
-Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten \textit{Graphen}.
-\\
+%Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten \textit{Graphen}.
+%\\
 In diesem Abschnitt werden die grundlegenden Begriffe der Graphen-Theorie geklärt. Auch Fachbegriffe aus der Implementierung durch die Informatik werden erläutert.
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
