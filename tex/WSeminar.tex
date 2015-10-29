@@ -35,19 +35,14 @@
 \renewcommand{\algorithmicend}{\textbf{ende}}
 \renewcommand{\algorithmicrepeat}{\textbf{wiederhole}}
 \renewcommand{\algorithmicif}{\textbf{wenn}}
+\renewcommand{\algorithmicelse}{\textbf{sonst}}
 \renewcommand{\algorithmicthen}{\textbf{dann}}
+\renewcommand{\algorithmicreturn}{\textbf{gib zurück}}
 \renewcommand{\algorithmicuntil}{\textbf{solange}} % for the classic do ... while
+\renewcommand{\algorithmicwhile}{\textbf{solange}} % for the classic do ... while
 \newcommand{\sei}{\textbf{sei }}
 
-
-%\title{Extremwertproblem Wegfindung \\  \large{\enspace Vergleich verschiedener Algorithmen}}
-
-%\author{Maximilian Stark}
-
-%\maketitle
-%\thispagestyle{empty}
 \includepdf[pages={1}]{res/deckblatt_erklaerung.pdf}
-%\clearpage
 
 \tableofcontents
 \thispagestyle{empty}
@@ -63,8 +58,6 @@ Mit der Mathematik als Leitfach, im Themenbereich von Extremwertproblemen, wird 
 
 \section{Grundlagen und Terminologie}
 \label{sec:basics}
-%Das Ziel dieser Arbeit ist die Darstellung und der Vergleich verschiedener \textit{Wegfindungs-Algorithmen} in der Anwendung an verschiedenen generierten \textit{Graphen}.
-%\\
 In diesem Abschnitt werden die grundlegenden Begriffe der Graphen-Theorie geklärt. Auch Fachbegriffe aus der Implementierung durch die Informatik werden erläutert.
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
@@ -83,9 +76,7 @@ Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu 
 \newpage
 \section{Aufbau und Bedienung des Programms \textit{PathFinder}}
 \label{sec:manual}
-Das selbstgeschriebene Programm \textit{PathFinder}, im eigentlichen Fokus stehend, fungiert sowohl als visuelle Möglichkeit der Darstellung von \textit{Graphen}, als auch als Quelle für Vergleichsdaten und Messungen in selbst erzeugten Szenarien. 
-\\
-Geschrieben ist die Anwendung in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx} und umfasst über 3000 Zeilen Code in 39 Quelldateien.
+Das selbstgeschriebene Programm \textit{PathFinder}, im eigentlichen Fokus stehend, fungiert sowohl als visuelle Möglichkeit der Darstellung von \textit{Graphen}, als auch als Quelle für Vergleichsdaten und Messungen in selbst erzeugten Szenarien. Geschrieben ist die Anwendung in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx} und umfasst über 3000 Zeilen Code in 39 Quelldateien.\footnote{siehe Anhang: CD-ROM}
 \begin{figure}[h!]
 \includegraphics[width=0.8\textwidth]{res/main_screenshot.png}
 \centering
@@ -99,9 +90,8 @@ Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Featur
 \clearpage
 \section{Konstruktion eines Graphen in \textit{PathFinder}}
 \label{sec:construct}
-Im nächsten Schritt werden wir nun einen Graphen erzeugen lassen und die Funktionsweise des Generators betrachten. Durch Klicken auf "`Erstellen Sie ein neues Netz..."\;wird ein Dialog-Fenster geöffnet (\autoref{fig:new_graph_screenshot}), welches verschiedene 
-
-\begin{wrapfigure}{l}{0.5\textwidth}
+Im nächsten Schritt wird nun ein Graph erzeugt und die Funktionsweise des Generators betrachtet. Durch Klicken auf "`Erstellen Sie ein neues Netz..."\ wird ein Dialog-Fenster geöffnet (\autoref{fig:new_graph_screenshot}), welches verschiedene Genererierungs-
+\begin{wrapfigure}{l}{0.45\textwidth}
 \vspace{-20pt}
 \begin{center}
 \includegraphics[scale=0.6]{res/new_graph_screenshot.png}
@@ -111,8 +101,7 @@ Im nächsten Schritt werden wir nun einen Graphen erzeugen lassen und die Funkti
 \caption{Dialog zur \textit{Netz}-Generierung}
 \label{fig:new_graph_screenshot}
 \end{wrapfigure}
-
-Genererierungs-\textit{Parameter} zur Konfiguration anbietet. 
+\textit{Parameter} zur Konfiguration anbietet. 
 \\
 Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Regler für die Größe $s$ und ein \textit{Seed}-Eingabefeld ausgestattet. Der \textit{Seed} wird verwendet, um die Möglichkeit zu haben, in späteren Tests mit dem gleichen \textit{Graphen} zu arbeiten.
 \\
@@ -121,19 +110,16 @@ Im \textit{Erweitert}-Bereich lässt sich die Generierung aufs Genaueste einstel
 Durch Bestätigen per Klick auf "`Ok" wird der Generator mit diesen \textit{Parametern} gestartet und ein \textit{Netz} erzeugt.
 \\
 Zunächst wird der \textit{Seed} für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Menge von \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden \textit{Knoten} eine Anzahl an \textit{Kanten} bestimmt. Durch das "`Clampen", d.h Einzwicken, Eingrenzen, der Start- und Generierungswerte durch
-
 \vspace{-20pt}
 \begin{gather*}
-e = max(1,\,R(0,\;min(n/2-1,\,e_{max}))) \\
+e = max\Big(1,\,R\Big(0,\;min\Big(\dfrac{n}{2}-1,\,e_{max}\Big)\Big)\Big) \\
 \left(\begin{aligned}
 max(a, b) \to \text{Größere der beiden Parameter}\\
 min(a, b) \to \text{Kleinere der beiden Parameter}
 \end{aligned}
 \right)
 \end{gather*}
-
-wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der Ausgangsknoten selbst, noch ein bereits verbundener \textit{Knoten} sein soll.
-
+wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der Ausgangsknoten selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, wird die 
 \begin{algorithm}
 \caption{\textit{Graph-Generator} \label{alg:generator}}
 \begin{algorithmic}[1]
@@ -151,8 +137,8 @@ wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren ka
 			\State \sei $index$ $i$
 			\Repeat 
 			\State \sei $index$ $R(0,\,n)$
-			\Until $index$ gleich $i$ oder $Knoten_{i}$ mit $Knoten_{index}$ verbunden
-			\State \sei $e$ Kante von $Knoten_{i}$ zu $Knoten_{index}$, Gewicht $w = R(0, W_{max})$
+			\Until $index$ gleich $i$ oder $Knoten_i$ mit $Knoten_{index}$ verbunden
+			\State \sei $e$ Kante von $Knoten_i$ zu $Knoten_{index}$, Gewicht $w = R(0, W_{max})$
 			\If {$t =$ \textsc{Gemischt} oder $(t =$ \textsc{Gerichtet} und $R() > R())$} \State \Comment $R>R =$ Zufallstest
 				\State setze $e$ gerichtet
 			\EndIf
@@ -162,43 +148,111 @@ wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren ka
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-
-Sobald eine Kombination gefunden wurde, wird die entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. Dann wird auf Basis des \textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die \textit{Kante} im \textit{Graphen} platziert (\autoref{alg:generator})\footnote{vgl. Anhang: GraphGenerator.java}.
-
-\clearpage
+entsprechende \textit{Kante} mit einem ebenfalls zufallsgenerierten \textit{Gewicht} erstellt. 
+Dann wird auf Basis des \textit{Kanten-Typs} die Gerichtetheit bestimmt und schließlich wird die \textit{Kante} im \textit{Graphen} platziert (\autoref{alg:generator})\footnote{vgl. Anhang: GraphGenerator.java}.
 \section{Visuelles Layout von Graphen}
 \label{sec:layout}
 In vorangegangen Abschnitten wurde das grundlegende Konzept eines \textit{Graphen} bereits dargestellt. Wenn man sich nun mit der optimalen visuellen Darstellung eines \textit{Graphen} auseinandersetzt, begibt man sich in die Thematik der \textit{Layouts} (von engl. "`Anordnung") eines \textit{Graphen}.
 \\ 
-Es gibt die verschiedensten Ansätze, zu einer übersichtlichen Visualisierung zu gelangen, darunter die \textit{force-directed algorithms} (von engl. "`kraft-gerichtet"\ oder "`kraft-basiert")\cite{force-directed}. Diese simulieren ein einem großen Molekül ähnelndes Konstrukt, in dem verschiedene \textit{Kräfte}, die von \textit{Knoten} und \textit{Kanten} ausgehen, aufeinander wirken. Das Ziel solcher Simulationen ist das \textit{mechanische Equilibrium}, die gegenseitige Aufhebung jeglicher wirkenden Kräfte.\\
+Es gibt die verschiedensten Ansätze, zu einer übersichtlichen Visualisierung zu gelangen, darunter die \textit{force-directed algorithms} (von engl. "`kraft-gerichtet"\ oder "`kraft-basiert")\cite{force-directed}. Diese simulieren ein einem großen Molekül ähnelndes Konstrukt, in dem verschiedene \textit{Kräfte}, die von \textit{Knoten} und \textit{Kanten} ausgehen, aufeinander wirken. Das Ziel solcher Simulationen ist das \textit{mechanische Equilibrium}, die gegenseitige Aufhebung jeglicher wirkenden \textit{Kräfte}.\\
 Vorteile dieser Methode sind die enorme Flexibilität der Simulation und die sehr zufriedenstellenden Resultate in Bezug auf die \textit{Planarität} des visualiserten \textit{Graphen}. Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, die benötigt wird, um ein akzeptables Ergebnis zu erhalten; insbesondere bei sehr großen \textit{Netzen}.
 \\
-Bei dem in \textit{PathFinder} verwendeten Algorithmus handelt es sich um den \textit{Fruchtermann-Reingold} Algorithmus, welcher 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde.\cite{fruchterman}
+Bei dem in \textit{PathFinder} verwendeten \textit{Algorithmus} handelt es sich um den \textit{Fruchtermann-Reingold Algorithmus}, welcher 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die folgenden Prinzipien: 
+\\
+\indent 1. Verbundene \textit{Knoten} sollten nebeneinander liegen
+\\
+\indent 2. \textit{Knoten} sollten nicht zu nah beieinander platziert werden
+\\
+Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines
+\begin{wrapfigure}{l}{0.35\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[scale=0.16]{res/graph_1.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{F.-R. Algorithmus}
+\label{fig:graph_1}
+\end{wrapfigure}
+Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
+\[
+k = \sqrt{\dfrac{w \cdot h}{n}} 
+\]
+definiert. Sie findet Verwendung in den beiden \textit{Kräften} der Simulation. Die \textit{Kraft} $F_a$ beschreibt die Anziehung zwischen Knoten, $F_r$ die Abstoßung dieser voneinander.
+\[
+ F_a(x) = \dfrac{x^2}{k} \hspace{50pt} F_r(x) = \dfrac{k^2}{x}
+\]
+Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wird $F_a$, danach $F_r$, für jeden einzelnen \textit{Knoten} berechnet. Im dritten Schritt werden die Effekte dieser berechneten \textit{Kräfte} umgesetzt (\textit{Disposition}), aber nur in durch die \textit{Temperatur} begrenzter Länge. Die \textit{Temperatur} ist ein Wert, der bei jedem Durchlauf des \textit{Algorithmus} bis auf $0$ verringert wird, um die Verschiebungen der \textit{Knoten} immer präziser werden zu lassen. Anfangs wird der Wert beliebig festgelegt. 
 \newpage
-
+\noindent Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion $t(s)$ abgebildet wird, entspricht
+\[
+t_0 = \dfrac{1}{10} \cdot w \hspace{50pt} t(s) = t_0 \cdot \dfrac{s}{s_{max}} \hspace{50pt} s_{max} = s_g \cdot 500
+\]
+Außerdem wird eine Maximalanzahl $s_{max}$ an Simulationsschritten definiert, in deren Abhängigkeit die \textit{Temperatur} verringert wird. In der Anwendung wird diese Maximalgröße wie angegeben berechnet, wobei $s_g$ die bei der \textit{Graph}-Erzeugung angegebene \textit{Größe} ist.
 \section{Wegfindungs-Algorithmen}
+Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
+
 \newpage
 
 \subsection{Gröbste Züge von Intelligenz: Tiefensuche}
-\newpage
--
+\begin{algorithm}
+\caption{\textit{Tiefensuche} \label{alg:dfs}}
+\begin{algorithmic}[1]
+\Statex
+\Require{Graph $G = (V,\ E)$}
+\Ensure{Weg $P_{ab}$ von $n_a$ nach $n_b$}
+\Statex
+\Procedure{tiefenSuche}{$n_a$, $n_b$}
+	\State markiere alle \textit{Knoten} in $G$ als $unbesucht$, außer $n_a$
+	\State \sei $n$ aktiver \textit{Knoten} $n_a$
+	\While{nicht alle \textit{Knoten} $besucht$ sind}
+		\If{$n$ ist $n_b$}
+			\State erschließe Weg $P_{ab}$ durch \textit{Vorgänger} und beende Suche
+		\EndIf
+		\If{$n$ keine unbesuchten Nachbarn hat}
+			\State \sei $n$ \textit{Vorgänger} von $n$
+		\Else
+			\State sortiere unbesuchte Nachbarn von $n$
+			\State \sei $n_{next}$ unbesuchter Nachbar mit geringstem \textit{Kantengewicht}
+			\State setze $n$ als \textit{Vorgänger} von $n_{next}$
+			\State \sei $n$ $n_{next}$
+		\EndIf
+	\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 \newpage
 
 \subsection{Heuristik als Mittel zum Ziel: Der Dijkstra-Algorithmus}
+\begin{algorithm}
+\caption{\textit{Dijkstra-Algorithmus} \label{alg:dijkstra}}
+\begin{algorithmic}[1]
+\Statex
+\Require{Graph $G = (V,\ E)$}
+\Ensure{Weg $P_{ab}$ von $n_a$ nach $n_b$}
+\Statex
+\end{algorithmic}
+\end{algorithm}
 \newpage
 -
 \newpage
 
 \subsection{Der Allstar: Der A*-Algorithmus}
+\begin{algorithm}
+\caption{\textit{A*-Algorithmus} \label{alg:astar}}
+\begin{algorithmic}[1]
+\Statex
+\Require{Graph $G = (V,\ E)$}
+\Ensure{Weg $P_{ab}$ von $n_a$ nach $n_b$}
+\Statex
+\end{algorithmic}
+\end{algorithm}
 \newpage
 -
 \newpage
 
 \section{Vergleichsstatistik und Fazit}
 \newpage
--
-\newpage
-
 \section{Schluss}
 \newpage
 
