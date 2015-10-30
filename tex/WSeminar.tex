@@ -166,10 +166,10 @@ Vorteile dieser Methode sind die enorme Flexibilität der Simulation und die seh
 \\
 Der in \textit{PathFinder} verwendete \textit{Algorithmus} ist der \textit{Fruchtermann-Reingold Algorithmus}\footnote{\cite[Kapitel 12.3, S. 386f]{force-directed2}}, der 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die Prinzipien, dass verbundene \textit{Knoten} nebeneinander liegen und sämtliche \textit{Knoten} trotzdem nicht zu nahe beieinander platziert werden sollten.
 
-\begin{wrapfigure}{l}{0.38\textwidth}
-\vspace{-30pt}
+\begin{wrapfigure}{l}{0.4\textwidth}
+\vspace{-20pt}
 \begin{center}
-\includegraphics[scale=0.2]{res/graph_1.png}
+\includegraphics[scale=0.25]{res/graph_1.png}
 \end{center}
 \vspace{-30pt}
 \centering
@@ -200,9 +200,9 @@ Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder h
 \\
 Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real time", also Echtzeit berechnen. In dieser Arbeit wird nur auf die vollständig in Echtzeit ablaufenden Umsetzungen eingegangen, doch \textit{Algorithmen} wie \textit{Kontraktions-Hierarchien}, die im Voraus eine kompaktere und performantere Version des gesamten \textit{Graphen} errechnen, sind, besonders in sehr großen Netzwerken oder Systemen, von Bedeutung, da diese trotz des höheren Rechenaufwands enorm zu einer schnelleren Laufzeit beitragen \cite{contr-hier}.
 \\
-Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Die Einstellungen sind alle auf den Standard-Werten und der Seed ist $7646137120994539520$. Es wird immer der Weg vom \textit{Knoten} Nr. 4 zu Nr. 12 gesucht.
+Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Die Einstellungen sind alle auf den Standard-Werten und der Seed ist $7646137120994539520$. Es wird immer der Weg vom \textit{Knoten} Nr. 12 zu Nr. 9 gesucht. Zur besseren Übersicht wird einmal die "`Relayout"\,-Funktion in \textit{PathFinder} genutzt.
 \subsection{Gröbste Züge von Intelligenz: Tiefensuche}
-Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist nämlich das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich in eine Richtung \textit{traversiert} (von lat. "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, 
+Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist nämlich das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich
 \begin{algorithm}
 \caption{\textit{Tiefensuche} \label{alg:dfs}}
 \begin{algorithmic}[1]
@@ -229,7 +229,20 @@ Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Name
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht} bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde (\autoref{alg:dfs})\footnote{vgl. Anhang: DFS.java}. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457ff]{cormen}}.
+ in eine Richtung \textit{traversiert} (von lat. "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht}bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt 
+\begin{wrapfigure}{l}{0.4\textwidth}
+\vspace{-30pt}
+\begin{center}
+\includegraphics[scale=0.25]{res/dfs.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{Tiefensuche}
+\label{fig:dfs}
+\end{wrapfigure} 
+sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde (\autoref{alg:dfs})\footnote{vgl. Anhang: DFS.java}. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457f]{cormen}}. 
+\\
+Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite[Kapitel 22.3, S. 459]{cormen}}, wobei $V$ der Anzahl an \textit{Knoten} (von engl. "`Vertex"), und $E$ der Anzahl an \textit{Kanten} entspricht. \autoref{fig:dfs} zeigt das Ergebnis der Tiefensuche im Fallbeispiel des \textit{Wegs} von \textit{Knoten} 12 zu 9. Es ergeben sich die Gesamtkosten $w_{dfs} = 51$ durch Addition aller $e_{dfs} = 6$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 312,9389\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen. 
 
 \newpage
 
@@ -307,9 +320,9 @@ werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wir
 \end{thebibliography}
 \newpage
 
-\includepdf{res/GraphGenerator.pdf}
+%\includepdf{res/GraphGenerator.pdf}
 
-\includepdf{res/DFS.pdf}
+%\includepdf{res/DFS.pdf}
 
 \includepdf[pages=2, pagecommand={\thispagestyle{plain}}]{res/deckblatt_erklaerung.pdf}
 \end{document}

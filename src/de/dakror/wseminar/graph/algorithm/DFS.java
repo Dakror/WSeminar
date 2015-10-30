@@ -46,8 +46,8 @@ public class DFS<V> extends PathFinder<V> {
 	
 	@Override
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
-		BM.time();
 		Visualizer.resetAll(graph, true, false);
+		BM.time();
 		
 		if (!takeStep(null, from, to)) return null;
 		
@@ -68,10 +68,9 @@ public class DFS<V> extends PathFinder<V> {
 		
 		p.setBenchmark(BM);
 		
+		BM.time();
 		cleanup();
 		Visualizer.resetAll(graph, false, false);
-		
-		BM.time();
 		return p;
 	}
 	
@@ -95,6 +94,7 @@ public class DFS<V> extends PathFinder<V> {
 			return free;
 		}).sorted((a, b) -> Float.compare(a instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) a).getWeight() : 0,
 																			b instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) b).getWeight() : 0)).collect(Collectors.toList());
+																			
 		BM.add(SORTS);
 		
 		// is target reachable?

@@ -139,6 +139,10 @@ public class Benchmark<V> {
 		return time;
 	}
 	
+	public void setTime(long time) {
+		this.time = time;
+	}
+	
 	public float getMin(Type t) {
 		float m = Float.MAX_VALUE;
 		for (Timestamp ts : get(t))

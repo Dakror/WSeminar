@@ -50,8 +50,8 @@ public class AStar<V> extends PathFinder<V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
-		BM.time();
 		Visualizer.resetAll(graph, true, false);
+		BM.time();
 		
 		Heuristics<V> h = new Heuristics<>();
 		h.H = distance(from, to);
@@ -101,10 +101,10 @@ public class AStar<V> extends PathFinder<V> {
 		
 		p.setBenchmark(BM);
 		
+		BM.time();
 		cleanup();
 		Visualizer.resetAll(graph, true, false);
 		
-		BM.time();
 		return p;
 	}
 	

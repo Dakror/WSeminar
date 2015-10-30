@@ -352,6 +352,8 @@ public class MainController {
 			} else batch = false;
 			
 			new Thread() {
+				Path<Vertex<Integer>> p = null;
+				
 				@SuppressWarnings("unchecked")
 				@Override
 				public void run() {
@@ -387,7 +389,16 @@ public class MainController {
 							batch = false;
 						} else {
 							PathFinder<Integer> pf = (PathFinder<Integer>) con.newInstance(WSeminar.instance.getGraph(), path_animate.isSelected());
-							Path<Vertex<Integer>> p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+							
+							long sum = 0;
+							for (int i = 0; i < 100; i++) {
+								pf = (PathFinder<Integer>) con.newInstance(WSeminar.instance.getGraph(), path_animate.isSelected());
+								p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
+								sum += p.getBenchmark().getTime();
+							}
+							//							System.out.println(sum / 100f);
+							p.getBenchmark().setTime(sum / 100);
+							
 							Visualizer.setEnabled(true);
 							
 							animatingPathFinding = false;
@@ -432,7 +443,7 @@ public class MainController {
 			chart_alltime.getData().clear();
 			chart_table.getItems().clear();
 			
-			if (newV.getParent() == null) return;
+			if (newV.getParent() == null || newVal == null) return;
 			
 			TimeLineDataFiller tldf = new TimeLineDataFiller();
 			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
@@ -444,10 +455,12 @@ public class MainController {
 				for (TreeItem<String> ti : newV.getChildren()) {
 					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
 					
-					XYChart.Data<String, Long> d = new XYChart.Data<>(path.getUserData().toString(), path.getBenchmark().getTime() / 1000);
+					XYChart.Data<String, Long> d = new XYChart.Data<>(path.getUserData().toString(),
+																														path.getBenchmark().getTime() / 1000 / (path.getUserData().toString().contains("anim") ? 1000 : 1));
 					sc.getData().add(d);
-					Tooltip tt = new Tooltip(path.getUserData().toString() + ": " + (path.getBenchmark().getTime() / 1000) + "ms");
+					Tooltip tt = new Tooltip(path.getUserData().toString() + ": " + d.getYValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s");
 					hackTooltipStartTiming(tt);
+					if (path.getUserData().toString().contains("anim")) d.getNode().setStyle("-fx-background-color: #0D9ED2;");
 					Tooltip.install(d.getNode(), tt);
 				}
 				
@@ -461,8 +474,14 @@ public class MainController {
 				XYChart.Series<String, Long> sc = new XYChart.Series<>();
 				sc.setName("Gesamtzeit");
 				chart_alltime.getData().add(sc);
-				XYChart.Data<String, Long> d = new XYChart.Data<>(newVal.getUserData().toString(), newVal.getBenchmark().getTime() / 1000);
+				XYChart.Data<String, Long> d = new XYChart.Data<>(newVal.getUserData().toString(),
+																													newVal.getBenchmark().getTime() / 1000 / (newVal.getUserData().toString().contains("anim") ? 1000 : 1));
 				sc.getData().add(d);
+				
+				Tooltip tt = new Tooltip(newVal.getUserData().toString() + ": " + d.getYValue() + (newVal.getUserData().toString().contains("anim") ? "m" : "µ") + "s");
+				hackTooltipStartTiming(tt);
+				((StackPane) d.getNode()).setPrefSize(8, 8);
+				Tooltip.install(d.getNode(), tt);
 				
 				tldf.generateColors(2);
 				tldf.fill(newVal);

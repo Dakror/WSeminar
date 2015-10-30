@@ -48,6 +48,7 @@ public class Dijkstra<V> extends PathFinder<V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Path<Vertex<V>> findPath(Vertex<V> from, Vertex<V> to) {
+		Visualizer.resetAll(graph, true, false);
 		BM.time();
 		
 		for (Vertex<V> v : graph.getVertices()) {
@@ -104,11 +105,11 @@ public class Dijkstra<V> extends PathFinder<V> {
 		
 		p.setBenchmark(BM);
 		
+		
+		BM.time();
 		cleanup();
 		Visualizer.resetAll(graph, true, false);
 		
-		
-		BM.time();
 		return p;
 	}
 	
