@@ -62,6 +62,10 @@ In diesem Abschnitt werden die grundlegenden Begriffe der Graphen-Theorie geklä
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
 \\
+Die maximale Laufzeit eines \textit{Algorithmus}, auch genannt \textit{Zeitkomplexität}, wird in der "`big-O"\,-Notation (von engl. "`großes O") in Form des \textit{Landau-Symbols} $O$ angegeben. Dabei werden sämtliche kleineren Polynome aufgrund ihres geringeren Wachstums vernachlässigt. 
+\\
+So zum Beispiel lässt sich ein \textit{Algorithmus}, der in der Zeit $O(n^2+5n)$ abläuft, auf die \textit{Komplexität} $O(n^2)$ kürzen. Hierbei stellt $n$ die Anzahl an \textit{Iterationen}, also Schritten dar. Diese Angabe ist wird als primäres Vergleichskriterium von Laufzeiten verwendet \cite{big-o}.
+\\
 Die Graphen-Theorie dient als Basis dieser Ausführungen. Zentrale Bedeutung hat der namensgebende \textit{Graph} $G\; = (V,\,E)$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ (von engl. "`Vertex") und einer Menge \textit{Kanten} $E$ (von engl. "`Edge") besteht.
 \\
 Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und einen \textit{Endknoten}. 
@@ -73,24 +77,26 @@ In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abf
 Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, der allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
 \\
 Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseudozufall}-Generator verwendet \cite{random}. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen von Zahlen und genügt für unsere Zwecke. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt werden kann.
-\newpage
 \section{Aufbau und Bedienung des Programms \textit{PathFinder}}
 \label{sec:manual}
 Das selbstgeschriebene Programm \textit{PathFinder}, im eigentlichen Fokus stehend, fungiert sowohl als visuelle Möglichkeit der Darstellung von \textit{Graphen}, als auch als Quelle für Vergleichsdaten und Messungen in selbst erzeugten Szenarien. Geschrieben ist die Anwendung in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx} und umfasst über 3000 Zeilen Code in 39 Quelldateien.\footnote{siehe Anhang: CD-ROM}
-\begin{figure}[h!]
-\includegraphics[width=0.8\textwidth]{res/main_screenshot.png}
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[width=0.4\textwidth]{res/main_screenshot.png}
+\end{center}
+\vspace{-30pt}
 \centering
 \caption{Die Start- und Hauptansicht von \textit{PathFinder}}
 \label{fig:main_screenshot}
-\end{figure}
-\\
-Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs"\ unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des \textit{Graphen}, als auch der Vergleichsstatistiken und Tabellen.
+\end{wrapfigure}
+\noindent Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs"\ unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des \textit{Graphen}, als auch der Vergleichsstatistiken und Tabellen.
 \\
 Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Features visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys"\;zu mehr Komfort oder Genauigkeit der Anwendung. So kann beispielsweise das \textit{Relayout} (siehe \autoref{sec:layout}) des \textit{Graphen} per "`L"\ Taste, das \textit{Generieren} (siehe \autoref{sec:construct}) eines neuen \textit{Netzes} unter Benutzung von "`N"\ erfolgen.
-\clearpage
 \section{Konstruktion eines Graphen in \textit{PathFinder}}
 \label{sec:construct}
-Im nächsten Schritt wird nun ein Graph erzeugt und die Funktionsweise des Generators betrachtet. Durch Klicken auf "`Erstellen Sie ein neues Netz..."\ wird ein Dialog-Fenster geöffnet (\autoref{fig:new_graph_screenshot}), welches verschiedene Genererierungs-
+Im nächsten Schritt wird nun ein \textit{Graph} erzeugt und die Funktionsweise des Generators betrachtet. Durch Klicken auf "`Erstellen Sie ein neues Netz..."\ wird ein Dialog-Fenster geöffnet (\autoref{fig:new_graph_screenshot}), welches verschiedene Genererierungs-
 \begin{wrapfigure}{l}{0.45\textwidth}
 \vspace{-20pt}
 \begin{center}
@@ -157,14 +163,18 @@ In vorangegangen Abschnitten wurde das grundlegende Konzept eines \textit{Graphe
 Es gibt die verschiedensten Ansätze, zu einer übersichtlichen Visualisierung zu gelangen, darunter die \textit{force-directed algorithms} (von engl. "`kraft-gerichtet"\ oder "`kraft-basiert")\cite{force-directed}. Diese simulieren ein einem großen Molekül ähnelndes Konstrukt, in dem verschiedene \textit{Kräfte}, die von \textit{Knoten} und \textit{Kanten} ausgehen, aufeinander wirken. Das Ziel solcher Simulationen ist das \textit{mechanische Equilibrium}, die gegenseitige Aufhebung jeglicher wirkenden \textit{Kräfte}.\\
 Vorteile dieser Methode sind die enorme Flexibilität der Simulation und die sehr zufriedenstellenden Resultate in Bezug auf die \textit{Planarität} des visualiserten \textit{Graphen}. Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, die benötigt wird, um ein akzeptables Ergebnis zu erhalten; insbesondere bei sehr großen \textit{Netzen}.
 \\
-Bei dem in \textit{PathFinder} verwendeten \textit{Algorithmus} handelt es sich um den \textit{Fruchtermann-Reingold Algorithmus}, welcher 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die folgenden Prinzipien: 
+Der in \textit{PathFinder} verwendete \textit{Algorithmus} ist der \textit{Fruchtermann-Reingold Algorithmus}\footnote{\cite[Kapitel 12.3, S. 386f]{force-directed2}}, der 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die Prinzipien, dass verbundene \textit{Knoten} nebeneinander liegen und sämtliche \textit{Knoten} trotzdem nicht zu nahe beieinander platziert werden sollten.
 \\
-\indent 1. Verbundene \textit{Knoten} sollten nebeneinander liegen
-\\
-\indent 2. \textit{Knoten} sollten nicht zu nah beieinander platziert werden
-\\
-Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines
-\begin{wrapfigure}{l}{0.35\textwidth}
+Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
+\[
+k = \sqrt{\dfrac{w \cdot h}{n}} 
+\]
+definiert. Sie findet Verwendung in den beiden \textit{Kräften} der Simulation. Die \textit{Kraft} $F_a$ beschreibt die Anziehung zwischen \textit{Knoten}, $F_r$ die Abstoßung dieser voneinander.
+\[
+ F_a(x) = \dfrac{x^2}{k} \hspace{50pt} F_r(x) = \dfrac{k^2}{x}
+\]
+Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wird $F_a$, danach $F_r$, für jeden einzelnen \textit{Knoten} berechnet. Im dritten Schritt 
+\begin{wrapfigure}{l}{0.4\textwidth}
 \vspace{-20pt}
 \begin{center}
 \includegraphics[scale=0.16]{res/graph_1.png}
@@ -174,17 +184,9 @@ Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig inner
 \caption{F.-R. Algorithmus}
 \label{fig:graph_1}
 \end{wrapfigure}
-Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
-\[
-k = \sqrt{\dfrac{w \cdot h}{n}} 
-\]
-definiert. Sie findet Verwendung in den beiden \textit{Kräften} der Simulation. Die \textit{Kraft} $F_a$ beschreibt die Anziehung zwischen \textit{Knoten}, $F_r$ die Abstoßung dieser voneinander.
-\[
- F_a(x) = \dfrac{x^2}{k} \hspace{50pt} F_r(x) = \dfrac{k^2}{x}
-\]
-Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wird $F_a$, danach $F_r$, für jeden einzelnen \textit{Knoten} berechnet. Im dritten Schritt werden die Effekte dieser berechneten \textit{Kräfte} umgesetzt (\textit{Disposition}), aber nur in durch die \textit{Temperatur} begrenzter Länge. Die \textit{Temperatur} ist ein Wert, der bei jedem Durchlauf des \textit{Algorithmus} bis auf $0$ verringert wird, um die Verschiebungen der \textit{Knoten} immer präziser werden zu lassen. Anfangs wird der Wert beliebig festgelegt. 
-\newpage
-\noindent Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion $t(s)$ abgebildet wird, entspricht
+werden die Effekte dieser berechneten \textit{Kräfte} umgesetzt (\textit{Disposition}), aber nur in durch die \textit{Temperatur} begrenzter Länge.
+\\
+Die \textit{Temperatur} ist ein Wert, der bei jedem Durchlauf des \textit{Algorithmus} bis auf $0$ verringert wird, um die Verschiebungen der \textit{Knoten} immer präziser werden zu lassen. Anfangs wird der Wert beliebig festgelegt. Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion $t(s)$ abgebildet wird, entspricht
 \[
 t_0 = \dfrac{1}{10} \cdot w \hspace{50pt} t(s) = t_0 - \dfrac{t_0}{s_{max}} \cdot s \hspace{50pt} s_{max} = s_g \cdot 500
 \]
@@ -195,7 +197,10 @@ t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
 \]
 \section{Wegfindungs-Algorithmen}
 Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
-
+\\
+Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss- ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das Ganze so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und in einer \textit{Distanz-Matrix} abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(n^2)$, die für größere \textit{Graphen} einfach untragbar ist. Außerdem wächst ja die benötigte Speicherkapazität in gleichem Maße.
+\\ 
+Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real time", also Echtzeit berechnen. In dieser Arbeit wird nur auf die vollständig in Echtzeit ablaufenden Umsetzungen eingegangen, doch \textit{Algorithmen} wie \textit{Kontraktions-Hierarchien}, die im Voraus eine kompaktere und performantere Version des gesamten \textit{Graphen} errechnen, sind, besonders in sehr großen Netzwerken oder Systemen, von Bedeutung, da diese trotz des höheren Rechenaufwands enorm zu einer schnelleren Laufzeit beitragen \cite{contr-hier}.
 \newpage
 
 \subsection{Gröbste Züge von Intelligenz: Tiefensuche}
@@ -264,7 +269,7 @@ Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Program
 %\bibliographystyle{plain}
 %\bibliography{WSeminar}
 \begin{thebibliography}{9}
-\bibitem{navi} vgl. Stern.de: Kuriose Navi-Unfälle\\
+\bibitem{navi} Stern.de: Kuriose Navi-Unfälle\\
 \newblock http://www.stern.de/digital/technik/navi-missgeschicke--in-100-metern-fahren-sie------in-den-fluss-3087618.html \\\emph{zul. abgerufen am 27.10.15}
 
 \bibitem{random} Java Zufalls-Funktion\\
@@ -276,9 +281,23 @@ Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Program
 \newblock "`Spring embedders and force directed graph drawing algorithms.", 2012\\
 \newblock http://arxiv.org/pdf/1201.3011v1.pdf \\\emph{zul. abgerufen am 24.10.15}
 
-\bibitem{fruchterman} Thomas M.~J. Fruchterman and Edward~M. Reingold\\
+\bibitem{force-directed2} Stephen~G. Kobourov\\
+\newblock "`Force-Directed Drawing Algorithms", Kapitel 12, S. 384-408, 2013\\
+\newblock https://cs.brown.edu/~rt/gdhandbook/chapters/force-directed.pdf \\\emph{zul. abgerufen am 30.10.15}
+
+\bibitem{fruchterman} Thomas M.~J. Fruchterman und Edward~M. Reingold\\
 \newblock "`Graph drawing by force-directed placement", 1991\\
 \newblock ftp://ftp.mathe2.uni-bayreuth.de/axel/papers/reingold:graph{\_}drawing{\_}by{\_}force{\_}directed{\_}\\placement.pdf \\\emph{zul. abgerufen am 24.10.15}
+
+\bibitem{big-o} Donald E. Knuth\\
+\newblock "`Big Omicron and big Omega and big Theta", S. 18-24, 1976\\
+\newblock http://www.phil.uu.nl/datastructuren/09-10/knuth{\_}big{\_}omicron.pdf  \\\emph{zul. abgerufen am 30.10.15}
+
+\clearpage
+
+\bibitem{contr-hier} Robert Geisberger\\
+\newblock "`Contraction Hierarchies: Faster and Simpler Hierarchical Routing in Road Networks", 2008\\
+\newblock http://algo2.iti.kit.edu/schultes/hwy/contract.pdf \\\emph{zul. abgerufen am 30.10.15}
 
 \end{thebibliography}
 \newpage
