@@ -35,6 +35,7 @@ import de.dakror.wseminar.graph.algorithm.base.PathFinder;
 import de.dakror.wseminar.math.Vector2;
 import de.dakror.wseminar.ui.PathLineChart;
 import de.dakror.wseminar.ui.PathTreeItem;
+import de.dakror.wseminar.ui.VisualVertex;
 import de.dakror.wseminar.util.Benchmark.Timestamp;
 import de.dakror.wseminar.util.Benchmark.Type;
 import de.dakror.wseminar.util.Visualizer;
@@ -165,6 +166,7 @@ public class MainController {
 	
 	boolean batch = false;
 	
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void initialize() {
 		Vector2 scrollMouse = new Vector2();
@@ -324,6 +326,10 @@ public class MainController {
 			}
 			Visualizer.setVertexState(newVal.get(0), State.START, false);
 			Visualizer.setVertexState(newVal.get(newVal.size() - 1), State.GOAL, false);
+			
+			
+			WSeminar.instance.startVertex = (VisualVertex<Integer>) graph.lookup("#V" + newVal.get(0).data());
+			WSeminar.instance.goalVertex = (VisualVertex<Integer>) graph.lookup("#V" + newVal.get(newVal.size() - 1).data());
 		});
 		
 		path_tree.getRoot().addEventHandler(TreeItem.childrenModificationEvent(), e -> path_tree_benchmark.setRoot(path_tree.getRoot()));
