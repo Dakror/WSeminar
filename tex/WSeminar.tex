@@ -39,7 +39,7 @@
 \renewcommand{\algorithmicthen}{\textbf{dann}}
 \renewcommand{\algorithmicreturn}{\textbf{gib zurück}}
 \renewcommand{\algorithmicuntil}{\textbf{solange}} % for the classic do ... while
-\renewcommand{\algorithmicwhile}{\textbf{solange}} % for the classic do ... while
+\renewcommand{\algorithmicwhile}{\textbf{solange}}
 \newcommand{\sei}{\textbf{sei }}
 
 \includepdf[pages={1}]{res/deckblatt_erklaerung.pdf}
@@ -49,11 +49,11 @@
 \clearpage
 
 \section{Risikofaktor Navigationsgerät}
-"`Wenn möglich, bitte wenden"\ auf der Autobahn. "`Jetzt links abbiegen"\ im Kreisverkehr. Navigationssysteme können Todesfallen oder Verursacher schwerer Unglücke sein. Denn die Menschen vertrauen ihnen oft blind. So zum Beispiel erging es einem 33-jährigen im niedersächsischen Einbeck. Denn als die Polizei an der Unfallstelle eintraf, bot sich ihnen ein kurioses Bild: Der Pkw steckte auf einer abwärtsführenden Fußgängertreppe fest. Jegliche Versuche des Fahrers, sein Fahrzeug zu befreien, blieben erfolglos. Bedanken darf sich dieser Mann, ebenso wie eine junge Frau, die aufgrund eines Tippfehlers in einem Ort 850km entfernt vom gewünschten Ziel eintraf, bei der allzu freundlichen Stimme aus der Mittelkonsole \cite{navi}. Darum ist es umso wichtiger, dass "`Navis"\ immer über aktuellste Kartendaten verfügen und auch ausgiebig auf Fehler geprüft werden. 
+"`Wenn möglich, bitte wenden"\ auf der Autobahn. "`Jetzt links abbiegen"\ im Kreisverkehr. Navigationssysteme können Todesfallen oder Verursacher schwerer Unglücke sein. Denn die Menschen vertrauen ihnen oft blind. So zum Beispiel erging es einem 33-jährigen im niedersächsischen Einbeck. Denn als die Polizei an der Unfallstelle eintraf, bot sich ihr ein kurioses Bild: Der Pkw steckte auf einer abwärtsführenden Fußgängertreppe fest. Jegliche Versuche des Fahrers, sein Fahrzeug zu befreien, blieben erfolglos. Bedanken darf sich dieser Mann, ebenso wie eine junge Frau, die aufgrund eines Tippfehlers in einem Ort 850km entfernt vom gewünschten Ziel eintraf, bei der allzu freundlichen Stimme aus der Mittelkonsole \cite{navi}. Darum ist es umso wichtiger, dass "`Navis"\ immer über aktuellste Kartendaten verfügen und auch ausgiebig auf Fehler geprüft werden. 
 \\
 Aber nicht nur detailreiche Straßeninformationen sind für ein gutes Navigationsgerät von Bedeutung. Denn die Daten können noch so genau sein; wenn das Gerät keine vernünftigen Wege berechnen kann, ist es genau so unbrauchbar. Darum geht es in dieser Arbeit, nämlich die verschiedenen Methoden zur Wegberechnung in einem Straßen-\textit{Netz} oder ähnlichem. Es werden drei \textit{Algorithmen} vorgestellt und Vergleiche der selbigen angestellt, um festzustellen, für welche Zwecke welche Methode am zielführendsten ist. Als Werkzeug zur genaueren Untersuchung und für Vergleichsstatistiken habe ich zusätzlich ein Programm namens \textit{PathFinder} geschrieben, in dem die \textit{Algorithmen} adaptiert sind. Diese Ausführungen sind in gewisser Weise als Bedienungsanleitung des Programms zu sehen, da sich sämtliche Darstellungen und Tabellendaten darauf stützen. 
 \\
-Mit der Mathematik als Leitfach, im Themenbereich von Extremwertproblemen, wird konkret das \textit{Problem des kürzesten Wegs} in Angriff genommen. Der optimale, kürzeste Weg zeichnet sich aber nicht nur durch seine Eigenschaft, am schnellsten von \textit{A} nach \textit{B} zu gelangen, aus, sondern auch durch die für die Bestimmung dieses Wegs benötigte Zeit und den Rechenaufwand. Denn ein "`Navi", das vier Stunden rechnet, um den besten Weg zu ermitteln, wird sich nicht bei den Konsumenten durchsetzen, aber genauso wenig ein Gerät, welches den Fahrer ohne Rechenzeit über Feld- und Waldwege lotst. Es muss eine \textit{Balance zwischen Quantität und Qualität} gefunden werden. Und wo diese Mitte liegt, versuchen wir nun herauszufinden.
+Mit der Mathematik als Leitfach, im Themenbereich von Extremwertproblemen, wird konkret das \textit{Problem des kürzesten Wegs} in Angriff genommen. Der optimale, kürzeste Weg zeichnet sich aber nicht nur durch seine Eigenschaft, am schnellsten von \textit{A} nach \textit{B} zu gelangen, aus, sondern auch durch die für die Bestimmung dieses Wegs benötigte Zeit und den Rechenaufwand. Denn ein "`Navi", das vier Stunden rechnet, um den besten Weg zu ermitteln, wird sich nicht bei den Konsumenten durchsetzen, aber genauso wenig ein Gerät, welches den Fahrer ohne Rechenzeit über Feld- und Waldwege lotst. Es muss eine \textit{Balance zwischen Quantität und Qualität} gefunden werden. Und wo diese Mitte liegt, gilt es nun herauszufinden.
 \newpage
 
 \section{Grundlagen und Terminologie}
@@ -62,7 +62,7 @@ In diesem Abschnitt werden die grundlegenden Begriffe der Graphen-Theorie geklä
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
 \\
-Die maximale Laufzeit eines \textit{Algorithmus}, auch genannt \textit{Zeitkomplexität}, wird in der "`big-O"\,-Notation (von engl. "`großes O") in Form des \textit{Landau-Symbols} $O$ angegeben. Dabei werden sämtliche kleineren Polynome aufgrund ihres geringeren Wachstums vernachlässigt. 
+Die maximale Laufzeit eines \textit{Algorithmus}, auch genannt \textit{Zeitkomplexität}, wird in der "`big-O"\,-Notation (engl. für "`großes O") in Form des \textit{Landau-Symbols} $O$ angegeben. Dabei werden sämtliche kleineren Polynome aufgrund ihres geringeren Wachstums vernachlässigt. 
 \\
 So zum Beispiel lässt sich ein \textit{Algorithmus}, der in der Zeit $O(n^2+5n)$ abläuft, auf die \textit{Komplexität} $O(n^2)$ kürzen. Hierbei stellt $n$ die Anzahl an \textit{Iterationen}, also Schritten dar. Diese Angabe ist wird als primäres Vergleichskriterium von Laufzeiten verwendet \cite{big-o}.
 \\
@@ -72,15 +72,16 @@ Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{
 \\
 Sobald sich keinerlei \textit{Kanten} in der Darstellung kreuzen, wird ein \textit{Graph} als \textit{planar} bezeichnet. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich diese als Pfeil interpretieren, da die Verbindung unidirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
 \\
-In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}-Paar nur einfach verbunden ist, reicht in der Implementierung diese Annahme aus.
+In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten} paar nur einfach verbunden ist, reicht in der Implementierung diese Annahme aus.
 \\
-Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, der allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
+Unter \textit{Backtracking} versteht man in der Wegfindung das rückwärtige Abbarbeiten der Suchergebnisse eines \textit{Pathfinding-Algorithmus} vom \textit{Zielknoten} aus. 
+\\
+Somit erhält man den gewünschten \textit{Weg} als Ergebnis. Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, der allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
 \\
 Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseudozufall}-Generator verwendet \cite{random}. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen von Zahlen und genügt für unsere Zwecke. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt werden kann.
 \section{Aufbau und Bedienung des Programms \textit{PathFinder}}
 \label{sec:manual}
 Das selbstgeschriebene Programm \textit{PathFinder}, im eigentlichen Fokus stehend, fungiert sowohl als visuelle Möglichkeit der Darstellung von \textit{Graphen}, als auch als Quelle für Vergleichsdaten und Messungen in selbst erzeugten Szenarien. Geschrieben ist die Anwendung in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx} und umfasst über 3000 Zeilen Code in 39 Quelldateien.\footnote{siehe Anhang: CD-ROM}
-
 \begin{wrapfigure}{l}{0.45\textwidth}
 \vspace{-20pt}
 \begin{center}
@@ -164,8 +165,18 @@ Es gibt die verschiedensten Ansätze, zu einer übersichtlichen Visualisierung z
 Vorteile dieser Methode sind die enorme Flexibilität der Simulation und die sehr zufriedenstellenden Resultate in Bezug auf die \textit{Planarität} des visualiserten \textit{Graphen}. Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, die benötigt wird, um ein akzeptables Ergebnis zu erhalten; insbesondere bei sehr großen \textit{Netzen}.
 \\
 Der in \textit{PathFinder} verwendete \textit{Algorithmus} ist der \textit{Fruchtermann-Reingold Algorithmus}\footnote{\cite[Kapitel 12.3, S. 386f]{force-directed2}}, der 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die Prinzipien, dass verbundene \textit{Knoten} nebeneinander liegen und sämtliche \textit{Knoten} trotzdem nicht zu nahe beieinander platziert werden sollten.
-\\
-Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
+
+\begin{wrapfigure}{l}{0.38\textwidth}
+\vspace{-30pt}
+\begin{center}
+\includegraphics[scale=0.2]{res/graph_1.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{F.-R. Algorithmus}
+\label{fig:graph_1}
+\end{wrapfigure}
+\noindent Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
 \[
 k = \sqrt{\dfrac{w \cdot h}{n}} 
 \]
@@ -173,24 +184,11 @@ definiert. Sie findet Verwendung in den beiden \textit{Kräften} der Simulation.
 \[
  F_a(x) = \dfrac{x^2}{k} \hspace{50pt} F_r(x) = \dfrac{k^2}{x}
 \]
-Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wird $F_a$, danach $F_r$, für jeden einzelnen \textit{Knoten} berechnet. Im dritten Schritt 
-\begin{wrapfigure}{l}{0.4\textwidth}
-\vspace{-20pt}
-\begin{center}
-\includegraphics[scale=0.16]{res/graph_1.png}
-\end{center}
-\vspace{-30pt}
-\centering
-\caption{F.-R. Algorithmus}
-\label{fig:graph_1}
-\end{wrapfigure}
-werden die Effekte dieser berechneten \textit{Kräfte} umgesetzt (\textit{Disposition}), aber nur in durch die \textit{Temperatur} begrenzter Länge.
-\\
-Die \textit{Temperatur} ist ein Wert, der bei jedem Durchlauf des \textit{Algorithmus} bis auf $0$ verringert wird, um die Verschiebungen der \textit{Knoten} immer präziser werden zu lassen. Anfangs wird der Wert beliebig festgelegt. Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion $t(s)$ abgebildet wird, entspricht
+Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wird $F_a$, danach $F_r$, für jeden einzelnen \textit{Knoten} berechnet. Im dritten Schritt werden die Effekte dieser berechneten \textit{Kräfte} umgesetzt (\textit{Disposition}), aber nur in durch die \textit{Temperatur} begrenzter Länge. Die \textit{Temperatur} ist ein Wert, der bei jedem Durchlauf des \textit{Algorithmus} bis auf $0$ verringert wird, um die Verschiebungen der \textit{Knoten} immer präziser werden zu lassen. Anfangs wird der Wert beliebig festgelegt. Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion  $t(s)$ abgebildet wird, entspricht
 \[
 t_0 = \dfrac{1}{10} \cdot w \hspace{50pt} t(s) = t_0 - \dfrac{t_0}{s_{max}} \cdot s \hspace{50pt} s_{max} = s_g \cdot 500
 \]
-Außerdem wird eine Maximalanzahl $s_{max}$ an Simulationsschritten definiert, in deren Abhängigkeit die \textit{Temperatur} verringert wird. In der Anwendung wird diese Maximalgröße wie angegeben berechnet, wobei $s_g$ die bei der \textit{Graph}-Erzeugung angegebene \textit{Größe} ist.
+Außerdem wird eine Maximalanzahl an Simulationsschritten $s_{max}$  definiert, in deren Abhängigkeit die \textit{Temperatur} verringert wird. In der Anwendung wird diese Maximalgröße wie angegeben berechnet, wobei $s_g$ die bei der \textit{Graph}-Erzeugung angegebene \textit{Größe} ist.
 Somit erhält man in \textit{PathFinder} folgende Gesamtfunktion: 
 \[
 t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
@@ -198,12 +196,13 @@ t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
 \section{Wegfindungs-Algorithmen}
 Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
 \\
-Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss- ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das Ganze so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und in einer \textit{Distanz-Matrix} abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(n^2)$, die für größere \textit{Graphen} einfach untragbar ist. Außerdem wächst ja die benötigte Speicherkapazität in gleichem Maße.
-\\ 
+Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss- ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten} paar vorberechnen und in einer \textit{Distanz-Matrix} abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(n^2)$, die für größere \textit{Graphen} einfach untragbar ist. Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
+\\
 Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real time", also Echtzeit berechnen. In dieser Arbeit wird nur auf die vollständig in Echtzeit ablaufenden Umsetzungen eingegangen, doch \textit{Algorithmen} wie \textit{Kontraktions-Hierarchien}, die im Voraus eine kompaktere und performantere Version des gesamten \textit{Graphen} errechnen, sind, besonders in sehr großen Netzwerken oder Systemen, von Bedeutung, da diese trotz des höheren Rechenaufwands enorm zu einer schnelleren Laufzeit beitragen \cite{contr-hier}.
-\newpage
-
+\\
+Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Die Einstellungen sind alle auf den Standard-Werten und der Seed ist $7646137120994539520$. Es wird immer der Weg vom \textit{Knoten} Nr. 4 zu Nr. 12 gesucht.
 \subsection{Gröbste Züge von Intelligenz: Tiefensuche}
+Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist nämlich das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich in eine Richtung \textit{traversiert} (von lat. "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, 
 \begin{algorithm}
 \caption{\textit{Tiefensuche} \label{alg:dfs}}
 \begin{algorithmic}[1]
@@ -230,6 +229,8 @@ Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real ti
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht} bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde (\autoref{alg:dfs})\footnote{vgl. Anhang: DFS.java}. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457ff]{cormen}}.
+
 \newpage
 
 \subsection{Heuristik als Mittel zum Ziel: Der Dijkstra-Algorithmus}
@@ -268,7 +269,7 @@ Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real ti
 %\nocite{*}
 %\bibliographystyle{plain}
 %\bibliography{WSeminar}
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{navi} Stern.de: Kuriose Navi-Unfälle\\
 \newblock http://www.stern.de/digital/technik/navi-missgeschicke--in-100-metern-fahren-sie------in-den-fluss-3087618.html \\\emph{zul. abgerufen am 27.10.15}
 
@@ -282,7 +283,7 @@ Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real ti
 \newblock http://arxiv.org/pdf/1201.3011v1.pdf \\\emph{zul. abgerufen am 24.10.15}
 
 \bibitem{force-directed2} Stephen~G. Kobourov\\
-\newblock "`Force-Directed Drawing Algorithms", Kapitel 12, S. 384-408, 2013\\
+\newblock "`Force-Directed Drawing Algorithms", 2013\\
 \newblock https://cs.brown.edu/~rt/gdhandbook/chapters/force-directed.pdf \\\emph{zul. abgerufen am 30.10.15}
 
 \bibitem{fruchterman} Thomas M.~J. Fruchterman und Edward~M. Reingold\\
@@ -299,8 +300,16 @@ Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real ti
 \newblock "`Contraction Hierarchies: Faster and Simpler Hierarchical Routing in Road Networks", 2008\\
 \newblock http://algo2.iti.kit.edu/schultes/hwy/contract.pdf \\\emph{zul. abgerufen am 30.10.15}
 
+\bibitem{cormen} Thomas H. Cormen\\
+\newblock "`Introduction to Algorithms", 2. Ausgabe, 2001\\
+\newblock http://www.mif.vu.lt/$\sim$valdas/ALGORITMAI/LITERATURA/Cormen/Cormen.pdf \\\emph{zul. abgerufen am 30.10.15}
+
 \end{thebibliography}
 \newpage
+
+\includepdf{res/GraphGenerator.pdf}
+
+\includepdf{res/DFS.pdf}
 
 \includepdf[pages=2, pagecommand={\thispagestyle{plain}}]{res/deckblatt_erklaerung.pdf}
 \end{document}

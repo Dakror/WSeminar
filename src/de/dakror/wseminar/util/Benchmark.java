@@ -144,6 +144,8 @@ public class Benchmark<V> {
 		for (Timestamp ts : get(t))
 			if (ts.stamp < m && ts.stamp > 0) m = ts.stamp;
 			
+		if (m == Float.MAX_VALUE) return 0;
+		
 		return m;
 	}
 	
