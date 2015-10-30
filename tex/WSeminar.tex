@@ -103,7 +103,7 @@ Im nächsten Schritt wird nun ein Graph erzeugt und die Funktionsweise des Gener
 \end{wrapfigure}
 \textit{Parameter} zur Konfiguration anbietet. 
 \\
-Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Regler für die Größe $s$ und ein \textit{Seed}-Eingabefeld ausgestattet. Der \textit{Seed} wird verwendet, um die Möglichkeit zu haben, in späteren Tests mit dem gleichen \textit{Graphen} zu arbeiten.
+Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Regler für die Größe $s_g$ und ein \textit{Seed}-Eingabefeld ausgestattet. Der \textit{Seed} wird verwendet, um die Möglichkeit zu haben, in späteren Tests mit dem gleichen \textit{Graphen} zu arbeiten.
 \\
 Im \textit{Erweitert}-Bereich lässt sich die Generierung aufs Genaueste einstellen. So können die Anzahl an Maximalknoten $n_{max}$ und die maximale \textit{Kanten}-Anzahl $e_{max}$ pro \textit{Knoten} festgelegt werden. Ebenso kann die Wahl zwischen drei Typen $t$ von \textit{Kanten} getroffen werden: \textit{Ungerichtet}, \textit{Gemischt} und \textit{Gerichtet}, was alle \textit{Kanten} des zu generierenden \textit{Graphen} betrifft. Die Option \textit{Gemischt} bewirkt, dass die Gerichtetheit jeder \textit{Kante} zufallsbedingt ist.
 \\
@@ -119,7 +119,7 @@ min(a, b) \to \text{Kleinere der beiden Parameter}
 \end{aligned}
 \right)
 \end{gather*}
-wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der Ausgangsknoten selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, wird die 
+wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der \textit{Ausgangsknoten} selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, wird die 
 \begin{algorithm}
 \caption{\textit{Graph-Generator} \label{alg:generator}}
 \begin{algorithmic}[1]
@@ -127,9 +127,9 @@ wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren ka
 \Require {Zufallsgenerator R, max. Kantengewicht $W_{max} = 30$}
 \Ensure {Graph g}
 \Statex
-\Procedure{generiereGraph}{$seed$, $s$, $n_{max}$, $e_{max}$, $t$}
+\Procedure{generiereGraph}{$seed$, $s_g$, $n_{max}$, $e_{max}$, $t$}
 	\State setze Seed von $R$ zu $seed$
-	\State \sei $n$ $R(n_{max}/2,\,n_{max}) * s$ \Comment Zufällige Anzahl im Interval $\big[n_{max}/2;\;n_{max}\big[$
+	\State \sei $n$ $R(n_{max}/2,\,n_{max}) * s_g$ \Comment Zufällige Anzahl im Interval $\big[n_{max}/2;\;n_{max}\big[$
 	\State füge $n$ $Knoten$ zu $g$ hinzu
 	\For {$i=0 \to n$}
 		\State \sei $e$ $max(1,\,R(0,\;min(n/2-1,\,e_{max})))$
@@ -178,7 +178,7 @@ Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "
 \[
 k = \sqrt{\dfrac{w \cdot h}{n}} 
 \]
-definiert. Sie findet Verwendung in den beiden \textit{Kräften} der Simulation. Die \textit{Kraft} $F_a$ beschreibt die Anziehung zwischen Knoten, $F_r$ die Abstoßung dieser voneinander.
+definiert. Sie findet Verwendung in den beiden \textit{Kräften} der Simulation. Die \textit{Kraft} $F_a$ beschreibt die Anziehung zwischen \textit{Knoten}, $F_r$ die Abstoßung dieser voneinander.
 \[
  F_a(x) = \dfrac{x^2}{k} \hspace{50pt} F_r(x) = \dfrac{k^2}{x}
 \]
@@ -186,9 +186,13 @@ Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wi
 \newpage
 \noindent Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion $t(s)$ abgebildet wird, entspricht
 \[
-t_0 = \dfrac{1}{10} \cdot w \hspace{50pt} t(s) = t_0 \cdot \dfrac{s}{s_{max}} \hspace{50pt} s_{max} = s_g \cdot 500
+t_0 = \dfrac{1}{10} \cdot w \hspace{50pt} t(s) = t_0 - \dfrac{t_0}{s_{max}} \cdot s \hspace{50pt} s_{max} = s_g \cdot 500
 \]
 Außerdem wird eine Maximalanzahl $s_{max}$ an Simulationsschritten definiert, in deren Abhängigkeit die \textit{Temperatur} verringert wird. In der Anwendung wird diese Maximalgröße wie angegeben berechnet, wobei $s_g$ die bei der \textit{Graph}-Erzeugung angegebene \textit{Größe} ist.
+Somit erhält man in \textit{PathFinder} folgende Gesamtfunktion: 
+\[
+t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
+\]
 \section{Wegfindungs-Algorithmen}
 Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
 
@@ -204,18 +208,18 @@ Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Program
 \Statex
 \Procedure{tiefenSuche}{$n_a$, $n_b$}
 	\State markiere alle \textit{Knoten} in $G$ als $unbesucht$, außer $n_a$
-	\State \sei $n$ aktiver \textit{Knoten} $n_a$
+	\State \sei $n_x$ aktiver \textit{Knoten} $n_a$
 	\While{nicht alle \textit{Knoten} $besucht$ sind}
-		\If{$n$ ist $n_b$}
+		\If{$n_x$ ist $n_b$}
 			\State erschließe Weg $P_{ab}$ durch \textit{Vorgänger} und beende Suche
 		\EndIf
-		\If{$n$ keine unbesuchten Nachbarn hat}
-			\State \sei $n$ \textit{Vorgänger} von $n$
+		\If{$n_x$ keine unbesuchten Nachbarn hat}
+			\State \sei $n_x$ \textit{Vorgänger} von $n_x$
 		\Else
-			\State sortiere unbesuchte Nachbarn von $n$
+			\State sortiere unbesuchte Nachbarn von $n_x$
 			\State \sei $n_{next}$ unbesuchter Nachbar mit geringstem \textit{Kantengewicht}
-			\State setze $n$ als \textit{Vorgänger} von $n_{next}$
-			\State \sei $n$ $n_{next}$
+			\State setze $n_x$ als \textit{Vorgänger} von $n_{next}$
+			\State \sei $n_x$ $n_{next}$
 		\EndIf
 	\EndWhile
 \EndProcedure
