@@ -49,16 +49,16 @@
 \clearpage
 
 \section{Risikofaktor Navigationsgerät}
-"`Wenn möglich, bitte wenden"\ auf der Autobahn. "`Jetzt links abbiegen"\ im Kreisverkehr. Navigationssysteme können Todesfallen oder Verursacher schwerer Unglücke sein. Denn die Menschen vertrauen ihnen oft blind. So zum Beispiel erging es einem 33-jährigen im niedersächsischen Einbeck. Denn als die Polizei an der Unfallstelle eintraf, bot sich ihr ein kurioses Bild: Der Pkw steckte auf einer abwärtsführenden Fußgängertreppe fest. Jegliche Versuche des Fahrers, sein Fahrzeug zu befreien, blieben erfolglos. Bedanken darf sich dieser Mann, ebenso wie eine junge Frau, die aufgrund eines Tippfehlers in einem Ort 850km entfernt vom gewünschten Ziel eintraf, bei der allzu freundlichen Stimme aus der Mittelkonsole \cite{navi}. Darum ist es umso wichtiger, dass "`Navis"\ immer über aktuellste Kartendaten verfügen und auch ausgiebig auf Fehler geprüft werden. 
+"`Wenn möglich, bitte wenden"\ auf der Autobahn. "`Jetzt links abbiegen"\ im Kreisverkehr. Navigationssysteme können Todesfallen oder Verursacher schwerer Unglücke sein. Denn die Menschen vertrauen ihnen oft blind. So zum Beispiel erging es einem 33-jährigen im niedersächsischen Einbeck. Denn als die Polizei an der Unfallstelle eintraf, bot sich ihr ein kurioses Bild: Der Pkw steckte auf einer abwärtsführenden Fußgängertreppe fest. Jegliche Versuche des Fahrers, sein Fahrzeug zu befreien, blieben erfolglos. Bedanken darf sich dieser Mann, ebenso wie eine junge Frau, die aufgrund eines Tippfehlers in einem Ort 850 km entfernt vom gewünschten Ziel eintraf, bei der allzu freundlichen Stimme aus der Mittelkonsole \cite{navi}. Darum ist es umso wichtiger, dass "`Navis"\ immer über aktuellste Kartendaten verfügen und auch ausgiebig auf Fehler geprüft werden. 
 \\
-Aber nicht nur detailreiche Straßeninformationen sind für ein gutes Navigationsgerät von Bedeutung. Denn die Daten können noch so genau sein; wenn das Gerät keine vernünftigen Wege berechnen kann, ist es genau so unbrauchbar. Darum geht es in dieser Arbeit, nämlich die verschiedenen Methoden zur Wegberechnung in einem Straßen-\textit{Netz} oder ähnlichem. Es werden drei \textit{Algorithmen} vorgestellt und Vergleiche der selbigen angestellt, um festzustellen, für welche Zwecke welche Methode am zielführendsten ist. Als Werkzeug zur genaueren Untersuchung und für Vergleichsstatistiken habe ich zusätzlich ein Programm namens \textit{PathFinder} geschrieben, in dem die \textit{Algorithmen} adaptiert sind. Diese Ausführungen sind in gewisser Weise als Bedienungsanleitung des Programms zu sehen, da sich sämtliche Darstellungen und Tabellendaten darauf stützen. 
+Aber nicht nur detailreiche Straßeninformationen sind für ein gutes Navigationsgerät von Bedeutung, sondern auch die Verarbeitung dieser. Denn die Daten können noch so genau sein; wenn das Gerät keine vernünftigen Wege berechnen kann, ist es genau so unbrauchbar. Darum geht es in dieser Arbeit, nämlich die verschiedenen Methoden zur Wegberechnung in einem Straßen-\textit{Netz} oder ähnlichem. Es werden drei \textit{Algorithmen} vorgestellt und verglichen, um festzustellen, für welche Zwecke welche Methode am zielführendsten ist. Als Werkzeug zur genaueren Untersuchung und zur Erzeugung von Vergleichsstatistiken habe ich ein Programm namens \textit{PathFinder} geschrieben, in dem die \textit{Algorithmen} adaptiert sind. Die Ausführungen in dieser Arbeit sind in gewisser Weise als Bedienungsanleitung des Programms zu sehen, da sich sämtliche Darstellungen und Tabellendaten darauf stützen. 
 \\
 Mit der Mathematik als Leitfach, im Themenbereich von Extremwertproblemen, wird konkret das \textit{Problem des kürzesten Wegs} in Angriff genommen. Der optimale, kürzeste Weg zeichnet sich aber nicht nur durch seine Eigenschaft, am schnellsten von \textit{A} nach \textit{B} zu gelangen, aus, sondern auch durch die für die Bestimmung dieses Wegs benötigte Zeit und den Rechenaufwand. Denn ein "`Navi", das vier Stunden rechnet, um den besten Weg zu ermitteln, wird sich nicht bei den Konsumenten durchsetzen, aber genauso wenig ein Gerät, welches den Fahrer ohne Rechenzeit über Feld- und Waldwege lotst. Es muss eine \textit{Balance zwischen Quantität und Qualität} gefunden werden. Und wo diese Mitte liegt, gilt es nun herauszufinden.
 \newpage
 
 \section{Grundlagen und Terminologie}
 \label{sec:basics}
-In diesem Abschnitt werden die grundlegenden Begriffe der Graphen-Theorie geklärt. Auch Fachbegriffe aus der Implementierung durch die Informatik werden erläutert.
+Zunächst werden in diesem Abschnitt die grundlegenden Begriffe der Graphen-Theorie geklärt. Auch Fachbegriffe aus der Implementierung durch die Informatik werden erläutert.
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
 \\
@@ -66,19 +66,19 @@ Die maximale Laufzeit eines \textit{Algorithmus}, auch genannt \textit{Zeitkompl
 \\
 So zum Beispiel lässt sich ein \textit{Algorithmus}, der in der Zeit $O(n^2+5n)$ abläuft, auf die \textit{Komplexität} $O(n^2)$ kürzen. Hierbei stellt $n$ die Anzahl an \textit{Iterationen}, also Schritten dar. Diese Angabe ist wird als primäres Vergleichskriterium von Laufzeiten verwendet \cite{big-o}.
 \\
-Die Graphen-Theorie dient als Basis dieser Ausführungen. Zentrale Bedeutung hat der namensgebende \textit{Graph} $G\; = (V,\,E)$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ (von engl. "`Vertex") und einer Menge \textit{Kanten} $E$ (von engl. "`Edge") besteht.
+Die Graphen-Theorie dient als Basis dieser Arbeit. Zentrale Bedeutung hat der namensgebende \textit{Graph} $G\; = (V,\,E)$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ (von engl. "`Vertex") und einer Menge \textit{Kanten} $E$ (von engl. "`Edge") besteht.
 \\
 Zeichnerisch werden \textit{Knoten} als Punkte oder Kreise dargestellt; \textit{Kanten} als Verbindungslinien zwischen zwei \textit{Knoten}. Jede \textit{Kante} hat einen \textit{Startknoten} und einen \textit{Endknoten}. 
 \\
 Sobald sich keinerlei \textit{Kanten} in der Darstellung kreuzen, wird ein \textit{Graph} als \textit{planar} bezeichnet. Wenn von einer \textit{gerichteten Kante} die Rede ist, lässt sich diese als Pfeil interpretieren, da die Verbindung unidirektional gilt. Ebenso gibt es die \textit{gewichteten Kanten}, denen nicht nur zwei \textit{Knoten} zugeordnet werden, sondern zusätzlich noch ein Gewicht $w$ (von engl. "`Weight"), ein Zahlenwert, der als Kosten der Beziehung zwischen den beiden \textit{Knoten} gesehen werden kann.
 \\
-In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten} paar nur einfach verbunden ist, reicht in der Implementierung diese Annahme aus.
+In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abfolge von \textit{Knoten} definiert. Da in der Regel jedes \textit{Knoten}paar nur einfach verbunden ist, reicht in der Implementierung diese Annahme aus.
 \\
 Unter \textit{Backtracking} versteht man in der Wegfindung das rückwärtige Abbarbeiten der Suchergebnisse eines \textit{Pathfinding-Algorithmus} vom \textit{Zielknoten} aus. 
 \\
 Somit erhält man den gewünschten \textit{Weg} als Ergebnis. Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, der allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
 \\
-Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseudozufall}-Generator verwendet \cite{random}. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen von Zahlen und genügt für unsere Zwecke. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt werden kann.
+Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseudozufalls}-Generator verwendet \cite{random}. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen von Zahlen. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt werden kann.
 \section{Aufbau und Bedienung des Programms \textit{PathFinder}}
 \label{sec:manual}
 Das selbstgeschriebene Programm \textit{PathFinder}, im eigentlichen Fokus stehend, fungiert sowohl als visuelle Möglichkeit der Darstellung von \textit{Graphen}, als auch als Quelle für Vergleichsdaten und Messungen in selbst erzeugten Szenarien. Geschrieben ist die Anwendung in der Programmiersprache \textit{Java} unter Verwendung der \textit{JavaFX}-Standardbibliothek \cite{javafx} und umfasst über 3000 Zeilen Code in 39 Quelldateien.\footnote{siehe Anhang: CD-ROM}
@@ -92,9 +92,9 @@ Das selbstgeschriebene Programm \textit{PathFinder}, im eigentlichen Fokus stehe
 \caption{Die Start- und Hauptansicht von \textit{PathFinder}}
 \label{fig:main_screenshot}
 \end{wrapfigure}
-\noindent Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehreren "`Tabs"\ unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des \textit{Graphen}, als auch der Vergleichsstatistiken und Tabellen.
+\noindent Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehrere "`Tabs"\ unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des \textit{Graphen}, als auch der Vergleichsstatistiken und Tabellen.
 \\
-Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Features visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys"\;zu mehr Komfort oder Genauigkeit der Anwendung. So kann beispielsweise das \textit{Relayout} (siehe \autoref{sec:layout}) des \textit{Graphen} per "`L"\ Taste, das \textit{Generieren} (siehe \autoref{sec:construct}) eines neuen \textit{Netzes} unter Benutzung von "`N"\ erfolgen.
+Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Funktionen visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys"\;zu mehr Komfort oder Genauigkeit der Anwendung. So kann beispielsweise das \textit{Relayout} (siehe \autoref{sec:layout}) des \textit{Graphen} per "`L"\ Taste, das \textit{Generieren} (siehe \autoref{sec:construct}) eines neuen \textit{Netzes} unter Benutzung von "`N"\ erfolgen.
 \section{Konstruktion eines Graphen in \textit{PathFinder}}
 \label{sec:construct}
 Im nächsten Schritt wird nun ein \textit{Graph} erzeugt und die Funktionsweise des Generators betrachtet. Durch Klicken auf "`Erstellen Sie ein neues Netz..."\ wird ein Dialog-Fenster geöffnet (\autoref{fig:new_graph_screenshot}), welches verschiedene Genererierungs-
@@ -108,7 +108,7 @@ Im nächsten Schritt wird nun ein \textit{Graph} erzeugt und die Funktionsweise 
 \caption{Dialog zur \textit{Netz}-Generierung}
 \label{fig:new_graph_screenshot}
 \end{wrapfigure}
-\textit{Parameter} zur Konfiguration anbietet. 
+\textit{Parameter} zur Konfiguration anbietet.
 \\
 Unterteilt sind diese Einstellungen in zwei Bereiche: \textit{Generell} und \textit{Erweitert}. \textit{Generelle} Optionen sind für den einfachen Gebrauch ausreichend mit einem Regler für die Größe $s_g$ und ein \textit{Seed}-Eingabefeld ausgestattet. Der \textit{Seed} wird verwendet, um die Möglichkeit zu haben, in späteren Tests mit dem gleichen \textit{Graphen} zu arbeiten.
 \\
@@ -165,16 +165,15 @@ Es gibt die verschiedensten Ansätze, zu einer übersichtlichen Visualisierung z
 Vorteile dieser Methode sind die enorme Flexibilität der Simulation und die sehr zufriedenstellenden Resultate in Bezug auf die \textit{Planarität} des visualiserten \textit{Graphen}. Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, die benötigt wird, um ein akzeptables Ergebnis zu erhalten; insbesondere bei sehr großen \textit{Netzen}.
 \\
 Der in \textit{PathFinder} verwendete \textit{Algorithmus} ist der \textit{Fruchtermann-Reingold Algorithmus}\footnote{\cite[Kapitel 12.3, S. 386f]{force-directed2}}, der 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die Prinzipien, dass verbundene \textit{Knoten} nebeneinander liegen und sämtliche \textit{Knoten} trotzdem nicht zu nahe beieinander platziert werden sollten.
-
 \begin{wrapfigure}{l}{0.4\textwidth}
 \vspace{-20pt}
 \begin{center}
-\includegraphics[scale=0.25]{res/graph_1.png}
+\includegraphics[scale=0.25]{res/graph_2.png}
 \end{center}
 \vspace{-30pt}
 \centering
-\caption{F.-R. Algorithmus}
-\label{fig:graph_1}
+\caption{F.-R. \textit{Algorithmus}}
+\label{fig:graph_2}
 \end{wrapfigure}
 \noindent Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
 \[
@@ -196,13 +195,49 @@ t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
 \section{Wegfindungs-Algorithmen}
 Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
 \\
-Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss- ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten} paar vorberechnen und in einer \textit{Distanz-Matrix} abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(n^2)$, die für größere \textit{Graphen} einfach untragbar ist. Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
+Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss- ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(n^2)$, die für größere \textit{Graphen} einfach untragbar ist. Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
 \\
 Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real time", also Echtzeit berechnen. In dieser Arbeit wird nur auf die vollständig in Echtzeit ablaufenden Umsetzungen eingegangen, doch \textit{Algorithmen} wie \textit{Kontraktions-Hierarchien}, die im Voraus eine kompaktere und performantere Version des gesamten \textit{Graphen} errechnen, sind, besonders in sehr großen Netzwerken oder Systemen, von Bedeutung, da diese trotz des höheren Rechenaufwands enorm zu einer schnelleren Laufzeit beitragen \cite{contr-hier}.
 \\
-Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Die Einstellungen sind alle auf den Standard-Werten und der Seed ist $7646137120994539520$. Es wird immer der Weg vom \textit{Knoten} Nr. 12 zu Nr. 9 gesucht. Zur besseren Übersicht wird einmal die "`Relayout"\,-Funktion in \textit{PathFinder} genutzt.
+\\
+Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Die Einstellungen sind alle auf den Standard-Werten
+\begin{wrapfigure}{l}{0.25\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[width=0.15\textwidth]{res/path_cfg.png}
+\end{center}
+\vspace{-20pt}
+\centering
+\caption{Weg-Konfiguration}
+\label{fig:path-cfg}
+\end{wrapfigure}
+und der Seed ist $7646137120994539520$. Es wird immer der Weg vom \textit{Knoten} Nr. 12 zu Nr. 9 gesucht. Zur besseren Übersicht wird einmal die "`Relayout"\,-Funktion in \textit{PathFinder} genutzt. 
+\\
+Um in \textit{PathFinder} Wege berechnen zu lassen, muss auf der linken Seite des Programms der "`Wege"\,-Tab ausgewählt sein. (\autoref{fig:path-cfg}). Im oberen Teilbereich der erscheinenden Bedienungsoberfläche werden bereits erzeugte Wege mit Details über \textit{Start-} und \textit{Zielknoten}, als auch \textit{Gesamtgewicht} und \textit{Algorithmus} angezeigt. Durch Selektion eines Weges wird dessen Verlauf in der Hauptansicht des \textit{Graphen} angezeigt. Außerdem werden durch die Selektion automatisch \textit{Start-} und \textit{Zielknoten} für eine mögliche Suche des gleichen Wegs, nur mit einer anderen Methode festgelegt, und farbig hervorgehoben (grün = Start, rot = Ziel)(vgl. \autoref{fig:dfs}). Denn das Programm erlaubt nur die einmalige Suche von genau identischen Wegen mit dem selben \textit{Algorithmus}.
+\\
+Im unteren Bereich können \textit{Start-} und \textit{Zielknoten} manuell in der \textit{Graph}anzeige vorgenommen werden. Zudem kann der gewünschte \textit{Algorithmus} ausgewählt werden und es wird eine Schaltfläche "`animiert"\ angeboten. Durch deren Aktivierung wird die Funktionsweise der Suche Schritt für Schritt nachvollziehbar und verzögert dargestellt.
 \subsection{Gröbste Züge von Intelligenz: Tiefensuche}
-Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist nämlich das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich
+Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich in eine Richtung \textit{traversiert} (lat. für "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht} bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457f]{cormen}}. 
+\\
+Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite[Kapitel 22.3, S. 459]{cormen}}, wobei $V$ der Anzahl an \textit{Knoten}, und $E$ der Anzahl an \textit{Kanten} entspricht. \autoref{fig:dfs} zeigt das Ergebnis der
+\begin{wrapfigure}{l}{0.4\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[scale=0.25]{res/dfs.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{Tiefensuche}
+\label{fig:dfs}
+\end{wrapfigure} 
+ Tiefensuche im Fallbeispiel des \textit{Wegs} von \textit{Knoten} 12 zu 9. Es ergeben sich die Gesamtkosten $w_{dfs} = 51$ durch Addition aller $e_{dfs} = 6$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 312,9389\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen.
+\\
+Im Gegensatz zu den nachfolgend vorgestellten \textit{Algorithmen} ist die Tiefensuche in \textit{PathFinder} \textit{rekursiv}, statt \textit{iterativ}, implementiert. Das bedeutet, dass die Suche aus ineinander verschachtelten Funktionsaufrufen besteht. Die Such-Funktion ruft sich selbst also mit neuen Parametern, dem aktuell untersuchten \textit{Knoten} und dessen 
+\textit{Vorgänger}, selbst wiederholt auf und setzt so die Suche fort. Diese Verschachtlung wird entweder durch das Erreichen des \textit{Zielknoten} oder der vollständigen Untersuchung des \textit{Graphen} abgebrochen. Das hat mitunter negative Auswirkungen auf die \textit{Laufzeit}, vereinfacht aber die Programmierung. 
+\\
+Um den Codeauszug in \autoref{alg:dfs}\footnote{vgl. Anhang: DFS.java} möglichst gering zu halten, wird hier die \textit{iterative} Version vorgestellt. Hierbei erfolgt die Suche durch eine \textit{explizit} festgelegte Wiederholungsschleife "`solange [...] wiederhole"(\autoref{alg:dfs}, Z. 4). 
+\\ 
+Durch den "`brute-force"\,-Charakter (engl. für "`rohe Gewalt") der Tiefensuche ist ihr Einsatz in Szenarien von großen Graphen und benötigter hoher Rechengeschwindigkeit nicht zu empfehlen, denn das simple Ausprobieren von beinahe allen möglichen Wegen ist in keiner Weise als effizient, geschweige denn "`intelligent"\ zu bezeichnen. Tatsächlich wird der \textit{Algorithmus} hauptsächlich für einen komplett anderen Zweck als die Wegfindung zwischen zwei \textit{Knoten} verwendet.
 \begin{algorithm}
 \caption{\textit{Tiefensuche} \label{alg:dfs}}
 \begin{algorithmic}[1]
@@ -229,23 +264,7 @@ Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Name
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
- in eine Richtung \textit{traversiert} (von lat. "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht}bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt 
-\begin{wrapfigure}{l}{0.4\textwidth}
-\vspace{-30pt}
-\begin{center}
-\includegraphics[scale=0.25]{res/dfs.png}
-\end{center}
-\vspace{-30pt}
-\centering
-\caption{Tiefensuche}
-\label{fig:dfs}
-\end{wrapfigure} 
-sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde (\autoref{alg:dfs})\footnote{vgl. Anhang: DFS.java}. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457f]{cormen}}. 
-\\
-Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite[Kapitel 22.3, S. 459]{cormen}}, wobei $V$ der Anzahl an \textit{Knoten} (von engl. "`Vertex"), und $E$ der Anzahl an \textit{Kanten} entspricht. \autoref{fig:dfs} zeigt das Ergebnis der Tiefensuche im Fallbeispiel des \textit{Wegs} von \textit{Knoten} 12 zu 9. Es ergeben sich die Gesamtkosten $w_{dfs} = 51$ durch Addition aller $e_{dfs} = 6$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 312,9389\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen. 
-
-\newpage
-
+Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum Einsatz, um beispielsweise einen gewissen \textit{Knoten} zu suchen oder den \textit{Graphen} in einen \textit{depth-first Baum}, also eine alternative Variante der Datenrepräsentation, umzuwandeln. In der Datenverarbeitung ein \textit{Baum} entspricht bildlich einem umgedrehten natürlichen Baum mit einer Wurzel und sich immer weiter aufteilenden, einzelnen "`Ästen"\, und stellt somit eine Daten-\textit{Hierarchie} dar.
 \subsection{Heuristik als Mittel zum Ziel: Der Dijkstra-Algorithmus}
 \begin{algorithm}
 \caption{\textit{Dijkstra-Algorithmus} \label{alg:dijkstra}}
