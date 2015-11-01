@@ -164,18 +164,20 @@ In vorangegangen Abschnitten wurde das grundlegende Konzept eines \textit{Graphe
 Es gibt die verschiedensten Ansätze, zu einer übersichtlichen Visualisierung zu gelangen, darunter die \textit{force-directed algorithms} (von engl. "`kraft-gerichtet"\ oder "`kraft-basiert")\cite{force-directed}. Diese simulieren ein einem großen Molekül ähnelndes Konstrukt, in dem verschiedene \textit{Kräfte}, die von \textit{Knoten} und \textit{Kanten} ausgehen, aufeinander wirken. Das Ziel solcher Simulationen ist das \textit{mechanische Equilibrium}, die gegenseitige Aufhebung jeglicher wirkenden \textit{Kräfte}.\\
 Vorteile dieser Methode sind die enorme Flexibilität der Simulation und die sehr zufriedenstellenden Resultate in Bezug auf die \textit{Planarität} des visualiserten \textit{Graphen}. Als Nachteil lässt sich die mitunter sehr lange Laufzeit der Berechnung sehen, die benötigt wird, um ein akzeptables Ergebnis zu erhalten; insbesondere bei sehr großen \textit{Netzen}.
 \\
-Der in \textit{PathFinder} verwendete \textit{Algorithmus} ist der \textit{Fruchtermann-Reingold Algorithmus}\footnote{\cite[Kapitel 12.3, S. 386f]{force-directed2}}, der 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die Prinzipien, dass verbundene \textit{Knoten} nebeneinander liegen und sämtliche \textit{Knoten} trotzdem nicht zu nahe beieinander platziert werden sollten.
+Der in \textit{PathFinder} verwendete \textit{Algorithmus} ist der \textit{Fruchtermann-Reingold Algorithmus}\footnote{\cite[Kapitel 12.3, S. 386f]{force-directed2}}, der 1991 von Thomas M. J. Fruchterman und Edward M. Reingold an der University of Illinois veröffentlicht wurde \cite{fruchterman}. Ihre Methode verfolgt die Prinzipien, dass
 \begin{wrapfigure}{l}{0.4\textwidth}
 \vspace{-20pt}
 \begin{center}
-\includegraphics[scale=0.25]{res/graph_2.png}
+\includegraphics[width=0.375\textwidth]{res/graph_2.png}
 \end{center}
 \vspace{-30pt}
 \centering
 \caption{F.-R. \textit{Algorithmus}}
 \label{fig:graph_2}
 \end{wrapfigure}
-\noindent Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
+ verbundene \textit{Knoten} nebeneinander liegen und sämtliche \textit{Knoten} trotzdem nicht zu nahe beieinander platziert werden sollten.
+\\
+Der Algorithmus versucht außerdem, alle \textit{Knoten} $n$ gleichmäßig innerhalb eines Rahmens zu verteilen, einer als Parameter $w$ und $h$ (von engl. "`width"\ und "`height") definierten Maximalfläche. Zunächst wird die Konstante $k$, die optimale Distanz zwischen \textit{Knoten}, als
 \[
 k = \sqrt{\dfrac{w \cdot h}{n}} 
 \]
@@ -217,27 +219,40 @@ Um in \textit{PathFinder} Wege berechnen zu lassen, muss auf der linken Seite de
 \\
 Im unteren Bereich können \textit{Start-} und \textit{Zielknoten} manuell in der \textit{Graph}anzeige vorgenommen werden. Zudem kann der gewünschte \textit{Algorithmus} ausgewählt werden und es wird eine Schaltfläche "`animiert"\ angeboten. Durch deren Aktivierung wird die Funktionsweise der Suche Schritt für Schritt nachvollziehbar und verzögert dargestellt.
 \subsection{Gröbste Züge von Intelligenz: Tiefensuche}
-Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich in eine Richtung \textit{traversiert} (lat. für "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht} bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457f]{cormen}}. 
-\\
-Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite[Kapitel 22.3, S. 459]{cormen}}, wobei $V$ der Anzahl an \textit{Knoten}, und $E$ der Anzahl an \textit{Kanten} entspricht. \autoref{fig:dfs} zeigt das Ergebnis der
-\begin{wrapfigure}{l}{0.4\textwidth}
+\begin{wrapfigure}[9]{L}{0.41\textwidth}
 \vspace{-20pt}
 \begin{center}
-\includegraphics[scale=0.25]{res/dfs.png}
+\includegraphics[width=0.375\textwidth]{res/dfs.png}
 \end{center}
 \vspace{-30pt}
 \centering
-\caption{Tiefensuche}
+\caption{Ergebnis der Tiefensuche}
 \label{fig:dfs}
-\end{wrapfigure} 
- Tiefensuche im Fallbeispiel des \textit{Wegs} von \textit{Knoten} 12 zu 9. Es ergeben sich die Gesamtkosten $w_{dfs} = 51$ durch Addition aller $e_{dfs} = 6$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 312,9389\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen.
+\end{wrapfigure}
+Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich in eine Richtung \textit{traversiert} (lat. für "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht} bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457f]{cormen}}. 
 \\
-Im Gegensatz zu den nachfolgend vorgestellten \textit{Algorithmen} ist die Tiefensuche in \textit{PathFinder} \textit{rekursiv}, statt \textit{iterativ}, implementiert. Das bedeutet, dass die Suche aus ineinander verschachtelten Funktionsaufrufen besteht. Die Such-Funktion ruft sich selbst also mit neuen Parametern, dem aktuell untersuchten \textit{Knoten} und dessen 
-\textit{Vorgänger}, selbst wiederholt auf und setzt so die Suche fort. Diese Verschachtlung wird entweder durch das Erreichen des \textit{Zielknoten} oder der vollständigen Untersuchung des \textit{Graphen} abgebrochen. Das hat mitunter negative Auswirkungen auf die \textit{Laufzeit}, vereinfacht aber die Programmierung. 
+Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite[Kapitel 22.3, S. 459]{cormen}}, wobei $V$ der Anzahl an \textit{Knoten}, und $E$ der Anzahl an \textit{Kanten} entspricht. \autoref{fig:dfs} zeigt das Ergebnis der 
+
+\noindent Tiefensuche im Fallbeispiel des \textit{Wegs} von \textit{Knoten} 12 zu 9. Es ergeben sich die Gesamtkosten $w_{dfs} = 51$ durch Addition aller $e_{dfs} = 6$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 312,9389\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen.
 \\
-Um den Codeauszug in \autoref{alg:dfs}\footnote{vgl. Anhang: DFS.java} möglichst gering zu halten, wird hier die \textit{iterative} Version vorgestellt. Hierbei erfolgt die Suche durch eine \textit{explizit} festgelegte Wiederholungsschleife "`solange [...] wiederhole"(\autoref{alg:dfs}, Z. 4). 
-\\ 
-Durch den "`brute-force"\,-Charakter (engl. für "`rohe Gewalt") der Tiefensuche ist ihr Einsatz in Szenarien von großen Graphen und benötigter hoher Rechengeschwindigkeit nicht zu empfehlen, denn das simple Ausprobieren von beinahe allen möglichen Wegen ist in keiner Weise als effizient, geschweige denn "`intelligent"\ zu bezeichnen. Tatsächlich wird der \textit{Algorithmus} hauptsächlich für einen komplett anderen Zweck als die Wegfindung zwischen zwei \textit{Knoten} verwendet.
+Im Gegensatz zu den nachfolgend vorgestellten \textit{Algorithmen} ist die Tiefensuche in \textit{PathFinder} \textit{rekursiv}, statt \textit{iterativ}, implementiert. Das bedeutet, dass die Suche aus
+\begin{wrapfigure}{L}{0.41\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[width=0.375\textwidth]{res/dfs_time.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{Verhalten der Tiefensuche}
+\label{fig:dfs-time}
+\end{wrapfigure}
+
+\noindent ineinander verschachtelten Funktionsaufrufen besteht. Die Such-Funktion ruft sich selbst also mit neuen Parametern, dem aktuell untersuchten \textit{Knoten} und dessen 
+\textit{Vorgänger}, selbst wiederholt auf und setzt so die Suche fort. Diese Verschachtlung wird entweder durch das Erreichen des \textit{Zielknotens} oder der vollständigen Untersuchung des \textit{Graphen} abgebrochen. Das hat mitunter negative Auswirkungen auf die \textit{Laufzeit}, vereinfacht aber die Programmierung. 
+\\
+Neben der \textit{Gesamtlaufzeit} wird in \textit{PathFinder} ebenfalls das Verhalten der \textit{Algorithmen} aufgezeichnet. So kommt das Liniendiagramm in \autoref{fig:dfs-time} zustande. Es werden Werte wie die Anzahl an inspizierten \textit{Knoten}, bzw. \textit{verschiedenen Knoten}, und Nummer von \textit{Sortier}-Vorgängen in ein Anzahl-Zeit Diagramm eingetragen. Daraus lässt sich die lineare Funktionsweise der Tiefensuche herleiten, da sämtliche Graphen durch Mittelungsgeraden abgebildet werden können. Dies gibt weiteren Aufschluss auf die geringe \textit{Intelligenz} der Tiefensuche, da sie keine Annäherungen an den \textit{Zielknoten} versucht, sondern den gesamten \textit{Graphen} gleichmäßig absucht.
+\\
+Um den Codeauszug in \autoref{alg:dfs}\footnote{vgl. Anhang: DFS.java} möglichst gering zu halten, wird hier die \textit{iterative} Version vorgestellt. Dabei erfolgt die Suche durch eine \textit{explizit} festgelegte Wiederholungsschleife "`solange [...] wiederhole"(\autoref{alg:dfs}, Z. 4). 
 \begin{algorithm}
 \caption{\textit{Tiefensuche} \label{alg:dfs}}
 \begin{algorithmic}[1]
@@ -264,8 +279,16 @@ Durch den "`brute-force"\,-Charakter (engl. für "`rohe Gewalt") der Tiefensuche
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum Einsatz, um beispielsweise einen gewissen \textit{Knoten} zu suchen oder den \textit{Graphen} in einen \textit{depth-first Baum}, also eine alternative Variante der Datenrepräsentation, umzuwandeln. In der Datenverarbeitung ein \textit{Baum} entspricht bildlich einem umgedrehten natürlichen Baum mit einer Wurzel und sich immer weiter aufteilenden, einzelnen "`Ästen"\, und stellt somit eine Daten-\textit{Hierarchie} dar.
-\subsection{Heuristik als Mittel zum Ziel: Der Dijkstra-Algorithmus}
+\\
+Durch den "`brute-force"\,-Charakter (engl. für "`rohe Gewalt") der Tiefensuche ist ihr Einsatz in Szenarien von großen Graphen und benötigter hoher Rechengeschwindigkeit nicht zu empfehlen, denn das simple Ausprobieren von beinahe allen möglichen Wegen ist in keiner Weise als effizient, geschweige denn "`intelligent"\ zu bezeichnen. Tatsächlich wird der \textit{Algorithmus} hauptsächlich für einen komplett anderen Zweck als die Wegfindung zwischen zwei \textit{Knoten} verwendet.
+\\
+Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum Einsatz, um beispielsweise einen gewissen \textit{Knoten} zu suchen oder den \textit{Graphen} in einen \textit{depth-first Baum}, also eine alternative Variante der Datenrepräsentation, umzuwandeln. In der Datenverarbeitung entspricht ein \textit{Baum} bildlich einem umgedrehten natürlichen Baum mit einer Wurzel und sich immer weiter aufteilenden, einzelnen "`Ästen"\, und stellt somit eine Daten-\textit{Hierarchie} dar.
+\subsection{Erfunden in 20 Minuten: Der Dijkstra-Algorithmus}
+"`{\em Eines Morgens war ich mit meiner Freundin in Amsterdam shoppen, und müde setzten wir uns in ein Terassencafé, tranken eine Tasse Kaffee [...] und dann entwarf ich den Algorithmus. Wie gesagt, es war eine 20-Minuten Erfindung.}"\footnote{\cite[(engl.), S. 42f]{interview}} (Edsger W. Dijkstra).
+\\
+Im Zusammenhang mit seiner Präsentation für die Eröffnung des ARMAC\footnote{Automatische Rechenmaschine Mathematisches Zentrum, Amsterdam} 1956, entwarf der niederländische Informatiker Edsger Wybe Dijkstra einen \textit{Algorithmus} zur Ermittlung des kürzesten Wegs von Rotterdam nach Groningen -- in einem Café, innerhalb von 20 Minuten. 
+\\
+Der \textit{Algorithmus} (\autoref{alg:dijkstra}\footnote{vgl. Anhang Dijkstra.java}) funktioniert wie folgt:
 \begin{algorithm}
 \caption{\textit{Dijkstra-Algorithmus} \label{alg:dijkstra}}
 \begin{algorithmic}[1]
@@ -273,13 +296,36 @@ Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum E
 \Require{Graph $G = (V,\ E)$}
 \Ensure{Weg $P_{ab}$ von $n_a$ nach $n_b$}
 \Statex
+\Procedure{Dijkstra}{$n_a$, $n_b$}
+	\State setze die \textit{Distanz} jedes  \textit{Knotens} auf $\infty$
+	\State \sei $Q$ Liste aller \textit{Knoten}
+	\State setze \textit{Distanz} von $n_a$ auf $0$
+	\While{$Q$ nicht leer ist}
+		\State \sei $u$ \textit{Knoten} mit geringster \textit{Distanz} aus $Q$
+		\If{$u$ ist $n_b$}
+			\State erschließe Weg $P_{ab}$ durch \textit{Vorgänger} und beende Suche
+		\EndIf		
+		
+		\State entferne $u$ aus $Q$
+		\For{jeden \textit{Nachbarn} $l$ von $u$}
+			\State \sei $a$ $Distanz_u + Kantengewicht_{ul}$
+			\If{$a < Distanz_l$}
+				\State setze \textit{Distanz} von $l$ auf $a$
+				\State setze $u$ als \textit{Vorgänger} von $l$
+			\EndIf
+		\EndFor
+	\EndWhile
+\EndProcedure
 \end{algorithmic}
 \end{algorithm}
+\newpage
+\noindent Zunächst wird die \textit{Distanz}, also die Entfernung vom \textit{Startknoten} $n_a$ aus, auf $\infty$ gesetzt. 
+Nicht dass die Entfernung tatsächlich als unendlich betrachtet wird, sondern dieser "`Wert"\ gilt auch als Zeichen, dass die entsprechenden \textit{Knoten} noch unbesucht sind.
 \newpage
 -
 \newpage
 
-\subsection{Der Allstar: Der A*-Algorithmus}
+\subsection{Der Alleskönner: Der A*-Algorithmus}
 \begin{algorithm}
 \caption{\textit{A*-Algorithmus} \label{alg:astar}}
 \begin{algorithmic}[1]
@@ -323,7 +369,7 @@ Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum E
 \newblock ftp://ftp.mathe2.uni-bayreuth.de/axel/papers/reingold:graph{\_}drawing{\_}by{\_}force{\_}directed{\_}\\placement.pdf \\\emph{zul. abgerufen am 24.10.15}
 
 \bibitem{big-o} Donald E. Knuth\\
-\newblock "`Big Omicron and big Omega and big Theta", S. 18-24, 1976\\
+\newblock "`Big Omicron and big Omega and big Theta", S. 18--24, 1976\\
 \newblock http://www.phil.uu.nl/datastructuren/09-10/knuth{\_}big{\_}omicron.pdf  \\\emph{zul. abgerufen am 30.10.15}
 
 \clearpage
@@ -335,6 +381,11 @@ Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum E
 \bibitem{cormen} Thomas H. Cormen\\
 \newblock "`Introduction to Algorithms", 2. Ausgabe, 2001\\
 \newblock http://www.mif.vu.lt/$\sim$valdas/ALGORITMAI/LITERATURA/Cormen/Cormen.pdf \\\emph{zul. abgerufen am 30.10.15}
+
+\bibitem{interview} Thomas~J. Misa and Philip~L. Frana\\
+\newblock "`An interview with Edsger W. Dijkstra"
+\newblock {\em Commun. ACM}, 53(8):41--47, 2010\\
+\newblock http://dl.acm.org/citation.cfm?doid=1787234.1787249 \\\emph{zul. abgerufen am 01.11.15}
 
 \end{thebibliography}
 \newpage

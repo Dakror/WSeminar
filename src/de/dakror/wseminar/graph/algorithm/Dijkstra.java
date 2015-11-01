@@ -56,7 +56,7 @@ public class Dijkstra<V> extends PathFinder<V> {
 			if (v.equals(from)) v.get(InfPath.class).d = 0;
 			list.add(v);
 			BM.add(v);
-			BM.add(Type.SORTS);
+			BM.add(OPEN_LIST_SIZE);
 			Visualizer.setVertexState(v, State.OPENLIST, true);
 		};
 		
@@ -70,7 +70,10 @@ public class Dijkstra<V> extends PathFinder<V> {
 				if (c == 0) return a.data().toString().compareTo(b.data().toString());
 				return c;
 			});
+			BM.add(SORTS);
 			v = list.remove(0);
+			BM.sub(OPEN_LIST_SIZE);
+			BM.add(CLOSED_LIST_SIZE);
 			Visualizer.setVertexState(v, State.CLOSEDLIST, true);
 			
 			if (v.equals(to)) {
@@ -119,7 +122,6 @@ public class Dijkstra<V> extends PathFinder<V> {
 		for (Edge<Vertex<V>> e : graph.getEdges(node)) {
 			Vertex<V> oe = e.getOtherEnd(node);
 			BM.add(oe);
-			BM.add(Type.SORTS);
 			if (list.contains(oe)) {
 				float alt = node.get(InfPath.class).d + (e instanceof WeightedEdge ? ((WeightedEdge<Vertex<V>>) e).getWeight() : 1);
 				if (alt < oe.get(InfPath.class).d) {
