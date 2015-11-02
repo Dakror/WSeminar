@@ -195,14 +195,13 @@ Somit erhält man in \textit{PathFinder} folgende Gesamtfunktion:
 t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
 \]
 \section{Wegfindungs-Algorithmen}
-Nun folgt der eigentliche Hauptteil der Arbeit. Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
+Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
 \\
-Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss- ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(n^2)$, die für größere \textit{Graphen} einfach untragbar ist. Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
+Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss- ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(V^2)$, die für größere \textit{Graphen} einfach untragbar ist (vgl. \autoref{sec:dijk}). Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
 \\
 Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real time", also Echtzeit berechnen. In dieser Arbeit wird nur auf die vollständig in Echtzeit ablaufenden Umsetzungen eingegangen, doch \textit{Algorithmen} wie \textit{Kontraktions-Hierarchien}, die im Voraus eine kompaktere und performantere Version des gesamten \textit{Graphen} errechnen, sind, besonders in sehr großen Netzwerken oder Systemen, von Bedeutung, da diese trotz des höheren Rechenaufwands enorm zu einer schnelleren Laufzeit beitragen \cite{contr-hier}.
 \\
-\\
-Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Die Einstellungen sind alle auf den Standard-Werten
+Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Die Einstellungen sind alle auf den Standard-Werten und der Seed ist $7646137120994539520$. Es wird immer der Weg vom \textit{Knoten} Nr. 12
 \begin{wrapfigure}{l}{0.25\textwidth}
 \vspace{-20pt}
 \begin{center}
@@ -213,12 +212,17 @@ Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle 
 \caption{Weg-Konfiguration}
 \label{fig:path-cfg}
 \end{wrapfigure}
-und der Seed ist $7646137120994539520$. Es wird immer der Weg vom \textit{Knoten} Nr. 12 zu Nr. 9 gesucht. Zur besseren Übersicht wird einmal die "`Relayout"\,-Funktion in \textit{PathFinder} genutzt. 
+ zu Nr. 9 gesucht. Zur besseren Übersicht wird einmal die "`Relayout"\,-Funktion in \textit{PathFinder} genutzt. 
 \\
 Um in \textit{PathFinder} Wege berechnen zu lassen, muss auf der linken Seite des Programms der "`Wege"\,-Tab ausgewählt sein. (\autoref{fig:path-cfg}). Im oberen Teilbereich der erscheinenden Bedienungsoberfläche werden bereits erzeugte Wege mit Details über \textit{Start-} und \textit{Zielknoten}, als auch \textit{Gesamtgewicht} und \textit{Algorithmus} angezeigt. Durch Selektion eines Weges wird dessen Verlauf in der Hauptansicht des \textit{Graphen} angezeigt. Außerdem werden durch die Selektion automatisch \textit{Start-} und \textit{Zielknoten} für eine mögliche Suche des gleichen Wegs, nur mit einer anderen Methode festgelegt, und farbig hervorgehoben (grün = Start, rot = Ziel)(vgl. \autoref{fig:dfs}). Denn das Programm erlaubt nur die einmalige Suche von genau identischen Wegen mit dem selben \textit{Algorithmus}.
 \\
 Im unteren Bereich können \textit{Start-} und \textit{Zielknoten} manuell in der \textit{Graph}anzeige vorgenommen werden. Zudem kann der gewünschte \textit{Algorithmus} ausgewählt werden und es wird eine Schaltfläche "`animiert"\ angeboten. Durch deren Aktivierung wird die Funktionsweise der Suche Schritt für Schritt nachvollziehbar und verzögert dargestellt.
 \subsection{Gröbste Züge von Intelligenz: Tiefensuche}
+Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich in eine Richtung \textit{traversiert} (lat. für "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, werden Schritte zurückgegangen und andere Richtungen gewählt.
+\\
+Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht} bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457f]{cormen}}. 
+\\
+Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite[Kapitel 22.3, S. 459]{cormen}}, wobei $V$ der Anzahl an \textit{Knoten}, und $E$ der Anzahl an \textit{Kanten} entspricht. \autoref{fig:dfs} zeigt das Ergebnis der 
 \begin{wrapfigure}[9]{L}{0.41\textwidth}
 \vspace{-20pt}
 \begin{center}
@@ -229,9 +233,6 @@ Im unteren Bereich können \textit{Start-} und \textit{Zielknoten} manuell in de
 \caption{Ergebnis der Tiefensuche}
 \label{fig:dfs}
 \end{wrapfigure}
-Die Tiefensuche, oder kurz DFS (von engl. "`depth first search"), hat ihren Namen von ihrer Funktionalität. Der Kerngedanke hinter dem \textit{Algorithmus} ist das kontinuierliche "`Gehen"\ in eine Richtung, sprich der \textit{Graph} wird so lange wie möglich in eine Richtung \textit{traversiert} (lat. für "`entlang gehen") und erst sobald das Voranschreiten nicht mehr gegeben ist, werden Schritte zurückgegangen und andere Richtungen gewählt. Die Richtung wird in \textit{PathFinder} durch das \textit{Kantengewicht} bestimmt. Es werden alle anliegenden \textit{Kanten} eines \textit{Knoten} der Größe nach sortiert und die Unbesuchte mit dem geringsten \textit{Gewicht} wird gewählt. Das setzt sich so lange fort, wie es noch unbesuchte \textit{Knoten} im \textit{Netz} gibt, oder das Ziel nicht erreicht wurde. Falls ein Weg gefunden wird, so wird, wie in allen weiteren vorgestellten \textit{Algorithmen}, \textit{Backtracking} angewandt\footnote{\cite[Kapitel 22.3, S. 457f]{cormen}}. 
-\\
-Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite[Kapitel 22.3, S. 459]{cormen}}, wobei $V$ der Anzahl an \textit{Knoten}, und $E$ der Anzahl an \textit{Kanten} entspricht. \autoref{fig:dfs} zeigt das Ergebnis der 
 
 \noindent Tiefensuche im Fallbeispiel des \textit{Wegs} von \textit{Knoten} 12 zu 9. Es ergeben sich die Gesamtkosten $w_{dfs} = 51$ durch Addition aller $e_{dfs} = 6$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 312,9389\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen.
 \\
@@ -250,7 +251,7 @@ Im Gegensatz zu den nachfolgend vorgestellten \textit{Algorithmen} ist die Tiefe
 \noindent ineinander verschachtelten Funktionsaufrufen besteht. Die Such-Funktion ruft sich selbst also mit neuen Parametern, dem aktuell untersuchten \textit{Knoten} und dessen 
 \textit{Vorgänger}, selbst wiederholt auf und setzt so die Suche fort. Diese Verschachtlung wird entweder durch das Erreichen des \textit{Zielknotens} oder der vollständigen Untersuchung des \textit{Graphen} abgebrochen. Das hat mitunter negative Auswirkungen auf die \textit{Laufzeit}, vereinfacht aber die Programmierung. 
 \\
-Neben der \textit{Gesamtlaufzeit} wird in \textit{PathFinder} ebenfalls das Verhalten der \textit{Algorithmen} aufgezeichnet. So kommt das Liniendiagramm in \autoref{fig:dfs-time} zustande. Es werden Werte wie die Anzahl an inspizierten \textit{Knoten}, bzw. \textit{verschiedenen Knoten}, und Nummer von \textit{Sortier}-Vorgängen in ein Anzahl-Zeit Diagramm eingetragen. Daraus lässt sich die lineare Funktionsweise der Tiefensuche herleiten, da sämtliche Graphen durch Mittelungsgeraden abgebildet werden können. Dies gibt weiteren Aufschluss auf die geringe \textit{Intelligenz} der Tiefensuche, da sie keine Annäherungen an den \textit{Zielknoten} versucht, sondern den gesamten \textit{Graphen} gleichmäßig absucht.
+Neben der \textit{Gesamtlaufzeit} wird in \textit{PathFinder} ebenfalls das Verhalten der \textit{Algorithmen} aufgezeichnet. So kommt das Liniendiagramm in \autoref{fig:dfs-time} zustande. Es werden Werte wie die Anzahl an inspizierten \textit{Knoten}, bzw. \textit{verschiedenen Knoten}, und Nummer von \textit{Sortier}-Vorgängen in ein Anzahl-Zeit Diagramm eingetragen. Auf Daten wie die \textit{Open-} und \textit{Closed-List} Größe wird in \autoref{sec:astar} eingegangen. Aus der Grafik lässt sich die lineare Funktionsweise der Tiefensuche herleiten, da sämtliche Graphen durch Mittelungsgeraden abgebildet werden können. Dies gibt weiteren Aufschluss auf die geringe \textit{Intelligenz} der Tiefensuche, da sie keine Annäherungen an den \textit{Zielknoten} versucht, sondern den gesamten \textit{Graphen} gleichmäßig absucht.
 \\
 Um den Codeauszug in \autoref{alg:dfs}\footnote{vgl. Anhang: DFS.java} möglichst gering zu halten, wird hier die \textit{iterative} Version vorgestellt. Dabei erfolgt die Suche durch eine \textit{explizit} festgelegte Wiederholungsschleife "`solange [...] wiederhole"(\autoref{alg:dfs}, Z. 4). 
 \begin{algorithm}
@@ -280,15 +281,13 @@ Um den Codeauszug in \autoref{alg:dfs}\footnote{vgl. Anhang: DFS.java} möglichs
 \end{algorithmic}
 \end{algorithm}
 \\
-Durch den "`brute-force"\,-Charakter (engl. für "`rohe Gewalt") der Tiefensuche ist ihr Einsatz in Szenarien von großen Graphen und benötigter hoher Rechengeschwindigkeit nicht zu empfehlen, denn das simple Ausprobieren von beinahe allen möglichen Wegen ist in keiner Weise als effizient, geschweige denn "`intelligent"\ zu bezeichnen. Tatsächlich wird der \textit{Algorithmus} hauptsächlich für einen komplett anderen Zweck als die Wegfindung zwischen zwei \textit{Knoten} verwendet.
-\\
-Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum Einsatz, um beispielsweise einen gewissen \textit{Knoten} zu suchen oder den \textit{Graphen} in einen \textit{depth-first Baum}, also eine alternative Variante der Datenrepräsentation, umzuwandeln. In der Datenverarbeitung entspricht ein \textit{Baum} bildlich einem umgedrehten natürlichen Baum mit einer Wurzel und sich immer weiter aufteilenden, einzelnen "`Ästen"\, und stellt somit eine Daten-\textit{Hierarchie} dar.
+Durch den "`brute-force"\,-Charakter (engl. für "`rohe Gewalt") der Tiefensuche ist ihr Einsatz in Szenarien von großen Graphen und benötigter hoher Rechengeschwindigkeit nicht zu empfehlen, denn das simple Ausprobieren von beinahe allen möglichen Wegen ist in keiner Weise als effizient, geschweige denn "`intelligent"\ zu bezeichnen. Tatsächlich wird der \textit{Algorithmus} hauptsächlich für einen komplett anderen Zweck als die Wegfindung zwischen zwei \textit{Knoten} verwendet. Vielmehr kommt er beim \textit{Traversieren} des gesamten \textit{Graphen} zum Einsatz, um beispielsweise einen gewissen \textit{Knoten} zu suchen oder den \textit{Graphen} in einen \textit{depth-first Baum}, also eine alternative Variante der Datenrepräsentation, umzuwandeln. In der Datenverarbeitung entspricht ein \textit{Baum} bildlich einem umgedrehten natürlichen Baum mit einer Wurzel und sich immer weiter aufteilenden, einzelnen "`Ästen"\, und stellt somit eine Daten-\textit{Hierarchie} dar.
 \subsection{Erfunden in 20 Minuten: Der Dijkstra-Algorithmus}
+\label{sec:dijk}
 "`{\em Eines Morgens war ich mit meiner Freundin in Amsterdam shoppen, und müde setzten wir uns in ein Terassencafé, tranken eine Tasse Kaffee [...] und dann entwarf ich den Algorithmus. Wie gesagt, es war eine 20-Minuten Erfindung.}"\footnote{\cite[(engl.), S. 42f]{interview}} (Edsger W. Dijkstra).
 \\
 Im Zusammenhang mit seiner Präsentation für die Eröffnung des ARMAC\footnote{Automatische Rechenmaschine Mathematisches Zentrum, Amsterdam} 1956, entwarf der niederländische Informatiker Edsger Wybe Dijkstra einen \textit{Algorithmus} zur Ermittlung des kürzesten Wegs von Rotterdam nach Groningen -- in einem Café, innerhalb von 20 Minuten. 
-\\
-Der \textit{Algorithmus} (\autoref{alg:dijkstra}\footnote{vgl. Anhang Dijkstra.java}) funktioniert wie folgt:
+Der \textit{Algorithmus} (\autoref{alg:dijkstra}\footnote{vgl. Anhang: Dijkstra.java}) funktioniert wie folgt:
 \begin{algorithm}
 \caption{\textit{Dijkstra-Algorithmus} \label{alg:dijkstra}}
 \begin{algorithmic}[1]
@@ -333,7 +332,7 @@ Der \textit{Algorithmus} (\autoref{alg:dijkstra}\footnote{vgl. Anhang Dijkstra.j
 
 \noindent dieser "`Wert"\ gilt auch als Zeichen, dass die entsprechenden \textit{Knoten} noch unbesucht sind.
 \\
-Schnellere, aber dadurch komplexere, Umsetzungen des \textit{Algorithmus} verwenden statt einer einfachen Liste $Q$ eine \textit{Priority-Queue} (für engl. "`Prioritäts-Warteschlange"), die auch interne Sortieroptimierungen zur Steigerung der \textit{Gesamtlaufzeit} verwendet. Eine Liste lässt sich als normale Auflistung der einzelnen Elemente ansehen, die keinerlei Sonderberechnungen vornimmt, wodurch die \textit{Zeitkomplexität} $O(V^2)$ beträgt. Diese Auflistung wird nun Stück für Stück, in sortierter Reihenfolge, abgearbeitet. Dijkstras 
+Schnellere, aber dadurch komplexere, Umsetzungen des \textit{Algorithmus} verwenden statt einer einfachen Liste $Q$ eine \textit{Priority-Queue} (für engl. "`Prioritäts-Warteschlange"), die auch interne Sortieroptimierungen zur Steigerung der \textit{Gesamtlaufzeit} verwendet. Eine Liste lässt sich als normale Auflistung der einzelnen Elemente ansehen, die keinerlei Sonderberechnungen vornimmt, wodurch die \textit{Zeitkomplexität} $O(V^2)$ beträgt. Diese Auflistung wird nun Stück für Stück, in sortierter Reihenfolge, abgearbeitet. 
 \begin{wrapfigure}{r}{0.25\textwidth}
 \vspace{-20pt}
 \begin{center}
@@ -345,9 +344,9 @@ Schnellere, aber dadurch komplexere, Umsetzungen des \textit{Algorithmus} verwen
 \label{fig:greed}
 \end{wrapfigure}
 
-\noindent \textit{Algorithmus} unternimmt also, im Gegensatz zur zuvor behandelten Tiefensuche, intelligente Schritte zur Eingrenzung des \textit{Zielknotens}. 
+\noindent Für die \textit{Nachbarn} des aktuell \textit{günstigsten Knotens} wird die \textit{Distanz} vom \textit{Startknoten} $n_a$ aus berechnet, und gegebenenfalls ausgebessert, falls ein kürzerer Weg gefunden werden sollte. Sobald der \textit{Zielknoten} zur Behandlung ansteht, wird die Suche beendet, da ausreichend Schritte erfolgt sind. Dijkstras \textit{Algorithmus} unternimmt also, im Gegensatz zur zuvor behandelten Tiefensuche, intelligente Schritte zur Eingrenzung des \textit{Zielknotens}. 
 \\
-Darum zählt der Dijkstra-\textit{Algorithmus} zur Kategorie der \textit{Greedy-Algorithmen}, die sich durch die Eigenschaft auszeichnen, von ihrem aktuellen Standpunkt aus immer das nächste \textit{lokale Maximum} zu suchen. \autoref{fig:greed} veranschaulicht die Problematik von dieser Art \textit{Algorithmus}, denn es wird nicht das globale
+Darum zählt der Dijkstra-\textit{Algorithmus} zur Kategorie der \textit{Greedy-Algorithmen}, die
 \begin{wrapfigure}[9]{l}{0.41\textwidth}
 \vspace{-20pt}
 \begin{center}
@@ -359,11 +358,13 @@ Darum zählt der Dijkstra-\textit{Algorithmus} zur Kategorie der \textit{Greedy-
 \label{fig:dijk-time}
 \end{wrapfigure}
 
-\noindent Maximum von $1 \to 4 \to 65 = 70$, sondern nur das jeweils lokale Maximum, mit einem Ergebnis von 53, erzielt. Für die \textit{Nachbarn} des aktuell \textit{günstigsten Knotens} wird die \textit{Distanz} vom \textit{Startknoten} $n_a$ aus berechnet, und gegebenfalls ausgebessert, falls ein kürzerer Weg gefunden werden sollte. Sobald der \textit{Zielknoten} zur Behandlung ansteht, wird die Suche beendet, da ausreichend Schritte erfolgt sind. 
+\noindent sich durch die Eigenschaft auszeichnen, von ihrem aktuellen Standpunkt aus immer das  nächste \textit{lokale Maximum} zu suchen. \autoref{fig:greed} veranschaulicht die Problematik von dieser Art \textit{Algorithmus}, denn es wird nicht das globale Maximum von $1 \to 4 \to 65 = 70$, sondern nur das jeweils lokale Maximum, mit einem Ergebnis von 53, erzielt.
 \\
-Im direkten Vergleich von \autoref{fig:dfs} und \autoref{fig:dijk} wird ersichtlich, dass Dijkstra zu einem \textit{besseren} Ergebnis gekommen ist. In der \textit{Durchschnitts}-Messung ergeben $t_{dijkstra} = 315.44612\mu s$ kaum mehr Zeitaufwand als bei der Tiefensuche. Dafür werden aber mehr \textit{Knoten}-Abfragen $n_{dijkstra} = 57$ durchgeführt und durch die \textit{Warteschleifenfunktionsweise} von $Q$ werden die bisherigen Suchergebnisse $sort_{dijkstra} = 14$ mal umsortiert (vgl. \autoref{alg:dijkstra}, Z. 6). Durch die $16$ Überschreibungen, die im Fallbeispiel stattfanden, wird die trotz des höheren Rechenaufwands ebenfalls geringe \textit{Laufzeit} erzielt. Somit kommt der Dijkstra-Algorithmus in $e_{dijkstra} = 4$ Schritten mit einem \textit{Gesamtgewicht} von $w_{dijkstra} = 30$ zum \textit{Zielknoten}.
-
+Im direkten Vergleich von \autoref{fig:dfs} und \autoref{fig:dijk} wird ersichtlich, dass Dijkstras \textit{Algorithmus} zu einem \textit{besseren} Ergebnis gekommen ist. In der \textit{Durchschnitts}-Messung ergeben $t_{dijkstra} = 315.44612\mu s$ kaum mehr Zeitaufwand als bei der Tiefensuche. Dafür werden aber mehr \textit{Knoten}-Abfragen $n_{dijkstra} = 57$ durchgeführt und durch die \textit{Warteschleifenfunktionsweise} von $Q$ werden die bisherigen Suchergebnisse $sort_{dijkstra} = 14$ mal umsortiert (vgl. \autoref{alg:dijkstra}, Z. 6). Durch die $16$ Überschreibungen, die im Fallbeispiel stattfanden, wird die trotz des höheren Rechenaufwands ebenfalls geringe \textit{Laufzeit} erzielt. Somit kommt der Dijkstra-Algorithmus in $e_{dijkstra} = 4$ Schritten mit einem \textit{Gesamtgewicht} von $w_{dijkstra} = 30$ zum \textit{Zielknoten}.
+\\
+Anders als die Tiefensuche, findet der \textit{Dijkstra}-Algorithmus tatsächlich Verwendung in der Wegfindung, auch bei Navigationsgeräten. Denn schließlich wurde er ja dazu entworfen, den kürzesten \textit{Weg} zwischen zwei Städten zu finden. Allerdings werden heute zahlreich optimierte Versionen verwendet, darunter der A*-\textit{Algorithmus}, der als Nächstes und Letztes untersucht wird.
 \subsection{Der Alleskönner: Der A*-Algorithmus}
+\label{sec:astar}
 \begin{algorithm}
 \caption{\textit{A*-Algorithmus} \label{alg:astar}}
 \begin{algorithmic}[1]
