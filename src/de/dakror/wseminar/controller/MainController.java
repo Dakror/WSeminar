@@ -396,7 +396,7 @@ public class MainController {
 								p = pf.findPath(WSeminar.instance.startVertex.getVertex(), WSeminar.instance.goalVertex.getVertex());
 								sum += p.getBenchmark().getTime();
 							}
-							//							System.out.println(sum / 100f);
+							System.out.println(sum / 100f);
 							p.getBenchmark().setTime(sum / 100);
 							
 							Visualizer.setEnabled(true);
@@ -443,7 +443,7 @@ public class MainController {
 			chart_alltime.getData().clear();
 			chart_table.getItems().clear();
 			
-			if (newV.getParent() == null || newVal == null) return;
+			if (newV.getParent() == null) return;
 			
 			TimeLineDataFiller tldf = new TimeLineDataFiller();
 			if (newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()) {
@@ -470,7 +470,7 @@ public class MainController {
 					tldf.fill(path);
 					chart_table.getItems().add(path);
 				}
-			} else {
+			} else if (newVal != null) {
 				XYChart.Series<String, Long> sc = new XYChart.Series<>();
 				sc.setName("Gesamtzeit");
 				chart_alltime.getData().add(sc);

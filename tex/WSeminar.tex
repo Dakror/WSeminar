@@ -319,11 +319,49 @@ Der \textit{Algorithmus} (\autoref{alg:dijkstra}\footnote{vgl. Anhang Dijkstra.j
 \end{algorithmic}
 \end{algorithm}
 \newpage
-\noindent Zunächst wird die \textit{Distanz}, also die Entfernung vom \textit{Startknoten} $n_a$ aus, auf $\infty$ gesetzt. 
-Nicht dass die Entfernung tatsächlich als unendlich betrachtet wird, sondern dieser "`Wert"\ gilt auch als Zeichen, dass die entsprechenden \textit{Knoten} noch unbesucht sind.
-\newpage
--
-\newpage
+\noindent Zunächst wird die \textit{Distanz}, also die Entfernung vom \textit{Startknoten} $n_a$ aus, auf $\infty$ gesetzt. Nicht dass die Entfernung tatsächlich als unendlich betrachtet wird, sondern 
+\begin{wrapfigure}[10]{L}{0.41\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[width=0.375\textwidth]{res/dijk.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{Ergebnis von Dijkstras \textit{Algorithmus}}
+\label{fig:dijk}
+\end{wrapfigure}
+
+\noindent dieser "`Wert"\ gilt auch als Zeichen, dass die entsprechenden \textit{Knoten} noch unbesucht sind.
+\\
+Schnellere, aber dadurch komplexere, Umsetzungen des \textit{Algorithmus} verwenden statt einer einfachen Liste $Q$ eine \textit{Priority-Queue} (für engl. "`Prioritäts-Warteschlange"), die auch interne Sortieroptimierungen zur Steigerung der \textit{Gesamtlaufzeit} verwendet. Eine Liste lässt sich als normale Auflistung der einzelnen Elemente ansehen, die keinerlei Sonderberechnungen vornimmt, wodurch die \textit{Zeitkomplexität} $O(V^2)$ beträgt. Diese Auflistung wird nun Stück für Stück, in sortierter Reihenfolge, abgearbeitet. Dijkstras 
+\begin{wrapfigure}{r}{0.25\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[width=0.25\textwidth]{res/greed.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{Problem von \textit{Greedy Algorithmen}}
+\label{fig:greed}
+\end{wrapfigure}
+
+\noindent \textit{Algorithmus} unternimmt also, im Gegensatz zur zuvor behandelten Tiefensuche, intelligente Schritte zur Eingrenzung des \textit{Zielknotens}. 
+\\
+Darum zählt der Dijkstra-\textit{Algorithmus} zur Kategorie der \textit{Greedy-Algorithmen}, die sich durch die Eigenschaft auszeichnen, von ihrem aktuellen Standpunkt aus immer das nächste \textit{lokale Maximum} zu suchen. \autoref{fig:greed} veranschaulicht die Problematik von dieser Art \textit{Algorithmus}, denn es wird nicht das globale
+\begin{wrapfigure}[9]{l}{0.41\textwidth}
+\vspace{-20pt}
+\begin{center}
+\includegraphics[width=0.375\textwidth]{res/dijk_time.png}
+\end{center}
+\vspace{-30pt}
+\centering
+\caption{Verhalten des Dijkstra-\textit{Algorithmus}}
+\label{fig:dijk-time}
+\end{wrapfigure}
+
+\noindent Maximum von $1 \to 4 \to 65 = 70$, sondern nur das jeweils lokale Maximum, mit einem Ergebnis von 53, erzielt. Für die \textit{Nachbarn} des aktuell \textit{günstigsten Knotens} wird die \textit{Distanz} vom \textit{Startknoten} $n_a$ aus berechnet, und gegebenfalls ausgebessert, falls ein kürzerer Weg gefunden werden sollte. Sobald der \textit{Zielknoten} zur Behandlung ansteht, wird die Suche beendet, da ausreichend Schritte erfolgt sind. 
+\\
+Im direkten Vergleich von \autoref{fig:dfs} und \autoref{fig:dijk} wird ersichtlich, dass Dijkstra zu einem \textit{besseren} Ergebnis gekommen ist. In der \textit{Durchschnitts}-Messung ergeben $t_{dijkstra} = 315.44612\mu s$ kaum mehr Zeitaufwand als bei der Tiefensuche. Dafür werden aber mehr \textit{Knoten}-Abfragen $n_{dijkstra} = 57$ durchgeführt und durch die \textit{Warteschleifenfunktionsweise} von $Q$ werden die bisherigen Suchergebnisse $sort_{dijkstra} = 14$ mal umsortiert (vgl. \autoref{alg:dijkstra}, Z. 6). Durch die $16$ Überschreibungen, die im Fallbeispiel stattfanden, wird die trotz des höheren Rechenaufwands ebenfalls geringe \textit{Laufzeit} erzielt. Somit kommt der Dijkstra-Algorithmus in $e_{dijkstra} = 4$ Schritten mit einem \textit{Gesamtgewicht} von $w_{dijkstra} = 30$ zum \textit{Zielknoten}.
 
 \subsection{Der Alleskönner: Der A*-Algorithmus}
 \begin{algorithm}
