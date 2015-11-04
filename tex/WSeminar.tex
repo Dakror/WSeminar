@@ -66,7 +66,7 @@ Zunächst werden in diesem Abschnitt die grundlegenden Begriffe der Graphen-Theo
 \\
 Generell sind \textit{Algorithmen} eine festgelegte Abfolge von Schritten um Daten zu verarbeiten. In der Informatik sind diese einzelnen Schritte Befehle.
 \\
-Die maximale Laufzeit eines \textit{Algorithmus}, auch genannt \textit{Zeitkomplexität}, wird in der "`big-O"\,-Notation (engl. für "`großes O") in Form des \textit{Landau-Symbols} $O$ angegeben. Dabei werden sämtliche kleineren Polynome aufgrund ihres geringeren Wachstums vernachlässigt. So zum Beispiel lässt sich ein \textit{Algorithmus}, der in der Zeit $O(n^2+5n)$ abläuft, auf die \textit{Komplexität} $O(n^2)$ reduzieren. Hierbei stellt $n$ die Anzahl an \textit{Iterationen}, also Schritten dar. Diese Angabe wird als primäres Vergleichskriterium von Laufzeiten verwendet \cite{big-o}.
+Die maximale Laufzeit eines \textit{Algorithmus}, auch genannt \textit{Zeitkomplexität}, wird in der "`big-O"\,-Notation (engl. für "`großes O") in Form des \textit{Landau-Symbols} $O$ angegeben. Dabei werden sämtliche kleineren Polynome aufgrund ihres geringeren Wachstums vernachlässigt. So zum Beispiel lässt sich ein \textit{Algorithmus}, der in der Zeit $O(n^2+5n)$ abläuft, auf die \textit{Komplexität} $O(n^2)$ reduzieren. Hierbei stellt $n$ die Anzahl an \textit{Iterationen}, also Schritten dar. Diese Angabe wird als primäres Vergleichskriterium von \textit{Algorithmen} verwendet \cite{big-o}.
 \\
 Die Graphen-Theorie dient als Basis dieser Arbeit. Zentrale Bedeutung hat der namensgebende \textit{Graph} $G\; = (V,\,E)$, alternativ auch \textit{Netz} genannt, welcher aus einer Menge von \textit{Knoten} $V$ (von engl. "`Vertex") und einer Menge \textit{Kanten} $E$ (von engl. "`Edge") besteht.
 \\
@@ -78,7 +78,7 @@ In der Wegfindung ist ein \textit{Weg} $P$ (von engl. "`Path") als geordnete Abf
 \\
 Unter \textit{Backtracking} versteht man in der Wegfindung das rückwärtige Abbarbeiten der Suchergebnisse eines \textit{Pathfinding-Algorithmus} vom \textit{Zielknoten} aus. 
 \\
-Somit erhält man den gewünschten \textit{Weg} als Ergebnis. Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, der allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
+Somit erhält man den gewünschten Weg als Ergebnis. Visuell wird der \textit{Graph} durch einen \textit{Layout-Algorithmus} dargestellt, der allen \textit{Knoten} durch gewisse Berechnungen Positionen zuteilt (vgl. \autoref{sec:layout}).
 \\
 Um ein \textit{Netz} zu generieren, wird eine Zufallsfunktion verwendet. Hierzu wird ein standardisierter \textit{Pseudozufalls}-Generator verwendet \cite{random}. Dieser generiert kaum oder nur schwer vorhersagbare Abfolgen von Zahlen. Aufgrund der nicht echten Zufälligkeit wird ein sogenanntes \textit{Seed}-System benutzt, eine spezielle Zahl, mit deren Übergabe an den Generator stets die selbe Zahlenfolge erzeugt werden kann.
 \section{Aufbau und Bedienung des Programms \textit{PathFinder}}
@@ -90,11 +90,12 @@ Das selbstgeschriebene Programm \textit{PathFinder}, im eigentlichen Fokus stehe
 \begin{center}
 \includegraphics[width=0.4\textwidth]{res/main_screenshot.png}
 \end{center}
-\vspace{-30pt}	\centering
+\vspace{-30pt}	
+\centering
 \caption{Die Start- und Hauptansicht von \textit{PathFinder}}
 \label{fig:main_screenshot}
 \end{wrapfigure}}{}
-Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete \textit{Wege} und die Konfigurationsmöglichkeiten neuer Wege, in mehrere "`Tabs"\ unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des \textit{Graphen}, als auch der Vergleichsstatistiken und Tabellen.
+Auf den ersten Blick ist die Anwendungsoberfläche in zwei größere Bereiche aufgeteilt. Im linken, kleineren Seitenbereich werden detaillierte Informationen über den \textit{Graphen}, bereits berechnete Wege und die Konfigurationsmöglichkeiten neuer Wege, in mehrere "`Tabs"\ unterteilt, angezeigt. Der große rechte Bereich, zu Beginn der Anwendung nur mit "`Erstellen Sie ein neues Netz..." (\autoref{fig:main_screenshot}) beschriftet, dient als Hauptansicht von sowohl des \textit{Graphen}, als auch der Vergleichsstatistiken und Tabellen.
 \\
 Die Bedienung kann vollständig mit der Maus erfolgen, da sich sämtliche Funktionen visuell intuitiv und minimalistisch präsentieren. Nur vereinzelt führen Tastatureingaben oder "`Hotkeys"\;zu mehr Komfort oder Genauigkeit der Anwendung. So kann beispielsweise das \textit{Relayout} (siehe \autoref{sec:layout}) des \textit{Graphen} per "`L"\ Taste, das \textit{Generieren} (siehe \autoref{sec:construct}) eines neuen \textit{Netzes} unter Benutzung von "`N"\ erfolgen.
 \section{Konstruktion eines Graphen in \textit{PathFinder}}
@@ -119,7 +120,7 @@ Im \textit{Erweitert}-Bereich lässt sich die Generierung aufs Genaueste einstel
 \\
 Durch Bestätigen per Klick auf "`Ok" wird der Generator mit diesen \textit{Parametern} gestartet und ein \textit{Netz} erzeugt.
 \\
-Zunächst wird der \textit{Seed} für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Menge von \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden \textit{Knoten} eine Anzahl an \textit{Kanten} bestimmt. Durch das "`Clampen", d.h Einzwicken, Eingrenzen, der Start- und Generierungswerte durch
+Zunächst wird der \textit{Seed} für den Zufallsgenerator gesetzt. Danach wird aus den gegebenen Grenzwerten die tatsächliche Menge von \textit{Knoten} berechnet und in den \textit{Graphen} eingesetzt. Daraufhin wird für jeden \textit{Knoten} eine Anzahl an \textit{Kanten} bestimmt. Durch das "`Clampen", d.h Einzwicken, Eingrenzen, der Start- und Generierungswerte mit
 \vspace{-20pt}
 \begin{gather*}
 e = max\Big(1,\,R\Big(0,\;min\Big(\dfrac{n}{2}-1,\,e_{max}\Big)\Big)\Big) \\
@@ -129,7 +130,7 @@ min(a, b) \to \text{Kleinere der beiden Parameter}
 \end{aligned}
 \right)
 \end{gather*}
-wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der \textit{Ausgangsknoten} selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, wird die 
+wird gewährleistet, dass der Generator nicht mehr \textit{Kanten} platzieren kann, als eindeutig möglich ist. Jetzt wird versucht, sämtliche \textit{Knoten} durch zufällige Wahl mit einem anderen \textit{Knoten} zu verbinden, wobei der jeweils gesuchte \textit{Knoten} weder der \textit{Ausgangsknoten} selbst, noch ein bereits verbundener \textit{Knoten} sein soll. Sobald eine Kombination gefunden wurde, wird die
 \ifthenelse{\boolean{figures}}{
 \begin{algorithm}
 \caption{\textit{Graph-Generator} \label{alg:generator}}
@@ -194,14 +195,14 @@ Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wi
 \[
 t_0 = \dfrac{1}{10} \cdot w \hspace{50pt} t(s) = t_0 - \dfrac{t_0}{s_{max}} \cdot s \hspace{50pt} s_{max} = s_g \cdot 500
 \]
-Außerdem wird eine Maximalanzahl an Simulationsschritten $s_{max}$  definiert, in deren Abhängigkeit die \textit{Temperatur} verringert wird. In der Anwendung wird diese Maximalgröße wie angegeben berechnet, wobei $s_g$ die bei der \textit{Graph}-Erzeugung angegebene \textit{Größe} ist. Somit erhält man in \textit{PathFinder} folgende Gesamtfunktion: 
+Außerdem wird eine Maximalanzahl an Simulationsschritten $s_{max}$  definiert, in deren Abhängigkeit die \textit{Temperatur} verringert wird. Die Maximalgröße wird wie angegeben berechnet, wobei $s_g$ die bei der \textit{Graph}-Erzeugung angegebene \textit{Größe} ist. Somit erhält man in \textit{PathFinder} folgende Gesamtfunktion: 
 \[
 t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
 \]
 \section{Wegfindungs-Algorithmen}
 Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
 \\
-Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss-ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und abspeichern. Somit können in der Anwendung selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(V^2)$, die für größere \textit{Graphen} einfach untragbar ist (vgl. \autoref{sec:dijk}). Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
+Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss-ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und abspeichern. Somit können in der Situation selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(V^2)$, die für größere \textit{Graphen} einfach untragbar ist (vgl. \autoref{sec:dijk}). Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
 \\
 Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real time", also Echtzeit berechnen. In dieser Arbeit wird nur auf die vollständig in Echtzeit ablaufenden Umsetzungen eingegangen, doch \textit{Algorithmen} wie \textit{Kontraktions-Hierarchien}, die im Voraus eine kompaktere und performantere Version des gesamten \textit{Graphen} errechnen, sind, besonders in sehr großen Netzwerken oder Systemen, von Bedeutung, da diese trotz des höheren Rechenaufwands enorm zu einer schnelleren Laufzeit beitragen \cite{contr-hier}.
 \\
@@ -237,7 +238,7 @@ Die Tiefensuche hat eine \textit{Zeitkomplexität} von $O(V + E)$\footnote{\cite
 \caption{Ergebnis der Tiefensuche}
 \label{fig:dfs}
 \end{wrapfigure}}{}
-Tiefensuche im Fallbeispiel des \textit{Wegs} von \textit{Knoten} 18 zu 14. Es ergeben sich die Gesamtkosten $w_{dfs} = 116$ durch Addition aller $e_{dfs} = 10$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 72,61709\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen.
+Tiefensuche im Fallbeispiel des Wegs von \textit{Knoten} 18 zu 14. Es ergeben sich die Gesamtkosten $w_{dfs} = 116$ durch Addition aller $e_{dfs} = 10$ verwendeten \textit{Kantengewichte}. Die gemessene Laufzeit der Wegsuche beträgt $t_{dfs} = 72,61709\mu s$. Hierbei ist zu beachten, dass aufgrund von variierender Prozessorauslastung und Speicherbelegungen starke zeitliche Schwankungen zwischen wiederholten Suchabläufen bestehen. Aus diesem Grund ist die angegebene Laufzeit der Durchschnitt aus 100 aufeinanderfolgenden Abläufen.
 \\
 Im Gegensatz zu den nachfolgend vorgestellten \textit{Algorithmen} ist die Tiefensuche in \textit{PathFinder} \textit{rekursiv}, statt \textit{iterativ}, implementiert. Das bedeutet, dass die Suche aus
 \ifthenelse{\boolean{figures}}{
@@ -252,9 +253,9 @@ Im Gegensatz zu den nachfolgend vorgestellten \textit{Algorithmen} ist die Tiefe
 \label{fig:dfs-time}
 \end{wrapfigure}}{}
 
-\noindent ineinander verschachtelten Funktionsaufrufen besteht. Die Such-Funktion ruft sich selbst also mit neuen Parametern, dem aktuell untersuchten \textit{Knoten} und dessen \textit{Vorgänger}, selbst wiederholt auf und setzt so die Suche fort. Diese Verschachtlung wird entweder durch das Erreichen des \textit{Zielknotens} oder der vollständigen Untersuchung des \textit{Graphen} abgebrochen. Das hat mitunter negative Auswirkungen auf die \textit{Laufzeit}, vereinfacht aber die Programmierung. 
+\noindent ineinander verschachtelten Funktionsaufrufen besteht. Die Such-Funktion ruft sich selbst also mit neuen Parametern, dem aktuell untersuchten \textit{Knoten} und dessen \textit{Vorgänger}, selbst wiederholt auf und setzt so die Suche fort. Diese Verschachtlung wird entweder durch das Erreichen des \textit{Zielknotens} oder der vollständigen Untersuchung des \textit{Graphen} abgebrochen. Das hat mitunter negative Auswirkungen auf die Laufzeit, vereinfacht aber die Programmierung. 
 \\
-Neben der \textit{Gesamtlaufzeit} wird in \textit{PathFinder} ebenfalls das Verhalten der \textit{Algorithmen} aufgezeichnet. So kommt das Liniendiagramm in \autoref{fig:dfs-time} zustande. Es werden Werte wie die Anzahl an inspizierten \textit{Knoten}, bzw. \textit{verschiedenen Knoten}, und Nummer von \textit{Sortier}-Vorgängen in ein Anzahl-Zeit Diagramm eingetragen. Auf Daten wie die \textit{Open-} und \textit{Closed-List} Größe wird in \autoref{sec:astar} eingegangen. Aus der Grafik lässt sich die lineare Funktionsweise der Tiefensuche herleiten, da sämtliche Graphen durch Mittelungsgeraden abgebildet werden können. Dies gibt weiteren Aufschluss auf die geringe \textit{Intelligenz} der Tiefensuche, da sie keine Annäherungen an den \textit{Zielknoten} versucht, sondern den gesamten \textit{Graphen} gleichmäßig absucht.
+Neben der Gesamtlaufzeit wird in \textit{PathFinder} ebenfalls das Verhalten der \textit{Algorithmen} aufgezeichnet. So kommt das Liniendiagramm in \autoref{fig:dfs-time} zustande. Es werden Werte wie die Anzahl an inspizierten \textit{Knoten}, bzw. \textit{verschiedenen Knoten}, und Nummer von \textit{Sortier}-Vorgängen in ein Anzahl-Zeit Diagramm eingetragen. Auf Daten wie die \textit{Open-} und \textit{Closed-List} Größe wird in \autoref{sec:astar} eingegangen. Aus der Grafik lässt sich die lineare Funktionsweise der Tiefensuche herleiten, da sämtliche Graphen durch Mittelungsgeraden abgebildet werden können. Dies gibt weiteren Aufschluss auf die geringe \textit{Intelligenz} der Tiefensuche, da sie keine Annäherungen an den \textit{Zielknoten} versucht, sondern den gesamten \textit{Graphen} gleichmäßig absucht.
 \\
 Um den Codeauszug in \autoref{alg:dfs}\footnote{vgl. Anhang: DFS.java} möglichst gering zu halten, wird hier die \textit{iterative} Version vorgestellt. Dabei erfolgt die Suche durch eine \textit{explizit} festgelegte Wiederholungsschleife "`solange [...] wiederhole"(\autoref{alg:dfs}, Z. 4). 
 \ifthenelse{\boolean{figures}}{
@@ -290,7 +291,7 @@ Durch den "`brute-force"\,-Charakter (engl. für "`rohe Gewalt") der Tiefensuche
 \label{sec:dijk}
 "`{\em Eines Morgens war ich mit meiner Freundin in Amsterdam shoppen, und müde setzten wir uns in ein Terassencafé, tranken eine Tasse Kaffee [...] und dann entwarf ich den Algorithmus. Wie gesagt, es war eine 20-Minuten Erfindung.}"\footnote{\cite[(engl.), S. 42f]{interview}} (Edsger W. Dijkstra).
 \\
-Im Zusammenhang mit seiner Präsentation für die Eröffnung des ARMAC\footnote{Automatische Rechenmaschine Mathematisches Zentrum, Amsterdam} 1956, entwarf der niederländische Informatiker Edsger Wybe Dijkstra einen \textit{Algorithmus} zur Ermittlung des kürzesten Wegs von Rotterdam nach Groningen -- in einem Café, innerhalb von 20 Minuten. Der \textit{Algorithmus} (\autoref{alg:dijkstra}\footnote{vgl. Anhang: Dijkstra.java}) funktioniert wie folgt:
+Im Zusammenhang mit seiner Präsentation für die Eröffnung des ARMAC\footnote{Automatische Rechenmaschine Mathematisches Zentrum, Amsterdam} 1956, entwarf der niederländische Informatiker Edsger Wybe Dijkstra einen \textit{Algorithmus} zur Ermittlung des kürzesten Wegs von Rotterdam nach Groningen -- in einem Café, innerhalb von 20 Minuten. Der \textit{Algorithmus} (\autoref{alg:dijkstra})\footnote{vgl. Anhang: Dijkstra.java} funktioniert wie folgt:
 \ifthenelse{\boolean{figures}}{
 \begin{algorithm}
 \caption{\textit{Dijkstra-Algorithmus} \label{alg:dijkstra}}
@@ -336,7 +337,7 @@ Im Zusammenhang mit seiner Präsentation für die Eröffnung des ARMAC\footnote{
 \end{wrapfigure}}{}
 dieser "`Wert"\ gilt auch als Zeichen, dass die entsprechenden \textit{Knoten} noch unbesucht sind.
 \\
-Schnellere, aber dadurch komplexere, Umsetzungen des \textit{Algorithmus} verwenden statt einer einfachen Liste $Q$ eine \textit{Priority-Queue} (für engl. "`Prioritäts-Warteschlange"), die auch interne Sortieroptimierungen zur Steigerung der \textit{Gesamtlaufzeit} verwendet. Eine Liste lässt sich als normale Auflistung der einzelnen Elemente ansehen, die keinerlei Sonderberechnungen vornimmt, wodurch die \textit{Zeitkomplexität} $O(V^2)$ beträgt. 
+Schnellere, aber dadurch komplexere, Umsetzungen des \textit{Algorithmus} verwenden statt einer einfachen Liste $Q$ eine \textit{Priority-Queue} (für engl. "`Prioritäts-Warteschlange"), die auch interne Sortieroptimierungen zur Steigerung der Gesamtlaufzeit verwendet. Eine Liste lässt sich als normale Auflistung der einzelnen Elemente ansehen, die keinerlei Sonderberechnungen vornimmt, wodurch die \textit{Zeitkomplexität} $O(V^2)$ beträgt. 
 \\
 Diese Auflistung wird nun Stück für Stück, in sortierter Reihenfolge, abgearbeitet. Für die \textit{Nachbarn} des aktuell \textit{günstigsten Knotens} wird die
 \ifthenelse{\boolean{figures}}{
@@ -368,9 +369,9 @@ Darum zählt der Dijkstra-\textit{Algorithmus} zur Kategorie der \textit{Greedy-
 
 \noindent sich durch die Eigenschaft auszeichnen, von ihrem aktuellen Standpunkt aus immer das  nächste \textit{lokale Maximum} zu suchen. \autoref{fig:greed} veranschaulicht die Problematik von dieser Art \textit{Algorithmus}, denn es wird nicht das globale Maximum von $1 \to 4 \to 65 = 70$, sondern nur das jeweils lokale Maximum, mit einem Ergebnis von 53, erzielt.
 \\
-Im direkten Vergleich von \autoref{fig:dfs} und \autoref{fig:dijk} wird ersichtlich, dass Dijkstras \textit{Algorithmus} zu einem \textit{besseren} Ergebnis gekommen ist. In der \textit{Durchschnitts}-Messung ergeben $t_{dijkstra} = 223,76864\mu s$ deutlich mehr Zeitaufwand als bei der Tiefensuche. Denn es werden mehr \textit{Knoten}-Abfragen $n_{dijkstra} = 115$ durchgeführt und durch die \textit{Warteschleifenfunktionsweise} von $Q$ werden die bisherigen Suchergebnisse $sort_{dijkstra} = 30$ mal umsortiert (vgl. \autoref{alg:dijkstra}, Z. 6). Durch die $32$ Überschreibungen, die im Fallbeispiel stattfinden, wird die trotz des höheren Rechenaufwands ebenfalls geringe \textit{Laufzeit} erzielt. Somit kommt der Dijkstra-Algorithmus in $e_{dijkstra} = 6$ Schritten mit einem \textit{Gesamtgewicht} von $w_{dijkstra} = 78$ zum \textit{Zielknoten}.
+Im direkten Vergleich von \autoref{fig:dfs} und \autoref{fig:dijk} wird ersichtlich, dass Dijkstras \textit{Algorithmus} zu einem \textit{besseren} Ergebnis gekommen ist. In der \textit{Durchschnitts}-Messung ergeben $t_{dijkstra} = 223,76864\mu s$ deutlich mehr Zeitaufwand als bei der Tiefensuche. Denn es werden mehr \textit{Knoten}-Abfragen $n_{dijkstra} = 115$ durchgeführt und durch die \textit{Warteschleifenfunktionsweise} von $Q$ werden die bisherigen Suchergebnisse $sort_{dijkstra} = 30$ mal umsortiert (vgl. \autoref{alg:dijkstra}, Z. 6). Durch die $32$ Überschreibungen, die im Fallbeispiel stattfinden, wird ein sehr viel besseres Ergebnis erreicht. Denn so kommt der Dijkstra-Algorithmus in $e_{dijkstra} = 6$ Schritten mit einem \textit{Gesamtgewicht} von $w_{dijkstra} = 78$ zum \textit{Zielknoten}.
 \\
-Anders als die Tiefensuche findet der \textit{Dijkstra}-Algorithmus tatsächlich Verwendung in der Wegfindung, auch bei Navigationsgeräten. Denn schließlich wurde er dazu entworfen, den kürzesten \textit{Weg} zwischen zwei Städten zu finden. Allerdings werden heute zahlreich optimierte Versionen verwendet, darunter der A*-\textit{Algorithmus}, der als Nächstes und Letztes untersucht wird.
+Anders als die Tiefensuche findet der \textit{Dijkstra}-Algorithmus tatsächlich Verwendung in der Wegfindung, auch bei Navigationsgeräten. Denn schließlich wurde er dazu entworfen, den kürzesten Weg zwischen zwei Städten zu finden. Allerdings werden heute zahlreich optimierte Versionen verwendet, darunter der A*-\textit{Algorithmus}, der als Nächstes und Letztes untersucht wird.
 \subsection{Der Alleskönner: Der A*-Algorithmus}
 Der größte Nachteil des zuvor behandelten Dijkstra-\textit{Algorithmus} ist das Besuchen von zu vielen Knoten, die von Anfang an aus der Suche ausgeschlossen werden könnten. Der A* (gesprochen "`A star"\ oder "`A Stern") -\textit{Algorithmus} basiert auf Dijkstras Konzept, doch er erzielt weitaus bessere Ergebnisse durch die Verwendung von \textit{Heuristiken}.
 \\
@@ -419,7 +420,7 @@ Wie im Kontext von Straßennetzen üblich, wird $h(n)$ in \textit{PathFinder} du
 \end{algorithmic}
 \end{algorithm}}{}
 \\
-Hier kommen zum ersten Mal die Begriffe \textit{Open-List} und \textit{Closed-List} (vgl. \autoref{alg:astar}\footnote{vgl. Anhang: AStar.java}, Z. 2f) vor, die auch in den Verhaltensdiagrammen referenziert werden. In der \textit{Open-List} werden alle \textit{Knoten} aufgeführt, die als mögliche nächste Schritte in der Wegsuche gesehen werden. Der jeweils günstigste \textit{Knoten} aus dieser Liste wird für den nächsten Schritt ausgewählt (Z. 7) und in die \textit{Closed-List}, also die engere Auswahl aus \textit{Knoten}, verschoben (Z. 8). In dieser Sammlung finden sich nun alle \textit{Knoten}, die bei der Wegkonstruktion durch \textit{Backtracking} bei Beendung des Suchvorgangs
+Hier kommen zum ersten Mal die Begriffe \textit{Open-List} und \textit{Closed-List} (vgl. \autoref{alg:astar}\footnote{vgl. Anhang: AStar.java}, Z. 2f) vor, die auch in den Verhaltensdiagrammen (vgl. \autoref{fig:dfs-time}, \ref{fig:dijk-time}, \ref{fig:astar_time}) referenziert werden. In der \textit{Open-List} werden alle \textit{Knoten} aufgeführt, die als mögliche nächste Schritte in der Wegsuche gesehen werden. Der jeweils günstigste \textit{Knoten} aus dieser Liste wird für den nächsten Schritt ausgewählt (Z. 7) und in die \textit{Closed-List}, also die engere Auswahl aus \textit{Knoten}, verschoben (Z. 8). In dieser Sammlung finden sich nun alle \textit{Knoten}, die bei der Wegkonstruktion durch \textit{Backtracking} bei Beendung des Suchvorgangs betrachtet werden. Dies ist auch der einzige große 
 \ifthenelse{\boolean{figures}}{
 \begin{wrapfigure}{l}{0.41\textwidth}
 \vspace{-30pt}
@@ -431,12 +432,12 @@ Hier kommen zum ersten Mal die Begriffe \textit{Open-List} und \textit{Closed-Li
 \caption{Ergebnis des A*-\textit{Algorithmus}}
 \label{fig:astar}
 \end{wrapfigure}}{}
-betrachtet werden. Dies ist auch der einzige große Unterschied zum Dijkstra-\textit{Algorithmus}. Der restliche Verlauf des \textit{Algorithmus} ist fast identisch mit Abbruch bei Erreichen des \textit{Zielknotens}, \textit{Überschreiben} bei Entdeckung von Abkürzungen und \textit{nachbar}-basierter \textit{Graph-Erkundung}. Neben der bereits beschriebenen \textit{Heuristik}-Komponente $h(n)$ verwendet A* auch eine berechnete Komponente $g(n)$, die aus der Summe der \textit{Kantengewichte} besteht (Z. 16).
+Unterschied zum Dijkstra-\textit{Algorithmus}. Der restliche Verlauf des \textit{Algorithmus} ist fast identisch mit Abbruch bei Erreichen des \textit{Zielknotens}, \textit{Überschreiben} bei Entdeckung von Abkürzungen und \textit{nachbar}-basierter \textit{Graph-Erkundung}. Neben der bereits beschriebenen \textit{Heuristik}-Komponente $h(n)$ verwendet A* auch eine berechnete Komponente $g(n)$, die aus der Summe der \textit{Kantengewichte} besteht (Z. 16).
 \\
-Bei Beobachtung des \textit{Algorithmus} stellt man fest, dass zu Beginn keine klare Suchrichtung erkennbar ist, doch schon bald sehr zielstrebig vorgegangen und auf schnells-
+Bei Beobachtung des \textit{Algorithmus} stellt man fest, dass zu Beginn keine klare Suchrichtung erkennbar ist, doch schon bald sehr zielstrebig vorgegangen und auf schnellstem Wege ein Ergebnis herbeigeführt wird (vgl. \autoref{fig:astar_time}). In nur $t_{astar} = 109,71132\mu s$ findet A* einen Weg mit $w_{astar} = 94$ in $e_{astar} = 6$ Schritten. Er benötigt somit weniger als halb so lange wie der Dijkstra-\textit{Algorithmus}, 
 \ifthenelse{\boolean{figures}}{
-\begin{wrapfigure}{l}{0.41\textwidth}
-\vspace{-30pt}
+\begin{wrapfigure}[10]{l}{0.41\textwidth}
+\vspace{-20pt}
 \begin{center}
 \includegraphics[width=0.375\textwidth]{res/astar_timeV2.png}
 \end{center}
@@ -446,11 +447,27 @@ Bei Beobachtung des \textit{Algorithmus} stellt man fest, dass zu Beginn keine k
 \label{fig:astar_time}
 \end{wrapfigure}}{}
 
-\noindent tem Wege ein Ergebnis herbeigeführt wird (vgl. \autoref{fig:astar_time}). In nur $t_{astar} = 109,71132\mu s$ findet A* einen Weg mit $w_{astar} = 94$ in $e_{astar} = 6$ Schritten. Er benötigt somit weniger als halb so lange wie der Dijkstra-\textit{Algorithmus}, erzielt aber ein ein wenig schlechteres Ergebnis. Am bedeutendsten ist jedoch die geringe Anzahl an besuchten \textit{Knoten}. Während Dijkstra 115 (nicht verschiedene) \textit{Knoten} besucht, benötigt A* nur 29, um zum Resultat zu gelangen.
-
-\clearpage
-
+\noindent erzielt aber ein nur geringfügig schlechteres Ergebnis. Am Bedeutendsten ist jedoch die geringe Anzahl an besuchten \textit{Knoten}. Während Dijkstra 115 (nicht verschiedene) \textit{Knoten} besucht, benötigt A* nur 29, um zum Resultat zu gelangen.
+\\
+Aus diesem Grund ist der A*-\textit{Algorithmus} auch der meistverbreiteste der \textit{Pathfinding-Algorithmen}, besonders im Kontext von Computerspielen. Schnelle und akzeptable Lösungen und ein flexibles Konzept machen A* so attraktiv. Zudem gibt es einige optimierte Fassungen, darunter die Verwendung eines \textit{Fast-Stacks} (für engl. "schneller Stapel"), in dem alle Knoten der \textit{Open-List} platziert werden, die den gleichen, und vorallem höchsten Gesamtwert $f(n)$ besitzen, was den Sortierungsprozess der \textit{Open-List} um einige \textit{Knoten} reduziert und so für noch mehr Geschwindigkeit sorgt. Allgemein lässt sich über die \textit{Zeitkomplexität} des A*\textit{Algorithmus} keine Aussage treffen, da diese von der \textit{Heuristik}-Funktion $h(n)$ abhängt. Doch der "`Luftlinien"\,-Ansatz gilt als der Effektivste. Dafür ist er nur in gewissen Situationen anwendbar. Nämlich wenn die Zeit und Rechenleistung gegeben ist, um den gesamten \textit{Graphen} visualisieren zu lassen.
 \section{Vergleichsstatistik und Fazit}
+Die Zahlen sprechen für sich. Spitzenreiter oder Zweitbester in jeder Testkategorie zu sein macht den A*-\textit{Algorithmus} zum klaren Favoriten (\autoref{tab:comp}).
+\begin{table}[h!]
+\centering
+\caption{Die drei Algorithmen im direkten Vergleich}
+\label{tab:comp}
+\vspace{10pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} lrrrrlr}
+	             & Laufzeit /$\mu s$  & Kosten      & Kanten     & versch.      & Knoten      & Sortierungen \\
+\hline
+\hline
+\\
+DFS	             & \textbf{72,61709}  & 116         & 10 	     & 24	        & 83          & 14           \\
+Dijkstra         & 223,76864          & \textbf{78} & \textbf{6} & 36	        & 115         & 30 	         \\
+\textbf{A*}	     & 109,71132 	      & 94          & \textbf{6} & \textbf{19}	& \textbf{29} & \textbf{11}  \\ 
+\hline
+\end{tabular*} 
+\end{table}
 \newpage
 \section{Schluss}
 \newpage
