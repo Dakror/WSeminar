@@ -55,7 +55,7 @@
 \section{Risikofaktor Navigationsgerät}
 "`Wenn möglich, bitte wenden"\ auf der Autobahn. "`Jetzt links abbiegen"\ im Kreisverkehr. Navigationssysteme können Todesfallen oder Verursacher schwerer Unglücke sein. Denn die Menschen vertrauen ihnen oft blind. So zum Beispiel erging es einem 33-jährigen im niedersächsischen Einbeck. Denn als die Polizei an der Unfallstelle eintraf, bot sich ihr ein kurioses Bild: Der Pkw steckte auf einer abwärtsführenden Fußgängertreppe fest. Jegliche Versuche des Fahrers, sein Fahrzeug zu befreien, blieben erfolglos. Bedanken darf sich dieser Mann, ebenso wie eine junge Frau, die aufgrund eines Tippfehlers in einem Ort 850 km entfernt vom gewünschten Ziel eintraf, bei der allzu freundlichen Stimme aus der Mittelkonsole \cite{navi}. Darum ist es umso wichtiger, dass "`Navis"\ immer über aktuellste Kartendaten verfügen und auch ausgiebig auf Fehler geprüft werden. 
 \\
-Aber nicht nur detailreiche Straßeninformationen sind für ein gutes Navigationsgerät von Bedeutung, sondern auch die Verarbeitung dieser. Denn die Daten können noch so genau sein; wenn das Gerät keine vernünftigen Wege berechnen kann, ist es genau so unbrauchbar. Darum geht es in dieser Arbeit, nämlich die verschiedenen Methoden zur Wegberechnung in einem Straßen-\textit{Netz} oder ähnlichem. Es werden drei \textit{Algorithmen} vorgestellt und verglichen, um festzustellen, für welche Zwecke welche Methode am zielführendsten ist. Als Werkzeug zur genaueren Untersuchung und zur Erzeugung von Vergleichsstatistiken habe ich ein Programm namens \textit{PathFinder} geschrieben, in dem die \textit{Algorithmen} adaptiert sind. Die Ausführungen in dieser Arbeit sind in gewisser Weise als Bedienungsanleitung des Programms zu sehen, da sich sämtliche Darstellungen und Tabellendaten darauf stützen. 
+Aber nicht nur detailreiche Straßeninformationen sind für ein gutes Navigationsgerät von Bedeutung, sondern auch die Verarbeitung dieser. Denn die Daten können noch so genau sein; wenn das Gerät keine vernünftigen Wege berechnen kann, ist es genau so unbrauchbar. Dies wird in dieser Arbeit behandelt: der Vergleich verschiedener Methoden zur Wegberechnung in einem Straßen-\textit{Netz} oder ähnlichem. Es werden drei \textit{Algorithmen} vorgestellt und verglichen, um festzustellen, für welche Zwecke welche Methode am zielführendsten ist. Als Werkzeug zur genaueren Untersuchung und zur Erzeugung von Vergleichsstatistiken habe ich ein Programm namens \textit{PathFinder} geschrieben, in dem die \textit{Algorithmen} adaptiert sind. Die Ausführungen in dieser Arbeit sind in gewisser Weise als Bedienungsanleitung des Programms zu sehen, da sich sämtliche Darstellungen und Tabellendaten darauf stützen. 
 \\
 Mit der Mathematik als Leitfach, im Themenbereich von Extremwertproblemen, wird konkret das \textit{Problem des kürzesten Wegs} in Angriff genommen. Der optimale, kürzeste Weg zeichnet sich aber nicht nur durch seine Eigenschaft, am schnellsten von \textit{A} nach \textit{B} zu gelangen, aus, sondern auch durch die für die Bestimmung dieses Wegs benötigte Zeit und den Rechenaufwand. Denn ein "`Navi", das vier Stunden rechnet, um den besten Weg zu ermitteln, wird sich nicht bei den Konsumenten durchsetzen. Gleiches gilt aber auch für ein Gerät, welches den Fahrer ohne Rechenzeit über Feld- und Waldwege lotst. Es muss eine \textit{Balance zwischen Quantität und Qualität} gefunden werden. Und wo diese Mitte liegt, gilt es nun herauszufinden.
 \newpage
@@ -191,7 +191,7 @@ definiert. Sie findet Verwendung in den beiden \textit{Kräften} der Simulation.
 \[
  F_a(x) = \dfrac{x^2}{k} \hspace{50pt} F_r(x) = \dfrac{k^2}{x}
 \]
-Der Ablauf der Simulation lässt sich in drei Schritte zusammenfassen. Zuerst wird $F_a$, danach $F_r$, für jeden einzelnen \textit{Knoten} berechnet. Im dritten Schritt werden die Effekte dieser berechneten \textit{Kräfte} umgesetzt (\textit{Disposition}), aber nur in durch die \textit{Temperatur} begrenzter Länge. Die \textit{Temperatur} ist ein Wert, der bei jedem Durchlauf des \textit{Algorithmus} bis auf $0$ verringert wird, um die Verschiebungen der \textit{Knoten} immer präziser werden zu lassen. Anfangs wird der Wert beliebig festgelegt. Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion  $t(s)$ abgebildet wird, entspricht
+Der Ablauf der Simulation lässt sich in drei Schritten zusammenfassen. Zuerst wird $F_a$, danach $F_r$, für jeden einzelnen \textit{Knoten} berechnet. Im dritten Schritt werden die Effekte dieser berechneten \textit{Kräfte} umgesetzt (\textit{Disposition}), aber nur in durch die \textit{Temperatur} begrenzter Länge. Die \textit{Temperatur} ist ein Wert, der bei jedem Durchlauf des \textit{Algorithmus} bis auf $0$ verringert wird, um die Verschiebungen der \textit{Knoten} immer präziser werden zu lassen. Anfangs wird der Wert beliebig festgelegt. Der vorgeschlagene und damit auch in \textit{PathFinder} umgesetzte Startwert $t_0$, dessen Änderung auf der Funktion  $t(s)$ abgebildet wird, entspricht
 \[
 t_0 = \dfrac{1}{10} \cdot w \hspace{50pt} t(s) = t_0 - \dfrac{t_0}{s_{max}} \cdot s \hspace{50pt} s_{max} = s_g \cdot 500
 \]
@@ -202,11 +202,11 @@ t(s) = \dfrac{w}{10} - \dfrac{w}{s_g \cdot 5000} \cdot s
 \section{Wegfindungs-Algorithmen}
 Nachdem jetzt sowohl das Programm \textit{PathFinder}, als auch die darin angewandten Methoden zur Generierung und Visualisierung von \textit{Graphen} erläutert worden sind, wird nun auf die Wegfindung eingegangen.
 \\
-Generell ist das Ziel des \textit{Pathfindings} den kürzesten, optimalen oder hinderniss-ärmsten Weg zwischen zwei \textit{Knoten} zu finden, je nach Aufgabenstellung; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und abspeichern. Somit können in der Situation selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(V^2)$, die für größere \textit{Graphen} einfach untragbar ist (vgl. \autoref{sec:dijk}). Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
+Generell ist das Ziel des \textit{Pathfindings} je nach Aufgabenstellung den kürzesten, optimalen oder den Weg mit den wenigsten Hindernissen zwischen zwei \textit{Knoten} zu finden; und das so schnell und recheneffizient wie möglich. Nun könnte man ganz pragmatisch an die Umsetzung herangehen und einfach den Weg zwischen jedem im \textit{Graphen} existierenden \textit{Knoten}paar vorberechnen und abspeichern. Somit können in der Situation selbst alle notwendigen Wegdaten bequem und schnell abgerufen werden. Nur hat ein solcher \textit{Algorithmus} eine \textit{Zeitkomplexität} $O(V^2)$, die für größere \textit{Graphen} einfach untragbar ist (vgl. \autoref{sec:dijk}). Außerdem wächst die benötigte Speicherkapazität in gleichem Maße.
 \\
 Man kann also nicht alles vorberechnen, sondern muss einen Großteil in "real time", also Echtzeit berechnen. In dieser Arbeit wird nur auf die vollständig in Echtzeit ablaufenden Umsetzungen eingegangen, doch \textit{Algorithmen} wie \textit{Kontraktions-Hierarchien}, die im Voraus eine kompaktere und performantere Version des gesamten \textit{Graphen} errechnen, sind, besonders in sehr großen Netzwerken oder Systemen, von Bedeutung, da diese trotz des höheren Rechenaufwands enorm zu einer schnelleren Laufzeit beitragen \cite{contr-hier}.
 \\
-Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Es wird ein \textit{großer Graph} eingestellt und der Seed als $101115$ bestimmt. Es wird immer der Weg vom \textit{Knoten} Nr. 18 zu Nr. 14 gesucht.
+Die nun folgenden Untersuchungen der einzelnen \textit{Algorithmen} werden alle auf den gleichen \textit{Graphen} angewandt. Es wird ein \textit{großer Graph} eingestellt, der \textit{Seed} als $101115$ bestimmt und immer der Weg vom \textit{Knoten} Nr. 18 zu Nr. 14 gesucht.
 \ifthenelse{\boolean{figures}}{
 \begin{wrapfigure}{l}{0.25\textwidth}
 \vspace{-20pt}
@@ -255,7 +255,7 @@ Im Gegensatz zu den nachfolgend vorgestellten \textit{Algorithmen} ist die Tiefe
 
 \noindent ineinander verschachtelten Funktionsaufrufen besteht. Die Such-Funktion ruft sich selbst also mit neuen Parametern, dem aktuell untersuchten \textit{Knoten} und dessen \textit{Vorgänger}, selbst wiederholt auf und setzt so die Suche fort. Diese Verschachtlung wird entweder durch das Erreichen des \textit{Zielknotens} oder der vollständigen Untersuchung des \textit{Graphen} abgebrochen. Das hat mitunter negative Auswirkungen auf die Laufzeit, vereinfacht aber die Programmierung. 
 \\
-Neben der Gesamtlaufzeit wird in \textit{PathFinder} ebenfalls das Verhalten der \textit{Algorithmen} aufgezeichnet. So kommt das Liniendiagramm in \autoref{fig:dfs-time} zustande. Es werden Werte wie die Anzahl an inspizierten \textit{Knoten}, bzw. \textit{verschiedenen Knoten}, und Nummer von \textit{Sortier}-Vorgängen in ein Anzahl-Zeit Diagramm eingetragen. Auf Daten wie die \textit{Open-} und \textit{Closed-List} Größe wird in \autoref{sec:astar} eingegangen. Aus der Grafik lässt sich die lineare Funktionsweise der Tiefensuche herleiten, da sämtliche Graphen durch Mittelungsgeraden abgebildet werden können. Dies gibt weiteren Aufschluss auf die geringe \textit{Intelligenz} der Tiefensuche, da sie keine Annäherungen an den \textit{Zielknoten} versucht, sondern den gesamten \textit{Graphen} gleichmäßig absucht.
+Neben der Gesamtlaufzeit wird in \textit{PathFinder} ebenfalls das Verhalten der \textit{Algorithmen} aufgezeichnet. So kommt das Liniendiagramm in \autoref{fig:dfs-time} zustande. Es werden Werte wie die Anzahl an inspizierten \textit{Knoten}, bzw. \textit{verschiedenen Knoten}, und die Menge an \textit{Sortier}-Vorgängen in ein Anzahl-Zeit Diagramm eingetragen. Auf Daten wie die \textit{Open-} und \textit{Closed-List} Größe wird in \autoref{sec:astar} eingegangen. Aus der Grafik lässt sich die lineare Funktionsweise der Tiefensuche herleiten, da sämtliche Graphen durch Mittelungsgeraden abgebildet werden können. Dies gibt weiteren Aufschluss auf die geringe \textit{Intelligenz} der Tiefensuche, da sie keine Annäherungen an den \textit{Zielknoten} versucht, sondern den gesamten \textit{Graphen} gleichmäßig absucht.
 \\
 Um den Codeauszug in \autoref{alg:dfs}\footnote{vgl. Anhang: DFS.java} möglichst gering zu halten, wird hier die \textit{iterative} Version vorgestellt. Dabei erfolgt die Suche durch eine \textit{explizit} festgelegte Wiederholungsschleife "`solange [...] wiederhole"(\autoref{alg:dfs}, Z. 4). 
 \ifthenelse{\boolean{figures}}{
@@ -383,7 +383,7 @@ f(n) = g(n) + h(n)
 \]
 die sich aus einer Funktion der \textit{tatsächlichen Kosten} $g(n)$ und den \textit{heuristischen Kosten} $h(n)$ zusammensetzt.
 \\
-\textit{Heuristik} (von altgr. \textgreek{εὑρίσκειν} \textit{heuriskein} "`entdecken") wird die Methode der Problemlösung trotz unzureichendes Wissens genannt. Genauigkeit und Vollständigkeit der Lösung werden gegen Geschwindigkeit eingetauscht. Denn \textit{heuristische} Ansätze verwenden Schätzungen und Behauptungen, die die "`Zukunft", also einen zukünftigen Stand der Simulation oder Problemsituation betreffen, und handelt nach diesen. Peter M. Todd und Gerd Gigerenzer verfassten 1999 ein \textit{Paper} zu \textit{Heuristik} und \textit{rationalem Denken}, "`Simple heuristics that make us smart"\cite{heuristics}, worin beschrieben wird, wie \textit{heuristische Schätzungen} beim Treffen von Entscheidungen im Gehirn eine Rolle spielen. Im A*-\textit{Algorithmus} wird die \textit{heuristische} Komponente $h(n)$ zur Eingrenzung der Suche zum \textit{Zielknoten} verwendet. 
+\textit{Heuristik} (von altgr. \textgreek{εὑρίσκειν} \textit{heuriskein} "`entdecken") wird die Methode der Problemlösung trotz unzureichenden Wissens genannt. Genauigkeit und Vollständigkeit der Lösung werden gegen Geschwindigkeit eingetauscht. Denn \textit{heuristische} Ansätze verwenden Schätzungen und Behauptungen, die die "`Zukunft", also einen zukünftigen Stand der Simulation oder Problemsituation betreffen, und handelt nach diesen. Peter M. Todd und Gerd Gigerenzer verfassten 1999 ein \textit{Paper} zu \textit{Heuristik} und \textit{rationalem Denken}, "`Simple heuristics that make us smart"\cite{heuristics}, worin beschrieben wird, wie \textit{heuristische Schätzungen} beim Treffen von Entscheidungen im Gehirn eine Rolle spielen. Im A*-\textit{Algorithmus} wird die \textit{heuristische} Komponente $h(n)$ zur Eingrenzung der Suche zum \textit{Zielknoten} verwendet. 
 \\
 Wie im Kontext von Straßennetzen üblich, wird $h(n)$ in \textit{PathFinder} durch die "`Luftlinie"\ zwischen zwei \textit{Knoten} repräsentiert, also die \textit{pythagoräische Distanz} $d = \sqrt{(\Delta x)^2 + (\Delta y)^2}$ der \textit{Knoten} voneinander.
 \label{sec:astar}
@@ -449,9 +449,9 @@ Bei Beobachtung des \textit{Algorithmus} stellt man fest, dass zu Beginn keine k
 
 \noindent erzielt aber ein nur geringfügig schlechteres Ergebnis. Am Bedeutendsten ist jedoch die geringe Anzahl an besuchten \textit{Knoten}. Während Dijkstra 115 (nicht verschiedene) \textit{Knoten} besucht, benötigt A* nur 29, um zum Resultat zu gelangen.
 \\
-Aus diesem Grund ist der A*-\textit{Algorithmus} auch der meistverbreiteste der \textit{Pathfinding-Algorithmen}, besonders im Kontext von Computerspielen. Schnelle und akzeptable Lösungen und ein flexibles Konzept machen A* so attraktiv. Zudem gibt es einige optimierte Fassungen, darunter die Verwendung eines \textit{Fast-Stacks} (für engl. "schneller Stapel"), in dem alle Knoten der \textit{Open-List} platziert werden, die den gleichen, und vorallem höchsten Gesamtwert $f(n)$ besitzen, was den Sortierungsprozess der \textit{Open-List} um einige \textit{Knoten} reduziert und so für noch mehr Geschwindigkeit sorgt. Allgemein lässt sich über die \textit{Zeitkomplexität} des A*\textit{Algorithmus} keine Aussage treffen, da diese von der \textit{Heuristik}-Funktion $h(n)$ abhängt. Doch der "`Luftlinien"\,-Ansatz gilt als der Effektivste. Dafür ist er nur in gewissen Situationen anwendbar. Nämlich wenn die Zeit und Rechenleistung gegeben ist, um den gesamten \textit{Graphen} visualisieren zu lassen.
+Aus diesem Grund ist der A*-\textit{Algorithmus} auch der meistverbreiteste der \textit{Pathfinding-Algorithmen}, besonders im Kontext von Computerspielen. Schnelle und akzeptable Lösungen und ein flexibles Konzept machen A* so attraktiv. Zudem gibt es einige optimierte Fassungen, darunter die Verwendung eines \textit{Fast-Stacks} (für engl. "`schneller Stapel"), in dem alle Knoten der \textit{Open-List} platziert werden, die den gleichen, und vorallem höchsten Gesamtwert $f(n)$ besitzen, was den Sortierungsprozess der \textit{Open-List} um einige \textit{Knoten} reduziert und so für noch mehr Geschwindigkeit sorgt. Allgemein lässt sich über die \textit{Zeitkomplexität} des A*\textit{Algorithmus} keine Aussage treffen, da diese von der \textit{Heuristik}-Funktion $h(n)$ abhängt. Doch der "`Luftlinien"\,-Ansatz gilt als der Effektivste. Dafür ist er nur in gewissen Situationen anwendbar. Nämlich wenn die Zeit und Rechenleistung gegeben ist, um den gesamten \textit{Graphen} visualisieren zu lassen.
 \section{Vergleichsstatistik und Fazit}
-Die Zahlen sprechen für sich. Spitzenreiter oder Zweitbester in jeder Testkategorie zu sein macht den A*-\textit{Algorithmus} zum klaren Favoriten (\autoref{tab:comp}).
+Die Zahlen sprechen für sich. Spitzenreiter oder Zweitbester in jeder Testkategorie zu sein macht den A*-\textit{Algorithmus} zum klaren Favoriten (\autoref{tab:comp}). 
 \begin{table}[h!]
 \centering
 \caption{Die drei Algorithmen im direkten Vergleich}
@@ -468,8 +468,13 @@ Dijkstra         & 223,76864          & \textbf{78} & \textbf{6} & 36	        & 
 \hline
 \end{tabular*} 
 \end{table}
-\newpage
-\section{Schluss}
+\\
+Es ist somit nicht verwunderlich, dass der A*-\textit{Algorithmus} am weitesten verbreitet ist. Besonders in der Spiele-Industrie. Doch auch die Tiefensuche und Dijkstras \textit{Algorithmus} finden auch ihre Verwendung. Nämlich in weiter entwickelten \textit{Algorithmen}, wie A* oder den weiteren Vertreter der *-\textit{Algorithmus} Familie, also B*, D*, IDA*. Diese sind aber für besondere Szenarien optimiert, zum Beispiel Wegfindung in einem nicht vollständig bekannten Umfeld, oder wenn sich die Umstände während der Suche verändern sollten.
+\section{Ausblick auf das weite Feld der Wegfindung}
+In dieser Arbeit wurden nur die geläufigsten und auch einfachsten \textit{Algorithmen} vorgestellt. Durch wachsende Datenmengen und das Bedürfnis von mehr Rechengeschwindigkeit, wird in diesem Feld der Informatik auch heute noch viel geforscht. \textit{Algorithmen}, die von echten Navigationsgeräten verwendet werden, haben beispielsweise heutzutage auch eine "`Alternativrouten"\,-Funktion oder ähnliches, welche zusätzlichen Rechenaufwand beansprucht. Auch in anderen Branchen, wie der Spieleprogrammierung wird stets nach neuen Ansätzen gesucht. So wurde beispielsweise auf der GDC\footnote{Game Developers Conference in San Francisco} 2015 die \textit{JPS+ mit Gouldbounding}\cite{jps} vorgestellt, eine Zusammensetzung aus einem optimierten Raster-basierten Such-\textit{Algorithmus} und einer visuellen Methode der Sucheingrenzung. 
+\\
+Man ist also lange noch nicht am Ziel. Die Suche geht weiter... \\
+Nach dem optimalen Weg.
 \newpage
 
 %\nocite{*}
@@ -524,12 +529,17 @@ Dijkstra         & 223,76864          & \textbf{78} & \textbf{6} & 36	        & 
 \newblock "`Précis of `Simple heuristics that make us smart'", S. 727--780, 2000\\
 \newblock http://psy2.ucsd.edu/$\sim$mckenzie/ToddGigerenzer2000BBS.pdf \\\emph{zul. abgerufen am 03.11.15}
 
+\bibitem{jps} Steve Rabin\\
+\newblock "`JPS+: Over 100x Faster than A*", 2015\\
+\newblock http://gdcvault.com/play/1022094/JPS-Over-100x-Faster-than \\\emph{zul. abgerufen am 05.11.15}
+
 \end{thebibliography}
 \newpage
 
-%\includepdf{res/GraphGenerator.pdf}
-
-%\includepdf{res/DFS.pdf}
+\includepdf[pages=-]{res/GraphGenerator.pdf}
+\includepdf[pages=-]{res/DFS.pdf}
+\includepdf[pages=-]{res/Dijkstra.pdf}
+\includepdf[pages=-]{res/AStar.pdf}
 
 \includepdf[pages=2, pagecommand={\thispagestyle{plain}}]{res/deckblatt_erklaerung.pdf}
 \end{document}
