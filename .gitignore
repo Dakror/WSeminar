@@ -224,3 +224,5 @@ tex/*
 !tex/*.bib
 !tex/*.tex
 !tex/*.pdf
+!tex/*.pptx
+!tex/*.docx

@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import com.sun.javafx.charts.Legend;
 import com.sun.javafx.collections.ObservableListWrapper;
@@ -39,6 +40,8 @@ import de.dakror.wseminar.ui.VisualVertex;
 import de.dakror.wseminar.util.Benchmark.Timestamp;
 import de.dakror.wseminar.util.Benchmark.Type;
 import de.dakror.wseminar.util.Visualizer;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -69,6 +72,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -81,6 +86,11 @@ import javafx.util.Duration;
  * @author Dakror
  */
 public class MainController {
+	@FunctionalInterface
+	interface Macro {
+		void run();
+	}
+	
 	@FXML
 	private ResourceBundle resources;
 	
@@ -156,9 +166,14 @@ public class MainController {
 	@FXML
 	private Label seed_label;
 	
+	@FXML
+	private Pane presentation;
+	
 	float lastX = -1, lastY = -1;
 	
 	float dragStartX, dragStartY;
+	
+	int currentSlide = -1;
 	
 	long last;
 	
@@ -455,8 +470,7 @@ public class MainController {
 				for (TreeItem<String> ti : newV.getChildren()) {
 					Path<Vertex<Integer>> path = WSeminar.instance.paths.get(((PathTreeItem<Integer>) ti).getPathId());
 					
-					XYChart.Data<String, Long> d = new XYChart.Data<>(path.getUserData().toString(),
-																														path.getBenchmark().getTime() / 1000 / (path.getUserData().toString().contains("anim") ? 1000 : 1));
+					XYChart.Data<String, Long> d = new XYChart.Data<>(path.getUserData().toString(), path.getBenchmark().getTime() / 1000 / (path.getUserData().toString().contains("anim") ? 1000 : 1));
 					sc.getData().add(d);
 					Tooltip tt = new Tooltip(path.getUserData().toString() + ": " + d.getYValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s");
 					hackTooltipStartTiming(tt);
@@ -474,8 +488,7 @@ public class MainController {
 				XYChart.Series<String, Long> sc = new XYChart.Series<>();
 				sc.setName("Gesamtzeit");
 				chart_alltime.getData().add(sc);
-				XYChart.Data<String, Long> d = new XYChart.Data<>(newVal.getUserData().toString(),
-																													newVal.getBenchmark().getTime() / 1000 / (newVal.getUserData().toString().contains("anim") ? 1000 : 1));
+				XYChart.Data<String, Long> d = new XYChart.Data<>(newVal.getUserData().toString(), newVal.getBenchmark().getTime() / 1000 / (newVal.getUserData().toString().contains("anim") ? 1000 : 1));
 				sc.getData().add(d);
 				
 				Tooltip tt = new Tooltip(newVal.getUserData().toString() + ": " + d.getYValue() + (newVal.getUserData().toString().contains("anim") ? "m" : "µ") + "s");
@@ -492,15 +505,13 @@ public class MainController {
 			for (int i = 0; i < chart_timeline.getData().size(); i++) {
 				XYChart.Series<Long, Integer> s = chart_timeline.getData().get(i);
 				
-				Path<Vertex<Integer>> path = newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf()
-						? WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV.getChildren().get(i / Type.values().length)).getPathId()) : newVal;
-						
+				Path<Vertex<Integer>> path = newV.getParent().equals(path_tree_benchmark.getRoot()) && !newV.isLeaf() ? WSeminar.instance.paths.get(((PathTreeItem<Integer>) newV.getChildren().get(i / Type.values().length)).getPathId()) : newVal;
+				
 				Color c = tldf.palette[(i % Type.values().length) * (tldf.palette.length / Type.values().length) + i / Type.values().length];
 				s.getNode().setStyle(String.format("-fx-stroke: #%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue()));
 				
 				for (XYChart.Data<Long, Integer> d : s.getData()) {
-					Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue() + " "
-							+ s.getName());
+					Tooltip tt = new Tooltip(path.getUserData().toString() + "(" + d.getXValue() + (path.getUserData().toString().contains("anim") ? "m" : "µ") + "s): " + d.getYValue() + " " + s.getName());
 					hackTooltipStartTiming(tt);
 					((StackPane) d.getNode()).setPrefSize(8, 8);
 					d.getNode().setStyle(String.format("-fx-background-color: #%02x%02x%02x, white", c.getRed(), c.getGreen(), c.getBlue()));
@@ -551,6 +562,53 @@ public class MainController {
 			}
 		}
 		
+		fade(presentation, false);
+		
+		// -- presentation mode -- //
+		Consumer<Boolean> change = next -> {
+			fade(graph, false);
+			fade(presentation, true);
+			
+			//			presentation.setVisible(true);
+			//			graph.setVisible(false);
+			
+			currentSlide += next ? 1 : -1;
+			currentSlide = Math.max(0, currentSlide);
+			presentation.setStyle("-fx-background-image: url(assets/img/pres/pres-" + currentSlide + ".png); -fx-background-color: #f6f6f6; -fx-background-position: center center; -fx-background-repeat: no-repeat; -fx-background-size: contain");
+			
+			//			presentation.setStyle("-fx-background-image: url(assets/img/pres/pres-" + currentSlide + ".png); -fx-background-color: #f6f6f6; -fx-background-position: center center; -fx-background-repeat: no-repeat; -fx-background-size: contain");
+			//			fadeIn(presentation);
+		};
+		
+		presentation.sceneProperty().addListener(i -> {
+			presentation.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+				switch (e.getCode()) {
+					case SPACE:
+						fade(presentation, false);
+						fade(graph, true);
+						break;
+					case LEFT:
+					case RIGHT:
+					case ENTER:
+						if (presentation.getOpacity() == 0 && e.getCode() != KeyCode.ENTER) break;
+						change.accept(e.getCode() != KeyCode.LEFT);
+						presentation.requestFocus();
+						e.consume();
+						break;
+					default:
+						break;
+				}
+			});
+		});
+	}
+	
+	
+	public static void fade(Node node, boolean in) {
+		FadeTransition ft = new FadeTransition(Duration.millis(200), node);
+		ft.setFromValue(node.getOpacity());
+		ft.setToValue(in ? 1 : 0);
+		ft.setInterpolator(Interpolator.EASE_OUT);
+		ft.play();
 	}
 	
 	public static void createGenerateDialog() {

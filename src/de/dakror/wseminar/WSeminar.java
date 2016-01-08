@@ -89,7 +89,7 @@ public class WSeminar extends Application {
 	
 	public HashMap<Integer, Path<Vertex<Integer>>> paths = new HashMap<>();
 	
-	int duration = 200;
+	final int duration = 200;
 	
 	public boolean selectStartVertex, selectGoalVertex;
 	
